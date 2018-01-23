@@ -949,6 +949,25 @@ definitions:
       Note holding the version of the provider's builder and the signature of
       the provenance message in linked BuildDetails.
 
+  apiConfidence:
+    type: string
+    enum:
+      - CONFIDENCE_UNSPECIFIED
+      - MINIMAL
+      - LOW
+      - MEDIUM
+      - HIGH
+      - COMPLETE
+    default: SEVERITY_UNSPECIFIED
+    description: |-
+       - CONFIDENCE_UNSPECIFIED: Unknown Confidence
+       - MINIMAL: Minimal Confidence
+       - LOW: Low Confidence
+       - MEDIUM: Medium Confidence
+       - HIGH: High Confidence
+       - COMPLETE: Complete Confidence
+    title: Note provider-assigned confidence on the validity of an occurrence
+
   apiCloudRepoSourceContext:
     type: object
     properties:
@@ -1162,8 +1181,7 @@ definitions:
       name:
         type: string
         title: |-
-          The name of the note in the form
-          "projects/{projectId}/notes/{NOTE_ID}"
+          The name of the note in the form "projects/{projectId}/notes/{noteId}"
       short_description:
         type: string
         description: A one sentence description of this `Note`.
@@ -1175,6 +1193,27 @@ definitions:
         description: |-
           Output only. This explicitly denotes which kind of note is specified. This
           field can be used as a filter in list requests.
+      related_url:
+        type: array
+        items:
+          $ref: '#/definitions/NoteRelatedUrl'
+        title: URLs associated with this note
+      expiration_time:
+        type: string
+        format: date-time
+        description: 'Time of expiration for this note, null if note does not expire.'
+      create_time:
+        type: string
+        format: date-time
+        description: |-
+          Output only. The time this note was created.
+          This field can be used as a filter in list requests.
+      update_time:
+        type: string
+        format: date-time
+        description: |-
+          Output only. The time this note was last updated.
+          This field can be used as a filter in list requests.
       vulnerability_type:
         $ref: '#/definitions/apiVulnerabilityType'
         description: A package vulnerability type of note.
@@ -1193,27 +1232,6 @@ definitions:
       discovery:
         $ref: '#/definitions/apiDiscovery'
         description: A note describing a provider/analysis type.
-      related_url:
-        type: array
-        items:
-          $ref: '#/definitions/NoteRelatedUrl'
-        title: URLs associated with this note
-      expiration_time:
-        type: string
-        format: date-time
-        description: 'Time of expiration for this note, null if note does not expire.'
-      create_time:
-        type: string
-        format: date-time
-        description: |-
-          Output only. The time this note was created. This field can be used as a
-          filter in list requests.
-      update_time:
-        type: string
-        format: date-time
-        description: |-
-          Output only. The time this note was last updated. This field can be used as
-          a filter in list requests.
     description: Provides a detailed description of a `Note`.
 
   apiNoteKind:
@@ -1230,7 +1248,6 @@ definitions:
     description: |-
       This must be 1:1 with members of our oneofs, it can be used for filtering
       Note and Occurrence on their kind.
-
        - KIND_UNSPECIFIED: Unknown
        - PACKAGE_VULNERABILITY: The note and occurrence represent a package vulnerability.
        - BUILD_DETAILS: The note and occurrence assert build provenance.
@@ -1244,46 +1261,55 @@ definitions:
     properties:
       name:
         type: string
-        title: |-
-          Output only. The name of the `Occurrence` in the form
-          "projects/{projectId}/occurrences/{OCCURRENCE_ID}"
+        description: |-
+          Output only. The name of the `Occurrence` in the form "projects/{projectId}/occurrences/{occuurenceId}"
+      ibm_title:
+        type: string
+        description: |-
+          A short title of the `Occurrence`
+      ibm_description:
+        type: string
+        description: |-
+          A description of the `Occurrence`
+      ibm_severity:
+        $ref: '#/definitions/apiSeverity'
+        description: |-
+          The common severity of the occurrence
+      ibm_confidence:
+        $ref: '#/definitions/apiConfidence'
+        description: |-
+          The level of confidence on the occurrence
       resource_url:
         type: string
         description: |-
-          The unique URL of the image or the container for which the `Occurrence`
-          applies. For example, https://gcr.io/project/image@sha256:foo This field
-          can be used as a filter in list requests.
+          The unique URL of the resource, image or the container, for which the `Occurrence` applies.
+          For example, https://gcr.io/project/image@sha256:foo.
+          This field can be used as a filter in list requests.
+      ibm_resource_org:
+        type: string
+        description: The organization the resource belongs to
+      ibm_resource_region:
+        type: string
+        description: The region the resource belongs to
+      ibm_resource_account:
+        type: string
+        description: The account the resource belongs to
+      ibm_resource_environment_name:
+        type: string
+        description: The name of the logical environment the resource is linked to
+      ibm_resource_component_name:
+        type: string
+        description: The name of the logical component the resource is linked to
       note_name:
         type: string
         description: |-
-          An analysis note associated with this image, in the form
-          "projects/{projectId}/notes/{NOTE_ID}"
+          An analysis note associated with this image, in the form "projects/{projectId}/notes/{noteId}"
           This field can be used as a filter in list requests.
       kind:
         $ref: '#/definitions/apiNoteKind'
         description: |-
-          Output only. This explicitly denotes which of the `Occurrence` details are
-          specified. This field can be used as a filter in list requests.
-      vulnerability_details:
-        $ref: '#/definitions/VulnerabilityTypeVulnerabilityDetails'
-        description: Details of a security vulnerability note.
-      build_details:
-        $ref: '#/definitions/apiBuildDetails'
-        description: Build details for a verifiable build.
-      derived_image:
-        $ref: '#/definitions/DockerImageDerived'
-        description: |-
-          Describes how this resource derives from the basis
-          in the associated note.
-      installation:
-        $ref: '#/definitions/PackageManagerInstallation'
-        description: Describes the installation of a package on the linked resource.
-      deployment:
-        $ref: '#/definitions/DeployableDeployment'
-        description: Describes the deployment of an artifact on a runtime.
-      discovered:
-        $ref: '#/definitions/DiscoveryDiscovered'
-        description: Describes the initial scan status for this resource.
+          Output only. This explicitly denotes which of the `Occurrence` details are specified.
+          This field can be used as a filter in list requests.
       remediation:
         type: string
         title: A description of actions that can be taken to remedy the `Note`
@@ -1295,6 +1321,24 @@ definitions:
         type: string
         format: date-time
         description: Output only. The time this `Occurrence` was last updated.
+      vulnerability_details:
+        $ref: '#/definitions/VulnerabilityTypeVulnerabilityDetails'
+        description: Details of a security vulnerability note.
+      build_details:
+        $ref: '#/definitions/apiBuildDetails'
+        description: Build details for a verifiable build.
+      derived_image:
+        $ref: '#/definitions/DockerImageDerived'
+        description: Describes how this resource derives from the basis in the associated note.
+      installation:
+        $ref: '#/definitions/PackageManagerInstallation'
+        description: Describes the installation of a package on the linked resource.
+      deployment:
+        $ref: '#/definitions/DeployableDeployment'
+        description: Describes the deployment of an artifact on a runtime.
+      discovered:
+        $ref: '#/definitions/DiscoveryDiscovered'
+        description: Describes the initial scan status for this resource.
     description: '`Occurrence` includes information about analysis occurrences for an image.'
 
   apiPackageManagerLocation:
@@ -1312,8 +1356,7 @@ definitions:
         type: string
         description: The path from which we gathered that this package/version is installed.
     title: |-
-      An occurrence of a particular package installation found within a
-      system's filesystem.
+      An occurrence of a particular package installation found within a system's filesystem.
       e.g. glibc was found in /var/lib/dpkg/status
 
   apiProject:
@@ -1321,9 +1364,7 @@ definitions:
     properties:
       name:
         type: string
-        title: |-
-          The name of the project of the form
-          "projects/{projectId}"
+        title: The name of the project of the form "projects/{projectId}"
     description: Provides detailed description of a `Project`.
 
   apiProjectRepoId:
@@ -1336,8 +1377,8 @@ definitions:
         type: string
         description: The name of the repo. Leave empty for the default repo.
     description: |-
-      Selects a repo using a Google Cloud Platform project ID (e.g.,
-      winged-cargo-31) and a repo name within that project.
+      Selects a repo using a Google Cloud Platform project ID (e.g. winged-cargo-31)
+      and a repo name within that project.
 
   apiRepoId:
     type: object
@@ -1368,9 +1409,26 @@ definitions:
       commit_sha:
         type: string
         description: Explicit commit SHA to build.
+    description: RepoSource describes the location of the source in a Google Cloud Source Repository.
+
+  apiSeverity:
+    type: string
+    enum:
+      - SEVERITY_UNSPECIFIED
+      - MINIMAL
+      - LOW
+      - MEDIUM
+      - HIGH
+      - CRITICAL
+    default: SEVERITY_UNSPECIFIED
     description: |-
-      RepoSource describes the location of the source in a Google Cloud Source
-      Repository.
+       - SEVERITY_UNSPECIFIED: Unknown Impact
+       - MINIMAL: Minimal Impact
+       - LOW: Low Impact
+       - MEDIUM: Medium Impact
+       - HIGH: High Impact
+       - CRITICAL: Critical Impact
+    title: Note provider-assigned severity/impact ranking
 
   apiSource:
     type: object
@@ -1378,16 +1436,14 @@ definitions:
       storage_source:
         $ref: '#/definitions/apiStorageSource'
         description: |-
-          If provided, get the source from this location in in Google Cloud
-          Storage.
+          If provided, get the source from this location in in Google Cloud Storage.
       repo_source:
         $ref: '#/definitions/apiRepoSource'
         description: 'If provided, get source from this location in a Cloud Repo.'
       artifact_storage_source:
         $ref: '#/definitions/apiStorageSource'
         description: |-
-          If provided, the input binary artifacts for the build came from this
-          location.
+          If provided, the input binary artifacts for the build came from this location.
       file_hashes:
         type: object
         additionalProperties:
@@ -1453,8 +1509,7 @@ definitions:
         format: int64
         description: Google Cloud Storage generation for the object.
     description: |-
-      StorageSource describes the location of the source in an archive file in
-      Google Cloud Storage.
+      StorageSource describes the location of the source in an archive file in Google Cloud Storage.
 
   apiUpdateOperationRequest:
     type: object
@@ -1609,4 +1664,4 @@ definitions:
           results in its response, the status of those operations should be
           represented directly using the `Status` message.
         - Logging. If some API errors are stored in logs, the message `Status` could be used directly
-          after any stripping needed for security/privacy reasons."
+          after any stripping needed for security/privacy reasons.

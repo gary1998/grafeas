@@ -2,6 +2,7 @@
 
 from __future__ import absolute_import
 
+from swagger_server.models.api_empty import ApiEmpty
 from swagger_server.models.api_list_notes_response import ApiListNotesResponse
 from swagger_server.models.api_note import ApiNote
 from . import BaseTestCase
@@ -22,6 +23,28 @@ class TestGrafeasNotesController(BaseTestCase):
         response = self.client.open('/v1alpha1/projects/{projectId}/notes'.format(projectId='projectId_example'),
                                     method='POST',
                                     data=json.dumps(body),
+                                    content_type='application/json')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_delete_note(self):
+        """
+        Test case for delete_note
+
+        Deletes the given `Note` from the system.
+        """
+        response = self.client.open('/v1alpha1/projects/{projectId}/notes/{noteId}'.format(projectId='projectId_example', noteId='noteId_example'),
+                                    method='DELETE',
+                                    content_type='application/json')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_get_note(self):
+        """
+        Test case for get_note
+
+        Returns the requested `Note`.
+        """
+        response = self.client.open('/v1alpha1/projects/{projectId}/notes/{noteId}'.format(projectId='projectId_example', noteId='noteId_example'),
+                                    method='GET',
                                     content_type='application/json')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -49,6 +72,19 @@ class TestGrafeasNotesController(BaseTestCase):
                                     method='GET',
                                     content_type='application/json',
                                     query_string=query_string)
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_update_note(self):
+        """
+        Test case for update_note
+
+        Updates an existing `Note`.
+        """
+        body = ApiNote()
+        response = self.client.open('/v1alpha1/projects/{projectId}/notes/{noteId}'.format(projectId='projectId_example', noteId='noteId_example'),
+                                    method='PUT',
+                                    data=json.dumps(body),
+                                    content_type='application/json')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
 

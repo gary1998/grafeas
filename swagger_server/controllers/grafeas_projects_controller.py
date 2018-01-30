@@ -1,7 +1,7 @@
 import connexion
+from swagger_server.models.api_empty import ApiEmpty
 from swagger_server.models.api_list_projects_response import ApiListProjectsResponse
 from swagger_server.models.api_project import ApiProject
-from swagger_server.models.empty import Empty
 from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems
@@ -15,7 +15,7 @@ def create_project(body):
     :param body: 
     :type body: dict | bytes
 
-    :rtype: Empty
+    :rtype: ApiEmpty
     """
     if connexion.request.is_json:
         body = ApiProject.from_dict(connexion.request.get_json())
@@ -26,10 +26,10 @@ def delete_project(projectId):
     """
     Deletes the given &#x60;Project&#x60; from the system.
     
-    :param projectId: Part of &#x60;parent&#x60;. This field contains the projectId for example: \&quot;projects/{projectId}
+    :param projectId: Part of &#x60;parent&#x60;. This field contains the projectId for example: projects/{projectId}
     :type projectId: str
 
-    :rtype: Empty
+    :rtype: ApiEmpty
     """
     return 'do some magic!'
 
@@ -38,7 +38,7 @@ def get_project(projectId):
     """
     Returns the requested &#x60;Project&#x60;.
     
-    :param projectId: Part of &#x60;parent&#x60;. This field contains the projectId for example: \&quot;projects/{projectId}
+    :param projectId: Part of &#x60;parent&#x60;. This field contains the projectId for example: projects/{projectId}
     :type projectId: str
 
     :rtype: ApiProject
@@ -66,7 +66,7 @@ def update_project(projectId, body):
     """
     Updates an existing &#x60;Project&#x60;.
     
-    :param projectId: Part of &#x60;parent&#x60;. This field contains the projectId for example: \&quot;projects/{projectId}
+    :param projectId: Part of &#x60;parent&#x60;. This field contains the projectId for example: projects/{projectId}
     :type projectId: str
     :param body: 
     :type body: dict | bytes

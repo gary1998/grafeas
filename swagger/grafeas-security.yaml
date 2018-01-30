@@ -72,23 +72,7 @@ paths:
           type: string
       tags:
         - GrafeasProjects
-    delete:
-      summary: Deletes the given `Project` from the system.
-      operationId: DeleteProject
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/apiEmpty'
-      parameters:
-        - name: projectId
-          in: path
-          description: "Part of `parent`. This field contains the projectId for example: projects/{projectId}"
-          required: true
-          type: string
-      tags:
-        - GrafeasProjects
-    patch:
+    put:
       summary: Updates an existing `Project`.
       operationId: UpdateProject
       responses:
@@ -109,6 +93,23 @@ paths:
             $ref: '#/definitions/apiProject'
       tags:
         - GrafeasProjects
+    delete:
+      summary: Deletes the given `Project` from the system.
+      operationId: DeleteProject
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: projectId
+          in: path
+          description: "Part of `parent`. This field contains the projectId for example: projects/{projectId}"
+          required: true
+          type: string
+      tags:
+        - GrafeasProjects
+
 
   /v1alpha1/projects/{projectId}/notes:
     get:
@@ -164,6 +165,75 @@ paths:
             $ref: '#/definitions/apiNote'
       tags:
         - GrafeasNotes
+  /v1alpha1/projects/{projectId}/notes/{noteId}:
+    get:
+      summary: Returns the requested `Note`.
+      operationId: GetNote
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiNote'
+      parameters:
+        - name: projectId
+          in: path
+          description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
+          required: true
+          type: string
+        - name: noteId
+          in: path
+          description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
+          required: true
+          type: string
+      tags:
+        - GrafeasNotes
+    put:
+      summary: Updates an existing `Note`.
+      operationId: UpdateNote
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiNote'
+      parameters:
+        - name: projectId
+          in: path
+          description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
+          required: true
+          type: string
+        - name: noteId
+          in: path
+          description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/apiNote'
+      tags:
+        - GrafeasNotes
+    delete:
+      summary: Deletes the given `Note` from the system.
+      operationId: DeleteNote
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: projectId
+          in: path
+          description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
+          required: true
+          type: string
+        - name: noteId
+          in: path
+          description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
+          required: true
+          type: string
+      tags:
+        - GrafeasNotes
 
   /v1alpha1/projects/{projectId}/occurrences/{occurrenceId}/notes:
     get:
@@ -177,12 +247,12 @@ paths:
       parameters:
         - name: projectId
           in: path
-          description: "Part of `name`. The name of the occurrence in the form: projects/{projectId}/occurrences/{occurrenceId}"
+          description: "First part of occurrence `name`: projects/{projectId}/occurrences/{occurrenceId}"
           required: true
           type: string
         - name: occurrenceId
           in: path
-          description: "Part of `name`. See documentation of `projectId`."
+          description: "Second part of occurrence `name`: projects/{projectId}/occurrences/{occurrenceId}"
           required: true
           type: "string"
       tags:
@@ -260,12 +330,12 @@ paths:
       parameters:
         - name: projectId
           in: path
-          description: "Part of `name`. The name field will contain the note name for example: projects/{projectId}/notes/{noteId}"
+          description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
           required: true
           type: string
         - name: noteId
           in: path
-          description: "Part of `name`. See documentation of `projectId`."
+          description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
           required: true
           type: string
         - name: filter

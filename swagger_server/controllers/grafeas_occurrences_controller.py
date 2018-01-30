@@ -28,9 +28,9 @@ def list_note_occurrences(projectId, noteId, filter=None, page_size=None, page_t
     """
     Lists &#x60;Occurrences&#x60; referencing the specified &#x60;Note&#x60;. Use this method to get all occurrences referencing your &#x60;Note&#x60; across all your customer projects.
     
-    :param projectId: Part of &#x60;name&#x60;. The name field will contain the note name for example:   \&quot;projects/{projectId}/notes/{noteId}\&quot;
+    :param projectId: First part of note &#x60;name&#x60;: projects/{projectId}/notes/{noteId}
     :type projectId: str
-    :param noteId: Part of &#x60;name&#x60;. See documentation of &#x60;projectId&#x60;.
+    :param noteId: Second part of note &#x60;name&#x60;: projects/{projectId}/notes/{noteId}
     :type noteId: str
     :param filter: The filter expression.
     :type filter: str

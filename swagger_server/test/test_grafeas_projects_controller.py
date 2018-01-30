@@ -2,9 +2,9 @@
 
 from __future__ import absolute_import
 
+from swagger_server.models.api_empty import ApiEmpty
 from swagger_server.models.api_list_projects_response import ApiListProjectsResponse
 from swagger_server.models.api_project import ApiProject
-from swagger_server.models.empty import Empty
 from . import BaseTestCase
 from six import BytesIO
 from flask import json
@@ -71,7 +71,7 @@ class TestGrafeasProjectsController(BaseTestCase):
         """
         body = ApiProject()
         response = self.client.open('/v1alpha1/projects/{projectId}'.format(projectId='projectId_example'),
-                                    method='PATCH',
+                                    method='PUT',
                                     data=json.dumps(body),
                                     content_type='application/json')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))

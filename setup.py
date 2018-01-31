@@ -18,10 +18,10 @@ REQUIRES = ["connexion"]
 setup(
     name=NAME,
     version=VERSION,
-    description="v1alpha1/proto/grafeas.proto",
+    description="v1alpha1/proto/swagger_server.proto",
     author_email="",
     url="",
-    keywords=["Swagger", "v1alpha1/proto/grafeas.proto"],
+    keywords=["Swagger", "v1alpha1/proto/swagger_server.proto"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['swagger/swagger.yaml']},

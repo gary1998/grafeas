@@ -4,9 +4,8 @@ from swagger_server.models.api_list_occurrences_response import ApiListOccurrenc
 from swagger_server.models.api_occurrence import ApiOccurrence
 from datetime import date, datetime
 from typing import List, Dict
-from six import iteritems
-from ..util import deserialize_date, deserialize_datetime
-
+from swagger_server.util import deserialize_date, deserialize_datetime
+from swagger_server.controllers.resources import get_store
 
 def create_occurrence(projectId, body):
     """
@@ -21,6 +20,7 @@ def create_occurrence(projectId, body):
     """
     if connexion.request.is_json:
         body = ApiOccurrence.from_dict(connexion.request.get_json())
+    store = get_store()
     return 'do some magic!'
 
 
@@ -41,6 +41,7 @@ def list_note_occurrences(projectId, noteId, filter=None, page_size=None, page_t
 
     :rtype: ApiListNoteOccurrencesResponse
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -59,4 +60,5 @@ def list_occurrences(projectId, filter=None, page_size=None, page_token=None):
 
     :rtype: ApiListOccurrencesResponse
     """
+    store = get_store()
     return 'do some magic!'

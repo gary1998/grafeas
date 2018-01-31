@@ -4,9 +4,8 @@ from swagger_server.models.api_list_projects_response import ApiListProjectsResp
 from swagger_server.models.api_project import ApiProject
 from datetime import date, datetime
 from typing import List, Dict
-from six import iteritems
-from ..util import deserialize_date, deserialize_datetime
-
+from swagger_server.util import deserialize_date, deserialize_datetime
+from swagger_server.controllers.resources import get_store
 
 def create_project(body):
     """
@@ -19,6 +18,7 @@ def create_project(body):
     """
     if connexion.request.is_json:
         body = ApiProject.from_dict(connexion.request.get_json())
+    store = get_store()
     return 'do some magic!'
 
 
@@ -31,6 +31,7 @@ def delete_project(projectId):
 
     :rtype: ApiEmpty
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -43,6 +44,7 @@ def get_project(projectId):
 
     :rtype: ApiProject
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -59,6 +61,7 @@ def list_projects(filter=None, page_size=None, page_token=None):
 
     :rtype: ApiListProjectsResponse
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -75,4 +78,5 @@ def update_project(projectId, body):
     """
     if connexion.request.is_json:
         body = ApiProject.from_dict(connexion.request.get_json())
+    store = get_store()
     return 'do some magic!'

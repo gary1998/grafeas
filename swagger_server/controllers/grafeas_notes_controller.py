@@ -4,9 +4,8 @@ from swagger_server.models.api_list_notes_response import ApiListNotesResponse
 from swagger_server.models.api_note import ApiNote
 from datetime import date, datetime
 from typing import List, Dict
-from six import iteritems
-from ..util import deserialize_date, deserialize_datetime
-
+from swagger_server.util import deserialize_date, deserialize_datetime
+from swagger_server.controllers.resources import get_store
 
 def create_note(projectId, body):
     """
@@ -21,6 +20,7 @@ def create_note(projectId, body):
     """
     if connexion.request.is_json:
         body = ApiNote.from_dict(connexion.request.get_json())
+    store = get_store()
     return 'do some magic!'
 
 
@@ -35,6 +35,7 @@ def delete_note(projectId, noteId):
 
     :rtype: ApiEmpty
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -49,6 +50,7 @@ def get_note(projectId, noteId):
 
     :rtype: ApiNote
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -63,6 +65,7 @@ def get_occurrence_note(projectId, occurrenceId):
 
     :rtype: ApiNote
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -81,6 +84,7 @@ def list_notes(projectId, filter=None, page_size=None, page_token=None):
 
     :rtype: ApiListNotesResponse
     """
+    store = get_store()
     return 'do some magic!'
 
 
@@ -99,4 +103,5 @@ def update_note(projectId, noteId, body):
     """
     if connexion.request.is_json:
         body = ApiNote.from_dict(connexion.request.get_json())
+    store = get_store()
     return 'do some magic!'

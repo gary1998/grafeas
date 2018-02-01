@@ -1,4 +1,7 @@
 import cloudant
+from cloudant.error import CloudantDatabaseException
+from cloudant.error import CloudantDocumentException
+from http import HTTPStatus
 import logging
 import os
 import requests
@@ -32,6 +35,36 @@ class Store(object):
     def _reconnect(self):
         self._disconnect()
         self._connect()
+
+    def get_doc(self, doc_id):
+        return self.db[doc_id]
+
+    def create_doc(self, doc_id, doc):
+        doc['_id'] = doc_id
+        try:
+            return self.db.create_document(doc, throw_on_exists=True)
+        except CloudantDatabaseException as e:
+            if e.status_code == HTTPStatus.CONFLICT:
+                raise KeyError
+            else:
+                raise
+
+    def update_doc(self, doc_id, new_doc):
+        doc = self.db[doc_id]
+        if not doc.exists():
+            raise KeyError
+
+        doc.update(new_doc)
+        doc.save()
+        return doc
+
+    def delete_doc(self, doc_id):
+        doc = self.db[doc_id]
+        if not doc.exists():
+            raise KeyError
+
+        doc.delete()
+        return doc
 
     def create_query_index(self, index_name, fields):
         ddoc = self.db.get_design_document("_design/" + index_name)

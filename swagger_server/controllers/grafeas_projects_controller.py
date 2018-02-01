@@ -1,11 +1,8 @@
 import connexion
-from swagger_server.models.api_empty import ApiEmpty
-from swagger_server.models.api_list_projects_response import ApiListProjectsResponse
-from swagger_server.models.api_project import ApiProject
-from datetime import date, datetime
-from typing import List, Dict
-from swagger_server.util import deserialize_date, deserialize_datetime
-from swagger_server.controllers.resources import get_store
+from http import HTTPStatus
+from swagger_server.controllers.common import get_store
+from swagger_server.controllers.common import build_result, build_error
+
 
 def create_project(body):
     """
@@ -16,10 +13,19 @@ def create_project(body):
 
     :rtype: ApiEmpty
     """
-    if connexion.request.is_json:
-        body = ApiProject.from_dict(connexion.request.get_json())
+
+    if 'name' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Project name is missing")
+
     store = get_store()
-    return 'do some magic!'
+    name = body['name']
+    body['doc_type'] = 'Project'
+
+    try:
+        store.create_doc(name, body)
+        return build_result(HTTPStatus.OK, _clean_doc(body))
+    except KeyError:
+        return build_error(HTTPStatus.CONFLICT, "Project already exists")
 
 
 def delete_project(projectId):
@@ -31,8 +37,15 @@ def delete_project(projectId):
 
     :rtype: ApiEmpty
     """
+
     store = get_store()
-    return 'do some magic!'
+    name = "projects/{}".format(projectId)
+
+    try:
+        doc = store.delete_doc(name)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(name))
 
 
 def get_project(projectId):
@@ -44,8 +57,15 @@ def get_project(projectId):
 
     :rtype: ApiProject
     """
+
     store = get_store()
-    return 'do some magic!'
+    name = "projects/{}".format(projectId)
+
+    try:
+        doc = store.get_doc(name)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(name))
 
 
 def list_projects(filter=None, page_size=None, page_token=None):
@@ -61,8 +81,12 @@ def list_projects(filter=None, page_size=None, page_token=None):
 
     :rtype: ApiListProjectsResponse
     """
+
     store = get_store()
-    return 'do some magic!'
+    docs = store.find(
+        filter_={'doc_type': 'Project'},
+        index="DT_N")
+    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def update_project(projectId, body):
@@ -76,7 +100,18 @@ def update_project(projectId, body):
 
     :rtype: ApiProject
     """
-    if connexion.request.is_json:
-        body = ApiProject.from_dict(connexion.request.get_json())
+
     store = get_store()
-    return 'do some magic!'
+    name = "projects/{}".format(projectId)
+    try:
+        doc = store.update_doc(name, body)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(name))
+
+
+def _clean_doc(doc):
+    doc.pop('_id', None)
+    doc.pop('_rev', None)
+    doc.pop('doc_type', None)
+    return doc

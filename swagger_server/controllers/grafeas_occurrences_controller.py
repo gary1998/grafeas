@@ -1,11 +1,8 @@
 import connexion
-from swagger_server.models.api_list_note_occurrences_response import ApiListNoteOccurrencesResponse
-from swagger_server.models.api_list_occurrences_response import ApiListOccurrencesResponse
-from swagger_server.models.api_occurrence import ApiOccurrence
-from datetime import date, datetime
-from typing import List, Dict
-from swagger_server.util import deserialize_date, deserialize_datetime
-from swagger_server.controllers.resources import get_store
+from http import HTTPStatus
+from swagger_server.controllers.common import get_store
+from swagger_server.controllers.common import build_result, build_error
+
 
 def create_occurrence(projectId, body):
     """
@@ -18,10 +15,21 @@ def create_occurrence(projectId, body):
 
     :rtype: ApiOccurrence
     """
-    if connexion.request.is_json:
-        body = ApiOccurrence.from_dict(connexion.request.get_json())
+
+    if 'name' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Occurrence name is missing")
+
     store = get_store()
-    return 'do some magic!'
+    name = body['name']
+    parent = "projects/{}".format(projectId)
+    body['doc_type'] = 'Occurrence'
+    body['parent'] = parent
+
+    try:
+        store.create_doc(name, body)
+        return build_result(HTTPStatus.OK, _clean_doc(body))
+    except KeyError:
+        return build_error(HTTPStatus.CONFLICT, "Occurrence already exists")
 
 
 def list_note_occurrences(projectId, noteId, filter=None, page_size=None, page_token=None):
@@ -41,8 +49,16 @@ def list_note_occurrences(projectId, noteId, filter=None, page_size=None, page_t
 
     :rtype: ApiListNoteOccurrencesResponse
     """
+
     store = get_store()
-    return 'do some magic!'
+    note_name = "projects/{}/notes/{}".format(projectId, )
+    docs = store.find(
+        filter_={
+            'doc_type': 'Occurrence',
+            'note_name': note_name
+        },
+        index="DT_NN")
+    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def list_occurrences(projectId, filter=None, page_size=None, page_token=None):
@@ -60,5 +76,21 @@ def list_occurrences(projectId, filter=None, page_size=None, page_token=None):
 
     :rtype: ApiListOccurrencesResponse
     """
+
     store = get_store()
-    return 'do some magic!'
+    parent = "projects/{}".format(projectId)
+    docs = store.find(
+        filter_={
+            'doc_type': 'Occurrence',
+            'parent': parent
+        },
+        index="DT_P")
+    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+
+
+def _clean_doc(doc):
+    doc.pop('_id', None)
+    doc.pop('_rev', None)
+    doc.pop('doc_type', None)
+    return doc
+

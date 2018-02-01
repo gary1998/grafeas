@@ -1,11 +1,8 @@
 import connexion
-from swagger_server.models.api_empty import ApiEmpty
-from swagger_server.models.api_list_notes_response import ApiListNotesResponse
-from swagger_server.models.api_note import ApiNote
-from datetime import date, datetime
-from typing import List, Dict
-from swagger_server.util import deserialize_date, deserialize_datetime
-from swagger_server.controllers.resources import get_store
+from http import HTTPStatus
+from swagger_server.controllers.common import get_store
+from swagger_server.controllers.common import build_result, build_error
+
 
 def create_note(projectId, body):
     """
@@ -18,10 +15,21 @@ def create_note(projectId, body):
 
     :rtype: ApiNote
     """
-    if connexion.request.is_json:
-        body = ApiNote.from_dict(connexion.request.get_json())
+
+    if 'name' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Note name is missing")
+
     store = get_store()
-    return 'do some magic!'
+    name = body['name']
+    parent = "projects/{}".format(projectId)
+    body['doc_type'] = 'Note'
+    body['parent'] = parent
+
+    try:
+        store.create_doc(name, body)
+        return build_result(HTTPStatus.OK, _clean_doc(body))
+    except KeyError:
+        return build_error(HTTPStatus.CONFLICT, "Note already exists")
 
 
 def delete_note(projectId, noteId):
@@ -35,8 +43,15 @@ def delete_note(projectId, noteId):
 
     :rtype: ApiEmpty
     """
+
     store = get_store()
-    return 'do some magic!'
+    name = "projects/{}/notes/{}".format(projectId, noteId)
+
+    try:
+        doc = store.delete_doc(name)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(name))
 
 
 def get_note(projectId, noteId):
@@ -50,8 +65,15 @@ def get_note(projectId, noteId):
 
     :rtype: ApiNote
     """
+
     store = get_store()
-    return 'do some magic!'
+    name = "projects/{}/notes/{}".format(projectId, noteId)
+
+    try:
+        doc = store.get_doc(name)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(name))
 
 
 def get_occurrence_note(projectId, occurrenceId):
@@ -65,8 +87,21 @@ def get_occurrence_note(projectId, occurrenceId):
 
     :rtype: ApiNote
     """
+
     store = get_store()
-    return 'do some magic!'
+    occurrence_name = "projects/{}/occurreces/{}".format(projectId, occurrenceId)
+
+    try:
+        occurrence_doc = store.get_doc(occurrence_name)
+
+        try:
+            name = occurrence_doc['noteName']
+            doc = store.get_doc(name)
+            return build_result(HTTPStatus.OK, _clean_doc(doc))
+        except KeyError:
+            return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(name))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_name))
 
 
 def list_notes(projectId, filter=None, page_size=None, page_token=None):
@@ -84,8 +119,16 @@ def list_notes(projectId, filter=None, page_size=None, page_token=None):
 
     :rtype: ApiListNotesResponse
     """
+
     store = get_store()
-    return 'do some magic!'
+    parent = "projects/{}".format(projectId)
+    docs = store.find(
+        filter_={
+            'doc_type': 'Note',
+            'parent': parent
+        },
+        index="DT_P")
+    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def update_note(projectId, noteId, body):
@@ -101,7 +144,19 @@ def update_note(projectId, noteId, body):
 
     :rtype: ApiNote
     """
-    if connexion.request.is_json:
-        body = ApiNote.from_dict(connexion.request.get_json())
+
     store = get_store()
-    return 'do some magic!'
+    name = "projects/{}/notes/{}".format(projectId, noteId)
+
+    try:
+        doc = store.update_doc(name, body)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(name))
+
+
+def _clean_doc(doc):
+    doc.pop('_id', None)
+    doc.pop('_rev', None)
+    doc.pop('doc_type', None)
+    return doc

@@ -3,11 +3,10 @@ from cloudant.error import CloudantDatabaseException
 from cloudant.document import Document
 from http import HTTPStatus
 import logging
-import os
 import requests
 
 
-logger = logging.getLogger("swagger_server.store")
+logger = logging.getLogger("api.server")
 
 
 class Store(object):

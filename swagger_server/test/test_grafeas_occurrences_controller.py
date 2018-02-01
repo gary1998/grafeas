@@ -1,12 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
-
-from swagger_server.models.api_list_note_occurrences_response import ApiListNoteOccurrencesResponse
-from swagger_server.models.api_list_occurrences_response import ApiListOccurrencesResponse
-from swagger_server.models.api_occurrence import ApiOccurrence
 from . import BaseTestCase
-from six import BytesIO
 from flask import json
 
 

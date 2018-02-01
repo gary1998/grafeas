@@ -1,0 +1,4 @@
+applications:
+- name: grafeas
+  memory: 2048M
+  instances: 2

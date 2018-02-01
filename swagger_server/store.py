@@ -1,6 +1,6 @@
 import cloudant
 from cloudant.error import CloudantDatabaseException
-from cloudant.error import CloudantDocumentException
+from cloudant.document import Document
 from http import HTTPStatus
 import logging
 import os
@@ -37,32 +37,39 @@ class Store(object):
         self._connect()
 
     def get_doc(self, doc_id):
-        return self.db[doc_id]
+        doc = Document(self.db, doc_id)
+        if not doc.exists():
+            raise KeyError(doc_id)
 
-    def create_doc(self, doc_id, doc):
-        doc['_id'] = doc_id
+        doc.fetch()
+        return doc
+
+    def create_doc(self, doc_id, body):
         try:
-            return self.db.create_document(doc, throw_on_exists=True)
+            body['_id'] = doc_id
+            return self.db.create_document(body, throw_on_exists=True)
         except CloudantDatabaseException as e:
             if e.status_code == HTTPStatus.CONFLICT:
-                raise KeyError
+                raise KeyError(doc_id)
             else:
                 raise
 
-    def update_doc(self, doc_id, new_doc):
-        doc = self.db[doc_id]
+    def update_doc(self, doc_id, body):
+        doc = Document(self.db, doc_id)
         if not doc.exists():
-            raise KeyError
+            raise KeyError(doc_id)
 
-        doc.update(new_doc)
+        doc.fetch()
+        doc.update(body)
         doc.save()
         return doc
 
     def delete_doc(self, doc_id):
-        doc = self.db[doc_id]
+        doc = Document(self.db, doc_id)
         if not doc.exists():
-            raise KeyError
+            raise KeyError(doc_id)
 
+        doc.fetch()
         doc.delete()
         return doc
 

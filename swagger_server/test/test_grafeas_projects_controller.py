@@ -1,12 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
-
-from swagger_server.models.api_empty import ApiEmpty
-from swagger_server.models.api_list_projects_response import ApiListProjectsResponse
-from swagger_server.models.api_project import ApiProject
 from . import BaseTestCase
-from six import BytesIO
 from flask import json
 
 

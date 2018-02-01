@@ -55,7 +55,7 @@ paths:
             $ref: '#/definitions/apiProject'
       tags:
         - GrafeasProjects
-  /v1alpha1/projects/{projectId}:
+  /v1alpha1/projects/{project_id}:
     get:
       summary: Returns the requested `Project`.
       operationId: GetProject
@@ -65,9 +65,9 @@ paths:
           schema:
             $ref: '#/definitions/apiProject'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `parent`. This field contains the projectId for example: projects/{projectId}"
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
           type: string
       tags:
@@ -81,9 +81,9 @@ paths:
           schema:
             $ref: '#/definitions/Empty'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `parent`. This field contains the projectId for example: projects/{projectId}"
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
           type: string
       tags:
@@ -97,9 +97,9 @@ paths:
           schema:
             $ref: '#/definitions/apiProject'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `parent`. This field contains the projectId for example: projects/{projectId}"
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
           type: string
         - name: body
@@ -110,7 +110,7 @@ paths:
       tags:
         - GrafeasProjects
 
-  /v1alpha1/projects/{projectId}/notes:
+  /v1alpha1/projects/{project_id}/notes:
     get:
       summary: Lists all `Notes` for a given project.
       operationId: ListNotes
@@ -120,9 +120,9 @@ paths:
           schema:
             $ref: '#/definitions/apiListNotesResponse'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `parent`. This field contains the projectId for example: projects/{projectId}"
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
           type: string
         - name: filter
@@ -152,9 +152,9 @@ paths:
           schema:
             $ref: '#/definitions/apiNote'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `parent`. This field contains the projectId for example: projects/{projectId}"
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
           type: string
         - name: body
@@ -165,7 +165,7 @@ paths:
       tags:
         - GrafeasNotes
 
-  /v1alpha1/projects/{projectId}/occurrences/{occurrenceId}/notes:
+  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}/notes:
     get:
       summary: Gets the `Note` attached to the given `Occurrence`.
       operationId: GetOccurrenceNote
@@ -175,20 +175,20 @@ paths:
           schema:
             $ref: '#/definitions/apiNote'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `name`. The name of the occurrence in the form: projects/{projectId}/occurrences/{occurrenceId}"
+          description: "Part of `name`. The name of the occurrence in the form: projects/{project_id}/occurrences/{occurrence_id}"
           required: true
           type: string
-        - name: occurrenceId
+        - name: occurrence_id
           in: path
-          description: "Part of `name`. See documentation of `projectId`."
+          description: "Part of `name`. See documentation of `project_id`."
           required: true
           type: "string"
       tags:
         - GrafeasNotes
 
-  /v1alpha1/projects/{projectId}/occurrences:
+  /v1alpha1/projects/{project_id}/occurrences:
     get:
       summary: Lists active `Occurrences` for a given project matching the filters.
       operationId: ListOccurrences
@@ -198,9 +198,9 @@ paths:
           schema:
             $ref: '#/definitions/apiListOccurrencesResponse'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `parent`. This contains the projectId for example: projects/{projectId}"
+          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
           required: true
           type: string
         - name: filter
@@ -232,9 +232,9 @@ paths:
           schema:
             $ref: '#/definitions/apiOccurrence'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `parent`. This contains the projectId for example: projects/{projectId}"
+          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
           required: true
           type: string
         - name: body
@@ -245,7 +245,7 @@ paths:
       tags:
         - GrafeasOccurrences
 
-  /v1alpha1/projects/{projectId}/notes/{noteId}/occurrences:
+  /v1alpha1/projects/{project_id}/notes/{note_id}/occurrences:
     get:
       summary: |-
         Lists `Occurrences` referencing the specified `Note`. Use this method to
@@ -258,14 +258,14 @@ paths:
           schema:
             $ref: '#/definitions/apiListNoteOccurrencesResponse'
       parameters:
-        - name: projectId
+        - name: project_id
           in: path
-          description: "Part of `name`. The name field will contain the note name for example: projects/{projectId}/notes/{noteId}"
+          description: "Part of `name`. The name field will contain the note name for example: projects/{project_id}/notes/{note_id}"
           required: true
           type: string
-        - name: noteId
+        - name: note_id
           in: path
-          description: "Part of `name`. See documentation of `projectId`."
+          description: "Part of `name`. See documentation of `project_id`."
           required: true
           type: string
         - name: filter
@@ -843,7 +843,7 @@ definitions:
       id:
         type: string
         description: Unique identifier of the build.
-      projectId:
+      project_id:
         type: string
         description: ID of the project.
       commands:
@@ -1022,7 +1022,7 @@ definitions:
     properties:
       parent:
         type: string
-        description: The projectId that this operation should be created under.
+        description: The project_id that this operation should be created under.
       operation_id:
         type: string
         description: The ID to use for this operation.
@@ -1179,7 +1179,7 @@ definitions:
       name:
         type: string
         title: |-
-          The name of the note in the form "projects/{projectId}/notes/{noteId}"
+          The name of the note in the form "projects/{project_id}/notes/{note_id}"
       short_description:
         type: string
         description: A one sentence description of this `Note`.
@@ -1260,7 +1260,7 @@ definitions:
       name:
         type: string
         description: |-
-          Output only. The name of the `Occurrence` in the form "projects/{projectId}/occurrences/{occuurenceId}"
+          Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{occuurenceId}"
       resource_url:
         type: string
         description: |-
@@ -1270,7 +1270,7 @@ definitions:
       note_name:
         type: string
         description: |-
-          An analysis note associated with this image, in the form "projects/{projectId}/notes/{noteId}"
+          An analysis note associated with this image, in the form "projects/{project_id}/notes/{note_id}"
           This field can be used as a filter in list requests.
       kind:
         $ref: '#/definitions/apiNoteKind'
@@ -1366,13 +1366,13 @@ definitions:
     properties:
       name:
         type: string
-        title: The name of the project of the form "projects/{projectId}"
+        title: The name of the project of the form "projects/{project_id}"
     description: Provides detailed description of a `Project`.
 
   apiProjectRepoId:
     type: object
     properties:
-      projectId:
+      project_id:
         type: string
         description: The ID of the project.
       repo_name:
@@ -1396,7 +1396,7 @@ definitions:
   apiRepoSource:
     type: object
     properties:
-      projectId:
+      project_id:
         type: string
         description: ID of the project that owns the repo.
       repo_name:
@@ -1520,7 +1520,7 @@ definitions:
         type: string
         description: |-
           The name of the Operation.
-          Should be of the form "projects/{projectId}/operations/{operationId}".
+          Should be of the form "projects/{project_id}/operations/{operationId}".
       operation:
         $ref: '#/definitions/Operation'
         description: The operation to create.

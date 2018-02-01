@@ -18,6 +18,11 @@ paths:
       summary: "Lists `Projects`"
       operationId: "list_projects"
       parameters:
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
       - name: "filter"
         in: "query"
         description: "The filter expression."
@@ -46,6 +51,11 @@ paths:
       summary: "Creates a new `Project`."
       operationId: "create_project"
       parameters:
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
       - in: "body"
         name: "body"
         required: true
@@ -57,42 +67,24 @@ paths:
           schema:
             $ref: "#/definitions/apiEmpty"
       x-swagger-router-controller: "swagger_server.controllers.grafeas_projects_controller"
-  /v1alpha1/projects/{projectId}:
+  /v1alpha1/projects/{project_id}:
     get:
       tags:
       - "GrafeasProjects"
       summary: "Returns the requested `Project`."
       operationId: "get_project"
       parameters:
-      - name: "projectId"
-        in: "path"
-        description: "Part of `parent`. This field contains the projectId for example:\
-          \ projects/{projectId}"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
         required: true
         type: "string"
-      responses:
-        200:
-          description: ""
-          schema:
-            $ref: "#/definitions/apiProject"
-      x-swagger-router-controller: "swagger_server.controllers.grafeas_projects_controller"
-    put:
-      tags:
-      - "GrafeasProjects"
-      summary: "Updates an existing `Project`."
-      operationId: "update_project"
-      parameters:
-      - name: "projectId"
+      - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This field contains the projectId for example:\
-          \ projects/{projectId}"
+        description: "Part of `parent`. This field contains the project_id for example:\
+          \ projects/{project_id}"
         required: true
         type: "string"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/apiProject"
       responses:
         200:
           description: ""
@@ -105,10 +97,15 @@ paths:
       summary: "Deletes the given `Project` from the system."
       operationId: "delete_project"
       parameters:
-      - name: "projectId"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This field contains the projectId for example:\
-          \ projects/{projectId}"
+        description: "Part of `parent`. This field contains the project_id for example:\
+          \ projects/{project_id}"
         required: true
         type: "string"
       responses:
@@ -117,17 +114,22 @@ paths:
           schema:
             $ref: "#/definitions/apiEmpty"
       x-swagger-router-controller: "swagger_server.controllers.grafeas_projects_controller"
-  /v1alpha1/projects/{projectId}/notes:
+  /v1alpha1/projects/{project_id}/notes:
     get:
       tags:
       - "GrafeasNotes"
       summary: "Lists all `Notes` for a given project."
       operationId: "list_notes"
       parameters:
-      - name: "projectId"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This field contains the projectId for example:\
-          \ projects/{projectId}"
+        description: "Part of `parent`. This field contains the project_id for example:\
+          \ projects/{project_id}"
         required: true
         type: "string"
       - name: "filter"
@@ -158,10 +160,15 @@ paths:
       summary: "Creates a new `Note`."
       operationId: "create_note"
       parameters:
-      - name: "projectId"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This field contains the projectId for example:\
-          \ projects/{projectId}"
+        description: "Part of `parent`. This field contains the project_id for example:\
+          \ projects/{project_id}"
         required: true
         type: "string"
       - in: "body"
@@ -175,21 +182,26 @@ paths:
           schema:
             $ref: "#/definitions/apiNote"
       x-swagger-router-controller: "swagger_server.controllers.grafeas_notes_controller"
-  /v1alpha1/projects/{projectId}/notes/{noteId}:
+  /v1alpha1/projects/{project_id}/notes/{note_id}:
     get:
       tags:
       - "GrafeasNotes"
       summary: "Returns the requested `Note`."
       operationId: "get_note"
       parameters:
-      - name: "projectId"
-        in: "path"
-        description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
         required: true
         type: "string"
-      - name: "noteId"
+      - name: "project_id"
         in: "path"
-        description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
+        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+        required: true
+        type: "string"
+      - name: "note_id"
+        in: "path"
+        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
         required: true
         type: "string"
       responses:
@@ -204,14 +216,19 @@ paths:
       summary: "Updates an existing `Note`."
       operationId: "update_note"
       parameters:
-      - name: "projectId"
-        in: "path"
-        description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
         required: true
         type: "string"
-      - name: "noteId"
+      - name: "project_id"
         in: "path"
-        description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
+        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+        required: true
+        type: "string"
+      - name: "note_id"
+        in: "path"
+        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
         required: true
         type: "string"
       - in: "body"
@@ -231,14 +248,19 @@ paths:
       summary: "Deletes the given `Note` from the system."
       operationId: "delete_note"
       parameters:
-      - name: "projectId"
-        in: "path"
-        description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
         required: true
         type: "string"
-      - name: "noteId"
+      - name: "project_id"
         in: "path"
-        description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
+        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+        required: true
+        type: "string"
+      - name: "note_id"
+        in: "path"
+        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
         required: true
         type: "string"
       responses:
@@ -247,21 +269,26 @@ paths:
           schema:
             $ref: "#/definitions/apiEmpty"
       x-swagger-router-controller: "swagger_server.controllers.grafeas_notes_controller"
-  /v1alpha1/projects/{projectId}/occurrences/{occurrenceId}/notes:
+  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}/notes:
     get:
       tags:
       - "GrafeasNotes"
       summary: "Gets the `Note` attached to the given `Occurrence`."
       operationId: "get_occurrence_note"
       parameters:
-      - name: "projectId"
-        in: "path"
-        description: "First part of occurrence `name`: projects/{projectId}/occurrences/{occurrenceId}"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
         required: true
         type: "string"
-      - name: "occurrenceId"
+      - name: "project_id"
         in: "path"
-        description: "Second part of occurrence `name`: projects/{projectId}/occurrences/{occurrenceId}"
+        description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+        required: true
+        type: "string"
+      - name: "occurrence_id"
+        in: "path"
+        description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
         required: true
         type: "string"
       responses:
@@ -270,16 +297,21 @@ paths:
           schema:
             $ref: "#/definitions/apiNote"
       x-swagger-router-controller: "swagger_server.controllers.grafeas_notes_controller"
-  /v1alpha1/projects/{projectId}/occurrences:
+  /v1alpha1/projects/{project_id}/occurrences:
     get:
       tags:
       - "GrafeasOccurrences"
       summary: "Lists active `Occurrences` for a given project matching the filters."
       operationId: "list_occurrences"
       parameters:
-      - name: "projectId"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This contains the projectId for example: projects/{projectId}"
+        description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
         required: true
         type: "string"
       - name: "filter"
@@ -311,9 +343,14 @@ paths:
         for a resource."
       operationId: "create_occurrence"
       parameters:
-      - name: "projectId"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This contains the projectId for example: projects/{projectId}"
+        description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
         required: true
         type: "string"
       - in: "body"
@@ -327,7 +364,7 @@ paths:
           schema:
             $ref: "#/definitions/apiOccurrence"
       x-swagger-router-controller: "swagger_server.controllers.grafeas_occurrences_controller"
-  /v1alpha1/projects/{projectId}/notes/{noteId}/occurrences:
+  /v1alpha1/projects/{project_id}/notes/{note_id}/occurrences:
     get:
       tags:
       - "GrafeasOccurrences"
@@ -336,14 +373,19 @@ paths:
         projects."
       operationId: "list_note_occurrences"
       parameters:
-      - name: "projectId"
-        in: "path"
-        description: "First part of note `name`: projects/{projectId}/notes/{noteId}"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
         required: true
         type: "string"
-      - name: "noteId"
+      - name: "project_id"
         in: "path"
-        description: "Second part of note `name`: projects/{projectId}/notes/{noteId}"
+        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+        required: true
+        type: "string"
+      - name: "note_id"
+        in: "path"
+        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
         required: true
         type: "string"
       - name: "filter"
@@ -445,7 +487,7 @@ definitions:
     properties:
       name:
         type: "string"
-        title: "The name of the note in the form \"projects/{projectId}/notes/{noteId}\""
+        title: "The name of the note in the form \"projects/{project_id}/notes/{note_id}\""
       short_description:
         type: "string"
         description: "A one sentence description of this `Note`."
@@ -509,7 +551,7 @@ definitions:
     properties:
       name:
         type: "string"
-        description: "Output only. The name of the `Occurrence` in the form \"projects/{projectId}/occurrences/{occuurenceId}\""
+        description: "Output only. The name of the `Occurrence` in the form \"projects/{project_id}/occurrences/{occuurenceId}\""
       resource_url:
         type: "string"
         description: "The unique URL of the resource, image or the container, for\
@@ -518,7 +560,7 @@ definitions:
       note_name:
         type: "string"
         description: "An analysis note associated with this image, in the form \"\
-          projects/{projectId}/notes/{noteId}\"\nThis field can be used as a filter\
+          projects/{project_id}/notes/{note_id}\"\nThis field can be used as a filter\
           \ in list requests."
       kind:
         description: "Output only. This explicitly denotes which of the `Occurrence`\
@@ -563,7 +605,7 @@ definitions:
     properties:
       name:
         type: "string"
-        title: "The name of the project of the form \"projects/{projectId}\""
+        title: "The name of the project of the form \"projects/{project_id}\""
     description: "Provides detailed description of a `Project`."
   apiResourceDetails:
     type: "object"

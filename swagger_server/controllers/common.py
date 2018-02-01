@@ -41,7 +41,19 @@ def __create_store():
         os.environ['GRAFEAS_USERNAME'],
         os.environ['GRAFEAS_PASSWORD'])
 
-    store.create_query_index("DT_N", ['doc_type', 'name'])
-    store.create_query_index("DT_P", ['doc_type', 'parent'])
-    store.create_query_index("DT_NN", ['doc_type', 'noteName'])
+    store.create_query_index("DT_AI",  ['doc_type', 'account_id'])
+    store.create_query_index("DT_PDI", ['doc_type', 'project_doc_id'])
+    store.create_query_index("DT_NDI", ['doc_type', 'note_doc_id'])
     return store
+
+
+def build_project_doc_id(account_id, project_id):
+    return "{}/projects/{}".format(account_id, project_id)
+
+
+def build_note_doc_id(account_id, project_id, note_id):
+    return "{}/projects/{}/notes/{}".format(account_id, project_id, note_id)
+
+
+def build_occurrence_doc_id(account_id, project_id, occurrence_id):
+    return "{}/projects/{}/occurrences/{}".format(account_id, project_id, occurrence_id)

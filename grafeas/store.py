@@ -6,7 +6,7 @@ import logging
 import requests
 
 
-logger = logging.getLogger("api.server")
+logger = logging.getLogger("grafeas.server")
 
 
 class Store(object):

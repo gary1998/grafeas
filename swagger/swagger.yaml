@@ -44,7 +44,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiListProjectsResponse"
-      x-swagger-router-controller: "api.controllers.grafeas_projects_controller"
+      x-swagger-router-controller: "controllers.grafeas_projects_controller"
     post:
       tags:
       - "GrafeasProjects"
@@ -66,7 +66,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiEmpty"
-      x-swagger-router-controller: "api.controllers.grafeas_projects_controller"
+      x-swagger-router-controller: "controllers.grafeas_projects_controller"
   /v1alpha1/projects/{project_id}:
     get:
       tags:
@@ -90,7 +90,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiProject"
-      x-swagger-router-controller: "api.controllers.grafeas_projects_controller"
+      x-swagger-router-controller: "controllers.grafeas_projects_controller"
     delete:
       tags:
       - "GrafeasProjects"
@@ -113,7 +113,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiEmpty"
-      x-swagger-router-controller: "api.controllers.grafeas_projects_controller"
+      x-swagger-router-controller: "controllers.grafeas_projects_controller"
   /v1alpha1/projects/{project_id}/notes:
     get:
       tags:
@@ -153,7 +153,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiListNotesResponse"
-      x-swagger-router-controller: "api.controllers.grafeas_notes_controller"
+      x-swagger-router-controller: "controllers.grafeas_notes_controller"
     post:
       tags:
       - "GrafeasNotes"
@@ -181,7 +181,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiNote"
-      x-swagger-router-controller: "api.controllers.grafeas_notes_controller"
+      x-swagger-router-controller: "controllers.grafeas_notes_controller"
   /v1alpha1/projects/{project_id}/notes/{note_id}:
     get:
       tags:
@@ -209,7 +209,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiNote"
-      x-swagger-router-controller: "api.controllers.grafeas_notes_controller"
+      x-swagger-router-controller: "controllers.grafeas_notes_controller"
     put:
       tags:
       - "GrafeasNotes"
@@ -241,7 +241,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiNote"
-      x-swagger-router-controller: "api.controllers.grafeas_notes_controller"
+      x-swagger-router-controller: "controllers.grafeas_notes_controller"
     delete:
       tags:
       - "GrafeasNotes"
@@ -268,7 +268,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiEmpty"
-      x-swagger-router-controller: "api.controllers.grafeas_notes_controller"
+      x-swagger-router-controller: "controllers.grafeas_notes_controller"
   /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}/notes:
     get:
       tags:
@@ -296,7 +296,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiNote"
-      x-swagger-router-controller: "api.controllers.grafeas_notes_controller"
+      x-swagger-router-controller: "controllers.grafeas_notes_controller"
   /v1alpha1/projects/{project_id}/occurrences:
     get:
       tags:
@@ -335,7 +335,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiListOccurrencesResponse"
-      x-swagger-router-controller: "api.controllers.grafeas_occurrences_controller"
+      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     post:
       tags:
       - "GrafeasOccurrences"
@@ -363,7 +363,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiOccurrence"
-      x-swagger-router-controller: "api.controllers.grafeas_occurrences_controller"
+      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
   /v1alpha1/projects/{project_id}/notes/{note_id}/occurrences:
     get:
       tags:
@@ -409,7 +409,7 @@ paths:
           description: ""
           schema:
             $ref: "#/definitions/apiListNoteOccurrencesResponse"
-      x-swagger-router-controller: "api.controllers.grafeas_occurrences_controller"
+      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
 definitions:
   apiCertainty:
     type: "string"

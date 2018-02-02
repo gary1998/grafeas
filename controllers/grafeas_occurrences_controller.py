@@ -42,6 +42,58 @@ def create_occurrence(project_id, body):
         return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
 
 
+def get_occurrence(project_id, occurrence_id):
+    """
+    Returns the requested &#x60;Note&#x60;.
+
+    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type project_id: str
+    :param occurrence_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type occurrence_id: str
+
+    :rtype: ApiOccurrence
+    """
+
+    if 'Account' not in connexion.request.headers:
+        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+
+    store = get_store()
+    account_id = connexion.request.headers['Account']
+    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+
+    try:
+        doc = store.get_doc(occurrence_doc_id)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_doc_id))
+
+
+def delete_occurrence(project_id, occurrence_id):
+    """
+    Deletes the given &#x60;Note&#x60; from the system.
+
+    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type project_id: str
+    :param occurrence_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type occurrence_id: str
+
+    :rtype: ApiEmpty
+    """
+
+    if 'Account' not in connexion.request.headers:
+        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+
+    store = get_store()
+    account_id = connexion.request.headers['Account']
+    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+
+    try:
+        doc = store.delete_doc(occurrence_doc_id)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_doc_id))
+
+
 def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page_token=None):
     """
     Lists &#x60;Occurrences&#x60; referencing the specified &#x60;Note&#x60;.

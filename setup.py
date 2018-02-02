@@ -1,5 +1,5 @@
 """
-Legato app on Bluemix
+Grafeas app on Bluemix
 """
 
 # Always prefer setuptools over distutils

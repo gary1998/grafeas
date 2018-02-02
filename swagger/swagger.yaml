@@ -364,6 +364,61 @@ paths:
           schema:
             $ref: "#/definitions/apiOccurrence"
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}:
+    get:
+      tags:
+      - "GrafeasOccurrences"
+      summary: "Returns the requested `Occurrence`."
+      operationId: "get_occurrence"
+      parameters:
+        - name: "Account"
+          description: "The unique ID for your cloud account."
+          in: "header"
+          required: true
+          type: "string"
+        - name: "project_id"
+          in: "path"
+          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: "string"
+        - name: "occurrence_id"
+          in: "path"
+          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: "string"
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiOccurrence'
+      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+    delete:
+      tags:
+      - "GrafeasOccurrences"
+      summary: "Deletes the given `Occurrence` from the system."
+      operationId: "delete_occurrence"
+      parameters:
+        - name: "Account"
+          description: "The unique ID for your cloud account."
+          in: "header"
+          required: true
+          type: "string"
+        - name: "project_id"
+          in: "path"
+          description: "First part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          required: true
+          type: "string"
+        - name: "occurrence_id"
+          in: "path"
+          description: "Second part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          required: true
+          type: "string"
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiEmpty'
+      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
   /v1alpha1/projects/{project_id}/notes/{note_id}/occurrences:
     get:
       tags:

@@ -90,16 +90,16 @@ def get_note(project_id, note_id):
         return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
 
 
-def get_occurrence_note(project_id, occurence_id):
+def get_occurrence_note(project_id, occurrence_id):
     """
     Gets the &#x60;Note&#x60; attached to the given &#x60;Occurrence&#x60;.
 
     :param Account: The unique ID of your cloud account.
     :type Account: str
-    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurence_id}
+    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
     :type project_id: str
-    :param occurence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurence_id}
-    :type occurence_id: str
+    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
+    :type occurrence_id: str
 
     :rtype: ApiNote
     """
@@ -109,7 +109,7 @@ def get_occurrence_note(project_id, occurence_id):
 
     store = get_store()
     account_id = connexion.request.headers['Account']
-    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurence_id)
+    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:
         occurrence_doc = store.get_doc(occurrence_doc_id)

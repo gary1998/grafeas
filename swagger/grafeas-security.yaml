@@ -174,7 +174,7 @@ paths:
             $ref: '#/definitions/apiNote'
       tags:
         - GrafeasNotes
-  /v1alpha1/projects/{project_id}/notes/{noteId}:
+  /v1alpha1/projects/{project_id}/notes/{note_id}:
     get:
       summary: Returns the requested `Note`.
       operationId: GetNote
@@ -351,6 +351,59 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/apiOccurrence'
+      tags:
+        - GrafeasOccurrences
+/v1alpha1/projects/{project_id}/occurrences/{occurrence_id}:
+    get:
+      summary: Returns the requested `Occurrence`.
+      operationId: GetOccurrence
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiOccurrence'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+        - name: occurrence_id
+          in: path
+          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+      tags:
+        - GrafeasOccurrences
+    delete:
+      summary: Deletes the given `Occurrence` from the system.
+      operationId: DeleteOccurrence
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          required: true
+          type: string
+        - name: occurrence_id
+          in: path
+          description: "Second part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          required: true
+          type: string
       tags:
         - GrafeasOccurrences
 

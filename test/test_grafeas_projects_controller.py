@@ -23,9 +23,10 @@ class TestGrafeasProjectsController(BaseTestCase):
             method='POST',
             data=json.dumps(body),
             headers={
-                'Content-Type': "application/json",
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -40,8 +41,9 @@ class TestGrafeasProjectsController(BaseTestCase):
             path='/v1alpha1/projects/{}'.format("security-advisor"),
             method='GET',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -56,8 +58,9 @@ class TestGrafeasProjectsController(BaseTestCase):
             path='/v1alpha1/projects',
             method='GET',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
@@ -74,8 +77,9 @@ class TestGrafeasProjectsController(BaseTestCase):
             path='/v1alpha1/projects/{}'.format("security-advisor"),
             method='DELETE',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 

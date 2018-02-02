@@ -26,6 +26,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: filter
           description: The filter expression.
           in: query
@@ -58,6 +63,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: body
           in: body
           required: true
@@ -77,6 +87,11 @@ paths:
       parameters:
         - name: Account
           description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
           in: header
           required: true
           type: string
@@ -101,6 +116,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: project_id
           in: path
           description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
@@ -122,6 +142,11 @@ paths:
       parameters:
         - name: Account
           description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
           in: header
           required: true
           type: string
@@ -162,6 +187,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: project_id
           in: path
           description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
@@ -189,6 +219,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: project_id
           in: path
           description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
@@ -212,6 +247,11 @@ paths:
       parameters:
         - name: Account
           description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
           in: header
           required: true
           type: string
@@ -246,6 +286,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: project_id
           in: path
           description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
@@ -274,6 +319,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: project_id
           in: path
           description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
@@ -299,6 +349,11 @@ paths:
       parameters:
         - name: Account
           description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
           in: header
           required: true
           type: string
@@ -341,6 +396,11 @@ paths:
           in: header
           required: true
           type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
         - name: project_id
           in: path
           description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
@@ -353,7 +413,8 @@ paths:
             $ref: '#/definitions/apiOccurrence'
       tags:
         - GrafeasOccurrences
-/v1alpha1/projects/{project_id}/occurrences/{occurrence_id}:
+
+  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}:
     get:
       summary: Returns the requested `Occurrence`.
       operationId: GetOccurrence
@@ -365,6 +426,11 @@ paths:
       parameters:
         - name: Account
           description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
           in: header
           required: true
           type: string
@@ -391,6 +457,11 @@ paths:
       parameters:
         - name: Account
           description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
           in: header
           required: true
           type: string
@@ -422,6 +493,11 @@ paths:
       parameters:
         - name: Account
           description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
           in: header
           required: true
           type: string

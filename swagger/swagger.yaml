@@ -23,6 +23,12 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - name: "filter"
         in: "query"
         description: "The filter expression."
@@ -56,6 +62,12 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - in: "body"
         name: "body"
         required: true
@@ -77,6 +89,12 @@ paths:
       - name: "Account"
         in: "header"
         description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
         required: true
         type: "string"
       - name: "project_id"
@@ -102,6 +120,12 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - name: "project_id"
         in: "path"
         description: "Part of `parent`. This field contains the project_id for example:\
@@ -124,6 +148,12 @@ paths:
       - name: "Account"
         in: "header"
         description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
         required: true
         type: "string"
       - name: "project_id"
@@ -165,6 +195,12 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - name: "project_id"
         in: "path"
         description: "Part of `parent`. This field contains the project_id for example:\
@@ -194,6 +230,12 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - name: "project_id"
         in: "path"
         description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
@@ -219,6 +261,12 @@ paths:
       - name: "Account"
         in: "header"
         description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
         required: true
         type: "string"
       - name: "project_id"
@@ -253,6 +301,12 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - name: "project_id"
         in: "path"
         description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
@@ -279,6 +333,12 @@ paths:
       - name: "Account"
         in: "header"
         description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
         required: true
         type: "string"
       - name: "project_id"
@@ -309,9 +369,16 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
+        description: "Part of `parent`. This contains the project_id for example:\
+          \ projects/{project_id}"
         required: true
         type: "string"
       - name: "filter"
@@ -348,9 +415,16 @@ paths:
         description: "The unique ID for your cloud account."
         required: true
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
       - name: "project_id"
         in: "path"
-        description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
+        description: "Part of `parent`. This contains the project_id for example:\
+          \ projects/{project_id}"
         required: true
         type: "string"
       - in: "body"
@@ -371,26 +445,32 @@ paths:
       summary: "Returns the requested `Occurrence`."
       operationId: "get_occurrence"
       parameters:
-        - name: "Account"
-          description: "The unique ID for your cloud account."
-          in: "header"
-          required: true
-          type: "string"
-        - name: "project_id"
-          in: "path"
-          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-          required: true
-          type: "string"
-        - name: "occurrence_id"
-          in: "path"
-          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-          required: true
-          type: "string"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
+      - name: "project_id"
+        in: "path"
+        description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+        required: true
+        type: "string"
+      - name: "occurrence_id"
+        in: "path"
+        description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+        required: true
+        type: "string"
       responses:
-        '200':
-          description: ''
+        200:
+          description: ""
           schema:
-            $ref: '#/definitions/apiOccurrence'
+            $ref: "#/definitions/apiOccurrence"
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     delete:
       tags:
@@ -398,26 +478,32 @@ paths:
       summary: "Deletes the given `Occurrence` from the system."
       operationId: "delete_occurrence"
       parameters:
-        - name: "Account"
-          description: "The unique ID for your cloud account."
-          in: "header"
-          required: true
-          type: "string"
-        - name: "project_id"
-          in: "path"
-          description: "First part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
-          required: true
-          type: "string"
-        - name: "occurrence_id"
-          in: "path"
-          description: "Second part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
-          required: true
-          type: "string"
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
+      - name: "project_id"
+        in: "path"
+        description: "First part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+        required: true
+        type: "string"
+      - name: "occurrence_id"
+        in: "path"
+        description: "Second part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+        required: true
+        type: "string"
       responses:
-        '200':
-          description: ''
+        200:
+          description: ""
           schema:
-            $ref: '#/definitions/apiEmpty'
+            $ref: "#/definitions/apiEmpty"
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
   /v1alpha1/projects/{project_id}/notes/{note_id}/occurrences:
     get:
@@ -431,6 +517,12 @@ paths:
       - name: "Account"
         in: "header"
         description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
         required: true
         type: "string"
       - name: "project_id"

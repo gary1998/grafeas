@@ -25,9 +25,10 @@ class TestGrafeasNotesController(BaseTestCase):
             method='POST',
             data=json.dumps(body),
             headers={
-                'Content-Type': "application/json",
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -42,8 +43,9 @@ class TestGrafeasNotesController(BaseTestCase):
             path='/v1alpha1/projects/{}/notes/{}'.format('security-advisor', 'Note01'),
             method='GET',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -59,8 +61,9 @@ class TestGrafeasNotesController(BaseTestCase):
             method='GET',
             content_type='application/json',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
@@ -85,9 +88,10 @@ class TestGrafeasNotesController(BaseTestCase):
             method='POST',
             data=json.dumps(body),
             headers={
-                'Content-Type': "application/json",
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -101,8 +105,9 @@ class TestGrafeasNotesController(BaseTestCase):
             path='/v1alpha1/projects/{}/occurrences/{}/notes'.format('security-advisor', 'Occurrence01'),
             method='GET',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -123,9 +128,10 @@ class TestGrafeasNotesController(BaseTestCase):
             method='PUT',
             data=json.dumps(body),
             headers={
-                'Content-Type': "application/json",
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -139,8 +145,9 @@ class TestGrafeasNotesController(BaseTestCase):
             path='/v1alpha1/projects/{}/notes/{}'.format('security-advisor', 'Note01'),
             method='DELETE',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -154,8 +161,9 @@ class TestGrafeasNotesController(BaseTestCase):
             path='/v1alpha1/projects/{}/occurrences/{}'.format('security-advisor', 'Occurrence01'),
             method='DELETE',
             headers={
-                'Accept': "application/json",
-                'Account': "Account01"
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 

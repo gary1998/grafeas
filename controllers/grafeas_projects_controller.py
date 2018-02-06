@@ -18,16 +18,16 @@ def create_project(body):
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
-    if 'project_id' not in body:
+    if 'id' not in body:
         return build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
-    project_id = body['project_id']
+    project_id = body['id']
     project_doc_id = build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Project'
     body['account_id'] = account_id
-    body['project_id'] = project_id
+    body['id'] = project_id
     body['name'] = build_project_name(project_id)
 
     try:

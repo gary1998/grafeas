@@ -15,7 +15,7 @@ class TestGrafeasProjectsController(BaseTestCase):
         """
 
         body = {
-            "project_id": "security-advisor"
+            "id": "security-advisor"
         }
 
         response = self.client.open(

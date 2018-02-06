@@ -15,7 +15,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         body = {
-            "note_id": "Note01",
+            "id": "Note01",
             "short_description": "The short description of Note01",
             "long_description": "The long description of Note01"
         }
@@ -40,7 +40,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         body = {
-            "occurrence_id": "Occurrence01",
+            "id": "Occurrence01",
             "noteName": "projects/{}/notes/{}".format('security-advisor', 'Note01'),
             "short_description": "The short description of Occurrence01",
             "long_description": "The long description of Occurrence01"

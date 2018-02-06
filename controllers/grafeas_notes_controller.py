@@ -20,18 +20,18 @@ def create_note(project_id, body):
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
-    if 'note_id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Note's 'note_id' field is missing")
+    if 'id' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Note's 'id' field is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
-    note_id = body['note_id']
+    note_id = body['id']
     note_doc_id = build_note_doc_id(account_id, project_id, note_id)
     project_doc_id = build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Note'
     body['account_id'] = account_id
     body['project_id'] = project_id
-    body['note_id'] = note_id
+    body['id'] = note_id
     body['name'] = build_note_name(project_id, note_id)
     body['project_doc_id'] = project_doc_id
 

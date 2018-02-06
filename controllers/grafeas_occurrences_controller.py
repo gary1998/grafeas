@@ -20,21 +20,21 @@ def create_occurrence(project_id, body):
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
-    if 'occurrence_id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Occurrence's 'occurrence_id' field is missing")
+    if 'id' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Occurrence's 'id' field is missing")
 
     if 'noteName' not in body:
         return build_error(HTTPStatus.BAD_REQUEST, "Occurrence's 'noteName' field is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
-    occurrence_id = body['occurrence_id']
+    occurrence_id = body['id']
     occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
     project_doc_id = build_project_doc_id(account_id, project_id)
     note_doc_id = "{}/{}".format(account_id, body['noteName'])
     body['doc_type'] = 'Occurrence'
     body['project_id'] = project_id
-    body['occurrence_id'] = occurrence_id
+    body['id'] = occurrence_id
     body['name'] = build_occurrence_name(project_id, occurrence_id)
     body['project_doc_id'] = project_doc_id
     body['note_doc_id'] = note_doc_id

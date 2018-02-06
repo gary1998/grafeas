@@ -18,7 +18,7 @@ ALERT_NOTE_1 = {
         "title": "IBM X-Force Threat Intelligece Service",
         "href": " http:// documentation url with nice images inside"
     },
-    "security_finding_type": {
+    "securityFindingType": {
         "severity": "HIGH",
         "titles": {
             "context": {
@@ -52,7 +52,7 @@ ALERT_OCCURRENCE_1 = {
         "service": "cluster CRN",
         "name": "name of pod"
     },
-    "security_finding": {
+    "securityFinding": {
         "certainty": "MEDIUM",
         "network": {
             "client": {
@@ -66,7 +66,7 @@ ALERT_OCCURRENCE_1 = {
             "direction": "Outbound",
             "protocol": "Ethernet/IPv4/TCP"
         },
-        "data_transfered": {
+        "dataTransfered": {
             "clientBytes": 43431,
             "serverBytes": 901,
             "clientPackets": 232,
@@ -91,7 +91,7 @@ KPI_NOTE_1 = {
         "title": "IBM X-Force Threat Intelligece Service",
         "href": "http:// documentation url with nice images inside"
     },
-    "security_kpi_type": {
+    "securityKpiType": {
         "aggregationType": "sum"
     }
 }
@@ -106,7 +106,7 @@ KPI_OCCURRENCE_1 = {
         "account": "account_guid",
         "service": "cluster CRN",
     },
-    "security_kpi": {
+    "securityKpi": {
         "value": 3432
     }
 }
@@ -125,7 +125,7 @@ ALERT_NOTE_2 = {
     },
     "shortDescription": "Suspected Data Leakage from a Pod",
     "longDescription": "A pods in this cluster sends data to an external IP in vlumes that exceed its normal behaviour",
-    "security_finding_type": {
+    "securityFindingType": {
         "severity": "MEDIUM",
         "titles": {
             "context": {
@@ -160,7 +160,7 @@ ALERT_OCCURRENCE_2 = {
         "service": "cluster CRN",
         "name": "name of pod"
     },
-    "security_finding": {
+    "securityFinding": {
         "certainty": "HIGH",
         "network": {
             "client": {
@@ -174,11 +174,11 @@ ALERT_OCCURRENCE_2 = {
             "direction": "Outbound",
             "protocol": "Ethernet/IPv4/TCP"
         },
-        "data_transfered": {
+        "dataTransfered": {
             "clientBytes": 102304
         },
-        "deviation_high_reference": {
-            "data_transfered": {
+        "deviationHighReference": {
+            "dataTransfered": {
                 "clientBytes": {
                     "normHigh": 25000,
                     "alertHigh": 75000,
@@ -191,8 +191,6 @@ ALERT_OCCURRENCE_2 = {
 
 
 class TestSecurityFindings(BaseTestCase):
-    """ GrafeasNotesController integration test stubs """
-
     def test_01_create_project(self):
         self.post_project(XFORCE_PROJECT)
 

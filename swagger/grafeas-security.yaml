@@ -617,6 +617,12 @@ definitions:
   apiNote:
     type: object
     properties:
+      project_id:
+        type: string
+        title: The project id of the note
+      id:
+        type: string
+        title: The id of the note
       name:
         type: string
         title: |-
@@ -696,10 +702,16 @@ definitions:
   apiOccurrence:
     type: object
     properties:
+      project_id:
+        type: string
+        title: The project id of the occurrence
+      id:
+        type: string
+        title: The id of the occurrence
       name:
         type: string
         description: |-
-          Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{occuurenceId}"
+          Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{occuurence_id}"
       resource_url:
         type: string
         description: |-
@@ -760,6 +772,9 @@ definitions:
   apiProject:
     type: object
     properties:
+      id:
+        type: string
+        title: The id of the project
       name:
         type: string
         title: The name of the project of the form "projects/{project_id}"

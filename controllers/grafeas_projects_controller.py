@@ -1,7 +1,7 @@
 import connexion
 from http import HTTPStatus
 from .common import get_store
-from .common import build_project_doc_id
+from .common import build_project_doc_id, build_project_name
 from .common import build_result, build_error
 
 
@@ -16,16 +16,19 @@ def create_project(body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
-
-    if 'name' not in body:
         return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+
+    if 'project_id' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
-    project_doc_id = "{}/{}".format(account_id, body['name'])
+    project_id = body['project_id']
+    project_doc_id = build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Project'
     body['account_id'] = account_id
+    body['project_id'] = project_id
+    body['name'] = build_project_name(project_id)
 
     try:
         store.create_doc(project_doc_id, body)

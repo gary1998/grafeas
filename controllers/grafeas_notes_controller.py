@@ -1,7 +1,7 @@
 import connexion
 from http import HTTPStatus
 from .common import get_store
-from .common import build_project_doc_id, build_note_doc_id, build_occurrence_doc_id
+from .common import build_project_doc_id, build_note_doc_id, build_occurrence_doc_id, build_note_name
 from .common import build_result, build_error
 
 
@@ -20,15 +20,19 @@ def create_note(project_id, body):
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
-    if 'name' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Note 'name' is missing")
+    if 'note_id' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Note's 'note_id' field is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
-    note_doc_id = "{}/{}".format(account_id, body['name'])
+    note_id = body['note_id']
+    note_doc_id = build_note_doc_id(account_id, project_id, note_id)
     project_doc_id = build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Note'
     body['account_id'] = account_id
+    body['project_id'] = project_id
+    body['note_id'] = note_id
+    body['name'] = build_note_name(project_id, note_id)
     body['project_doc_id'] = project_doc_id
 
     try:
@@ -190,4 +194,5 @@ def _clean_doc(doc):
     doc.pop('_id', None)
     doc.pop('_rev', None)
     doc.pop('doc_type', None)
+    doc.pop('account_id', None)
     return doc

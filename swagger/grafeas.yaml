@@ -1288,41 +1288,6 @@ definitions:
         type: string
         format: date-time
         description: Output only. The time this `Occurrence` was last updated.
-
-      ibm_title:
-        type: string
-        description: A short title of the `Occurrence`
-      ibm_description:
-        type: string
-        description: A description of the `Occurrence`
-      ibm_severity:
-        $ref: '#/definitions/apiSeverity'
-        description: The common severity of the occurrence
-      ibm_confidence:
-        $ref: '#/definitions/apiConfidence'
-        description: The confidence level on the occurrence
-      ibm_source_url:
-        type: string
-        description: The unique url of the source (e.g. service, app) of the occurrence
-      ibm_resource_org:
-        type: string
-        description: The organization the resource belongs to
-      ibm_resource_region:
-        type: string
-        description: The region the resource belongs to
-      ibm_resource_account:
-        type: string
-        description: The account the resource belongs to
-      ibm_resource_environment_name:
-        type: string
-        description: The name of the logical environment the resource is linked to
-      ibm_resource_component_name:
-        type: string
-        description: The name of the logical component the resource is linked to
-      ibm_resource_toolchain_url:
-        type: string
-        description: The url of the toolchain the resource is linked to
-
       vulnerability_details:
         $ref: '#/definitions/VulnerabilityTypeVulnerabilityDetails'
         description: Details of a security vulnerability note.

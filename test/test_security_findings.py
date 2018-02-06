@@ -154,7 +154,6 @@ ALERT_OCCURRENCE_2 = {
     "id": "1982376232",
     "noteName": "projects/outlier/notes/EgressDeviation",
     "createTime": "2018-02-05T20:43:12.071982Z",
-    "certainty": 70,
     "context": {
         "region": "US-South",
         "account": "account_guid",
@@ -162,6 +161,7 @@ ALERT_OCCURRENCE_2 = {
         "name": "name of pod"
     },
     "security_finding": {
+        "certainty": "HIGH",
         "network": {
             "client": {
                 "ip": "172.30.1.3",

@@ -15,10 +15,10 @@ ALERT_NOTE_1 = {
     "createTime": "2018-02-04T13:34:34.071264Z",
     "reportedBy": {
         "id": "xforce",
-        "title": "IBM X-Force Threat Intelligece Service",
+        "title": "IBM X-Force Threat Intelligence Service",
         "href": " http:// documentation url with nice images inside"
     },
-    "securityFindingType": {
+    "securityFinding": {
         "severity": "HIGH",
         "titles": {
             "context": {
@@ -49,8 +49,8 @@ ALERT_OCCURRENCE_1 = {
     "context": {
         "region": "US-South",
         "account": "account_guid",
-        "service": "cluster CRN",
-        "name": "name of pod"
+        "resource": "name of pod",
+        "service": "cluster CRN"
     },
     "securityFinding": {
         "certainty": "MEDIUM",
@@ -88,10 +88,10 @@ KPI_NOTE_1 = {
     "createTime": "2018-02-04T13:34:34.071264Z",
     "reportedBy": {
         "id": "xforce",
-        "title": "IBM X-Force Threat Intelligece Service",
+        "title": "IBM X-Force Threat Intelligence Service",
         "href": "http:// documentation url with nice images inside"
     },
-    "securityKpiType": {
+    "securityKpi": {
         "aggregationType": "sum"
     }
 }
@@ -104,7 +104,8 @@ KPI_OCCURRENCE_1 = {
     "context": {
         "region": "US-South",
         "account": "account_guid",
-        "service": "cluster CRN",
+        "resource": "name of pod",
+        "service": "cluster CRN"
     },
     "securityKpi": {
         "value": 3432
@@ -124,8 +125,8 @@ ALERT_NOTE_2 = {
         "href": " http:// documentation url with nice images inside"
     },
     "shortDescription": "Suspected Data Leakage from a Pod",
-    "longDescription": "A pods in this cluster sends data to an external IP in vlumes that exceed its normal behaviour",
-    "securityFindingType": {
+    "longDescription": "A pods in this cluster sends data to an external IP in volumes that exceed its normal behavior",
+    "securityFinding": {
         "severity": "MEDIUM",
         "titles": {
             "context": {
@@ -157,8 +158,8 @@ ALERT_OCCURRENCE_2 = {
     "context": {
         "region": "US-South",
         "account": "account_guid",
-        "service": "cluster CRN",
-        "name": "name of pod"
+        "resource": "name of pod",
+        "service": "cluster CRN"
     },
     "securityFinding": {
         "certainty": "HIGH",

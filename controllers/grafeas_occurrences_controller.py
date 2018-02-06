@@ -42,18 +42,15 @@ def create_occurrence(project_id, body):
 
     # merge occurrence values with note values
     try:
-        doc = store.get_doc(note_doc_id)
+        note = store.get_doc(note_doc_id)
         try:
-            doc.update(body)
+            doc = _dict_merge(note, body)
             store.create_doc(occurrence_doc_id, doc)
             return build_result(HTTPStatus.OK, _clean_doc(doc))
         except KeyError:
             return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
     except KeyError:
         return build_error(HTTPStatus.BAD_REQUEST, "Specified note not found")
-
-
-
 
 
 def get_occurrence(project_id, occurrence_id):
@@ -179,3 +176,16 @@ def _clean_doc(doc):
     doc.pop('doc_type', None)
     doc.pop('account_id', None)
     return doc
+
+
+def _dict_merge(a, b):
+    import copy
+    if not isinstance(b, dict):
+        return b
+    result = copy.deepcopy(a)
+    for k, v in b.items():
+        if k in result and isinstance(result[k], dict):
+                result[k] = _dict_merge(result[k], v)
+        else:
+            result[k] = copy.deepcopy(v)
+    return result

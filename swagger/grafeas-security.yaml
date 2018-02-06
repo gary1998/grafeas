@@ -666,7 +666,7 @@ definitions:
       #
       # IBM extensions start here
       #
-      security_finding_type:
+      security_finding:
         $ref: '#/definitions/SecurityFindingType'
         description: A security finding type of note.
       #
@@ -754,8 +754,8 @@ definitions:
       long_description:
         type: string
         description: A detailed description of this `Occurrence`.
-      resource_details:
-        $ref: '#/definitions/apiResourceDetails'
+      context:
+        $ref: '#/definitions/apiContext'
         description: Details about the resource this `Occurrence` applies to
       security_finding:
         $ref: '#/definitions/SecurityFinding'
@@ -776,7 +776,7 @@ definitions:
         title: The name of the project of the form "projects/{project_id}"
     description: Provides detailed description of a `Project`.
 
-  apiResourceDetails:
+  apiContext:
     type: object
     properties:
       source_url:
@@ -788,6 +788,9 @@ definitions:
       account:
         type: string
         description: The account the resource belongs to
+      service:
+        type: string
+        description: The service managing the resource
       environment_name:
         type: string
         description: The name of the logical environment the resource is linked to

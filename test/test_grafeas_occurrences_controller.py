@@ -15,9 +15,9 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         body = {
-            "id": "Note01",
-            "short_description": "The short description of Note01",
-            "long_description": "The long description of Note01"
+            "id": "Note02",
+            "short_description": "The short description of Note02",
+            "long_description": "The long description of Note02"
         }
 
         response = self.client.open(
@@ -40,10 +40,10 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         body = {
-            "id": "Occurrence01",
-            "noteName": "projects/{}/notes/{}".format('security-advisor', 'Note01'),
-            "short_description": "The short description of Occurrence01",
-            "long_description": "The long description of Occurrence01"
+            "id": "Occurrence02",
+            "noteName": "projects/{}/notes/{}".format('security-advisor', 'Note02'),
+            "short_description": "The short description of Occurrence02",
+            "long_description": "The long description of Occurrence02"
         }
 
         response = self.client.open(
@@ -66,7 +66,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format('security-advisor', 'Occurrence01'),
+            path='/v1alpha1/projects/{}/occurrences/{}'.format('security-advisor', 'Occurrence02'),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -103,7 +103,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         response = self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}/occurrences'.format('security-advisor', 'Note01'),
+            path='/v1alpha1/projects/{}/notes/{}/occurrences'.format('security-advisor', 'Note02'),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -115,6 +115,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         results = json.loads(response.data.decode('utf-8'))
         self.assertEqual(len(results), 1, "An array of occurrence was expected.")
 
+    '''
     def test_06_delete_occurrence(self):
         """
         Test case for delete_occurrence
@@ -123,7 +124,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format('security-advisor', 'Occurrence01'),
+            path='/v1alpha1/projects/{}/occurrences/{}'.format('security-advisor', 'Occurrence02'),
             method='DELETE',
             headers={
                 "Accept": "application/json",
@@ -140,7 +141,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         """
 
         response = self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}'.format('security-advisor', 'Note01'),
+            path='/v1alpha1/projects/{}/notes/{}'.format('security-advisor', 'Note02'),
             method='DELETE',
             headers={
                 "Accept": "application/json",
@@ -148,7 +149,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "Authorization": "Authorization-01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
-
+    '''
 
 if __name__ == '__main__':
     import unittest

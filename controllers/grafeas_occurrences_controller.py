@@ -33,6 +33,7 @@ def create_occurrence(project_id, body):
     project_doc_id = build_project_doc_id(account_id, project_id)
     note_doc_id = "{}/{}".format(account_id, body['noteName'])
     body['doc_type'] = 'Occurrence'
+    body['account_id'] = account_id
     body['project_id'] = project_id
     body['id'] = occurrence_id
     body['name'] = build_occurrence_name(project_id, occurrence_id)

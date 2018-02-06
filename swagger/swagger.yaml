@@ -683,11 +683,13 @@ definitions:
       \ for filtering\nNote and Occurrence on their kind.\n - KIND_UNSPECIFIED&#58;\
       \ Unknown\n - PACKAGE_VULNERABILITY&#58; The note and occurrence represent a\
       \ package vulnerability.\n - SECURITY_FINDING&#58; The note and occurrence represent\
-      \ a security finding."
+      \ a security finding.\n - SECURITY_KPI&#58; The note and occurrence represent\
+      \ a security KPI."
     enum:
     - "KIND_UNSPECIFIED"
     - "PACKAGE_VULNERABILITY"
     - "SECURITY_FINDING"
+    - "SECURITY_KPI"
     default: "KIND_UNSPECIFIED"
   apiNoteRelatedUrl:
     type: "object"
@@ -748,13 +750,7 @@ definitions:
       resource_details:
         description: "Details about the resource this `Occurrence` applies to"
         $ref: "#/definitions/apiResourceDetails"
-      severity:
-        description: "The common severity of this `Occurrence`"
-        $ref: "#/definitions/apiSeverity"
-      certainty:
-        description: "The confidence level on this `Occurrence`"
-        $ref: "#/definitions/apiCertainty"
-      security_finding_details:
+      security_finding:
         description: "Details of the occurrence of a security finding."
         $ref: "#/definitions/SecurityFinding"
     description: "`Occurrence` includes information about analysis occurrences for\
@@ -804,9 +800,17 @@ definitions:
   SecurityFindingType:
     type: "object"
     description: "SecurityFindingType provides details about a security finding note."
+    properties:
+      severity:
+        description: "The common severity of this `Note`"
+        $ref: "#/definitions/apiSeverity"
   SecurityFinding:
     type: "object"
     description: "SecurityFinding provides details about a security finding occurrence."
+    properties:
+      certainty:
+        description: "The confidence level on this `Occurrence`"
+        $ref: "#/definitions/apiCertainty"
   VulnerabilityType:
     type: "object"
     properties:

@@ -680,6 +680,7 @@ definitions:
       - KIND_UNSPECIFIED
       - PACKAGE_VULNERABILITY
       - SECURITY_FINDING
+      - SECURITY_KPI
     default: KIND_UNSPECIFIED
     description: |-
       This must be 1&#58;1 with members of our oneofs, it can be used for filtering
@@ -687,6 +688,7 @@ definitions:
        - KIND_UNSPECIFIED&#58; Unknown
        - PACKAGE_VULNERABILITY&#58; The note and occurrence represent a package vulnerability.
        - SECURITY_FINDING&#58; The note and occurrence represent a security finding.
+       - SECURITY_KPI&#58; The note and occurrence represent a security KPI.
 
   apiNoteRelatedUrl:
     type: object
@@ -755,13 +757,7 @@ definitions:
       resource_details:
         $ref: '#/definitions/apiResourceDetails'
         description: Details about the resource this `Occurrence` applies to
-      severity:
-        $ref: '#/definitions/apiSeverity'
-        description: The common severity of this `Occurrence`
-      certainty:
-        $ref: '#/definitions/apiCertainty'
-        description: The confidence level on this `Occurrence`
-      security_finding_details:
+      security_finding:
         $ref: '#/definitions/SecurityFinding'
         description: Details of the occurrence of a security finding.
       #
@@ -826,6 +822,10 @@ definitions:
     # Security Advisor team to define properties
     #
     description: SecurityFindingType provides details about a security finding note.
+    properties:
+      severity:
+        $ref: '#/definitions/apiSeverity'
+        description: The common severity of this `Note`
 
   SecurityFinding:
     type: object
@@ -833,6 +833,10 @@ definitions:
     # Security Advisor team to define properties
     #
     description: SecurityFinding provides details about a security finding occurrence.
+    properties:
+      certainty:
+        $ref: '#/definitions/apiCertainty'
+        description: The confidence level on this `Occurrence`
 
 #
 # Vulnerability note and occurrence definitions

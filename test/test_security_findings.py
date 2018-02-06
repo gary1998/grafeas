@@ -1,6 +1,14 @@
+from . import BaseTestCase
+from flask import json
+
+
+XFORCE_PROJECT = {
+    "id": "xforce"
+}
+
 ALERT_NOTE_1 = {
     "kind": "SECURITY_FINDING",
-    "name": "xforce/SuspiciousServerCommunication",
+    "id": "SuspiciousServerCommunication",
     "shortDescription": "Suspicious Communication with an External Suspected Server",
     "longDescription": "One of the pods in this cluster communicates with a server which is either a suspected bot " +
                        "or known to distribute Malware. This may indicate that your pod is compromised.",
@@ -11,7 +19,7 @@ ALERT_NOTE_1 = {
         "href": " http:// documentation url with nice images inside"
     },
     "security_finding_type": {
-        "severity": "High",
+        "severity": "HIGH",
         "titles": {
             "context": {
                 "name": {
@@ -35,8 +43,8 @@ ALERT_NOTE_1 = {
 
 ALERT_OCCURRENCE_1 = {
     "kind": "SECURITY_FINDING",
-    "name": "xforce/5353323",
-    "noteName": "xforce/SuspiciousServerCommunication",
+    "id": "5353323",
+    "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
     "createTime": "2018-02-05T21:44:52.081063Z",
     "context": {
         "region": "US-South",
@@ -45,7 +53,7 @@ ALERT_OCCURRENCE_1 = {
         "name": "name of pod"
     },
     "security_finding": {
-        "certainty": 70,
+        "certainty": "MEDIUM",
         "network": {
             "client": {
                 "ip": "172.30.1.3",
@@ -74,7 +82,7 @@ ALERT_OCCURRENCE_1 = {
 
 KPI_NOTE_1 = {
     "kind": "SECURITY_KPI",
-    "name": "xforce/NumClients",
+    "id": "NumClients",
     "shortDescription": "IPs approaching cluster",
     "longDescription": "The number of different IPs which approached this cluster",
     "createTime": "2018-02-04T13:34:34.071264Z",
@@ -90,8 +98,8 @@ KPI_NOTE_1 = {
 
 KPI_OCCURRENCE_1 = {
     "kind": "SECURITY_KPI",
-    "name": "xforce/NumClients/1234",
-    "noteName": "xforce/NumClients",
+    "id": "1234",
+    "noteName": "projects/xforce/notes/NumClients",
     "createTime": "2018-02-05T12:56:02.061882Z",
     "context": {
         "region": "US-South",
@@ -103,9 +111,13 @@ KPI_OCCURRENCE_1 = {
     }
 }
 
+OUTLIER_PROJECT = {
+    "id": "outlier"
+}
+
 ALERT_NOTE_2 = {
     "kind": "SECURITY_FINDING",
-    "name": "outlier/EgressDeviation",
+    "id": "EgressDeviation",
     "reportedBy": {
         "id": "outlier",
         "title": "IBM Network Analytics Service",
@@ -114,7 +126,7 @@ ALERT_NOTE_2 = {
     "shortDescription": "Suspected Data Leakage from a Pod",
     "longDescription": "A pods in this cluster sends data to an external IP in vlumes that exceed its normal behaviour",
     "security_finding_type": {
-        "severity": "Med",
+        "severity": "MEDIUM",
         "titles": {
             "context": {
                 "name": {
@@ -139,8 +151,8 @@ ALERT_NOTE_2 = {
 
 ALERT_OCCURRENCE_2 = {
     "kind": "SECURITY_FINDING",
-    "name": "outlier/EgressDeviation/1982376232",
-    "noteName": "outlier/EgressDeviation",
+    "id": "1982376232",
+    "noteName": "projects/outlier/notes/EgressDeviation",
     "createTime": "2018-02-05T20:43:12.071982Z",
     "certainty": 70,
     "context": {
@@ -176,3 +188,70 @@ ALERT_OCCURRENCE_2 = {
         }
     }
 }
+
+
+class TestSecurityFindings(BaseTestCase):
+    """ GrafeasNotesController integration test stubs """
+
+    def test_01_create_project(self):
+        self.post_project(XFORCE_PROJECT)
+
+    def test_02_create_note(self):
+        self.post_note(XFORCE_PROJECT['id'], ALERT_NOTE_1)
+
+    def test_03_create_occurrence(self):
+        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1)
+
+    def test_04_create_note(self):
+        self.post_note(XFORCE_PROJECT['id'], KPI_NOTE_1)
+
+    def test_05_create_occurrence(self):
+        self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_1)
+
+    def test_06_create_project(self):
+        self.post_project(OUTLIER_PROJECT)
+
+    def test_07_create_note(self):
+        self.post_note(OUTLIER_PROJECT['id'], ALERT_NOTE_2)
+
+    def test_08_create_occurrence(self):
+        self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_2)
+
+    def post_project(self, body):
+        response = self.client.open(
+            path='/v1alpha1/projects',
+            method='POST',
+            data=json.dumps(body),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
+            })
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def post_note(self, project_id, body):
+        response = self.client.open(
+            path='/v1alpha1/projects/{}/notes'.format(project_id),
+            method='POST',
+            data=json.dumps(body),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
+            })
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def post_occurrence(self, project_id, body):
+        response = self.client.open(
+            path='/v1alpha1/projects/{}/occurrences'.format(project_id),
+            method='POST',
+            data=json.dumps(body),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
+            })
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))

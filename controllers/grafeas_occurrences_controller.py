@@ -18,13 +18,13 @@ def create_occurrence(project_id, body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     if 'id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Occurrence's 'id' field is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
     if 'noteName' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Occurrence's 'noteName' field is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Field 'noteName' is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -40,11 +40,20 @@ def create_occurrence(project_id, body):
     body['project_doc_id'] = project_doc_id
     body['note_doc_id'] = note_doc_id
 
+    # merge occurrence values with note values
     try:
-        store.create_doc(occurrence_doc_id, body)
-        return build_result(HTTPStatus.OK, _clean_doc(body))
+        doc = store.get_doc(note_doc_id)
+        try:
+            doc.update(body)
+            store.create_doc(occurrence_doc_id, doc)
+            return build_result(HTTPStatus.OK, _clean_doc(doc))
+        except KeyError:
+            return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
     except KeyError:
-        return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
+        return build_error(HTTPStatus.BAD_REQUEST, "Specified note not found")
+
+
+
 
 
 def get_occurrence(project_id, occurrence_id):
@@ -60,7 +69,7 @@ def get_occurrence(project_id, occurrence_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -86,7 +95,7 @@ def delete_occurrence(project_id, occurrence_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -119,7 +128,7 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -150,7 +159,7 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']

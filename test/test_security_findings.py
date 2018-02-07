@@ -41,16 +41,16 @@ ALERT_NOTE_1 = {
     }
 }
 
-ALERT_OCCURRENCE_1 = {
+ALERT_OCCURRENCE_1_1 = {
     "kind": "SECURITY_FINDING",
-    "id": "5353323",
+    "id": "11",
     "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
-    "createTime": "2018-02-05T21:44:52.081063Z",
+    "createTime": "2018-02-03T12:42:10.082053Z",
     "context": {
         "region": "US-South",
-        "account": "account_guid",
-        "resource": "name of pod",
-        "service": "cluster CRN"
+        "account": "Account01",
+        "resource": "Pod01",
+        "service": "Cluster01"
     },
     "securityFinding": {
         "certainty": "MEDIUM",
@@ -80,7 +80,63 @@ ALERT_OCCURRENCE_1 = {
     }
 }
 
-KPI_NOTE_1 = {
+ALERT_OCCURRENCE_1_2 = {
+    "kind": "SECURITY_FINDING",
+    "id": "12",
+    "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
+    "createTime": "2018-02-04T14:45:23.081063Z",
+    "context": {
+        "region": "US-South",
+        "account": "Account01",
+        "resource": "Pod02",
+        "service": "Cluster01"
+    },
+    "securityFinding": {
+        "certainty": "HIGH",
+        "network": {
+            "client": {
+                "ip": "172.30.1.4",
+                "port": 9080
+            },
+            "server": {
+                "ip": "111.90.127.64",
+                "port": 9080
+            },
+            "direction": "Outbound",
+            "protocol": "Ethernet/IPv4/TCP"
+        }
+    }
+}
+
+ALERT_OCCURRENCE_1_3 = {
+    "kind": "SECURITY_FINDING",
+    "id": "13",
+    "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
+    "createTime": "2018-02-05T21:44:52.047073Z",
+    "context": {
+        "region": "US-South",
+        "account": "Account01",
+        "resource": "Pod03",
+        "service": "Cluster02"
+    },
+    "securityFinding": {
+        "certainty": "HIGH",
+        "network": {
+            "client": {
+                "ip": "168.33.1.7",
+                "port": 8080
+            },
+            "server": {
+                "ip": "112.91.128.32",
+                "port": 8080
+            },
+            "direction": "Outbound",
+            "protocol": "Ethernet/IPv4/TCP"
+        }
+    }
+}
+
+KPI_NOTE_2 = {
     "kind": "SECURITY_KPI",
     "id": "NumClients",
     "shortDescription": "IPs approaching cluster",
@@ -96,9 +152,9 @@ KPI_NOTE_1 = {
     }
 }
 
-KPI_OCCURRENCE_1 = {
+KPI_OCCURRENCE_2_1 = {
     "kind": "SECURITY_KPI",
-    "id": "1234",
+    "id": "21",
     "noteName": "projects/xforce/notes/NumClients",
     "createTime": "2018-02-05T12:56:02.061882Z",
     "context": {
@@ -116,7 +172,7 @@ OUTLIER_PROJECT = {
     "id": "outlier"
 }
 
-ALERT_NOTE_2 = {
+ALERT_NOTE_3 = {
     "kind": "SECURITY_FINDING",
     "id": "EgressDeviation",
     "reportedBy": {
@@ -126,6 +182,7 @@ ALERT_NOTE_2 = {
     },
     "shortDescription": "Suspected Data Leakage from a Pod",
     "longDescription": "A pods in this cluster sends data to an external IP in volumes that exceed its normal behavior",
+    "createTime": "2018-02-04T13:34:34.071264Z",
     "securityFinding": {
         "severity": "MEDIUM",
         "titles": {
@@ -150,9 +207,9 @@ ALERT_NOTE_2 = {
     }
 }
 
-ALERT_OCCURRENCE_2 = {
+ALERT_OCCURRENCE_3_1 = {
     "kind": "SECURITY_FINDING",
-    "id": "1982376232",
+    "id": "31",
     "noteName": "projects/outlier/notes/EgressDeviation",
     "createTime": "2018-02-05T20:43:12.071982Z",
     "context": {
@@ -199,22 +256,28 @@ class TestSecurityFindings(BaseTestCase):
         self.post_note(XFORCE_PROJECT['id'], ALERT_NOTE_1)
 
     def test_03_create_occurrence(self):
-        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1)
+        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
 
-    def test_04_create_note(self):
-        self.post_note(XFORCE_PROJECT['id'], KPI_NOTE_1)
+    def test_04_create_occurrence(self):
+        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
 
     def test_05_create_occurrence(self):
-        self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_1)
+        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
 
-    def test_06_create_project(self):
+    def test_06_create_note(self):
+        self.post_note(XFORCE_PROJECT['id'], KPI_NOTE_2)
+
+    def test_07_create_occurrence(self):
+        self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
+
+    def test_08_create_project(self):
         self.post_project(OUTLIER_PROJECT)
 
-    def test_07_create_note(self):
-        self.post_note(OUTLIER_PROJECT['id'], ALERT_NOTE_2)
+    def test_09_create_note(self):
+        self.post_note(OUTLIER_PROJECT['id'], ALERT_NOTE_3)
 
-    def test_08_create_occurrence(self):
-        self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_2)
+    def test_10_create_occurrence(self):
+        self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
 
     def post_project(self, body):
         response = self.client.open(

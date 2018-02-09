@@ -1,0 +1,100 @@
+Note
+{
+    "kind": "SECURITY_FINDING",
+    "name": "cloudcerts/notes/Certificates"
+}
+
+Note
+{
+    "kind": "SECURITY_KPI",
+    "name": "cloudcerts/notes/ExpiredCertificates",
+    "aggregationType": "sum"
+}
+
+
+Note
+{
+    "kind": "SECURITY_KPI",
+    "name": "cloudcerts/notes/CertificatesAboutToExpireIn7Days",
+    "aggregationType": "sum"
+}
+
+Note
+{
+    "kind": "SECURITY_KPI",
+    "name": "cloudcerts/notes/CertificatesAboutToExpireIn3Days",
+    "aggregationType": "sum"
+}
+
+Note
+{
+    "kind": "SECURITY_KPI",
+    "name": "cloudcerts/notes/CertificatesAboutToExpireIn1Day",
+    "aggregationType": "sum"
+}
+
+Any time you have an alert to send about certificates you post something like:
+
+Occurrence
+{
+    "kind": "SECURITY_FINDING",
+    "noteName": "cloudcerts/notes/Certificates"
+    ...
+}
+
+To get certificates alerts:
+    GET occurrences related to note with name: "cloudcerts/notes/Certificates"
+
+
+Each day:
+    cloud-certs provider posts the following kpi occurrences:
+
+
+Occurrence per cert manager instance
+{
+    "kind": "SECURITY_KPI",
+    "noteName": "cloudcerts/notes/CertificatesAboutToExpireIn7Days",
+    "createTime": "Mon",
+    "value": 1,
+    "service": "cloud-certs-1"
+}
+
+
+Occurrence
+{
+    "kind": "SECURITY_KPI",
+    "noteName": "cloudcerts/notes/CertificatesAboutToExpireIn3Days",
+    "createTime": "Tue",
+    "value": 2,
+    "service": "cloud-certs-2"
+}
+
+Occurrence
+{
+    "kind": "SECURITY_KPI",
+    "noteName": "cloudcerts/notes/CertificatesAboutToExpireIn1Day",
+    "createTime": "Tue",
+    "updateTime": "Wed",
+    "value": 2,
+    "service": "cloud-certs-2"
+}
+
+Occurrence
+{
+    "kind": "SECURITY_KPI",
+    "noteName": "cloudcerts/notes/CertificatesAboutToExpireIn7Days",
+    "createTime": "Thu",
+    "value": 4,
+    "service": "cloud-certs-3"
+}
+
+Occurrence
+{
+    "kind": "SECURITY_KPI",
+    "noteName": "cloudcerts/notes/CertificatesAboutToExpireIn3Days",
+    "createTime": "Fri",
+    "value": 3,
+    "service": "cloud-certs-2"
+}
+
+

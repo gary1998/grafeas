@@ -472,6 +472,44 @@ paths:
           schema:
             $ref: "#/definitions/apiOccurrence"
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+    put:
+      tags:
+      - "GrafeasOccurrences"
+      summary: "Updates an existing `Occurrence`."
+      operationId: "update_occurrence"
+      parameters:
+      - name: "Account"
+        in: "header"
+        description: "The unique ID for your cloud account."
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "The user authentication agent (UAA) or the Identity & Access\
+          \ Management (IAM) JSON web token"
+        required: true
+        type: "string"
+      - name: "project_id"
+        in: "path"
+        description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+        required: true
+        type: "string"
+      - name: "occurrence_id"
+        in: "path"
+        description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/apiOccurrence"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/apiOccurrence"
+      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     delete:
       tags:
       - "GrafeasOccurrences"
@@ -673,23 +711,23 @@ definitions:
       vulnerability_type:
         description: "A package vulnerability type of note."
         $ref: "#/definitions/VulnerabilityType"
-      security_finding_type:
-        description: "A security finding type of note."
-        $ref: "#/definitions/SecurityFindingType"
+      finding_type:
+        description: "A finding type of note."
+        $ref: "#/definitions/FindingType"
     description: "Provides a detailed description of a `Note`."
   apiNoteKind:
     type: "string"
     description: "This must be 1&#58;1 with members of our oneofs, it can be used\
       \ for filtering\nNote and Occurrence on their kind.\n - KIND_UNSPECIFIED&#58;\
       \ Unknown\n - PACKAGE_VULNERABILITY&#58; The note and occurrence represent a\
-      \ package vulnerability.\n - SECURITY_FINDING&#58; The note and occurrence represent\
-      \ a security finding.\n - SECURITY_KPI&#58; The note and occurrence represent\
-      \ a security KPI."
+      \ package vulnerability.\n - FINDING&#58; The note and occurrence represent\
+      \ a finding.\n - KPI&#58; The note and occurrence represent\
+      \ a KPI."
     enum:
     - "KIND_UNSPECIFIED"
     - "PACKAGE_VULNERABILITY"
-    - "SECURITY_FINDING"
-    - "SECURITY_KPI"
+    - "FINDING"
+    - "KPI"
     default: "KIND_UNSPECIFIED"
   apiNoteRelatedUrl:
     type: "object"
@@ -750,9 +788,9 @@ definitions:
       context:
         description: "Details about the resource this `Occurrence` applies to"
         $ref: "#/definitions/apiContext"
-      security_finding:
-        description: "Details of the occurrence of a security finding."
-        $ref: "#/definitions/SecurityFinding"
+      finding:
+        description: "Details of the occurrence of a finding."
+        $ref: "#/definitions/Finding"
     description: "`Occurrence` includes information about analysis occurrences for\
       \ an image."
   apiProject:
@@ -800,16 +838,16 @@ definitions:
     - "MEDIUM"
     - "HIGH"
     default: "SEVERITY_UNSPECIFIED"
-  SecurityFindingType:
+  FindingType:
     type: "object"
-    description: "SecurityFindingType provides details about a security finding note."
+    description: "FindingType provides details about a finding note."
     properties:
       severity:
         description: "The common severity of this `Note`"
         $ref: "#/definitions/apiSeverity"
-  SecurityFinding:
+  Finding:
     type: "object"
-    description: "SecurityFinding provides details about a security finding occurrence."
+    description: "Finding provides details about a finding occurrence."
     properties:
       certainty:
         description: "The confidence level on this `Occurrence`"

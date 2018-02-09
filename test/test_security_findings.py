@@ -7,7 +7,7 @@ XFORCE_PROJECT = {
 }
 
 ALERT_NOTE_1 = {
-    "kind": "SECURITY_FINDING",
+    "kind": "FINDING",
     "id": "SuspiciousServerCommunication",
     "shortDescription": "Suspicious Communication with an External Suspected Server",
     "longDescription": "One of the pods in this cluster communicates with a server which is either a suspected bot " +
@@ -18,7 +18,7 @@ ALERT_NOTE_1 = {
         "title": "IBM X-Force Threat Intelligence Service",
         "href": " http:// documentation url with nice images inside"
     },
-    "securityFinding": {
+    "finding": {
         "severity": "HIGH",
         "titles": {
             "context": {
@@ -42,7 +42,7 @@ ALERT_NOTE_1 = {
 }
 
 ALERT_OCCURRENCE_1_1 = {
-    "kind": "SECURITY_FINDING",
+    "kind": "FINDING",
     "id": "11",
     "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
     "createTime": "2018-02-03T12:42:10.082053Z",
@@ -52,7 +52,7 @@ ALERT_OCCURRENCE_1_1 = {
         "resource": "Pod01",
         "service": "Cluster01"
     },
-    "securityFinding": {
+    "finding": {
         "certainty": "MEDIUM",
         "network": {
             "client": {
@@ -81,7 +81,7 @@ ALERT_OCCURRENCE_1_1 = {
 }
 
 ALERT_OCCURRENCE_1_2 = {
-    "kind": "SECURITY_FINDING",
+    "kind": "FINDING",
     "id": "12",
     "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
     "createTime": "2018-02-04T14:45:23.081063Z",
@@ -91,7 +91,7 @@ ALERT_OCCURRENCE_1_2 = {
         "resource": "Pod02",
         "service": "Cluster01"
     },
-    "securityFinding": {
+    "finding": {
         "certainty": "HIGH",
         "network": {
             "client": {
@@ -109,7 +109,7 @@ ALERT_OCCURRENCE_1_2 = {
 }
 
 ALERT_OCCURRENCE_1_3 = {
-    "kind": "SECURITY_FINDING",
+    "kind": "FINDING",
     "id": "13",
     "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
     "createTime": "2018-02-05T21:44:52.047073Z",
@@ -119,7 +119,7 @@ ALERT_OCCURRENCE_1_3 = {
         "resource": "Pod03",
         "service": "Cluster02"
     },
-    "securityFinding": {
+    "finding": {
         "certainty": "HIGH",
         "network": {
             "client": {
@@ -137,7 +137,7 @@ ALERT_OCCURRENCE_1_3 = {
 }
 
 KPI_NOTE_2 = {
-    "kind": "SECURITY_KPI",
+    "kind": "KPI",
     "id": "NumClients",
     "shortDescription": "IPs approaching cluster",
     "longDescription": "The number of different IPs which approached this cluster",
@@ -147,13 +147,13 @@ KPI_NOTE_2 = {
         "title": "IBM X-Force Threat Intelligence Service",
         "href": "http:// documentation url with nice images inside"
     },
-    "securityKpi": {
+    "kpi": {
         "aggregationType": "sum"
     }
 }
 
 KPI_OCCURRENCE_2_1 = {
-    "kind": "SECURITY_KPI",
+    "kind": "KPI",
     "id": "21",
     "noteName": "projects/xforce/notes/NumClients",
     "createTime": "2018-02-05T12:56:02.061882Z",
@@ -163,8 +163,24 @@ KPI_OCCURRENCE_2_1 = {
         "resource": "name of pod",
         "service": "cluster CRN"
     },
-    "securityKpi": {
+    "kpi": {
         "value": 3432
+    }
+}
+
+MODIFIED_KPI_OCCURRENCE_2_1 = {
+    "kind": "KPI",
+    "id": "21",
+    "noteName": "projects/xforce/notes/NumClients",
+    "createTime": "2018-02-05T12:56:02.061882Z",
+    "context": {
+        "region": "US-South",
+        "account": "account_guid",
+        "resource": "name of pod",
+        "service": "cluster CRN"
+    },
+    "kpi": {
+        "value": 4321
     }
 }
 
@@ -173,7 +189,7 @@ OUTLIER_PROJECT = {
 }
 
 ALERT_NOTE_3 = {
-    "kind": "SECURITY_FINDING",
+    "kind": "FINDING",
     "id": "EgressDeviation",
     "reportedBy": {
         "id": "outlier",
@@ -183,7 +199,7 @@ ALERT_NOTE_3 = {
     "shortDescription": "Suspected Data Leakage from a Pod",
     "longDescription": "A pods in this cluster sends data to an external IP in volumes that exceed its normal behavior",
     "createTime": "2018-02-04T13:34:34.071264Z",
-    "securityFinding": {
+    "finding": {
         "severity": "MEDIUM",
         "titles": {
             "context": {
@@ -208,7 +224,7 @@ ALERT_NOTE_3 = {
 }
 
 ALERT_OCCURRENCE_3_1 = {
-    "kind": "SECURITY_FINDING",
+    "kind": "FINDING",
     "id": "31",
     "noteName": "projects/outlier/notes/EgressDeviation",
     "createTime": "2018-02-05T20:43:12.071982Z",
@@ -218,7 +234,7 @@ ALERT_OCCURRENCE_3_1 = {
         "resource": "name of pod",
         "service": "cluster CRN"
     },
-    "securityFinding": {
+    "finding": {
         "certainty": "HIGH",
         "network": {
             "client": {
@@ -270,13 +286,16 @@ class TestSecurityFindings(BaseTestCase):
     def test_07_create_occurrence(self):
         self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
 
-    def test_08_create_project(self):
+    def test_08_update_occurrence(self):
+        self.put_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'], MODIFIED_KPI_OCCURRENCE_2_1)
+
+    def test_09_create_project(self):
         self.post_project(OUTLIER_PROJECT)
 
-    def test_09_create_note(self):
+    def test_10_create_note(self):
         self.post_note(OUTLIER_PROJECT['id'], ALERT_NOTE_3)
 
-    def test_10_create_occurrence(self):
+    def test_11_create_occurrence(self):
         self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
 
     def post_project(self, body):
@@ -309,6 +328,19 @@ class TestSecurityFindings(BaseTestCase):
         response = self.client.open(
             path='/v1alpha1/projects/{}/occurrences'.format(project_id),
             method='POST',
+            data=json.dumps(body),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "Account01",
+                "Authorization": "Authorization-01"
+            })
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def  put_occurrence(self, project_id, occurrence_id, body):
+        response = self.client.open(
+            path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
+            method='PUT',
             data=json.dumps(body),
             headers={
                 "Content-Type": "application/json",

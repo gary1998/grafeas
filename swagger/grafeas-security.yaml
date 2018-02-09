@@ -446,6 +446,42 @@ paths:
           type: string
       tags:
         - GrafeasOccurrences
+    put:
+      summary: Updates an existing `Occurrence`.
+      operationId: UpdateOccurrence
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiOccurrence'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+        - name: occurrence_id
+          in: path
+          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/apiNote'
+      tags:
+        - GrafeasOccurrences
     delete:
       summary: Deletes the given `Occurrence` from the system.
       operationId: DeleteOccurrence
@@ -666,9 +702,9 @@ definitions:
       #
       # IBM extensions start here
       #
-      security_finding:
-        $ref: '#/definitions/SecurityFindingType'
-        description: A security finding type of note.
+      finding:
+        $ref: '#/definitions/FindingType'
+        description: A finding type of note.
       #
       # IBM extensions stop here
       #
@@ -679,16 +715,16 @@ definitions:
     enum:
       - KIND_UNSPECIFIED
       - PACKAGE_VULNERABILITY
-      - SECURITY_FINDING
-      - SECURITY_KPI
+      - FINDING
+      - KPI
     default: KIND_UNSPECIFIED
     description: |-
       This must be 1&#58;1 with members of our oneofs, it can be used for filtering
       Note and Occurrence on their kind.
        - KIND_UNSPECIFIED&#58; Unknown
        - PACKAGE_VULNERABILITY&#58; The note and occurrence represent a package vulnerability.
-       - SECURITY_FINDING&#58; The note and occurrence represent a security finding.
-       - SECURITY_KPI&#58; The note and occurrence represent a security KPI.
+       - FINDING&#58; The note and occurrence represent a finding.
+       - KPI&#58; The note and occurrence represent a KPI.
 
   apiNoteRelatedUrl:
     type: object
@@ -757,9 +793,9 @@ definitions:
       context:
         $ref: '#/definitions/apiContext'
         description: Details about the resource this `Occurrence` applies to
-      security_finding:
-        $ref: '#/definitions/SecurityFinding'
-        description: Details of the occurrence of a security finding.
+      finding:
+        $ref: '#/definitions/Finding'
+        description: Details of the occurrence of a finding.
       #
       # IBM extensions stop here
       #
@@ -817,26 +853,23 @@ definitions:
       - HIGH&#58; High Impact
 
 #
-# Security Finding note and occurrence definitions
+# Finding note and occurrence definitions
 #
-  SecurityFindingType:
+  FindingType:
     type: object
-    #
-    # Security Advisor team to define properties
-    #
-    description: SecurityFindingType provides details about a security finding note.
+    description: FindingType provides details about a finding note.
     properties:
       severity:
         $ref: '#/definitions/apiSeverity'
         description: The common severity of this `Note`
 
-  SecurityFinding:
+  Finding:
     type: object
-    #
-    # Security Advisor team to define properties
-    #
-    description: SecurityFinding provides details about a security finding occurrence.
+    description: Finding provides details about a finding occurrence.
     properties:
+      severity:
+        $ref: '#/definitions/apiSeverity'
+        description: The common severity of this `Occurrence`
       certainty:
         $ref: '#/definitions/apiCertainty'
         description: The confidence level on this `Occurrence`

@@ -29,14 +29,16 @@ def create_occurrence(project_id, body):
     store = get_store()
     account_id = connexion.request.headers['Account']
     occurrence_id = body['id']
+    occurrence_name = build_occurrence_name(project_id, occurrence_id)
+    note_name = body['noteName']
     occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
     project_doc_id = build_project_doc_id(account_id, project_id)
-    note_doc_id = "{}/{}".format(account_id, body['noteName'])
+    note_doc_id = "{}/{}".format(account_id, note_name)
     body['doc_type'] = 'Occurrence'
     body['account_id'] = account_id
     body['project_id'] = project_id
     body['id'] = occurrence_id
-    body['name'] = build_occurrence_name(project_id, occurrence_id)
+    body['name'] = occurrence_name
     body['project_doc_id'] = project_doc_id
     body['note_doc_id'] = note_doc_id
 
@@ -48,18 +50,49 @@ def create_occurrence(project_id, body):
             store.create_doc(occurrence_doc_id, doc)
             return build_result(HTTPStatus.OK, _clean_doc(doc))
         except KeyError:
-            return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
+            return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
     except KeyError:
-        return build_error(HTTPStatus.BAD_REQUEST, "Specified note not found")
+        return build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
+
+
+def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
+    """
+    Lists active &#x60;Occurrences&#x60; for a given project matching the filters.
+
+    :param project_id: Part of &#x60;parent&#x60;. This contains the project_id for example: projects/{project_id}
+    :type project_id: str
+    :param filter: The filter expression.
+    :type filter: str
+    :param page_size: Number of occurrences to return in the list.
+    :type page_size: int
+    :param page_token: Token to provide to skip to a particular spot in the list.
+    :type page_token: str
+
+    :rtype: ApiListOccurrencesResponse
+    """
+
+    if 'Account' not in connexion.request.headers:
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+
+    store = get_store()
+    account_id = connexion.request.headers['Account']
+    project_doc_id = build_project_doc_id(account_id, project_id)
+    docs = store.find(
+        filter_={
+            'doc_type': 'Occurrence',
+            'project_doc_id': project_doc_id
+        },
+        index="DT_PDI")
+    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def get_occurrence(project_id, occurrence_id):
     """
     Returns the requested &#x60;Note&#x60;.
 
-    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
     :type project_id: str
-    :param occurrence_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
     :type occurrence_id: str
 
     :rtype: ApiOccurrence
@@ -76,16 +109,46 @@ def get_occurrence(project_id, occurrence_id):
         doc = store.get_doc(occurrence_doc_id)
         return build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_doc_id))
+        occurrence_name = build_occurrence_name(project_id, occurrence_id)
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
+
+
+def update_occurrence(project_id, occurrence_id, body):
+    """
+    Updates an existing &#x60;Note&#x60;.
+
+    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type project_id: str
+    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type occurrence_id: str
+    :param body:
+    :type body: dict | bytes
+
+    :rtype: ApiNote
+    """
+
+    if 'Account' not in connexion.request.headers:
+        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+
+    store = get_store()
+    account_id = connexion.request.headers['Account']
+    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+
+    try:
+        doc = store.update_doc(occurrence_doc_id, body)
+        return build_result(HTTPStatus.OK, _clean_doc(doc))
+    except KeyError:
+        occurrence_name = build_occurrence_name(project_id, occurrence_id)
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 
 
 def delete_occurrence(project_id, occurrence_id):
     """
     Deletes the given &#x60;Note&#x60; from the system.
 
-    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
     :type project_id: str
-    :param occurrence_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
     :type occurrence_id: str
 
     :rtype: ApiEmpty
@@ -102,7 +165,8 @@ def delete_occurrence(project_id, occurrence_id):
         doc = store.delete_doc(occurrence_doc_id)
         return build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_doc_id))
+        occurrence_name = build_occurrence_name(project_id, occurrence_id)
+        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 
 
 def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page_token=None):
@@ -136,37 +200,6 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
             'note_doc_id': note_doc_id
         },
         index="DT_NDI")
-    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
-
-
-def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
-    """
-    Lists active &#x60;Occurrences&#x60; for a given project matching the filters.
-
-    :param project_id: Part of &#x60;parent&#x60;. This contains the project_id for example: projects/{project_id}
-    :type project_id: str
-    :param filter: The filter expression.
-    :type filter: str
-    :param page_size: Number of occurrences to return in the list.
-    :type page_size: int
-    :param page_token: Token to provide to skip to a particular spot in the list.
-    :type page_token: str
-
-    :rtype: ApiListOccurrencesResponse
-    """
-
-    if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
-
-    store = get_store()
-    account_id = connexion.request.headers['Account']
-    project_doc_id = build_project_doc_id(account_id, project_id)
-    docs = store.find(
-        filter_={
-            'doc_type': 'Occurrence',
-            'project_doc_id': project_doc_id
-        },
-        index="DT_PDI")
     return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 

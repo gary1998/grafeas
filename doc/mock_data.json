@@ -15,6 +15,7 @@
       "kind": "FINDING",
       "projectId": "xforce",
       "id": "SuspiciousServerIPs",
+      "createTime": "2018-02-01T08:20:02.067862Z",
       "shortDescription": "Suspicious server IP addresses",
       "longDescription": "Server IP addresses that are considered suspicious or malicious",
       "reportedBy": {
@@ -30,6 +31,7 @@
       "kind": "KPI",
       "projectId": "xforce",
       "id": "MaliciousServerIPCount",
+      "createTime": "2018-02-01T08:21:02.067862Z",
       "shortDescription": "Number of malicious server IP addresses",
       "longDescription": "Number of server IP addresses that are considered malicious and have been blacklisted",
       "reportedBy": {
@@ -45,6 +47,7 @@
       "kind": "KPI",
       "projectId": "xforce",
       "id": "SuspiciousServerIPCount",
+      "createTime": "2018-02-01T08:22:02.067862Z",
       "shortDescription": "Number of suspicious server IP addresses",
       "longDescription": "Number of server IP addresses that are considered suspicious",
       "reportedBy": {
@@ -62,6 +65,7 @@
       "kind": "FINDING",
       "projectId": "xforce",
       "id": "SuspiciousClients",
+      "createTime": "2018-02-01T08:23:02.067862Z",
       "shortDescription": "Suspicious clients",
       "longDescription": "Clients that are considered suspicious",
       "reportedBy": {
@@ -77,6 +81,7 @@
       "kind": "KPI",
       "projectId": "xforce",
       "id": "SuspiciousClientCount",
+      "createTime": "2018-02-01T08:24:02.067862Z",
       "shortDescription": "Number of suspicious clients",
       "longDescription": "Number of clients that are considered suspicious",
       "reportedBy": {
@@ -94,6 +99,7 @@
       "kind": "FINDING",
       "projectId": "certificate-manager",
       "id": "Certificates",
+      "createTime": "2018-02-01T08:25:02.067862Z",
       "reportedBy": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -107,6 +113,7 @@
       "kind": "KPI",
       "projectId": "certificate-manager",
       "id": "ExpiredCertificateCount",
+      "createTime": "2018-02-01T08:26:02.067862Z",
       "reportedBy": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -120,6 +127,7 @@
       "kind": "KPI",
       "projectId": "certificate-manager",
       "id": "ExpiringCertificateCount",
+      "createTime": "2018-02-01T08:27:02.067862Z",
       "reportedBy": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -135,6 +143,7 @@
       "kind": "FINDING",
       "projectId": "vulnerability-advisor",
       "id": "ImageVulnerabilities",
+      "createTime": "2018-02-01T08:28:02.067862Z",
       "reportedBy": {
         "id": "vulnerability-advisor",
         "title": "IBM Cloud Certificate Manager",
@@ -148,6 +157,7 @@
       "kind": "KPI",
       "projectId": "vulnerability-advisor",
       "id": "ImageWithVulnerabilitiesCount",
+      "createTime": "2018-02-01T08:29:02.067862Z",
       "reportedBy": {
         "id": "vulnerability-advisor",
         "title": "IBM Cloud Certificate Manager",
@@ -161,6 +171,7 @@
       "kind": "KPI",
       "projectId": "vulnerability-advisor",
       "id": "ImageWithConfigIssuesCount",
+      "createTime": "2018-02-01T08:30:02.067862Z",
       "reportedBy": {
         "id": "vulnerability-advisor",
         "title": "IBM Cloud Certificate Manager",
@@ -176,6 +187,7 @@
       "kind": "FINDING",
       "projectId": "vulnerability-advisor",
       "id": "ContainerVulnerabilities",
+      "createTime": "2018-02-01T08:20:31.067862Z",
       "reportedBy": {
         "id": "vulnerability-advisor",
         "title": "IBM Cloud Certificate Manager",
@@ -189,6 +201,7 @@
       "kind": "KPI",
       "projectId": "vulnerability-advisor",
       "id": "ContainerWithVulnerabilitiesCount",
+      "createTime": "2018-02-01T08:32:02.067862Z",
       "reportedBy": {
         "id": "vulnerability-advisor",
         "title": "IBM Cloud Certificate Manager",

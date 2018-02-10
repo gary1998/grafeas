@@ -1,0 +1,619 @@
+{
+  "projects": [
+    {
+      "id": "xforce"
+    },
+    {
+      "id": "certificate-manager"
+    },
+    {
+      "id": "vulnerability-advisor"
+    }
+  ],
+  "notes": [
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "SuspiciousServerIPs",
+      "shortDescription": "Suspicious server IP addresses",
+      "longDescription": "Server IP addresses that are considered suspicious or malicious",
+      "reportedBy": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence Service",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "finding": {
+        "severity": "MEDIUM"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "xforce",
+      "id": "MaliciousServerIPCount",
+      "shortDescription": "Number of malicious server IP addresses",
+      "longDescription": "Number of server IP addresses that are considered malicious and have been blacklisted",
+      "reportedBy": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence Service",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "xforce",
+      "id": "SuspiciousServerIPCount",
+      "shortDescription": "Number of suspicious server IP addresses",
+      "longDescription": "Number of server IP addresses that are considered suspicious",
+      "reportedBy": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence Service",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "SuspiciousClients",
+      "shortDescription": "Suspicious clients",
+      "longDescription": "Clients that are considered suspicious",
+      "reportedBy": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence Service",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "finding": {
+        "severity": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "xforce",
+      "id": "SuspiciousClientCount",
+      "shortDescription": "Number of suspicious clients",
+      "longDescription": "Number of clients that are considered suspicious",
+      "reportedBy": {
+        "id": "certificate-manager",
+        "title": "IBM X-Force Threat Intelligence Service",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "certificate-manager",
+      "id": "Certificates",
+      "reportedBy": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "finding": {
+        "severity": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "certificate-manager",
+      "id": "ExpiredCertificateCount",
+      "reportedBy": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "certificate-manager",
+      "id": "ExpiringCertificateCount",
+      "reportedBy": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "ImageVulnerabilities",
+      "reportedBy": {
+        "id": "vulnerability-advisor",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "finding": {
+        "severity": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "vulnerability-advisor",
+      "id": "ImageWithVulnerabilitiesCount",
+      "reportedBy": {
+        "id": "vulnerability-advisor",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "vulnerability-advisor",
+      "id": "ImageWithConfigIssuesCount",
+      "reportedBy": {
+        "id": "vulnerability-advisor",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "ContainerVulnerabilities",
+      "reportedBy": {
+        "id": "vulnerability-advisor",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "finding": {
+        "severity": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "vulnerability-advisor",
+      "id": "ContainerWithVulnerabilitiesCount",
+      "reportedBy": {
+        "id": "vulnerability-advisor",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "kpi": {
+        "aggregationType": "sum"
+      }
+    }
+  ],
+  "occurrences": [
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "1",
+      "noteName": "projects/xforce/notes/SuspiciousServerIPs",
+      "createTime": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-1",
+        "resourceGroup": "group-1",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "2",
+      "noteName": "projects/xforce/notes/SuspiciousServerIPs",
+      "createTime": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-2",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "3",
+      "noteName": "projects/xforce/notes/SuspiciousServerIPs",
+      "createTime": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-3",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "xforce",
+      "id": "4",
+      "noteName": "projects/xforce/notes/MaliciousServerIPCount",
+      "createTime": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 34
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "xforce",
+      "id": "5",
+      "noteName": "projects/xforce/notes/SuspiciousServerIPCount",
+      "createTime": "2018-02-02T14:45:12.234624Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 12
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "6",
+      "noteName": "projects/xforce/notes/SuspiciousClients",
+      "createTime": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-1",
+        "resourceGroup": "group-1",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "7",
+      "noteName": "projects/xforce/notes/SuspiciousClients",
+      "createTime": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-2",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "xforce",
+      "id": "8",
+      "noteName": "projects/xforce/notes/SuspiciousClients",
+      "createTime": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-3",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "xforce",
+      "id": "9",
+      "noteName": "projects/xforce/notes/SuspiciousClientCount",
+      "createTime": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 56
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "certificate-manager",
+      "id": "1",
+      "noteName": "projects/certificate-manager/notes/Certificates",
+      "createTime": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-1",
+        "resourceGroup": "group-1",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "certificate-manager",
+      "id": "2",
+      "noteName": "projects/certificate-manager/notes/Certificates",
+      "createTime": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-2",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "certificate-manager",
+      "id": "3",
+      "noteName": "projects/certificate-manager/notes/Certificates",
+      "createTime": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-3",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "certificate-manager",
+      "id": "4",
+      "noteName": "projects/certificate-manager/notes/ExpiredCertificateCount",
+      "createTime": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 6
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "certificate-manager",
+      "id": "5",
+      "noteName": "projects/certificate-manager/notes/ExpiringCertificateCount",
+      "createTime": "2018-02-02T14:45:12.234624Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 8
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "1",
+      "noteName": "projects/vulnerability-advisor/notes/ImageVulnerabilities",
+      "createTime": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-1",
+        "resourceGroup": "group-1",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "2",
+      "noteName": "projects/vulnerability-advisor/notes/ImageVulnerabilities",
+      "createTime": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-2",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "3",
+      "noteName": "projects/vulnerability-advisor/notes/ImageVulnerabilities",
+      "createTime": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-3",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "vulnerability-advisor",
+      "id": "4",
+      "noteName": "projects/vulnerability-advisor/notes/ImageWithVulnerabilitiesCount",
+      "createTime": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 23
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "vulnerability-advisor",
+      "id": "5",
+      "noteName": "projects/vulnerability-advisor/notes/ImageWithConfigIssuesCount",
+      "createTime": "2018-02-02T14:45:12.234624Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 45
+      }
+    },
+
+
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "6",
+      "noteName": "projects/vulnerability-advisor/notes/ContainerVulnerabilities",
+      "createTime": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-1",
+        "resourceGroup": "group-1",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "7",
+      "noteName": "projects/vulnerability-advisor/notes/ContainerVulnerabilities",
+      "createTime": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-2",
+        "service": "cluster-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "projectId": "vulnerability-advisor",
+      "id": "8",
+      "noteName": "projects/vulnerability-advisor/notes/ContainerVulnerabilities",
+      "createTime": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-3",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "projectId": "vulnerability-advisor",
+      "id": "9",
+      "noteName": "projects/vulnerability-advisor/notes/ContainerWithVulnerabilitiesCount",
+      "createTime": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resourceGroup": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 7
+      }
+    }
+  ]
+}
+

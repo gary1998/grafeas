@@ -337,7 +337,7 @@ class TestSecurityFindings(BaseTestCase):
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
-    def  put_occurrence(self, project_id, occurrence_id, body):
+    def put_occurrence(self, project_id, occurrence_id, body):
         response = self.client.open(
             path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
             method='PUT',

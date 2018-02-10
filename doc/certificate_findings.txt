@@ -98,3 +98,12 @@ Occurrence
 }
 
 
+
+MAP:
+if (doc.docType == "latestOccurrence" and doc.kind=="KPI")
+  emit(["noteName, context.account", "context.resource"], kpi.value]
+        REDUCE: _sum
+
+
+# GET the last occurrence of each UNIQUE resource for the specifid noteName
+# SUM all the kpi.value fields

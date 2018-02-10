@@ -705,6 +705,9 @@ definitions:
       finding:
         $ref: '#/definitions/FindingType'
         description: A finding type of note.
+      kpi:
+        $ref: '#/definitions/KpiType'
+        description: A kpi type of note.
       #
       # IBM extensions stop here
       #
@@ -796,6 +799,9 @@ definitions:
       finding:
         $ref: '#/definitions/Finding'
         description: Details of the occurrence of a finding.
+      kpi:
+        $ref: '#/definitions/Kpi'
+        description: Details of the occurrence of a kpi.
       #
       # IBM extensions stop here
       #
@@ -873,6 +879,23 @@ definitions:
       certainty:
         $ref: '#/definitions/apiCertainty'
         description: The confidence level on this `Occurrence`
+#
+# KPI note and occurrence definitions
+#
+  KpiType:
+    type: object
+    description: KpiType provides details about a kpi note.
+    properties:
+      aggretationType:
+        type: string
+        description: The aggregation type of the kpi values
+  Kpi:
+    type: object
+    description: Kpi provides details about a KPI occurrence.
+    properties:
+      value:
+        type: number
+        description: The value on this KPI
 
 #
 # Vulnerability note and occurrence definitions

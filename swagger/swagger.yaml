@@ -711,9 +711,12 @@ definitions:
       vulnerability_type:
         description: "A package vulnerability type of note."
         $ref: "#/definitions/VulnerabilityType"
-      finding_type:
+      finding:
         description: "A finding type of note."
         $ref: "#/definitions/FindingType"
+      kpi:
+        description: "A kpi type of note."
+        $ref: "#/definitions/KpiType"
     description: "Provides a detailed description of a `Note`."
   apiNoteKind:
     type: "string"
@@ -791,6 +794,9 @@ definitions:
       finding:
         description: "Details of the occurrence of a finding."
         $ref: "#/definitions/Finding"
+      kpi:
+        description: "Details of the occurrence of a finding."
+        $ref: "#/definitions/Kpi"
     description: "`Occurrence` includes information about analysis occurrences for\
       \ an image."
   apiProject:
@@ -850,8 +856,22 @@ definitions:
     description: "Finding provides details about a finding occurrence."
     properties:
       certainty:
-        description: "The confidence level on this `Occurrence`"
+        description: "The confidence level on this finding"
         $ref: "#/definitions/apiCertainty"
+  KpiType:
+    type: "object"
+    description: "KpiType provides details about a kpi note."
+    properties:
+      aggretationType:
+        type: "string"
+        description: "The aggregation type of the kpi values"
+  Kpi:
+    type: "object"
+    description: "Kpi provides details about a KPI occurrence."
+    properties:
+      value:
+        type: "number"
+        description: "The value on this KPI"
   VulnerabilityType:
     type: "object"
     properties:

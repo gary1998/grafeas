@@ -702,12 +702,12 @@ definitions:
       #
       # IBM extensions start here
       #
-      finding:
+      finding_type:
         $ref: '#/definitions/FindingType'
         description: A finding type of note.
-      kpi:
+      kpi_type:
         $ref: '#/definitions/KpiType'
-        description: A kpi type of note.
+        description: A KPI type of note.
       #
       # IBM extensions stop here
       #
@@ -800,7 +800,7 @@ definitions:
         description: Details of the occurrence of a finding.
       kpi:
         $ref: '#/definitions/Kpi'
-        description: Details of the occurrence of a kpi.
+        description: Details of the occurrence of a KPI.
       #
       # IBM extensions stop here
       #
@@ -864,9 +864,15 @@ definitions:
     type: object
     description: FindingType provides details about a finding note.
     properties:
-      severity:
+      titleId:
+        type: string
+        description: The title ID of this finding type (for internationalization)
+      default_title:
+        type: string
+        description: The default title of this finding type
+      default_severity:
         $ref: '#/definitions/apiSeverity'
-        description: The common severity of this `Note`
+        description: The default severity of the findings related to this `Note`
 
   Finding:
     type: object
@@ -883,12 +889,18 @@ definitions:
 #
   KpiType:
     type: object
-    description: KpiType provides details about a kpi note.
+    description: KpiType provides details about a KPI note.
     properties:
-      aggretationType:
+      text_id:
+        type: "string"
+        description: "The text ID of this KPI type (for internationalization)"
+      default_text:
+        type: "string"
+        description: "The default text of this KPI type"
+      aggretation_type:
         type: string
         description: |-
-        The aggregation type of the kpi values.
+        The aggregation type of the KPI values.
         - SUM&#58; A single-value metrics aggregation type that sums up numeric values
           that are extracted from KPI occurrences.
         enum:

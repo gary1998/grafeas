@@ -711,11 +711,11 @@ definitions:
       vulnerability_type:
         description: "A package vulnerability type of note."
         $ref: "#/definitions/VulnerabilityType"
-      finding:
+      finding_type:
         description: "A finding type of note."
         $ref: "#/definitions/FindingType"
-      kpi:
-        description: "A kpi type of note."
+      kpi_type:
+        description: "A KPI type of note."
         $ref: "#/definitions/KpiType"
     description: "Provides a detailed description of a `Note`."
   apiNoteKind:
@@ -848,8 +848,14 @@ definitions:
     type: "object"
     description: "FindingType provides details about a finding note."
     properties:
-      severity:
-        description: "The common severity of this `Note`"
+      title_id:
+        type: "string"
+        description: "The title ID of this finding type (for internationalization)"
+      default_title:
+        type: "string"
+        description: "The default title of this finding type"
+      default_severity:
+        description: "The default severity of the findings related to this `Note`"
         $ref: "#/definitions/apiSeverity"
   Finding:
     type: "object"
@@ -860,11 +866,17 @@ definitions:
         $ref: "#/definitions/apiCertainty"
   KpiType:
     type: "object"
-    description: "KpiType provides details about a kpi note."
+    description: "KpiType provides details about a KPI note."
     properties:
-      aggretationType:
+      text_d:
         type: "string"
-        description: "The aggregation type of kpi values.\n - SUM&#58; A single-value metrics aggregation type\
+        description: "The text ID of this KPI type (for internationalization)"
+      default_text:
+        type: "string"
+        description: "The default text of this KPI type"
+      aggretation_type:
+        type: "string"
+        description: "The aggregation type of KPI values.\n - SUM&#58; A single-value metrics aggregation type\
         \ that sums up numeric values that are extracted from KPI occurrences."
         enum:
         - "SUM"

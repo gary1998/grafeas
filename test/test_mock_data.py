@@ -13,13 +13,13 @@ class TestMockData(BaseTestCase):
         with open("test/data/mock_data.json") as f:
             data = json.load(f)
             for note in data['notes']:
-                self.post_note(note['projectId'], note)
+                self.post_note(note['project_id'], note)
 
     def test_03_create_occurrences(self):
         with open("test/data/mock_data.json") as f:
             data = json.load(f)
             for occurrence in data['occurrences']:
-                self.post_occurrence(occurrence['projectId'], occurrence)
+                self.post_occurrence(occurrence['project_id'], occurrence)
 
     def post_project(self, body):
         response = self.client.open(

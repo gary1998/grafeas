@@ -26,13 +26,13 @@ def create_note(project_id, body):
     if 'id' not in body:
         return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
-    if 'createTime' in body:
-        create_timestamp = isodate.parse_datetime(body['createTime']).timestamp()
+    if 'create_time' in body:
+        create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
     else:
         now = datetime.datetime.now()
         create_timestamp = now.timestamp()
-        body['createTime'] = isodate.datetime_isoformat(now)
-    body['updateTime'] = body['createTime']
+        body['create_time'] = isodate.datetime_isoformat(now)
+    body['update_time'] = body['create_time']
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -133,12 +133,12 @@ def update_note(project_id, note_id, body):
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
-    if 'updateTime' in body:
-        update_timestamp = isodate.parse_datetime(body['updateTime']).timestamp()
+    if 'update_time' in body:
+        update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
     else:
         now = datetime.datetime.now()
         update_timestamp = now.timestamp()
-        body['updateTime'] = isodate.datetime_isoformat(now)
+        body['update_time'] = isodate.datetime_isoformat(now)
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -213,7 +213,7 @@ def get_occurrence_note(project_id, occurrence_id):
             return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
     except KeyError:
         occurrence_name = build_occurrence_name(project_id, occurrence_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
+        return build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_name))
 
 
 def _clean_doc(doc):

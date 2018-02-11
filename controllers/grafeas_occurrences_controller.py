@@ -25,22 +25,22 @@ def create_occurrence(project_id, body):
     if 'id' not in body:
         return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
-    if 'noteName' not in body:
+    if 'note_name' not in body:
         return build_error(HTTPStatus.BAD_REQUEST, "Field 'noteName' is missing")
 
-    if 'createTime' in body:
-        create_timestamp = isodate.parse_datetime(body['createTime']).timestamp()
+    if 'create_time' in body:
+        create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
     else:
         now = datetime.datetime.now()
         create_timestamp = now.timestamp()
-        body['createTime'] = isodate.datetime_isoformat(now)
-    body['updateTime'] = body['createTime']
+        body['create_time'] = isodate.datetime_isoformat(now)
+    body['update_time'] = body['create_time']
 
     store = get_store()
     account_id = connexion.request.headers['Account']
     occurrence_id = body['id']
     occurrence_name = build_occurrence_name(project_id, occurrence_id)
-    note_name = body['noteName']
+    note_name = body['note_name']
     occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
     project_doc_id = build_project_doc_id(account_id, project_id)
     note_doc_id = "{}/{}".format(account_id, note_name)
@@ -59,9 +59,8 @@ def create_occurrence(project_id, body):
     try:
         note = store.get_doc(note_doc_id)
         try:
-            doc = _dict_merge(note, body)
-            store.create_doc(occurrence_doc_id, doc)
-            return build_result(HTTPStatus.OK, _clean_doc(doc))
+            store.create_doc(occurrence_doc_id, body)
+            return build_result(HTTPStatus.OK, _clean_doc(body))
         except KeyError:
             return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
     except KeyError:
@@ -143,12 +142,12 @@ def update_occurrence(project_id, occurrence_id, body):
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
-    if 'updateTime' in body:
-        update_timestamp = isodate.parse_datetime(body['updateTime']).timestamp()
+    if 'update_time' in body:
+        update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
     else:
         now = datetime.datetime.now()
         update_timestamp = now.timestamp()
-        body['updateTime'] = isodate.datetime_isoformat(now)
+        body['update_time'] = isodate.datetime_isoformat(now)
 
     store = get_store()
     account_id = connexion.request.headers['Account']

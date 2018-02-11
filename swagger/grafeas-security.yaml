@@ -895,8 +895,10 @@ definitions:
     properties:
       value:
         type: number
-        description: The value on this KPI
-
+        description: The value of this KPI
+      total:
+        type: number
+        description: The total value of this KPI
 #
 # Vulnerability note and occurrence definitions
 #

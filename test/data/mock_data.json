@@ -281,7 +281,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 34
+        "value": 34,
+        "total": 123
       }
     },
     {
@@ -298,7 +299,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 12
+        "value": 12,
+        "total": 123
       }
     },
 
@@ -371,7 +373,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 56
+        "value": 56,
+        "total": 234
       }
     },
 
@@ -444,7 +447,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 6
+        "value": 6,
+        "total": 24
       }
     },
     {
@@ -461,7 +465,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 8
+        "value": 8,
+        "total": 24
       }
     },
 
@@ -534,7 +539,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 23
+        "value": 23,
+        "total": 87
       }
     },
     {
@@ -551,7 +557,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 45
+        "value": 45,
+        "total": 87
       }
     },
 
@@ -624,7 +631,8 @@
         "service": "cluster-2"
       },
       "kpi": {
-        "value": 7
+        "value": 7,
+        "total": 35
       }
     }
   ]

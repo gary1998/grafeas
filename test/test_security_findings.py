@@ -1,5 +1,6 @@
 from . import BaseTestCase
 from flask import json
+from http import HTTPStatus
 
 
 XFORCE_PROJECT = {
@@ -168,22 +169,6 @@ KPI_OCCURRENCE_2_1 = {
     }
 }
 
-MODIFIED_KPI_OCCURRENCE_2_1 = {
-    "kind": "KPI",
-    "id": "21",
-    "noteName": "projects/xforce/notes/NumClients",
-    "createTime": "2018-02-05T12:56:02.061882Z",
-    "context": {
-        "region": "US-South",
-        "account": "account_guid",
-        "resource": "name of pod",
-        "service": "cluster CRN"
-    },
-    "kpi": {
-        "value": 4321
-    }
-}
-
 OUTLIER_PROJECT = {
     "id": "outlier"
 }
@@ -266,86 +251,77 @@ ALERT_OCCURRENCE_3_1 = {
 
 class TestSecurityFindings(BaseTestCase):
     def test_01_create_project(self):
-        self.post_project(XFORCE_PROJECT)
+        response = self.post_project(XFORCE_PROJECT)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_02_create_note(self):
-        self.post_note(XFORCE_PROJECT['id'], ALERT_NOTE_1)
+        response = self.post_note(XFORCE_PROJECT['id'], ALERT_NOTE_1)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_03_create_occurrence(self):
-        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
+        response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_04_create_occurrence(self):
-        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
+        response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_05_create_occurrence(self):
-        self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
+        response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_06_create_note(self):
-        self.post_note(XFORCE_PROJECT['id'], KPI_NOTE_2)
+        response = self.post_note(XFORCE_PROJECT['id'], KPI_NOTE_2)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_07_create_occurrence(self):
-        self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
+        response = self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_08_update_occurrence(self):
-        self.put_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'], MODIFIED_KPI_OCCURRENCE_2_1)
+    def test_08_create_project(self):
+        response = self.post_project(OUTLIER_PROJECT)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_09_create_project(self):
-        self.post_project(OUTLIER_PROJECT)
+    def test_09_create_note(self):
+        response = self.post_note(OUTLIER_PROJECT['id'], ALERT_NOTE_3)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_10_create_note(self):
-        self.post_note(OUTLIER_PROJECT['id'], ALERT_NOTE_3)
-
-    def test_11_create_occurrence(self):
-        self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
+    def test_10_create_occurrence(self):
+        response = self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def post_project(self, body):
-        response = self.client.open(
+        return self.client.open(
             path='/v1alpha1/projects',
             method='POST',
             data=json.dumps(body),
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
+                "Account": "AccountY",
+                "Authorization": "AuthorizationY"
             })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
     def post_note(self, project_id, body):
-        response = self.client.open(
+        return self.client.open(
             path='/v1alpha1/projects/{}/notes'.format(project_id),
             method='POST',
             data=json.dumps(body),
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
+                "Account": "AccountY",
+                "Authorization": "AuthorizationY"
             })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
     def post_occurrence(self, project_id, body):
-        response = self.client.open(
+        return self.client.open(
             path='/v1alpha1/projects/{}/occurrences'.format(project_id),
             method='POST',
             data=json.dumps(body),
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
+                "Account": "AccountY",
+                "Authorization": "AuthorizationY"
             })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
-
-    def put_occurrence(self, project_id, occurrence_id, body):
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
-            method='PUT',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))

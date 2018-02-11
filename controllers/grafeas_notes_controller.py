@@ -1,5 +1,7 @@
 import connexion
+import datetime
 from http import HTTPStatus
+import isodate
 from .common import get_store
 from .common import build_project_doc_id, build_note_doc_id, build_occurrence_doc_id
 from .common import build_note_name, build_occurrence_name
@@ -19,10 +21,18 @@ def create_note(project_id, body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     if 'id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Note's 'id' field is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+
+    if 'createTime' in body:
+        create_timestamp = isodate.parse_datetime(body['createTime']).timestamp()
+    else:
+        now = datetime.datetime.now()
+        create_timestamp = now.timestamp()
+        body['createTime'] = isodate.datetime_isoformat(now)
+    body['updateTime'] = body['createTime']
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -36,6 +46,8 @@ def create_note(project_id, body):
     body['id'] = note_id
     body['name'] = note_name
     body['project_doc_id'] = project_doc_id
+    body['create_timestamp'] = create_timestamp
+    body['update_timestamp'] = create_timestamp
 
     try:
         store.create_doc(note_doc_id, body)
@@ -119,11 +131,19 @@ def update_note(project_id, note_id, body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+
+    if 'updateTime' in body:
+        update_timestamp = isodate.parse_datetime(body['updateTime']).timestamp()
+    else:
+        now = datetime.datetime.now()
+        update_timestamp = now.timestamp()
+        body['updateTime'] = isodate.datetime_isoformat(now)
 
     store = get_store()
     account_id = connexion.request.headers['Account']
     note_doc_id = build_note_doc_id(account_id, project_id, note_id)
+    body['update_timestamp'] = update_timestamp
 
     try:
         doc = store.update_doc(note_doc_id, body)
@@ -146,7 +166,7 @@ def delete_note(project_id, note_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']
@@ -175,7 +195,7 @@ def get_occurrence_note(project_id, occurrence_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     store = get_store()
     account_id = connexion.request.headers['Account']

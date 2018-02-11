@@ -2,6 +2,7 @@
 
 from . import BaseTestCase
 from flask import json
+from http import HTTPStatus
 
 
 class TestGrafeasOccurrencesController(BaseTestCase):
@@ -16,23 +17,30 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Note02",
-            "short_description": "The short description of Note02",
-            "long_description": "The long description of Note02"
+            "shortDescription": "The short description of Note02",
+            "longDescription": "The long description of Note02"
         }
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/notes'.format('security-advisor'),
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_note('ProjectX', body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_02_create_occurrence(self):
+    def test_02_create_duplicate_note(self):
+        """
+        Test case for create_note
+
+        Creates a new `Note`.
+        """
+
+        body = {
+            "id": "Note02",
+            "shortDescription": "The short description of Note02",
+            "longDescription": "The long description of Note02"
+        }
+
+        response = self.post_note('ProjectX', body)
+        self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_03_create_occurrence(self):
         """
         Test case for create_occurrence
 
@@ -41,60 +49,54 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "noteName": "projects/{}/notes/{}".format('security-advisor', 'Note02'),
-            "short_description": "The short description of Occurrence02",
-            "long_description": "The long description of Occurrence02"
+            "noteName": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "shortDescription": "The short description of Occurrence02",
+            "longDescription": "The long description of Occurrence02"
         }
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences'.format('security-advisor'),
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_occurrence('ProjectX', body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_03_get_occurrence(self):
+    def test_04_create_duplicate_occurrence(self):
+        """
+        Test case for create_occurrence
+
+        Creates a new `Occurrence`. Use this method to create `Occurrences` for a resource.
+        """
+
+        body = {
+            "id": "Occurrence02",
+            "noteName": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "shortDescription": "The short description of Occurrence02",
+            "longDescription": "The long description of Occurrence02"
+        }
+
+        response = self.post_occurrence('ProjectX', body)
+        self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_05_get_occurrence(self):
         """
         Test case for get_note
 
         Returns the requested `Note`.
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format('security-advisor', 'Occurrence02'),
-            method='GET',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.get_occurrence('ProjectX', 'Occurrence02')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_04_list_occurrences(self):
+    def test_06_list_occurrences(self):
         """
         Test case for list_occurrences
 
         Lists active `Occurrences` for a given project matching the filters.
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences'.format('security-advisor'),
-            method='GET',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.get_occurrences('ProjectX')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
         self.assertEqual(len(results), 1, "A array of one occurrence was expected.")
 
-    def test_05_list_note_occurrences(self):
+    def test_07_list_note_occurrences(self):
         """
         Test case for list_note_occurrences
 
@@ -102,54 +104,51 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Use this method to get all occurrences referencing your `Note` across all your customer projects.
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}/occurrences'.format('security-advisor', 'Note02'),
-            method='GET',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.get_note_occurrences('ProjectX', 'Note02')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
         self.assertEqual(len(results), 1, "An array of occurrence was expected.")
 
-    '''
-    def test_06_delete_occurrence(self):
+    def test_08_delete_occurrence(self):
         """
         Test case for delete_occurrence
 
         Deletes the given `Occurrence` from the system.
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format('security-advisor', 'Occurrence02'),
-            method='DELETE',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.delete_occurrence('ProjectX', 'Occurrence02')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_07_delete_note(self):
+    def test_09_delete_missing_occurrence(self):
+        """
+        Test case for delete_occurrence
+
+        Deletes the given `Occurrence` from the system.
+        """
+
+        response = self.delete_occurrence('ProjectX', 'Occurrence02')
+        self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_10_delete_note(self):
         """
         Test case for delete_note
 
         Deletes the given `Note` from the system.
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}'.format('security-advisor', 'Note02'),
-            method='DELETE',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
-    '''
+        response = self.delete_note('ProjectX', 'Note02')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_11_delete_missing_note(self):
+        """
+        Test case for delete_note
+
+        Deletes the given `Note` from the system.
+        """
+
+        response = self.delete_note('ProjectX', 'Note02')
+        self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
+
 
 if __name__ == '__main__':
     import unittest

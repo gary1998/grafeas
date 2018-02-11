@@ -2,6 +2,7 @@
 
 from . import BaseTestCase
 from flask import json
+from http import HTTPStatus
 
 
 class TestGrafeasProjectsController(BaseTestCase):
@@ -15,75 +16,68 @@ class TestGrafeasProjectsController(BaseTestCase):
         """
 
         body = {
-            "id": "security-advisor"
+            "id": "ProjectX"
         }
 
-        response = self.client.open(
-            path='/v1alpha1/projects',
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_project(body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_02_get_project(self):
+    def test_02_create_duplicate_project(self):
+        """
+        Test case for create_project
+
+        Creates a new `Project`.
+        """
+
+        body = {
+            "id": "ProjectX"
+        }
+
+        response = self.post_project(body)
+        self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_03_get_project(self):
         """
         Test case for get_project
 
         Returns the requested `Project`.
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}'.format("security-advisor"),
-            method='GET',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.get_project("ProjectX")
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_03_list_projects(self):
+    def test_04_list_projects(self):
         """
         Test case for list_projects
 
         Lists `Projects`
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects',
-            method='GET',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        response = self.get_projects()
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
         self.assertEqual(len(results), 1, "An array of one project was expected.")
 
-    '''
-    def test_04_delete_project(self):
+    def test_05_delete_project(self):
         """
         Test case for delete_project
 
         Deletes the given `Project` from the system.
         """
 
-        response = self.client.open(
-            path='/v1alpha1/projects/{}'.format("security-advisor"),
-            method='DELETE',
-            headers={
-                "Accept": "application/json",
-                "Account": "Account01",
-                "Authorization": "Authorization-01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
-    '''
+        response = self.delete_project("ProjectX")
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_06_delete_missing_project(self):
+        """
+        Test case for delete_project
+
+        Deletes the given `Project` from the system.
+        """
+
+        response = self.delete_project("ProjectX")
+        self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
+
 
 if __name__ == '__main__':
     import unittest

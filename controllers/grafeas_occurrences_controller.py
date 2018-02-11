@@ -1,5 +1,7 @@
 import connexion
+import datetime
 from http import HTTPStatus
+import isodate
 from .common import get_store
 from .common import build_project_doc_id, build_note_doc_id, build_occurrence_doc_id, build_occurrence_name
 from .common import build_result, build_error
@@ -26,6 +28,14 @@ def create_occurrence(project_id, body):
     if 'noteName' not in body:
         return build_error(HTTPStatus.BAD_REQUEST, "Field 'noteName' is missing")
 
+    if 'createTime' in body:
+        create_timestamp = isodate.parse_datetime(body['createTime']).timestamp()
+    else:
+        now = datetime.datetime.now()
+        create_timestamp = now.timestamp()
+        body['createTime'] = isodate.datetime_isoformat(now)
+    body['updateTime'] = body['createTime']
+
     store = get_store()
     account_id = connexion.request.headers['Account']
     occurrence_id = body['id']
@@ -34,6 +44,7 @@ def create_occurrence(project_id, body):
     occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
     project_doc_id = build_project_doc_id(account_id, project_id)
     note_doc_id = "{}/{}".format(account_id, note_name)
+
     body['doc_type'] = 'Occurrence'
     body['account_id'] = account_id
     body['project_id'] = project_id
@@ -41,6 +52,8 @@ def create_occurrence(project_id, body):
     body['name'] = occurrence_name
     body['project_doc_id'] = project_doc_id
     body['note_doc_id'] = note_doc_id
+    body['create_timestamp'] = create_timestamp
+    body['update_timestamp'] = create_timestamp
 
     # merge occurrence values with note values
     try:
@@ -128,11 +141,19 @@ def update_occurrence(project_id, occurrence_id, body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+
+    if 'updateTime' in body:
+        update_timestamp = isodate.parse_datetime(body['updateTime']).timestamp()
+    else:
+        now = datetime.datetime.now()
+        update_timestamp = now.timestamp()
+        body['updateTime'] = isodate.datetime_isoformat(now)
 
     store = get_store()
     account_id = connexion.request.headers['Account']
     occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+    body['update_timestamp'] = update_timestamp
 
     try:
         doc = store.update_doc(occurrence_doc_id, body)

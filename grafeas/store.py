@@ -2,11 +2,12 @@ import cloudant
 from cloudant.error import CloudantDatabaseException
 from cloudant.document import Document
 from http import HTTPStatus
+import isodate
 import logging
 import requests
 
 
-logger = logging.getLogger("grafeas.server")
+logger = logging.getLogger("grafeas.store")
 
 
 class Store(object):

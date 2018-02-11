@@ -30,7 +30,7 @@ class TestMockData(BaseTestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "Account01",
-                "Authorization": "Authorization-01"
+                "Authorization": "Authorization01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -43,7 +43,7 @@ class TestMockData(BaseTestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "Account01",
-                "Authorization": "Authorization-01"
+                "Authorization": "Authorization01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
@@ -56,6 +56,6 @@ class TestMockData(BaseTestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "Account01",
-                "Authorization": "Authorization-01"
+                "Authorization": "Authorization01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))

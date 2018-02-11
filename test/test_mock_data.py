@@ -4,19 +4,19 @@ from flask import json
 
 class TestMockData(BaseTestCase):
     def test_01_create_projects(self):
-        with open("doc/mock_data.json") as f:
+        with open("test/data/mock_data.json") as f:
             data = json.load(f)
             for project in data['projects']:
                 self.post_project(project)
 
     def test_02_create_notes(self):
-        with open("doc/mock_data.json") as f:
+        with open("test/data/mock_data.json") as f:
             data = json.load(f)
             for note in data['notes']:
                 self.post_note(note['projectId'], note)
 
     def test_03_create_occurrences(self):
-        with open("doc/mock_data.json") as f:
+        with open("test/data/mock_data.json") as f:
             data = json.load(f)
             for occurrence in data['occurrences']:
                 self.post_occurrence(occurrence['projectId'], occurrence)

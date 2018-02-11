@@ -20,7 +20,7 @@
       "longDescription": "Server IP addresses that are considered suspicious or malicious",
       "reportedBy": {
         "id": "xforce",
-        "title": "IBM X-Force Threat Intelligence Service",
+        "title": "IBM X-Force Threat Intelligence",
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
@@ -36,7 +36,7 @@
       "longDescription": "Number of server IP addresses that are considered malicious and have been blacklisted",
       "reportedBy": {
         "id": "xforce",
-        "title": "IBM X-Force Threat Intelligence Service",
+        "title": "IBM X-Force Threat Intelligence",
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi": {
@@ -52,7 +52,7 @@
       "longDescription": "Number of server IP addresses that are considered suspicious",
       "reportedBy": {
         "id": "xforce",
-        "title": "IBM X-Force Threat Intelligence Service",
+        "title": "IBM X-Force Threat Intelligence",
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi": {
@@ -70,7 +70,7 @@
       "longDescription": "Clients that are considered suspicious",
       "reportedBy": {
         "id": "xforce",
-        "title": "IBM X-Force Threat Intelligence Service",
+        "title": "IBM X-Force Threat Intelligence",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
@@ -86,7 +86,7 @@
       "longDescription": "Number of clients that are considered suspicious",
       "reportedBy": {
         "id": "certificate-manager",
-        "title": "IBM X-Force Threat Intelligence Service",
+        "title": "IBM X-Force Threat Intelligence",
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi": {
@@ -190,7 +190,7 @@
       "createTime": "2018-02-01T08:20:31.067862Z",
       "reportedBy": {
         "id": "vulnerability-advisor",
-        "title": "IBM Cloud Certificate Manager",
+        "title": "IBM Vulnerability Advisor",
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "finding": {
@@ -204,7 +204,7 @@
       "createTime": "2018-02-01T08:32:02.067862Z",
       "reportedBy": {
         "id": "vulnerability-advisor",
-        "title": "IBM Cloud Certificate Manager",
+        "title": "IBM Vulnerability Advisor",
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi": {

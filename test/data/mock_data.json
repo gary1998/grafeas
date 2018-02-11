@@ -40,7 +40,7 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     },
     {
@@ -56,7 +56,7 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     },
 
@@ -90,7 +90,7 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     },
 
@@ -120,7 +120,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     },
     {
@@ -134,7 +134,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     },
 
@@ -164,7 +164,7 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     },
     {
@@ -178,7 +178,7 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     },
 
@@ -208,7 +208,7 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi": {
-        "aggregationType": "sum"
+        "aggregationType": "SUM"
       }
     }
   ],

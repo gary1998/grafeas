@@ -722,8 +722,7 @@ definitions:
       - KPI
     default: KIND_UNSPECIFIED
     description: |-
-      This must be 1&#58;1 with members of our oneofs, it can be used for filtering
-      Note and Occurrence on their kind.
+      This must be 1&#58;1 with members of our oneofs, it can be used for filtering Note and Occurrence on their kind.
        - KIND_UNSPECIFIED&#58; Unknown
        - PACKAGE_VULNERABILITY&#58; The note and occurrence represent a package vulnerability.
        - FINDING&#58; The note and occurrence represent a finding.
@@ -888,7 +887,13 @@ definitions:
     properties:
       aggretationType:
         type: string
-        description: The aggregation type of the kpi values
+        description: |-
+        The aggregation type of the kpi values.
+        - SUM&#58; A single-value metrics aggregation type that sums up numeric values
+          that are extracted from KPI occurrences.
+        enum:
+        - SUM
+        default: SUM
   Kpi:
     type: object
     description: Kpi provides details about a KPI occurrence.
@@ -930,11 +935,9 @@ definitions:
       - MAXIMUM
     default: NORMAL
     description: |-
-      Whether this is an ordinary package version or a
-      sentinel MIN/MAX version.
+      Whether this is an ordinary package version or a sentinel MIN/MAX version.
        - NORMAL&#58; A standard package version, defined by the other fields.
-       - MINIMUM&#58; A special version representing negative infinity,
-      other fields are ignored.
+       - MINIMUM&#58; A special version representing negative infinity, other fields are ignored.
        - MAXIMUM&#58; A special version representing positive infinity,
       other fields are ignored.
 

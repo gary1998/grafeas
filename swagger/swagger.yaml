@@ -864,7 +864,11 @@ definitions:
     properties:
       aggretationType:
         type: "string"
-        description: "The aggregation type of the kpi values"
+        description: "The aggregation type of kpi values.\n - SUM&#58; A single-value metrics aggregation type\
+        \ that sums up numeric values that are extracted from KPI occurrences."
+        enum:
+        - "SUM"
+        default: "SUM"
   Kpi:
     type: "object"
     description: "Kpi provides details about a KPI occurrence."

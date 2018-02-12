@@ -4,22 +4,22 @@ from http import HTTPStatus
 
 
 XFORCE_PROJECT = {
-    "id": "xforce"
+    "id": "security-advisor"
 }
 
 ALERT_NOTE_1 = {
     "kind": "FINDING",
-    "id": "SuspiciousServerCommunication",
-    "shortDescription": "Suspicious Communication with an External Suspected Server",
-    "longDescription": "One of the pods in this cluster communicates with a server which is either a suspected bot " +
-                       "or known to distribute Malware. This may indicate that your pod is compromised.",
-    "createTime": "2018-02-04T13:34:34.071264Z",
-    "reportedBy": {
+    "id": "xforce-SuspiciousServerCommunication",
+    "short_description": "Suspicious Communication with an External Suspected Server",
+    "long_description": "One of the pods in this cluster communicates with a server which is either a suspected bot " +
+                        "or known to distribute Malware. This may indicate that your pod is compromised.",
+    "create_time": "2018-02-04T13:34:34.071264Z",
+    "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence Service",
-        "href": " http:// documentation url with nice images inside"
+        "href": "http:// documentation url with nice images inside"
     },
-    "finding": {
+    "finding_type": {
         "severity": "HIGH",
         "titles": {
             "context": {
@@ -28,7 +28,7 @@ ALERT_NOTE_1 = {
                 }
             }
         },
-        "nextSteps": [
+        "next_steps": [
             {
                 "title": "Check information about the external suspected server",
                 "href": " https://exchange.xforce.ibmcloud.com/"
@@ -44,9 +44,9 @@ ALERT_NOTE_1 = {
 
 ALERT_OCCURRENCE_1_1 = {
     "kind": "FINDING",
-    "id": "11",
-    "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
-    "createTime": "2018-02-03T12:42:10.082053Z",
+    "id": "xforce-11",
+    "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
+    "create_time": "2018-02-03T12:42:10.082053Z",
     "context": {
         "region": "US-South",
         "account": "Account01",
@@ -67,13 +67,13 @@ ALERT_OCCURRENCE_1_1 = {
             "direction": "Outbound",
             "protocol": "Ethernet/IPv4/TCP"
         },
-        "dataTransfered": {
-            "clientBytes": 43431,
-            "serverBytes": 901,
-            "clientPackets": 232,
-            "serverPackets": 23
+        "data_transfered": {
+            "client_bytes": 43431,
+            "server_bytes": 901,
+            "client_packets": 232,
+            "server_packets": 23
         },
-        "nextSteps": [
+        "next_steps": [
             {
                 "href": " https://exchange.xforce.ibmcloud.com/ip/111.90.147.66"
             }
@@ -83,9 +83,9 @@ ALERT_OCCURRENCE_1_1 = {
 
 ALERT_OCCURRENCE_1_2 = {
     "kind": "FINDING",
-    "id": "12",
-    "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
-    "createTime": "2018-02-04T14:45:23.081063Z",
+    "id": "xforce-12",
+    "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
+    "create_time": "2018-02-04T14:45:23.081063Z",
     "context": {
         "region": "US-South",
         "account": "Account01",
@@ -111,9 +111,9 @@ ALERT_OCCURRENCE_1_2 = {
 
 ALERT_OCCURRENCE_1_3 = {
     "kind": "FINDING",
-    "id": "13",
-    "noteName": "projects/xforce/notes/SuspiciousServerCommunication",
-    "createTime": "2018-02-05T21:44:52.047073Z",
+    "id": "xforce-13",
+    "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
+    "create_time": "2018-02-05T21:44:52.047073Z",
     "context": {
         "region": "US-South",
         "account": "Account01",
@@ -137,27 +137,28 @@ ALERT_OCCURRENCE_1_3 = {
     }
 }
 
+
 KPI_NOTE_2 = {
     "kind": "KPI",
-    "id": "NumClients",
-    "shortDescription": "IPs approaching cluster",
-    "longDescription": "The number of different IPs which approached this cluster",
-    "createTime": "2018-02-04T13:34:34.071264Z",
-    "reportedBy": {
+    "id": "xforce-NumClients",
+    "short_description": "IPs approaching cluster",
+    "long_description": "The number of different IPs which approached this cluster",
+    "create_time": "2018-02-04T13:34:34.071264Z",
+    "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence Service",
         "href": "http:// documentation url with nice images inside"
     },
     "kpi": {
-        "aggregationType": "sum"
+        "aggregation_type": "SUM"
     }
 }
 
 KPI_OCCURRENCE_2_1 = {
     "kind": "KPI",
-    "id": "21",
-    "noteName": "projects/xforce/notes/NumClients",
-    "createTime": "2018-02-05T12:56:02.061882Z",
+    "id": "xforce-21",
+    "note_name": "projects/security-advisor/notes/xforce-NumClients",
+    "create_time": "2018-02-05T12:56:02.061882Z",
     "context": {
         "region": "US-South",
         "account": "account_guid",
@@ -176,14 +177,14 @@ OUTLIER_PROJECT = {
 ALERT_NOTE_3 = {
     "kind": "FINDING",
     "id": "EgressDeviation",
-    "reportedBy": {
+    "reported_by": {
         "id": "outlier",
         "title": "IBM Network Analytics Service",
         "href": " http:// documentation url with nice images inside"
     },
-    "shortDescription": "Suspected Data Leakage from a Pod",
-    "longDescription": "A pods in this cluster sends data to an external IP in volumes that exceed its normal behavior",
-    "createTime": "2018-02-04T13:34:34.071264Z",
+    "short_description": "Suspected Data Leakage from a Pod",
+    "long_description": "A pods in this cluster sends data to an external IP in volumes that exceed its normal behavior",
+    "create_time": "2018-02-04T13:34:34.071264Z",
     "finding": {
         "severity": "MEDIUM",
         "titles": {
@@ -193,7 +194,7 @@ ALERT_NOTE_3 = {
                 }
             }
         },
-        "nextSteps": [
+        "next_steps": [
             {
                 "title": "Examine this report details to learn the identity of the client Pod and external IP address",
             },
@@ -211,8 +212,8 @@ ALERT_NOTE_3 = {
 ALERT_OCCURRENCE_3_1 = {
     "kind": "FINDING",
     "id": "31",
-    "noteName": "projects/outlier/notes/EgressDeviation",
-    "createTime": "2018-02-05T20:43:12.071982Z",
+    "note_name": "projects/outlier/notes/EgressDeviation",
+    "create_time": "2018-02-05T20:43:12.071982Z",
     "context": {
         "region": "US-South",
         "account": "account_guid",
@@ -233,14 +234,54 @@ ALERT_OCCURRENCE_3_1 = {
             "direction": "Outbound",
             "protocol": "Ethernet/IPv4/TCP"
         },
-        "dataTransfered": {
-            "clientBytes": 102304
+        "data_transferred": {
+            "client_bytes": 102304
         },
-        "deviationHighReference": {
-            "dataTransfered": {
-                "clientBytes": {
-                    "normHigh": 25000,
-                    "alertHigh": 75000,
+        "deviation_high_reference": {
+            "data_transferred": {
+                "client_bytes": {
+                    "norm_high": 25000,
+                    "alert_high": 75000,
+                    "units": "MB"
+                }
+            }
+        }
+    }
+}
+
+MODIFIED_ALERT_OCCURRENCE_3_1 = {
+    "kind": "FINDING",
+    "id": "31",
+    "note_name": "projects/outlier/notes/EgressDeviation",
+    "create_time": "2018-02-05T20:43:12.071982Z",
+    "context": {
+        "region": "US-South",
+        "account": "account_guid",
+        "resource": "name of pod",
+        "service": "cluster CRN"
+    },
+    "finding": {
+        "certainty": "HIGH",
+        "network": {
+            "client": {
+                "ip": "172.30.1.3",
+                "port": 9080
+            },
+            "server": {
+                "ip": "111.90.147.66",
+                "port": 9080
+            },
+            "direction": "Outbound",
+            "protocol": "Ethernet/IPv4/TCP"
+        },
+        "data_transferred": {
+            "client_bytes": 213415
+        },
+        "deviation_high_reference": {
+            "data_transferred": {
+                "client_bytes": {
+                    "norm_high": 26000,
+                    "alert_high": 80000,
                     "units": "MB"
                 }
             }
@@ -290,6 +331,11 @@ class TestSecurityFindings(BaseTestCase):
         response = self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
+    def test_11_create_occurrence(self):
+        response = self.put_occurrence(OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'],
+                                       MODIFIED_ALERT_OCCURRENCE_3_1)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+
     def post_project(self, body):
         return self.client.open(
             path='/v1alpha1/projects',
@@ -318,6 +364,18 @@ class TestSecurityFindings(BaseTestCase):
         return self.client.open(
             path='/v1alpha1/projects/{}/occurrences'.format(project_id),
             method='POST',
+            data=json.dumps(body),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "AccountY",
+                "Authorization": "AuthorizationY"
+            })
+
+    def put_occurrence(self, project_id, occurrence_id, body):
+        return self.client.open(
+            path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
+            method='PUT',
             data=json.dumps(body),
             headers={
                 "Content-Type": "application/json",

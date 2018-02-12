@@ -26,7 +26,17 @@
       "finding_type": {
         "title_id": "T_SUSPICIOUS_SERVER_IPS",
         "default_title": "Suspicious Server IPs",
-        "default_severity": "MEDIUM"
+        "default_severity": "MEDIUM",
+        "elements": [
+          {
+            "note_name": "projects/xforce/notes/MaliciousServerIPCount",
+            "widget_type": "SINGLE_VALUE"
+          },
+          {
+            "note_name": "projects/xforce/notes/SuspiciousServerIPCount",
+            "widget_type": "SINGLE_VALUE"
+          }
+        ]
       }
     },
     {
@@ -82,7 +92,13 @@
       "finding_type": {
         "title_id": "T_SUSPICIOUS_CLIENTS",
         "default_title": "Suspicious Clients",
-        "default_severity": "HIGH"
+        "default_severity": "HIGH",
+        "elements": [
+          {
+            "note_name": "projects/xforce/notes/SuspiciousClientCount",
+            "widget_type": "SINGLE_VALUE"
+          }
+        ]
       }
     },
     {
@@ -118,7 +134,17 @@
       "finding_type": {
         "title_id": "T_CERIFICATES",
         "default_title": "Certificates",
-        "default_severity": "HIGH"
+        "default_severity": "HIGH",
+        "elements": [
+          {
+            "note_name": "projects/certificate-manager/notes/ExpiredCertificateCount",
+            "widget_type": "SINGLE_VALUE"
+          },
+          {
+            "note_name": "projects/certificate-manager/notes/ExpiringCertificateCount",
+            "widget_type": "SINGLE_VALUE"
+          }
+        ]
       }
     },
     {
@@ -168,7 +194,17 @@
       "finding_type": {
         "title_id": "T_IMAGE_VULNERABILITIES",
         "default_title": "Vulnerabilities in Images",
-        "default_severity": "HIGH"
+        "default_severity": "HIGH",
+        "elements": [
+          {
+            "note_name": "projects/vulnerability-advisor/notes/ImageWithVulnerabilitiesCount",
+            "widget_type": "SINGLE_VALUE"
+          },
+          {
+            "note_name": "projects/vulnerability-advisor/notes/ImageWithConfigIssuesCount",
+            "widget_type": "SINGLE_VALUE"
+          }
+        ]
       }
     },
     {
@@ -218,7 +254,13 @@
       "finding_type": {
         "title_id": "T_CONTAINER_VULNERABILITIES",
         "default_title": "Vulnerabilities in Live Containers",
-        "default_severity": "HIGH"
+        "default_severity": "HIGH",
+        "elements": [
+          {
+            "note_name": "projects/vulnerability-advisor/notes/ContainerWithVulnerabilitiesCount",
+            "widget_type": "SINGLE_VALUE"
+          }
+        ]
       }
     },
     {
@@ -233,7 +275,7 @@
       },
       "kpi_type": {
         "text_id": "T_CONTAINER_WITH_VULNERABILITIES_COUNT",
-        "default_text": "Containers running images with vulnerabilities ({0}% of {1} total containers",
+        "default_text": "Containers running images with vulnerabilities ({0}% of {1} total containers)",
         "aggregation_type": "SUM"
       }
     }

@@ -30,11 +30,15 @@
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/xforce/notes/MaliciousServerIPCount"
+            "note_names": [
+              "projects/xforce/notes/MaliciousServerIPCount"
+            ]
           },
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/xforce/notes/SuspiciousServerIPCount"
+            "note_names": [
+              "projects/xforce/notes/SuspiciousServerIPCount"
+            ]
           }
         ]
       }
@@ -52,8 +56,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi_type": {
-        "text_id": "T_MALICIOUS_SERVER_IP_COUNT",
-        "default_text": "of your server IP addresses are considered malicious and have been blacklisted",
+        "description_id": "T_MALICIOUS_SERVER_IP_COUNT_DESC",
+        "default_description": "of your server IP addresses are considered malicious and have been blacklisted",
         "aggregation_type": "SUM"
       }
     },
@@ -70,8 +74,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi_type": {
-        "text_id": "T_SUSPICIOUS_SERVER_IP_COUNT",
-        "default_text": "Suspicious server IP addresses reported",
+        "description_id": "T_SUSPICIOUS_SERVER_IP_COUNT_DESC",
+        "default_description": "Suspicious server IP addresses reported",
         "aggregation_type": "SUM"
       }
     },
@@ -96,7 +100,9 @@
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/xforce/notes/SuspiciousClientCount"
+            "note_names": [
+              "projects/xforce/notes/SuspiciousClientCount"
+            ]
           }
         ]
       }
@@ -114,8 +120,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi_type": {
-        "text_id": "T_SUSPICIOUS_CLIENT_COUNT",
-        "default_text": "Risky clients discovered in the past day",
+        "description_id": "T_SUSPICIOUS_CLIENT_COUNT_DESC",
+        "default_description": "Risky clients discovered in the past day",
         "aggregation_type": "SUM"
       }
     },
@@ -138,11 +144,25 @@
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/certificate-manager/notes/ExpiredCertificateCount"
+            "note_names": [
+              "projects/certificate-manager/notes/ExpiredCertificateCount"
+            ]
           },
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/certificate-manager/notes/ExpiringCertificateCount"
+            "note_names": [
+              "projects/certificate-manager/notes/ExpiringIn30DaysCertificateCount"
+            ]
+          },
+          {
+            "kind": "MULTI_VALUE_HISTOGRAM",
+            "note_names": [
+              "projects/certificate-manager/notes/ExpiringIn1DayCertificateCount",
+              "projects/certificate-manager/notes/ExpiringIn10DaysCertificateCount",
+              "projects/certificate-manager/notes/ExpiringIn30DaysCertificateCount",
+              "projects/certificate-manager/notes/ExpiringIn60DaysCertificateCount",
+              "projects/certificate-manager/notes/ExpiringIn90DaysCertificateCount"
+            ]
           }
         ]
       }
@@ -158,15 +178,15 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi_type": {
-        "text_id": "T_EXPIRED_CERFIFICATE_COUNT",
-        "default_text": "Expired certificates ({0}% of {1} total certificates)",
+        "description_id": "T_EXPIRED_CERFIFICATE_COUNT_DESC",
+        "default_description": "Expired certificates ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
     {
       "kind": "KPI",
       "project_id": "certificate-manager",
-      "id": "ExpiringCertificateCount",
+      "id": "ExpiringIn1DayCertificateCount",
       "create_time": "2018-02-01T08:27:02.067862Z",
       "reported_by": {
         "id": "certificate-manager",
@@ -174,8 +194,82 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi_type": {
-        "text_id": "T_EXPIRING_CERTIFICATE_COUNT",
-        "default_text": "Certificates about to expire ({0}% of {1} total certificates)",
+        "label_id": "T_EXPIRING_IN_1_DAY_CERTIFICATE_COUNT_LABEL",
+        "label": "1 day",
+        "description_id": "T_EXPIRING_IN_1_DAY_CERTIFICATE_COUNT_DESC",
+        "default_description": "Certificates about to expire in 1 day ({0}% of {1} total certificates)",
+        "aggregation_type": "SUM"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "ExpiringIn10DaysCertificateCount",
+      "create_time": "2018-02-01T08:27:02.067862Z",
+      "reported_by": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "kpi_type": {
+        "label_id": "T_EXPIRING_IN_10_DAYS_CERTIFICATE_COUNT_LABEL",
+        "label": "2-10 days",
+        "description_id": "T_EXPIRING_IN_10_DAYS_CERTIFICATE_COUNT_DESC",
+        "default_description": "Certificates about to expire in 10 days ({0}% of {1} total certificates)",
+        "aggregation_type": "SUM"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "ExpiringIn30DaysCertificateCount",
+      "create_time": "2018-02-01T08:27:02.067862Z",
+      "reported_by": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "kpi_type": {
+        "label_id": "T_EXPIRING_IN_30_DAYS_CERTIFICATE_COUNT_LABEL",
+        "label": "11-30 days",
+        "description_id": "T_EXPIRING_IN_30_DAYS_CERTIFICATE_COUNT_DESC",
+        "default_description": "Certificates about to expire in 30 days ({0}% of {1} total certificates)",
+        "aggregation_type": "SUM"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "ExpiringIn60DaysCertificateCount",
+      "create_time": "2018-02-01T08:27:02.067862Z",
+      "reported_by": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "kpi_type": {
+        "label_id": "T_EXPIRING_IN_60_DAYS_CERTIFICATE_COUNT_LABEL",
+        "label": "31-60 days",
+        "description_id": "T_EXPIRING_IN_60_DAYS_CERTIFICATE_COUNT_DESC",
+        "default_description": "Certificates about to expire in 60 days ({0}% of {1} total certificates)",
+        "aggregation_type": "SUM"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "ExpiringIn90DaysCertificateCount",
+      "create_time": "2018-02-01T08:27:02.067862Z",
+      "reported_by": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
+      "kpi_type": {
+        "label_id": "T_EXPIRING_IN_90_DAYS_CERTIFICATE_COUNT_LABEL",
+        "label": "61-90 days",
+        "description_id": "T_EXPIRING_IN_90_DAYS_CERTIFICATE_COUNT",
+        "default_description": "Certificates about to expire in 90 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
@@ -198,11 +292,15 @@
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/vulnerability-advisor/notes/ImageWithVulnerabilitiesCount"
+            "note_names": [
+              "projects/vulnerability-advisor/notes/ImageWithVulnerabilitiesCount"
+            ]
           },
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/vulnerability-advisor/notes/ImageWithConfigIssuesCount"
+            "note_names": [
+              "projects/vulnerability-advisor/notes/ImageWithConfigIssuesCount"
+            ]
           }
         ]
       }
@@ -218,8 +316,8 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi_type": {
-        "text_id": "T_IMAGE_WITH_VULNERABILITIES_COUNT",
-        "default_text": "Images with vulnerabilities",
+        "description_id": "T_IMAGE_WITH_VULNERABILITIES_COUNT_DESC",
+        "default_description": "Images with vulnerabilities",
         "aggregation_type": "SUM"
       }
     },
@@ -234,8 +332,8 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi_type": {
-        "text_id": "T_IMAGE_WITH_CONFIG_ISSUES_COUNT",
-        "default_text": "Images with configuration issues",
+        "description_id": "T_IMAGE_WITH_CONFIG_ISSUES_COUNT_DESC",
+        "default_description": "Images with configuration issues",
         "aggregation_type": "SUM"
       }
     },
@@ -258,7 +356,9 @@
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "note_name": "projects/vulnerability-advisor/notes/ContainerWithVulnerabilitiesCount"
+            "note_names": [
+              "projects/vulnerability-advisor/notes/ContainerWithVulnerabilitiesCount"
+            ]
           }
         ]
       }
@@ -274,8 +374,8 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi_type": {
-        "text_id": "T_CONTAINER_WITH_VULNERABILITIES_COUNT",
-        "default_text": "Containers running images with vulnerabilities ({0}% of {1} total containers)",
+        "description_id": "T_CONTAINER_WITH_VULNERABILITIES_COUNT_DESC",
+        "default_description": "Containers running images with vulnerabilities ({0}% of {1} total containers)",
         "aggregation_type": "SUM"
       }
     }
@@ -523,7 +623,79 @@
       "kind": "KPI",
       "project_id": "certificate-manager",
       "id": "5",
-      "note_name": "projects/certificate-manager/notes/ExpiringCertificateCount",
+      "note_name": "projects/certificate-manager/notes/ExpiringIn1DayCertificateCount",
+      "create_time": "2018-02-02T14:45:12.234624Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resource_group": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 8,
+        "total": 24
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "6",
+      "note_name": "projects/certificate-manager/notes/ExpiringIn10DaysCertificateCount",
+      "create_time": "2018-02-02T14:45:12.234624Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resource_group": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 16,
+        "total": 24
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "7",
+      "note_name": "projects/certificate-manager/notes/ExpiringIn30DaysCertificateCount",
+      "create_time": "2018-02-02T14:45:12.234624Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resource_group": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 15,
+        "total": 24
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "8",
+      "note_name": "projects/certificate-manager/notes/ExpiringIn60DaysCertificateCount",
+      "create_time": "2018-02-02T14:45:12.234624Z",
+      "context": {
+        "region": "US-South",
+        "account": "agiammar",
+        "resource": "image-2",
+        "resource_group": "group-1",
+        "service": "cluster-2"
+      },
+      "kpi": {
+        "value": 7,
+        "total": 24
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "certificate-manager",
+      "id": "9",
+      "note_name": "projects/certificate-manager/notes/ExpiringIn90DaysCertificateCount",
       "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",

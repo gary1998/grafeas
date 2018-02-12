@@ -24,7 +24,7 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding_type": {
-        "title_id": "T_SUSPICIOUS_SERVER_IPS",
+        "title_id": "T_SUSPICIOUS_SERVER_IPS_TITLE",
         "default_title": "Suspicious Server IPs",
         "default_severity": "MEDIUM",
         "elements": [
@@ -56,6 +56,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi_type": {
+        "label_id": "T_MALICIOUS_SERVER_IP_COUNT_LABEL",
+        "default_label": "Malicious server IP addresses",
         "description_id": "T_MALICIOUS_SERVER_IP_COUNT_DESC",
         "default_description": "of your server IP addresses are considered malicious and have been blacklisted",
         "aggregation_type": "SUM"
@@ -74,6 +76,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi_type": {
+        "label_id": "T_SUSPICIOUS_SERVER_IP_COUNT_LABEL",
+        "default_description": "Suspicious server IP addresses",
         "description_id": "T_SUSPICIOUS_SERVER_IP_COUNT_DESC",
         "default_description": "Suspicious server IP addresses reported",
         "aggregation_type": "SUM"
@@ -94,7 +98,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding_type": {
-        "title_id": "T_SUSPICIOUS_CLIENTS",
+        "title_id": "T_SUSPICIOUS_CLIENTS_TITLE",
         "default_title": "Suspicious Clients",
         "default_severity": "HIGH",
         "elements": [
@@ -120,6 +124,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "kpi_type": {
+        "label_id": "T_SUSPICIOUS_CLIENT_COUNT_LABEL",
+        "default_label": "Risky clients",
         "description_id": "T_SUSPICIOUS_CLIENT_COUNT_DESC",
         "default_description": "Risky clients discovered in the past day",
         "aggregation_type": "SUM"
@@ -138,7 +144,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding_type": {
-        "title_id": "T_CERIFICATES",
+        "title_id": "T_CERTIFICATES_TITLE",
         "default_title": "Certificates",
         "default_severity": "HIGH",
         "elements": [
@@ -178,7 +184,9 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi_type": {
-        "description_id": "T_EXPIRED_CERFIFICATE_COUNT_DESC",
+        "label_id": "T_EXPIRED_CERTIFICATE_COUNT_LABEL",
+        "default_label": "Expired certificates",
+        "description_id": "T_EXPIRED_CERTIFICATE_COUNT_DESC",
         "default_description": "Expired certificates ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
@@ -195,7 +203,7 @@
       },
       "kpi_type": {
         "label_id": "T_EXPIRING_IN_1_DAY_CERTIFICATE_COUNT_LABEL",
-        "label": "1 day",
+        "default_label": "1 day",
         "description_id": "T_EXPIRING_IN_1_DAY_CERTIFICATE_COUNT_DESC",
         "default_description": "Certificates about to expire in 1 day ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
@@ -213,7 +221,7 @@
       },
       "kpi_type": {
         "label_id": "T_EXPIRING_IN_10_DAYS_CERTIFICATE_COUNT_LABEL",
-        "label": "2-10 days",
+        "default_label": "2-10 days",
         "description_id": "T_EXPIRING_IN_10_DAYS_CERTIFICATE_COUNT_DESC",
         "default_description": "Certificates about to expire in 10 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
@@ -231,7 +239,7 @@
       },
       "kpi_type": {
         "label_id": "T_EXPIRING_IN_30_DAYS_CERTIFICATE_COUNT_LABEL",
-        "label": "11-30 days",
+        "default_label": "11-30 days",
         "description_id": "T_EXPIRING_IN_30_DAYS_CERTIFICATE_COUNT_DESC",
         "default_description": "Certificates about to expire in 30 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
@@ -249,7 +257,7 @@
       },
       "kpi_type": {
         "label_id": "T_EXPIRING_IN_60_DAYS_CERTIFICATE_COUNT_LABEL",
-        "label": "31-60 days",
+        "default_label": "31-60 days",
         "description_id": "T_EXPIRING_IN_60_DAYS_CERTIFICATE_COUNT_DESC",
         "default_description": "Certificates about to expire in 60 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
@@ -267,8 +275,8 @@
       },
       "kpi_type": {
         "label_id": "T_EXPIRING_IN_90_DAYS_CERTIFICATE_COUNT_LABEL",
-        "label": "61-90 days",
-        "description_id": "T_EXPIRING_IN_90_DAYS_CERTIFICATE_COUNT",
+        "default_label": "61-90 days",
+        "description_id": "T_EXPIRING_IN_90_DAYS_CERTIFICATE_COUNT_DESC",
         "default_description": "Certificates about to expire in 90 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
@@ -286,7 +294,7 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "finding_type": {
-        "title_id": "T_IMAGE_VULNERABILITIES",
+        "title_id": "T_IMAGE_VULNERABILITIES_TITLE",
         "default_title": "Vulnerabilities in Images",
         "default_severity": "HIGH",
         "elements": [
@@ -316,8 +324,10 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi_type": {
+        "label_id": "T_IMAGE_WITH_VULNERABILITIES_COUNT_LABEL",
+        "default_label": "Images with vulnerabilities",
         "description_id": "T_IMAGE_WITH_VULNERABILITIES_COUNT_DESC",
-        "default_description": "Images with vulnerabilities",
+        "default_description": "Images with vulnerabilities  ({0}% of {1} total images)",
         "aggregation_type": "SUM"
       }
     },
@@ -332,8 +342,10 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi_type": {
+        "label_id": "T_IMAGE_WITH_CONFIG_ISSUES_COUNT_LABEL",
+        "default_label": "Images with configuration issues",
         "description_id": "T_IMAGE_WITH_CONFIG_ISSUES_COUNT_DESC",
-        "default_description": "Images with configuration issues",
+        "default_description": "Images with configuration issues  ({0}% of {1} total images)",
         "aggregation_type": "SUM"
       }
     },
@@ -350,7 +362,7 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "finding_type": {
-        "title_id": "T_CONTAINER_VULNERABILITIES",
+        "title_id": "T_CONTAINER_VULNERABILITIES_TITLE",
         "default_title": "Vulnerabilities in Live Containers",
         "default_severity": "HIGH",
         "elements": [
@@ -374,6 +386,8 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi_type": {
+        "label_id": "T_CONTAINER_WITH_VULNERABILITIES_COUNT_LABEL",
+        "default_label": "Containers running images with vulnerabilities",
         "description_id": "T_CONTAINER_WITH_VULNERABILITIES_COUNT_DESC",
         "default_description": "Containers running images with vulnerabilities ({0}% of {1} total containers)",
         "aggregation_type": "SUM"

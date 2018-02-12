@@ -29,12 +29,12 @@
         "default_severity": "MEDIUM",
         "elements": [
           {
-            "note_name": "projects/xforce/notes/MaliciousServerIPCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/xforce/notes/MaliciousServerIPCount"
           },
           {
-            "note_name": "projects/xforce/notes/SuspiciousServerIPCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/xforce/notes/SuspiciousServerIPCount"
           }
         ]
       }
@@ -95,8 +95,8 @@
         "default_severity": "HIGH",
         "elements": [
           {
-            "note_name": "projects/xforce/notes/SuspiciousClientCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/xforce/notes/SuspiciousClientCount"
           }
         ]
       }
@@ -137,12 +137,12 @@
         "default_severity": "HIGH",
         "elements": [
           {
-            "note_name": "projects/certificate-manager/notes/ExpiredCertificateCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/certificate-manager/notes/ExpiredCertificateCount"
           },
           {
-            "note_name": "projects/certificate-manager/notes/ExpiringCertificateCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/certificate-manager/notes/ExpiringCertificateCount"
           }
         ]
       }
@@ -197,12 +197,12 @@
         "default_severity": "HIGH",
         "elements": [
           {
-            "note_name": "projects/vulnerability-advisor/notes/ImageWithVulnerabilitiesCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/vulnerability-advisor/notes/ImageWithVulnerabilitiesCount"
           },
           {
-            "note_name": "projects/vulnerability-advisor/notes/ImageWithConfigIssuesCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/vulnerability-advisor/notes/ImageWithConfigIssuesCount"
           }
         ]
       }
@@ -257,8 +257,8 @@
         "default_severity": "HIGH",
         "elements": [
           {
-            "note_name": "projects/vulnerability-advisor/notes/ContainerWithVulnerabilitiesCount",
-            "widget_type": "SINGLE_VALUE"
+            "kind": "SINGLE_VALUE",
+            "note_name": "projects/vulnerability-advisor/notes/ContainerWithVulnerabilitiesCount"
           }
         ]
       }

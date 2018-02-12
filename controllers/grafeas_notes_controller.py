@@ -133,6 +133,9 @@ def update_note(project_id, note_id, body):
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
+    if 'id' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+
     if 'update_time' in body:
         update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
     else:

@@ -26,7 +26,7 @@ def create_occurrence(project_id, body):
         return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
     if 'note_name' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Field 'noteName' is missing")
+        return build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
 
     if 'create_time' in body:
         create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
@@ -141,6 +141,12 @@ def update_occurrence(project_id, occurrence_id, body):
 
     if 'Account' not in connexion.request.headers:
         return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+
+    if 'id' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+
+    if 'note_name' not in body:
+        return build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
 
     if 'update_time' in body:
         update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()

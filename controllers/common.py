@@ -3,6 +3,9 @@ import threading
 from grafeas.store import Store
 
 
+SHARED_ACCOUNT = "$$$SHARED$$$"
+
+
 __store = None
 __store_lock = threading.Lock()
 

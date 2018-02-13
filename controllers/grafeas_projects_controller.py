@@ -1,8 +1,6 @@
 import connexion
 from http import HTTPStatus
-from .common import get_store
-from .common import build_project_doc_id, build_project_name
-from .common import build_result, build_error
+from . import common
 
 
 def create_project(body):
@@ -16,25 +14,25 @@ def create_project(body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
     if 'id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
     project_id = body['id']
-    project_doc_id = build_project_doc_id(account_id, project_id)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Project'
     body['account_id'] = account_id
     body['id'] = project_id
-    body['name'] = build_project_name(project_id)
+    body['name'] = common.build_project_name(project_id)
 
     try:
         store.create_doc(project_doc_id, body)
-        return build_result(HTTPStatus.OK, _clean_doc(body))
+        return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
-        return build_error(HTTPStatus.CONFLICT, "Project already exists: {}".format(project_doc_id))
+        return common.build_error(HTTPStatus.CONFLICT, "Project already exists: {}".format(project_doc_id))
 
 
 def delete_project(project_id):
@@ -48,17 +46,17 @@ def delete_project(project_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    project_doc_id = build_project_doc_id(account_id, project_id)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     try:
         doc = store.delete_doc(project_doc_id)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        return build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_doc_id))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_doc_id))
 
 
 def get_project(project_id):
@@ -72,17 +70,17 @@ def get_project(project_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    project_doc_id = build_project_doc_id(account_id, project_id)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     try:
         doc = store.get_doc(project_doc_id)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        return build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_doc_id))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_doc_id))
 
 
 def list_projects(filter=None, page_size=None, page_token=None):
@@ -100,9 +98,9 @@ def list_projects(filter=None, page_size=None, page_token=None):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
     docs = store.find(
         filter_={
@@ -110,7 +108,7 @@ def list_projects(filter=None, page_size=None, page_token=None):
             'account_id': account_id
         },
         index="DT_AI")
-    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def _clean_doc(doc):

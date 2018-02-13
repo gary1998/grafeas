@@ -2,9 +2,7 @@ import connexion
 import datetime
 from http import HTTPStatus
 import isodate
-from .common import get_store
-from .common import build_project_doc_id, build_note_doc_id, build_occurrence_doc_id, build_occurrence_name
-from .common import build_result, build_error
+from . import common
 
 
 def create_occurrence(project_id, body):
@@ -20,13 +18,13 @@ def create_occurrence(project_id, body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     if 'id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
     if 'note_name' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
 
     if 'create_time' in body:
         create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
@@ -36,13 +34,13 @@ def create_occurrence(project_id, body):
         body['create_time'] = isodate.datetime_isoformat(now)
     body['update_time'] = body['create_time']
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
     occurrence_id = body['id']
-    occurrence_name = build_occurrence_name(project_id, occurrence_id)
+    occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
     note_name = body['note_name']
-    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
-    project_doc_id = build_project_doc_id(account_id, project_id)
+    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
     note_doc_id = "{}/{}".format(account_id, note_name)
 
     body['doc_type'] = 'Occurrence'
@@ -60,11 +58,11 @@ def create_occurrence(project_id, body):
         note = store.get_doc(note_doc_id)
         try:
             store.create_doc(occurrence_doc_id, body)
-            return build_result(HTTPStatus.OK, _clean_doc(body))
+            return common.build_result(HTTPStatus.OK, _clean_doc(body))
         except KeyError:
-            return build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
+            return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
     except KeyError:
-        return build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
 
 
 def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
@@ -84,18 +82,18 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    project_doc_id = build_project_doc_id(account_id, project_id)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
     docs = store.find(
         filter_={
             'doc_type': 'Occurrence',
             'project_doc_id': project_doc_id
         },
         index="DT_PDI")
-    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def get_occurrence(project_id, occurrence_id):
@@ -111,18 +109,18 @@ def get_occurrence(project_id, occurrence_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:
         doc = store.get_doc(occurrence_doc_id)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        occurrence_name = build_occurrence_name(project_id, occurrence_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
+        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 
 
 def update_occurrence(project_id, occurrence_id, body):
@@ -140,13 +138,13 @@ def update_occurrence(project_id, occurrence_id, body):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     if 'id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
     if 'note_name' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
 
     if 'update_time' in body:
         update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
@@ -155,17 +153,17 @@ def update_occurrence(project_id, occurrence_id, body):
         update_timestamp = now.timestamp()
         body['update_time'] = isodate.datetime_isoformat(now)
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
     body['update_timestamp'] = update_timestamp
 
     try:
         doc = store.update_doc(occurrence_doc_id, body)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        occurrence_name = build_occurrence_name(project_id, occurrence_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
+        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 
 
 def delete_occurrence(project_id, occurrence_id):
@@ -181,18 +179,18 @@ def delete_occurrence(project_id, occurrence_id):
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:
         doc = store.delete_doc(occurrence_doc_id)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        occurrence_name = build_occurrence_name(project_id, occurrence_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
+        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 
 
 def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page_token=None):
@@ -215,18 +213,18 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     """
 
     if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    note_doc_id = build_note_doc_id(account_id, project_id, note_id)
+    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
     docs = store.find(
         filter_={
             'doc_type': 'Occurrence',
             'note_doc_id': note_doc_id
         },
         index="DT_NDI")
-    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def _clean_doc(doc):

@@ -2,10 +2,7 @@ import connexion
 import datetime
 from http import HTTPStatus
 import isodate
-from .common import get_store
-from .common import build_project_doc_id, build_note_doc_id, build_occurrence_doc_id
-from .common import build_note_name, build_occurrence_name
-from .common import build_result, build_error
+from . import common
 
 
 def create_note(project_id, body):
@@ -20,11 +17,13 @@ def create_note(project_id, body):
     :rtype: ApiNote
     """
 
-    if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT
 
     if 'id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
     if 'create_time' in body:
         create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
@@ -34,12 +33,12 @@ def create_note(project_id, body):
         body['create_time'] = isodate.datetime_isoformat(now)
     body['update_time'] = body['create_time']
 
-    store = get_store()
-    account_id = connexion.request.headers['Account']
+    store = common.get_store()
+
     note_id = body['id']
-    note_name = build_note_name(project_id, note_id)
-    note_doc_id = build_note_doc_id(account_id, project_id, note_id)
-    project_doc_id = build_project_doc_id(account_id, project_id)
+    note_name = common.build_note_name(project_id, note_id)
+    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Note'
     body['account_id'] = account_id
     body['project_id'] = project_id
@@ -51,9 +50,9 @@ def create_note(project_id, body):
 
     try:
         store.create_doc(note_doc_id, body)
-        return build_result(HTTPStatus.OK, _clean_doc(body))
+        return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
-        return build_error(HTTPStatus.CONFLICT, "Note already exists: {}".format(note_name))
+        return common.build_error(HTTPStatus.CONFLICT, "Note already exists: {}".format(note_name))
 
 
 def list_notes(project_id, filter=None, page_size=None, page_token=None):
@@ -74,19 +73,21 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     :rtype: ApiListNotesResponse
     """
 
-    if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    project_doc_id = build_project_doc_id(account_id, project_id)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
     docs = store.find(
         filter_={
             'doc_type': 'Note',
             'project_doc_id': project_doc_id
         },
         index="DT_PDI")
-    return build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def get_note(project_id, note_id):
@@ -101,19 +102,21 @@ def get_note(project_id, note_id):
     :rtype: ApiNote
     """
 
-    if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    note_doc_id = build_note_doc_id(account_id, project_id, note_id)
+    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
 
     try:
         doc = store.get_doc(note_doc_id)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        note_name = build_note_name(project_id, note_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        note_name = common.build_note_name(project_id, note_id)
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
 
 def update_note(project_id, note_id, body):
@@ -130,11 +133,13 @@ def update_note(project_id, note_id, body):
     :rtype: ApiNote
     """
 
-    if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT
 
     if 'id' not in body:
-        return build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
 
     if 'update_time' in body:
         update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
@@ -143,17 +148,17 @@ def update_note(project_id, note_id, body):
         update_timestamp = now.timestamp()
         body['update_time'] = isodate.datetime_isoformat(now)
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    note_doc_id = build_note_doc_id(account_id, project_id, note_id)
+    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
     body['update_timestamp'] = update_timestamp
 
     try:
         doc = store.update_doc(note_doc_id, body)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        note_name = build_note_name(project_id, note_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        note_name = common.build_note_name(project_id, note_id)
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
 
 def delete_note(project_id, note_id):
@@ -168,19 +173,21 @@ def delete_note(project_id, note_id):
     :rtype: ApiEmpty
     """
 
-    if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    note_doc_id = build_note_doc_id(account_id, project_id, note_id)
+    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
 
     try:
         doc = store.delete_doc(note_doc_id)
-        return build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        note_name = build_note_name(project_id, note_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        note_name = common.build_note_name(project_id, note_id)
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
 
 def get_occurrence_note(project_id, occurrence_id):
@@ -197,12 +204,14 @@ def get_occurrence_note(project_id, occurrence_id):
     :rtype: ApiNote
     """
 
-    if 'Account' not in connexion.request.headers:
-        return build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT
 
-    store = get_store()
+    store = common.get_store()
     account_id = connexion.request.headers['Account']
-    occurrence_doc_id = build_occurrence_doc_id(account_id, project_id, occurrence_id)
+    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:
         occurrence_doc = store.get_doc(occurrence_doc_id)
@@ -211,12 +220,12 @@ def get_occurrence_note(project_id, occurrence_id):
             note_name = occurrence_doc['noteName']
             note_doc_id = "{}/{}".format(account_id, note_name)
             doc = store.get_doc(note_doc_id)
-            return build_result(HTTPStatus.OK, _clean_doc(doc))
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
         except KeyError:
-            return build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+            return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
     except KeyError:
-        occurrence_name = build_occurrence_name(project_id, occurrence_id)
-        return build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_name))
+        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
+        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_name))
 
 
 def _clean_doc(doc):

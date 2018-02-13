@@ -3,7 +3,7 @@ import threading
 from grafeas.store import Store
 
 
-SHARED_ACCOUNT = "$$$SHARED$$$"
+SHARED_ACCOUNT_ID = "$$$SHARED$$$"
 
 
 __store = None

@@ -20,7 +20,7 @@ def create_note(project_id, body):
     if 'Account' in connexion.request.headers:
         account_id = connexion.request.headers['Account']
     else:
-        account_id = common.SHARED_ACCOUNT
+        account_id = common.SHARED_ACCOUNT_ID
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -76,7 +76,7 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     if 'Account' in connexion.request.headers:
         account_id = connexion.request.headers['Account']
     else:
-        account_id = common.SHARED_ACCOUNT
+        account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
     account_id = connexion.request.headers['Account']
@@ -105,7 +105,7 @@ def get_note(project_id, note_id):
     if 'Account' in connexion.request.headers:
         account_id = connexion.request.headers['Account']
     else:
-        account_id = common.SHARED_ACCOUNT
+        account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
     account_id = connexion.request.headers['Account']
@@ -136,7 +136,7 @@ def update_note(project_id, note_id, body):
     if 'Account' in connexion.request.headers:
         account_id = connexion.request.headers['Account']
     else:
-        account_id = common.SHARED_ACCOUNT
+        account_id = common.SHARED_ACCOUNT_ID
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -176,7 +176,7 @@ def delete_note(project_id, note_id):
     if 'Account' in connexion.request.headers:
         account_id = connexion.request.headers['Account']
     else:
-        account_id = common.SHARED_ACCOUNT
+        account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
     account_id = connexion.request.headers['Account']
@@ -207,7 +207,7 @@ def get_occurrence_note(project_id, occurrence_id):
     if 'Account' in connexion.request.headers:
         account_id = connexion.request.headers['Account']
     else:
-        account_id = common.SHARED_ACCOUNT
+        account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
     account_id = connexion.request.headers['Account']

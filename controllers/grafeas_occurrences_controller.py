@@ -41,7 +41,17 @@ def create_occurrence(project_id, body):
     note_name = body['note_name']
     occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
     project_doc_id = common.build_project_doc_id(account_id, project_id)
+
+    # find note doc id
     note_doc_id = "{}/{}".format(account_id, note_name)
+    try:
+        note = store.get_doc(note_doc_id)
+    except KeyError:
+        note_doc_id = "{}/{}".format(common.SHARED_ACCOUNT_ID, note_name)
+        try:
+            note = store.get_doc(note_doc_id)
+        except KeyError:
+            return common.build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
 
     body['doc_type'] = 'Occurrence'
     body['account_id'] = account_id
@@ -53,16 +63,11 @@ def create_occurrence(project_id, body):
     body['create_timestamp'] = create_timestamp
     body['update_timestamp'] = create_timestamp
 
-    # merge occurrence values with note values
     try:
-        note = store.get_doc(note_doc_id)
-        try:
-            store.create_doc(occurrence_doc_id, body)
-            return common.build_result(HTTPStatus.OK, _clean_doc(body))
-        except KeyError:
-            return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
+        store.create_doc(occurrence_doc_id, body)
+        return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
 
 
 def list_occurrences(project_id, filter=None, page_size=None, page_token=None):

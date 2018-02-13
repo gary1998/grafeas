@@ -79,15 +79,15 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     else:
         account_id = common.SHARED_ACCOUNT_ID
 
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
+    private_project_doc_id = common.build_project_doc_id(account_id, project_id)
     shared_project_doc_id = common.build_project_doc_id(common.SHARED_ACCOUNT_ID, project_id)
-    if account_id != common.SHARED_ACCOUNT_ID:
+    if account_id == common.SHARED_ACCOUNT_ID:
+        project_doc_id_filter = shared_project_doc_id
+    else:
         project_doc_id_filter = [
-            project_doc_id,
+            private_project_doc_id,
             shared_project_doc_id
         ]
-    else:
-        project_doc_id_filter = shared_project_doc_id
 
     store = common.get_store()
 
@@ -152,9 +152,6 @@ def update_note(project_id, note_id, body):
     else:
         account_id = common.SHARED_ACCOUNT_ID
 
-    if 'id' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
-
     if 'update_time' in body:
         update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
     else:
@@ -163,6 +160,7 @@ def update_note(project_id, note_id, body):
         body['update_time'] = isodate.datetime_isoformat(now)
 
     store = common.get_store()
+    body['id'] = note_id
     body['update_timestamp'] = update_timestamp
 
     try:
@@ -216,12 +214,11 @@ def get_occurrence_note(project_id, occurrence_id):
     :rtype: ApiNote
     """
 
-    if 'Account' in connexion.request.headers:
-        account_id = connexion.request.headers['Account']
-    else:
-        account_id = common.SHARED_ACCOUNT_ID
+    if 'Account' not in connexion.request.headers:
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
 
     store = common.get_store()
+    account_id = connexion.request.headers['Account']
     occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:

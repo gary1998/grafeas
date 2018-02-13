@@ -1,1046 +1,970 @@
 ---
-swagger: "2.0"
+swagger: '2.0'
 info:
-  version: "version not set"
-  title: "v1alpha1/proto/grafeas.proto"
+  title: v1alpha1/proto/grafeas.proto
+  version: version not set
 schemes:
-- "http"
-- "https"
+  - http
+  - https
 consumes:
-- "application/json"
+  - application/json
 produces:
-- "application/json"
+  - application/json
 paths:
   /v1alpha1/projects:
     get:
-      tags:
-      - "GrafeasProjects"
-      summary: "Lists `Projects`"
-      operationId: "list_projects"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "filter"
-        in: "query"
-        description: "The filter expression."
-        required: false
-        type: "string"
-      - name: "page_size"
-        in: "query"
-        description: "Number of projects to return in the list."
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "page_token"
-        in: "query"
-        description: "Token to provide to skip to a particular spot in the list."
-        required: false
-        type: "string"
+      summary: Lists `Projects`
+      operationId: list_projects
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiListProjectsResponse"
+            $ref: '#/definitions/apiListProjectsResponse'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: filter
+          description: The filter expression.
+          in: query
+          required: false
+          type: string
+        - name: page_size
+          description: Number of projects to return in the list.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          description: Token to provide to skip to a particular spot in the list.
+          in: query
+          required: false
+          type: string
+      tags:
+        - GrafeasProjects
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
     post:
-      tags:
-      - "GrafeasProjects"
-      summary: "Creates a new `Project`."
-      operationId: "create_project"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/apiProject"
+      summary: Creates a new `Project`.
+      operationId: create_project
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiEmpty"
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/apiProject'
+      tags:
+        - GrafeasProjects
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
   /v1alpha1/projects/{project_id}:
     get:
-      tags:
-      - "GrafeasProjects"
-      summary: "Returns the requested `Project`."
-      operationId: "get_project"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "Part of `parent`. This field contains the project_id for example:\
-          \ projects/{project_id}"
-        required: true
-        type: "string"
+      summary: Returns the requested `Project`.
+      operationId: get_project
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiProject"
+            $ref: '#/definitions/apiProject'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+      tags:
+        - GrafeasProjects
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
     delete:
-      tags:
-      - "GrafeasProjects"
-      summary: "Deletes the given `Project` from the system."
-      operationId: "delete_project"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "Part of `parent`. This field contains the project_id for example:\
-          \ projects/{project_id}"
-        required: true
-        type: "string"
+      summary: Deletes the given `Project` from the system.
+      operationId: delete_project
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiEmpty"
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: Account
+          description: "The unique ID for your cloud account."
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+      tags:
+        - GrafeasProjects
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
+
   /v1alpha1/projects/{project_id}/notes:
     get:
-      tags:
-      - "GrafeasNotes"
-      summary: "Lists all `Notes` for a given project."
-      operationId: "list_notes"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "Part of `parent`. This field contains the project_id for example:\
-          \ projects/{project_id}"
-        required: true
-        type: "string"
-      - name: "filter"
-        in: "query"
-        description: "The filter expression."
-        required: false
-        type: "string"
-      - name: "page_size"
-        in: "query"
-        description: "Number of notes to return in the list."
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "page_token"
-        in: "query"
-        description: "Token to provide to skip to a particular spot in the list."
-        required: false
-        type: "string"
+      summary: Lists all `Notes` for a given project.
+      operationId: list_notes
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiListNotesResponse"
+            $ref: '#/definitions/apiListNotesResponse'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+        - name: filter
+          description: The filter expression.
+          in: query
+          required: false
+          type: string
+        - name: page_size
+          description: Number of notes to return in the list.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          description: Token to provide to skip to a particular spot in the list.
+          in: query
+          required: false
+          type: string
+      tags:
+        - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
     post:
-      tags:
-      - "GrafeasNotes"
-      summary: "Creates a new `Note`."
-      operationId: "create_note"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "Part of `parent`. This field contains the project_id for example:\
-          \ projects/{project_id}"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/apiNote"
+      summary: Creates a new `Note`.
+      operationId: create_note
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiNote"
+            $ref: '#/definitions/apiNote'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/apiNote'
+      tags:
+        - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
   /v1alpha1/projects/{project_id}/notes/{note_id}:
     get:
-      tags:
-      - "GrafeasNotes"
-      summary: "Returns the requested `Note`."
-      operationId: "get_note"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
-      - name: "note_id"
-        in: "path"
-        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
+      summary: Returns the requested `Note`.
+      operationId: get_note
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiNote"
+            $ref: '#/definitions/apiNote'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+        - name: note_id
+          in: path
+          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+      tags:
+        - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
     put:
-      tags:
-      - "GrafeasNotes"
-      summary: "Updates an existing `Note`."
-      operationId: "update_note"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
-      - name: "note_id"
-        in: "path"
-        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/apiNote"
+      summary: Updates an existing `Note`.
+      operationId: update_note
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiNote"
+            $ref: '#/definitions/apiNote'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+        - name: note_id
+          in: path
+          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/apiNote'
+      tags:
+        - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
     delete:
-      tags:
-      - "GrafeasNotes"
-      summary: "Deletes the given `Note` from the system."
-      operationId: "delete_note"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
-      - name: "note_id"
-        in: "path"
-        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
+      summary: Deletes the given `Note` from the system.
+      operationId: delete_note
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiEmpty"
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+        - name: note_id
+          in: path
+          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+      tags:
+        - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
+
   /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}/notes:
     get:
-      tags:
-      - "GrafeasNotes"
-      summary: "Gets the `Note` attached to the given `Occurrence`."
-      operationId: "get_occurrence_note"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-        required: true
-        type: "string"
-      - name: "occurrence_id"
-        in: "path"
-        description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-        required: true
-        type: "string"
+      summary: Gets the `Note` attached to the given `Occurrence`.
+      operationId: get_occurrence_note
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiNote"
+            $ref: '#/definitions/apiNote'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+        - name: occurrence_id
+          in: path
+          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: "string"
+      tags:
+        - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
+
   /v1alpha1/projects/{project_id}/occurrences:
     get:
-      tags:
-      - "GrafeasOccurrences"
-      summary: "Lists active `Occurrences` for a given project matching the filters."
-      operationId: "list_occurrences"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "Part of `parent`. This contains the project_id for example:\
-          \ projects/{project_id}"
-        required: true
-        type: "string"
-      - name: "filter"
-        in: "query"
-        description: "The filter expression."
-        required: false
-        type: "string"
-      - name: "page_size"
-        in: "query"
-        description: "Number of occurrences to return in the list."
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "page_token"
-        in: "query"
-        description: "Token to provide to skip to a particular spot in the list."
-        required: false
-        type: "string"
+      summary: Lists active `Occurrences` for a given project matching the filters.
+      operationId: list_occurrences
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiListOccurrencesResponse"
+            $ref: '#/definitions/apiListOccurrencesResponse'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+        - name: filter
+          description: The filter expression.
+          in: query
+          required: false
+          type: string
+        - name: page_size
+          description: Number of occurrences to return in the list.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          description: Token to provide to skip to a particular spot in the list.
+          in: query
+          required: false
+          type: string
+      tags:
+        - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     post:
-      tags:
-      - "GrafeasOccurrences"
-      summary: "Creates a new `Occurrence`. Use this method to create `Occurrences`\n\
-        for a resource."
-      operationId: "create_occurrence"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "Part of `parent`. This contains the project_id for example:\
-          \ projects/{project_id}"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/apiOccurrence"
+      summary: |-
+        Creates a new `Occurrence`. Use this method to create `Occurrences`
+        for a resource.
+      operationId: create_occurrence
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiOccurrence"
+            $ref: '#/definitions/apiOccurrence'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/apiOccurrence'
+      tags:
+        - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+
   /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}:
     get:
-      tags:
-      - "GrafeasOccurrences"
-      summary: "Returns the requested `Occurrence`."
-      operationId: "get_occurrence"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-        required: true
-        type: "string"
-      - name: "occurrence_id"
-        in: "path"
-        description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-        required: true
-        type: "string"
+      summary: Returns the requested `Occurrence`.
+      operationId: get_occurrence
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiOccurrence"
+            $ref: '#/definitions/apiOccurrence'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+        - name: occurrence_id
+          in: path
+          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+      tags:
+        - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     put:
-      tags:
-      - "GrafeasOccurrences"
-      summary: "Updates an existing `Occurrence`."
-      operationId: "update_occurrence"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-        required: true
-        type: "string"
-      - name: "occurrence_id"
-        in: "path"
-        description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/apiOccurrence"
+      summary: Updates an existing `Occurrence`.
+      operationId: update_occurrence
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiOccurrence"
+            $ref: '#/definitions/apiOccurrence'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+        - name: occurrence_id
+          in: path
+          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/apiNote'
+      tags:
+        - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     delete:
-      tags:
-      - "GrafeasOccurrences"
-      summary: "Deletes the given `Occurrence` from the system."
-      operationId: "delete_occurrence"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
-        required: true
-        type: "string"
-      - name: "occurrence_id"
-        in: "path"
-        description: "Second part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
-        required: true
-        type: "string"
+      summary: Deletes the given `Occurrence` from the system.
+      operationId: delete_occurrence
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiEmpty"
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          required: true
+          type: string
+        - name: occurrence_id
+          in: path
+          description: "Second part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          required: true
+          type: string
+      tags:
+        - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+
   /v1alpha1/projects/{project_id}/notes/{note_id}/occurrences:
     get:
-      tags:
-      - "GrafeasOccurrences"
-      summary: "Lists `Occurrences` referencing the specified `Note`. Use this method\
-        \ to\nget all occurrences referencing your `Note` across all your customer\n\
-        projects."
-      operationId: "list_note_occurrences"
-      parameters:
-      - name: "Account"
-        in: "header"
-        description: "The unique ID for your cloud account."
-        required: true
-        type: "string"
-      - name: "Authorization"
-        in: "header"
-        description: "The user authentication agent (UAA) or the Identity & Access\
-          \ Management (IAM) JSON web token"
-        required: true
-        type: "string"
-      - name: "project_id"
-        in: "path"
-        description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
-      - name: "note_id"
-        in: "path"
-        description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
-        required: true
-        type: "string"
-      - name: "filter"
-        in: "query"
-        description: "The filter expression."
-        required: false
-        type: "string"
-      - name: "page_size"
-        in: "query"
-        description: "Number of notes to return in the list."
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "page_token"
-        in: "query"
-        description: "Token to provide to skip to a particular spot in the list."
-        required: false
-        type: "string"
+      summary: |-
+        Lists `Occurrences` referencing the specified `Note`. Use this method to
+        get all occurrences referencing your `Note` across all your customer
+        projects.
+      operationId: list_note_occurrences
       responses:
-        200:
-          description: ""
+        '200':
+          description: ''
           schema:
-            $ref: "#/definitions/apiListNoteOccurrencesResponse"
+            $ref: '#/definitions/apiListNoteOccurrencesResponse'
+      parameters:
+        - name: Account
+          description: The unique ID for your cloud account.
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+        - name: note_id
+          in: path
+          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          required: true
+          type: string
+        - name: filter
+          description: The filter expression.
+          in: query
+          required: false
+          type: string
+        - name: page_size
+          description: Number of notes to return in the list.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          description: Token to provide to skip to a particular spot in the list.
+          in: query
+          required: false
+          type: string
+      tags:
+        - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+
 definitions:
   apiCertainty:
-    type: "string"
-    description: "Note provider-assigned confidence on the validity of an occurrence\n\
-      - CONFIDENCE_UNSPECIFIED&#58; Unknown Certainty\n- LOW&#58; Low Certainty\n\
-      - MEDIUM&#58; Medium Certainty\n- HIGH&#58; High Certainty"
+    type: string
     enum:
-    - "CERTAINTY_UNSPECIFIED"
-    - "LOW"
-    - "MEDIUM"
-    - "HIGH"
-    default: "CERTAINTY_UNSPECIFIED"
+      - LOW
+      - MEDIUM
+      - HIGH
+    description: |-
+      Note provider-assigned confidence on the validity of an occurrence
+      - LOW&#58; Low Certainty
+      - MEDIUM&#58; Medium Certainty
+      - HIGH&#58; High Certainty
+
   apiEmpty:
-    type: "object"
-    description: "A generic empty message that you can re-use to avoid defining duplicated\n\
-      empty messages in your APIs. A typical example is to use it as the request\n\
-      or the response type of an API method.\nThe JSON representation for `Empty`\
-      \ is empty JSON object `{}`."
+    type: object
+    description: |-
+      A generic empty message that you can re-use to avoid defining duplicated
+      empty messages in your APIs. A typical example is to use it as the request
+      or the response type of an API method.
+      The JSON representation for `Empty` is empty JSON object `{}`.
+
   apiListNoteOccurrencesResponse:
-    type: "object"
+    type: object
     properties:
       occurrences:
-        type: "array"
-        description: "The occurrences attached to the specified note."
+        type: array
         items:
-          $ref: "#/definitions/apiOccurrence"
+          $ref: '#/definitions/apiOccurrence'
+        description: The occurrences attached to the specified note.
       next_page_token:
-        type: "string"
-        description: "Token to receive the next page of notes."
-    description: "Response including listed occurrences for a note."
+        type: string
+        description: Token to receive the next page of notes.
+    description: Response including listed occurrences for a note.
+
   apiListNotesResponse:
-    type: "object"
+    type: object
     properties:
       notes:
-        type: "array"
-        title: "The occurrences requested"
+        type: array
         items:
-          $ref: "#/definitions/apiNote"
+          $ref: '#/definitions/apiNote'
+        title: The occurrences requested
       next_page_token:
-        type: "string"
-        description: "The next pagination token in the list response. It should be\
-          \ used as\npage_token for the following request. An empty value means no\
-          \ more result."
-    description: "Response including listed notes."
+        type: string
+        description: |-
+          The next pagination token in the list response. It should be used as
+          page_token for the following request. An empty value means no more result.
+    description: Response including listed notes.
+
   apiListOccurrencesResponse:
-    type: "object"
+    type: object
     properties:
       occurrences:
-        type: "array"
-        description: "The occurrences requested."
+        type: array
         items:
-          $ref: "#/definitions/apiOccurrence"
+          $ref: '#/definitions/apiOccurrence'
+        description: The occurrences requested.
       next_page_token:
-        type: "string"
-        description: "The next pagination token in the list response. It should be\
-          \ used as\n`page_token` for the following request. An empty value means\
-          \ no more\nresults."
-    description: "Response including listed active occurrences."
+        type: string
+        description: |-
+          The next pagination token in the list response. It should be used as
+          `page_token` for the following request. An empty value means no more
+          results.
+    description: Response including listed active occurrences.
+
   apiListProjectsResponse:
-    type: "object"
+    type: object
     properties:
       projects:
-        type: "array"
-        description: "The projects requested."
+        type: array
         items:
-          $ref: "#/definitions/apiProject"
+          $ref: '#/definitions/apiProject'
+        description: The projects requested.
       next_page_token:
-        type: "string"
-        description: "The next pagination token in the list response. It should be\
-          \ used as\n`page_token` for the following request. An empty value means\
-          \ no more\nresults."
-    description: "Response including listed projects"
+        type: string
+        description: |-
+          The next pagination token in the list response. It should be used as
+          `page_token` for the following request. An empty value means no more
+          results.
+    description: Response including listed projects
+
   apiNote:
-    type: "object"
+    type: object
     properties:
       project_id:
-        type: "string"
-        title: "The project id of the note"
+        type: string
+        title: The project id of the note
       id:
-        type: "string"
-        title: "The id of the note"
+        type: string
+        title: The id of the note
       name:
-        type: "string"
-        title: "The name of the note in the form \"projects/{project_id}/notes/{note_id}\""
+        type: string
+        title: |-
+          The name of the note in the form "projects/{project_id}/notes/{note_id}"
       short_description:
-        type: "string"
-        description: "A one sentence description of this `Note`."
+        type: string
+        description: A one sentence description of this `Note`.
       long_description:
-        type: "string"
-        description: "A detailed description of this `Note`."
+        type: string
+        description: A detailed description of this `Note`.
       kind:
-        description: "Output only. This explicitly denotes which kind of note is specified.\
-          \ This\nfield can be used as a filter in list requests."
-        $ref: "#/definitions/apiNoteKind"
+        $ref: '#/definitions/apiNoteKind'
+        description: |-
+          Output only. This explicitly denotes which kind of note is specified. This
+          field can be used as a filter in list requests.
       related_url:
-        type: "array"
-        title: "URLs associated with this note"
+        type: array
         items:
-          $ref: "#/definitions/apiNoteRelatedUrl"
+          $ref: '#/definitions/apiNoteRelatedUrl'
+        title: URLs associated with this note
       expiration_time:
-        type: "string"
-        format: "date-time"
-        description: "Time of expiration for this note, null if note does not expire."
+        type: string
+        format: date-time
+        description: 'Time of expiration for this note, null if note does not expire.'
       create_time:
-        type: "string"
-        format: "date-time"
-        description: "Output only. The time this note was created.\nThis field can\
-          \ be used as a filter in list requests."
+        type: string
+        format: date-time
+        description: |-
+          Output only. The time this note was created.
+          This field can be used as a filter in list requests.
       update_time:
-        type: "string"
-        format: "date-time"
-        description: "Output only. The time this note was last updated.\nThis field\
-          \ can be used as a filter in list requests."
-      vulnerability_type:
-        description: "A package vulnerability type of note."
-        $ref: "#/definitions/VulnerabilityType"
+        type: string
+        format: date-time
+        description: |-
+          Output only. The time this note was last updated.
+          This field can be used as a filter in list requests.
+
+      #
+      # IBM extensions start here
+      #
+      reported_by:
+        $ref: '#/definitions/apiReporter'
+        description: Details about the reporter of this `Note`.
       finding_type:
-        description: "A finding type of note."
-        $ref: "#/definitions/FindingType"
+        $ref: '#/definitions/FindingType'
+        description: A finding type of note.
       kpi_type:
-        description: "A KPI type of note."
-        $ref: "#/definitions/KpiType"
-    description: "Provides a detailed description of a `Note`."
+        $ref: '#/definitions/KpiType'
+        description: A KPI type of note.
+      #
+      # IBM extensions stop here
+      #
+    description: Provides a detailed description of a `Note`.
+
   apiNoteKind:
-    type: "string"
-    description: "This must be 1&#58;1 with members of our oneofs, it can be used\
-      \ for filtering\nNote and Occurrence on their kind.\n - KIND_UNSPECIFIED&#58;\
-      \ Unknown\n - PACKAGE_VULNERABILITY&#58; The note and occurrence represent a\
-      \ package vulnerability.\n - FINDING&#58; The note and occurrence represent\
-      \ a finding.\n - KPI&#58; The note and occurrence represent\
-      \ a KPI."
+    type: string
     enum:
-    - "KIND_UNSPECIFIED"
-    - "PACKAGE_VULNERABILITY"
-    - "FINDING"
-    - "KPI"
-    default: "KIND_UNSPECIFIED"
+      - FINDING
+      - KPI
+    description: |-
+      This must be 1&#58;1 with members of our oneofs, it can be used for filtering Note and Occurrence on their kind.
+       - FINDING&#58; The note and occurrence represent a finding.
+       - KPI&#58; The note and occurrence represent a KPI.
+
   apiNoteRelatedUrl:
-    type: "object"
+    type: object
     properties:
       url:
-        type: "string"
-        title: "Specific URL to associate with the note"
+        type: string
+        title: Specific URL to associate with the note
       label:
-        type: "string"
-        title: "Label to describe usage of the URL"
-    description: "Metadata for any related URL information"
+        type: string
+        title: Label to describe usage of the URL
+    description: Metadata for any related URL information
+
   apiOccurrence:
-    type: "object"
+    type: object
     properties:
       project_id:
-        type: "string"
-        title: "The project id of the occurrence"
+        type: string
+        title: The project id of the occurrence
       id:
-        type: "string"
-        title: "The id of the occurrence"
+        type: string
+        title: The id of the occurrence
       name:
-        type: "string"
-        description: "Output only. The name of the `Occurrence` in the form \"projects/{project_id}/occurrences/{occuurence_id}\""
+        type: string
+        description: |-
+          Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{occuurence_id}"
       resource_url:
-        type: "string"
-        description: "The unique URL of the resource, image or the container, for\
-          \ which the `Occurrence` applies.\nFor example, https://gcr.io/project/image@sha256:foo.\n\
-          This field can be used as a filter in list requests."
+        type: string
+        description: |-
+          The unique URL of the resource, image or the container, for which the `Occurrence` applies.
+          For example, https://gcr.io/project/image@sha256:foo.
+          This field can be used as a filter in list requests.
       note_name:
-        type: "string"
-        description: "An analysis note associated with this image, in the form \"\
-          projects/{project_id}/notes/{note_id}\"\nThis field can be used as a filter\
-          \ in list requests."
+        type: string
+        description: |-
+          An analysis note associated with this image, in the form "projects/{project_id}/notes/{note_id}"
+          This field can be used as a filter in list requests.
       kind:
-        description: "Output only. This explicitly denotes which of the `Occurrence`\
-          \ details are specified.\nThis field can be used as a filter in list requests."
-        $ref: "#/definitions/apiNoteKind"
+        $ref: '#/definitions/apiNoteKind'
+        description: |-
+          Output only. This explicitly denotes which of the `Occurrence` details are specified.
+          This field can be used as a filter in list requests.
       remediation:
-        type: "string"
-        title: "A description of actions that can be taken to remedy the `Note`"
+        type: string
+        title: A description of actions that can be taken to remedy the `Note`
       create_time:
-        type: "string"
-        format: "date-time"
-        description: "Output only. The time this `Occurrence` was created."
+        type: string
+        format: date-time
+        description: Output only. The time this `Occurrence` was created.
       update_time:
-        type: "string"
-        format: "date-time"
-        description: "Output only. The time this `Occurrence` was last updated."
-      vulnerability_details:
-        description: "Details of the occurrence of a security vulnerability."
-        $ref: "#/definitions/VulnerabilityTypeVulnerabilityDetails"
+        type: string
+        format: date-time
+        description: Output only. The time this `Occurrence` was last updated.
+
+      #
+      # IBM extensions start here
+      #
       short_description:
-        type: "string"
-        description: "A one sentence description of this `Occurrence`."
+        type: string
+        description: A one sentence description of this `Occurrence`.
       long_description:
-        type: "string"
-        description: "A detailed description of this `Occurrence`."
+        type: string
+        description: A detailed description of this `Occurrence`.
       context:
-        description: "Details about the resource this `Occurrence` applies to"
-        $ref: "#/definitions/apiContext"
+        $ref: '#/definitions/apiContext'
+        description: Details about the context of this `Occurrence`
       finding:
-        description: "Details of the occurrence of a finding."
-        $ref: "#/definitions/Finding"
+        $ref: '#/definitions/Finding'
+        description: Details of the occurrence of a finding.
       kpi:
-        description: "Details of the occurrence of a finding."
-        $ref: "#/definitions/Kpi"
-    description: "`Occurrence` includes information about analysis occurrences for\
-      \ an image."
+        $ref: '#/definitions/Kpi'
+        description: Details of the occurrence of a KPI.
+      #
+      # IBM extensions stop here
+      #
+    description: '`Occurrence` includes information about analysis occurrences for an image.'
+
   apiProject:
-    type: "object"
+    type: object
     properties:
       id:
-        type: "string"
-        title: "The id of the project"
+        type: string
+        title: The id of the project
       name:
-        type: "string"
-        title: "The name of the project of the form \"projects/{project_id}\""
-    description: "Provides detailed description of a `Project`."
+        type: string
+        title: The name of the project of the form "projects/{project_id}"
+    description: Provides detailed description of a `Project`.
+
   apiContext:
-    type: "object"
+    type: object
     properties:
-      source_url:
-        type: "string"
-        description: "The unique url of the source (e.g. service, app) of the occurrence"
-      region:
-        type: "string"
-        description: "The region the resource belongs to"
       account:
-        type: "string"
-        description: "The account the resource belongs to"
+        type: string
+        description: The account of the resource this occurrence applies to
+      region:
+        type: string
+        description: The region of the resource this occurrence applies to
+      resource:
+        type: string
+        description: The resource this occurrence applies to
+      resource_group:
+        type: string
+        description: The resource group this occurrence applies to
+      resource_type:
+        type: string
+        description: A user-friendly resource type name
       service:
-        type: "string"
-        description: "The service managing the resource"
-      environment_name:
-        type: "string"
-        description: "The name of the logical environment the resource is linked to"
-      component_name:
-        type: "string"
-        description: "The name of the logical component the resource is linked to"
-      toolchain_url:
-        type: "string"
-        description: "The url of the toolchain the resource is linked to"
+        type: string
+        description: The managing service of the resource this occurrence applies to
+      environment:
+        type: string
+        description: The environment name of the resource this occurrence applies to
+      component:
+        type: string
+        description: The component name of the resource this occurrence applies to
+      toolchain:
+        type: string
+        description: The toolchain managing the resource this occurrence applies to
+
+  apiReporter:
+    type: object
+    description: The entity reporting a note
+    properties:
+      id:
+        type: string
+        description: The id of this reporter
+      title:
+        type: string
+        description: The title of this reporter
+      href:
+        type: string
+        description: The href of this reporter
+
   apiSeverity:
-    type: "string"
-    description: "Note provider-assigned severity/impact ranking\n- SEVERITY_UNSPECIFIED&#58;\
-      \ Unknown Impact\n- LOW&#58; Low Impact\n- MEDIUM&#58; Medium Impact\n- HIGH&#58;\
-      \ High Impact"
+    type: string
     enum:
-    - "SEVERITY_UNSPECIFIED"
-    - "LOW"
-    - "MEDIUM"
-    - "HIGH"
-    default: "SEVERITY_UNSPECIFIED"
+      - LOW
+      - MEDIUM
+      - HIGH
+    description: |-
+      Note provider-assigned severity/impact ranking
+      - LOW&#58; Low Impact
+      - MEDIUM&#58; Medium Impact
+      - HIGH&#58; High Impact
+
+#
+# Finding note and occurrence definitions
+#
   FindingType:
-    type: "object"
-    description: "FindingType provides details about a finding note."
+    type: object
+    description: FindingType provides details about a finding note.
     properties:
       title_id:
-        type: "string"
-        description: "The title ID of this finding type (for internationalization)"
+        type: string
+        description: The title ID of this finding type (for internationalization)
       default_title:
-        type: "string"
-        description: "The default title of this finding type"
+        type: string
+        description: The default title of this finding type
       default_severity:
-        description: "The default severity of the findings related to this `Note`"
-        $ref: "#/definitions/apiSeverity"
-  Finding:
-    type: "object"
-    description: "Finding provides details about a finding occurrence."
+        $ref: '#/definitions/apiSeverity'
+        description: The default severity of the findings related to this `Note`
+      elements:
+        type: array
+        items:
+          $ref: '#/definitions/FindingTypeElement'
+        description: The elements of this `FindingType`
+
+  FindingTypeElement:
+    type: object
+    description: FindingTypeElement provides details about the elements of a FindingType
     properties:
-      certainty:
-        description: "The confidence level on this finding"
-        $ref: "#/definitions/apiCertainty"
-  KpiType:
-    type: "object"
-    description: "KpiType provides details about a KPI note."
-    properties:
-      text_d:
-        type: "string"
-        description: "The text ID of this KPI type (for internationalization)"
-      default_text:
-        type: "string"
-        description: "The default text of this KPI type"
-      aggretation_type:
-        type: "string"
-        description: "The aggregation type of KPI values.\n - SUM&#58; A single-value metrics aggregation type\
-        \ that sums up numeric values that are extracted from KPI occurrences."
+      kind:
+        type: string
         enum:
-        - "SUM"
-        default: "SUM"
+        - SINGLE_VALUE
+        - MULTI_VALUE_HISTOGRAM
+        description: |-
+          Kind of element
+          - SINGLE_VALUE&#58; Single value
+          - MULTI_VALUE_HISTOGRAM&#58; Multi values shown in a histogram
+      note_names:
+        type: array
+        description: The names of the notes associated to the 'FindingType'
+        items:
+          type: string
+
+  Finding:
+    type: object
+    description: Finding provides details about a finding occurrence.
+    properties:
+      severity:
+        $ref: '#/definitions/apiSeverity'
+        description: The common severity of this `Occurrence`
+      certainty:
+        $ref: '#/definitions/apiCertainty'
+        description: The confidence level on this `Occurrence`
+#
+# KPI note and occurrence definitions
+#
+  KpiType:
+    type: object
+    description: KpiType provides details about a KPI note.
+    properties:
+      label_id:
+        type: string
+        description: The label ID of this KPI type (for internationalization)
+      default_label:
+        type: string
+        description: The default label of this KPI type
+      description_id:
+        type: string
+        description: The description ID of this KPI type (for internationalization)
+      default_description:
+        type: string
+        description: The default description of this KPI type
+      aggregation_type:
+        type: string
+        enum:
+        - SUM
+        description: |-
+          The aggregation type of the KPI values.
+          - SUM&#58; A single-value metrics aggregation type that sums up numeric values
+            that are extracted from KPI occurrences.
+        default: SUM
+
   Kpi:
-    type: "object"
-    description: "Kpi provides details about a KPI occurrence."
+    type: object
+    description: Kpi provides details about a KPI occurrence.
     properties:
       value:
-        type: "number"
-        description: "The value of this KPI"
+        type: number
+        description: The value of this KPI
       total:
-        type: "number"
-        description: "The total value of this KPI"
-  VulnerabilityType:
-    type: "object"
-    properties:
-      cvss_score:
-        type: "number"
-        format: "float"
-        description: "The CVSS score for this Vulnerability."
-      severity:
-        title: "Note provider assigned impact of the vulnerability"
-        $ref: "#/definitions/VulnerabilityTypeSeverity"
-      details:
-        type: "array"
-        description: "All information about the package to specifically identify this\n\
-          vulnerability. One entry per (version range and cpe_uri) the\npackage vulnerability\
-          \ has manifested in."
-        items:
-          $ref: "#/definitions/VulnerabilityTypeDetail"
-    description: "VulnerabilityType provides metadata about a security vulnerability."
-  VersionVersionKind:
-    type: "string"
-    description: "Whether this is an ordinary package version or a\nsentinel MIN/MAX\
-      \ version.\n - NORMAL&#58; A standard package version, defined by the other\
-      \ fields.\n - MINIMUM&#58; A special version representing negative infinity,\n\
-      other fields are ignored.\n - MAXIMUM&#58; A special version representing positive\
-      \ infinity,\nother fields are ignored."
-    enum:
-    - "NORMAL"
-    - "MINIMUM"
-    - "MAXIMUM"
-    default: "NORMAL"
-  VulnerabilityTypeDetail:
-    type: "object"
-    properties:
-      cpe_uri:
-        type: "string"
-        description: "The cpe_uri in [cpe format] (https&#58;//cpe.mitre.org/specification/)\
-          \ in\nwhich the vulnerability manifests. Examples include distro or storage\n\
-          location for vulnerable jar.\nThis field can be used as a filter in list\
-          \ requests."
-      package:
-        type: "string"
-        description: "The name of the package where the vulnerability was found.\n\
-          This field can be used as a filter in list requests."
-      min_affected_version:
-        description: "The min version of the package in which the vulnerability exists."
-        $ref: "#/definitions/VulnerabilityTypeVersion"
-      max_affected_version:
-        description: "The max version of the package in which the vulnerability exists.\n\
-          This field can be used as a filter in list requests."
-        $ref: "#/definitions/VulnerabilityTypeVersion"
-      severity_name:
-        type: "string"
-        description: "The severity (eg: distro assigned severity) for this vulnerability."
-      description:
-        type: "string"
-        description: "A vendor-specific description of this note."
-      fixed_location:
-        description: "The fix for this specific package version."
-        $ref: "#/definitions/VulnerabilityTypeVulnerabilityLocation"
-      package_type:
-        type: "string"
-        title: "The type of package; whether native or non native(ruby gems,\nnode.js\
-          \ packages etc)"
-    description: "Identifies all occurrences of this vulnerability in the package\
-      \ for a\nspecific distro/location\nFor example&#58; glibc in cpe&#58;/o&#58;debian&#58;debian_linux&#58;8\
-      \ for versions 2.1 - 2.2"
-  VulnerabilityTypePackageIssue:
-    type: "object"
-    properties:
-      affected_location:
-        description: "The location of the vulnerability."
-        $ref: "#/definitions/VulnerabilityTypeVulnerabilityLocation"
-      fixed_location:
-        description: "The location of the available fix for vulnerability."
-        $ref: "#/definitions/VulnerabilityTypeVulnerabilityLocation"
-      severity_name:
-        type: "string"
-        description: "The severity (eg: distro assigned severity) for this vulnerability."
-    description: "This message wraps a location affected by a vulnerability and its\n\
-      associated fix (if one is available)."
-  VulnerabilityTypeSeverity:
-    type: "string"
-    description: "Note provider-assigned severity/impact ranking\n- SEVERITY_UNSPECIFIED&#58;\
-      \ Unknown Impact\n- MINIMAL&#58; Minimal Impact\n- LOW&#58; Low Impact\n- MEDIUM&#58;\
-      \ Medium Impact\n- HIGH&#58; High Impact\n- CRITICAL&#58; Critical Impact"
-    enum:
-    - "SEVERITY_UNSPECIFIED"
-    - "MINIMAL"
-    - "LOW"
-    - "MEDIUM"
-    - "HIGH"
-    - "CRITICAL"
-    default: "SEVERITY_UNSPECIFIED"
-  VulnerabilityTypeVersion:
-    type: "object"
-    properties:
-      epoch:
-        type: "integer"
-        format: "int32"
-        description: "Used to correct mistakes in the version numbering scheme."
-      name:
-        type: "string"
-        description: "The main part of the version name."
-      revision:
-        type: "string"
-        description: "The iteration of the package build from the above version."
-      kind:
-        description: "Distinguish between sentinel MIN/MAX versions and normal versions.\n\
-          If kind is not NORMAL, then the other fields are ignored."
-        $ref: "#/definitions/VersionVersionKind"
-    description: "Version contains structured information about the version of the\
-      \ package.\nFor a discussion of this in Debian/Ubuntu&#58;\nhttp&#58;//serverfault.com/questions/604541/debian-packages-version-convention\n\
-      For a discussion of this in Redhat/Fedora/Centos&#58;\nhttp&#58;//blog.jasonantman.com/2014/07/how-yum-and-rpm-compare-versions/"
-  VulnerabilityTypeVulnerabilityDetails:
-    type: "object"
-    properties:
-      type:
-        type: "string"
-        title: "The type of package; whether native or non native(ruby gems,\nnode.js\
-          \ packages etc)"
-      severity:
-        description: "Output only. The note provider assigned Severity of the vulnerability."
-        $ref: "#/definitions/VulnerabilityTypeSeverity"
-      cvss_score:
-        type: "number"
-        format: "float"
-        description: "Output only. The CVSS score of this vulnerability. CVSS score\
-          \ is on a\nscale of 0-10 where 0 indicates low severity and 10 indicates\
-          \ high\nseverity."
-      package_issue:
-        type: "array"
-        description: "The set of affected locations and their fixes (if available)\
-          \ within\nthe associated resource."
-        items:
-          $ref: "#/definitions/VulnerabilityTypePackageIssue"
-    description: "Used by Occurrence to point to where the vulnerability exists and\
-      \ how\nto fix it."
-  VulnerabilityTypeVulnerabilityLocation:
-    type: "object"
-    properties:
-      cpe_uri:
-        type: "string"
-        description: "The cpe_uri in [cpe format] (https&#58;//cpe.mitre.org/specification/)\n\
-          format. Examples include distro or storage location for vulnerable jar.\n\
-          This field can be used as a filter in list requests."
-      package:
-        type: "string"
-        description: "The package being described."
-      version:
-        description: "The version of the package being described.\nThis field can\
-          \ be used as a filter in list requests."
-        $ref: "#/definitions/VulnerabilityTypeVersion"
-    description: "The location of the vulnerability"
+        type: number
+        description: The total value of this KPI

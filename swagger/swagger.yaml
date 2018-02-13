@@ -24,7 +24,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -62,7 +61,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -90,7 +88,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -117,7 +114,6 @@ paths:
         - name: Account
           description: "The unique ID for your cloud account."
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -146,7 +142,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -189,7 +184,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -222,7 +216,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -254,7 +247,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -291,7 +283,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -325,7 +316,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -359,7 +349,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -404,7 +393,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -438,7 +426,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -470,7 +457,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -507,7 +493,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
@@ -544,7 +529,6 @@ paths:
         - name: Account
           description: The unique ID for your cloud account.
           in: header
-          required: true
           type: string
         - name: Authorization
           description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token

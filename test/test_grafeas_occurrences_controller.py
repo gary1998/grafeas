@@ -17,8 +17,8 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Note02",
-            "shortDescription": "The short description of Note02",
-            "longDescription": "The long description of Note02"
+            "short_description": "The short description of Note02",
+            "long_description": "The long description of Note02"
         }
 
         response = self.post_note('ProjectX', body)
@@ -33,8 +33,8 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Note02",
-            "shortDescription": "The short description of Note02",
-            "longDescription": "The long description of Note02"
+            "short_description": "The short description of Note02",
+            "long_description": "The long description of Note02"
         }
 
         response = self.post_note('ProjectX', body)
@@ -49,9 +49,9 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "noteName": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
-            "shortDescription": "The short description of Occurrence02",
-            "longDescription": "The long description of Occurrence02"
+            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "short_description": "The short description of Occurrence02",
+            "long_description": "The long description of Occurrence02"
         }
 
         response = self.post_occurrence('ProjectX', body)
@@ -66,9 +66,9 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "noteName": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
-            "shortDescription": "The short description of Occurrence02",
-            "longDescription": "The long description of Occurrence02"
+            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "short_description": "The short description of Occurrence02",
+            "long_description": "The long description of Occurrence02"
         }
 
         response = self.post_occurrence('ProjectX', body)

@@ -37,7 +37,7 @@ def create_note(project_id, body):
 
     note_id = body['id']
     note_name = common.build_note_name(project_id, note_id)
-    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+
     project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Note'
     body['account_id'] = account_id
@@ -49,6 +49,7 @@ def create_note(project_id, body):
     body['update_timestamp'] = create_timestamp
 
     try:
+        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         store.create_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
@@ -78,13 +79,22 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     else:
         account_id = common.SHARED_ACCOUNT_ID
 
-    store = common.get_store()
-    account_id = connexion.request.headers['Account']
     project_doc_id = common.build_project_doc_id(account_id, project_id)
+    shared_project_doc_id = common.build_project_doc_id(common.SHARED_ACCOUNT_ID, project_id)
+    if account_id != common.SHARED_ACCOUNT_ID:
+        project_doc_id_filter = [
+            project_doc_id,
+            shared_project_doc_id
+        ]
+    else:
+        project_doc_id_filter = shared_project_doc_id
+
+    store = common.get_store()
+
     docs = store.find(
         filter_={
             'doc_type': 'Note',
-            'project_doc_id': project_doc_id
+            'project_doc_id': project_doc_id_filter
         },
         index="DT_PDI")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
@@ -108,15 +118,19 @@ def get_note(project_id, note_id):
         account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
-    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
 
     try:
+        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         doc = store.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        note_name = common.build_note_name(project_id, note_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        try:
+            note_doc_id = common.build_note_doc_id(common.SHARED_ACCOUNT_ID, project_id, note_id)
+            doc = store.get_doc(note_doc_id)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except KeyError:
+            note_name = common.build_note_name(project_id, note_id)
+            return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
 
 def update_note(project_id, note_id, body):
@@ -149,11 +163,10 @@ def update_note(project_id, note_id, body):
         body['update_time'] = isodate.datetime_isoformat(now)
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
-    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
     body['update_timestamp'] = update_timestamp
 
     try:
+        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         doc = store.update_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
@@ -179,10 +192,9 @@ def delete_note(project_id, note_id):
         account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
-    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
 
     try:
+        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         doc = store.delete_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
@@ -210,14 +222,13 @@ def get_occurrence_note(project_id, occurrence_id):
         account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
     occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:
         occurrence_doc = store.get_doc(occurrence_doc_id)
 
         try:
-            note_name = occurrence_doc['noteName']
+            note_name = occurrence_doc['note_name']
             note_doc_id = "{}/{}".format(account_id, note_name)
             doc = store.get_doc(note_doc_id)
             return common.build_result(HTTPStatus.OK, _clean_doc(doc))

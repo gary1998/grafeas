@@ -134,5 +134,8 @@ class Store(object):
     def _get_selector(filter_: dict):
         selector = {}
         for name, value in filter_.items():
-            selector[name] = {"$eq": value}
+            if type(value) is list:
+                selector[name] = {"$in": value}
+            else:
+                selector[name] = {"$eq": value}
         return selector

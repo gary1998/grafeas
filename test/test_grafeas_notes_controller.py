@@ -17,8 +17,8 @@ class TestGrafeasNotesController(BaseTestCase):
 
         body = {
             "id": "Note01",
-            "shortDescription": "The short description of Note01",
-            "longDescription": "The long description of Note01"
+            "short_description": "The short description of Note01",
+            "long_description": "The long description of Note01"
         }
 
         response = self.post_note('ProjectX', body)
@@ -33,8 +33,8 @@ class TestGrafeasNotesController(BaseTestCase):
 
         body = {
             "id": "Note01",
-            "shortDescription": "The short description of Note01",
-            "longDescription": "The long description of Note01"
+            "short_description": "The short description of Note01",
+            "long_description": "The long description of Note01"
         }
 
         response = self.post_note('ProjectX', body)
@@ -71,9 +71,9 @@ class TestGrafeasNotesController(BaseTestCase):
 
         body = {
             "id": "Occurrence01",
-            "noteName": "projects/{}/notes/{}".format('ProjectX', 'Note01'),
-            "shortDescription": "The short description of Occurrence01",
-            "longDescription": "The long description of Occurrence01"
+            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note01'),
+            "short_escription": "The short description of Occurrence01",
+            "long_description": "The long description of Occurrence01"
         }
 
         response = self.post_occurrence('ProjectX', body)
@@ -88,9 +88,9 @@ class TestGrafeasNotesController(BaseTestCase):
 
         body = {
             "id": "Occurrence01",
-            "noteName": "projects/{}/notes/{}".format('ProjectX', 'Note01'),
-            "shortDescription": "The short description of Occurrence01",
-            "longDescription": "The long description of Occurrence01"
+            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note01'),
+            "short_description": "The short description of Occurrence01",
+            "long_description": "The long description of Occurrence01"
         }
 
         response = self.post_occurrence('ProjectX', body)
@@ -113,8 +113,9 @@ class TestGrafeasNotesController(BaseTestCase):
         """
 
         body = {
-            "shortDescription": "The updated short description of Note01",
-            "longDescription": "The updated long description of Note01"
+            "id": "Note01",
+            "short_description": "The updated short description of Note01",
+            "long_description": "The updated long description of Note01"
         }
 
         response = self.put_note('ProjectX', 'Note01', body)

@@ -344,7 +344,7 @@ class TestSecurityFindings(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountY",
+                #"Account": "AccountY", Projects are shared by all accounts
                 "Authorization": "AuthorizationY"
             })
 
@@ -356,7 +356,7 @@ class TestSecurityFindings(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountY",
+                #"Account": "AccountY", Notes are shared by all accounts
                 "Authorization": "AuthorizationY"
             })
 

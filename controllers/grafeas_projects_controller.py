@@ -13,14 +13,15 @@ def create_project(body):
     :rtype: ApiEmpty
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT_ID
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
     project_id = body['id']
     project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Project'
@@ -32,7 +33,7 @@ def create_project(body):
         store.create_doc(project_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
-        return common.build_error(HTTPStatus.CONFLICT, "Project already exists: {}".format(project_doc_id))
+        return common.build_error(HTTPStatus.CONFLICT, "Project already exists: {}".format(project_id))
 
 
 def delete_project(project_id):
@@ -45,18 +46,19 @@ def delete_project(project_id):
     :rtype: ApiEmpty
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     try:
+        project_doc_id = common.build_project_doc_id(account_id, project_id)
         doc = store.delete_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_doc_id))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
 
 
 def get_project(project_id):
@@ -69,18 +71,24 @@ def get_project(project_id):
     :rtype: ApiProject
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     try:
+        project_doc_id = common.build_project_doc_id(account_id, project_id)
         doc = store.get_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_doc_id))
+        try:
+            project_doc_id = common.build_project_doc_id(common.SHARED_ACCOUNT_ID, project_id)
+            doc = store.get_doc(project_doc_id)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except KeyError:
+            return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
 
 
 def list_projects(filter=None, page_size=None, page_token=None):
@@ -97,15 +105,24 @@ def list_projects(filter=None, page_size=None, page_token=None):
     :rtype: ApiListProjectsResponse
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "'Account' header is missing")
+    if 'Account' in connexion.request.headers:
+        account_id = connexion.request.headers['Account']
+    else:
+        account_id = common.SHARED_ACCOUNT_ID
+
+    if account_id != common.SHARED_ACCOUNT_ID:
+        account_id_filter = [
+            common.SHARED_ACCOUNT_ID,
+            account_id
+        ]
+    else:
+        account_id_filter = common.SHARED_ACCOUNT_ID
 
     store = common.get_store()
-    account_id = connexion.request.headers['Account']
     docs = store.find(
         filter_={
             'doc_type': 'Project',
-            'account_id': account_id
+            'account_id': account_id_filter
         },
         index="DT_AI")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])

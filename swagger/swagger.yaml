@@ -808,33 +808,46 @@ definitions:
   apiContext:
     type: object
     properties:
-      account:
+      account_id:
         type: string
-        description: The account of the resource this occurrence applies to
+        description: A unique ID for your IBM Cloud account
       region:
         type: string
-        description: The region of the resource this occurrence applies to
-      resource:
+        description: An IBM Cloud region
+      resource_crn:
         type: string
-        description: The resource this occurrence applies to
-      resource_group:
+        description: A resource CRN (e.g. certificate CRN, image CRN)
+      resource_id:
         type: string
-        description: The resource group this occurrence applies to
+        description: A resource ID, in case CRN is not available
+      resource_name:
+        type: string
+        description: A user-friendly resource name
       resource_type:
         type: string
-        description: A user-friendly resource type name
-      service:
+        description: A resource type name (e.g. Pod, Cluster, Certificate, Image)
+      service_crn:
         type: string
-        description: The managing service of the resource this occurrence applies to
-      environment:
+        description: A service CRN (e.g. CertMgr Instance CRN)
+      service_id:
         type: string
-        description: The environment name of the resource this occurrence applies to
-      component:
+        description: A Service ID, in case CRN is not available
+      service_name:
         type: string
-        description: The component name of the resource this occurrence applies to
-      toolchain:
+        description: Service Name ((e.g. CertMgr)
+
+      #
+      # Only used  by DevOps Insights
+      #
+      environment_name:
         type: string
-        description: The toolchain managing the resource this occurrence applies to
+        description: The name of the environment the occurrence applies to
+      component_name:
+        type: string
+        description: The name of the component the occurrence applies to
+      toolchain_id:
+        type: string
+        description: The id of the toolchain the occurrence applies to
 
   apiReporter:
     type: object

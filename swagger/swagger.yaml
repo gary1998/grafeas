@@ -810,7 +810,7 @@ definitions:
     properties:
       account_id:
         type: string
-        description: A unique ID for your IBM Cloud account
+        description: The unique ID for your IBM Cloud account
       region:
         type: string
         description: An IBM Cloud region
@@ -831,7 +831,7 @@ definitions:
         description: A service CRN (e.g. CertMgr Instance CRN)
       service_id:
         type: string
-        description: A Service ID, in case CRN is not available
+        description: A service ID, in case CRN is not available
       service_name:
         type: string
         description: A service name (e.g. CertMgr)

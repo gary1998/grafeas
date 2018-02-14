@@ -7,10 +7,10 @@ import logging
 import requests
 
 
-logger = logging.getLogger("grafeas.store")
+logger = logging.getLogger("grafeas.cloudant_client")
 
 
-class Store(object):
+class CloudantDatabase(object):
     def __init__(self, url, db_name, username, auth_token):
         self.url = url
         self.db_name = db_name
@@ -104,7 +104,7 @@ class Store(object):
         if sort is not None:
             kwargs['sort'] = sort
 
-        selector = Store._get_selector(filter_)
+        selector = CloudantDatabase._get_selector(filter_)
         result = self._get_query_result(selector, index, fields, **kwargs)
         return result['docs']
 

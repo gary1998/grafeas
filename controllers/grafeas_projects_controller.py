@@ -21,7 +21,7 @@ def create_project(body):
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
 
-    store = common.get_store()
+    db = common.get_db()
     project_id = body['id']
     project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Project'
@@ -30,7 +30,7 @@ def create_project(body):
     body['name'] = common.build_project_name(project_id)
 
     try:
-        store.create_doc(project_doc_id, body)
+        db.create_doc(project_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
         return common.build_error(HTTPStatus.CONFLICT, "Project already exists: {}".format(project_id))
@@ -51,11 +51,11 @@ def delete_project(project_id):
     else:
         account_id = common.SHARED_ACCOUNT_ID
 
-    store = common.get_store()
+    db = common.get_db()
 
     try:
         project_doc_id = common.build_project_doc_id(account_id, project_id)
-        doc = store.delete_doc(project_doc_id)
+        doc = db.delete_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
@@ -76,16 +76,16 @@ def get_project(project_id):
     else:
         account_id = common.SHARED_ACCOUNT_ID
 
-    store = common.get_store()
+    db = common.get_db()
 
     try:
         project_doc_id = common.build_project_doc_id(account_id, project_id)
-        doc = store.get_doc(project_doc_id)
+        doc = db.get_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
         try:
             project_doc_id = common.build_project_doc_id(common.SHARED_ACCOUNT_ID, project_id)
-            doc = store.get_doc(project_doc_id)
+            doc = db.get_doc(project_doc_id)
             return common.build_result(HTTPStatus.OK, _clean_doc(doc))
         except KeyError:
             return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
@@ -118,8 +118,8 @@ def list_projects(filter=None, page_size=None, page_token=None):
     else:
         account_id_filter = common.SHARED_ACCOUNT_ID
 
-    store = common.get_store()
-    docs = store.find(
+    db = common.get_db()
+    docs = db.find(
         filter_={
             'doc_type': 'Project',
             'account_id': account_id_filter

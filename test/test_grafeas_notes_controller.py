@@ -72,7 +72,7 @@ class TestGrafeasNotesController(BaseTestCase):
         body = {
             "id": "Occurrence01",
             "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note01'),
-            "short_escription": "The short description of Occurrence01",
+            "short_description": "The short description of Occurrence01",
             "long_description": "The long description of Occurrence01"
         }
 

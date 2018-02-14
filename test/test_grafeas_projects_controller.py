@@ -56,7 +56,7 @@ class TestGrafeasProjectsController(BaseTestCase):
         response = self.get_projects()
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
-        self.assertEqual(len(results), 1, "An array of one project was expected.")
+        self.assertTrue(len(results) >= 1, "An array of one project was expected.")
 
     def test_05_delete_project(self):
         """

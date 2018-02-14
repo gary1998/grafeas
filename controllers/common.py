@@ -1,26 +1,26 @@
 import os
 import threading
-from grafeas.store import Store
+from util.cloudant_client import CloudantDatabase
 
 
 SHARED_ACCOUNT_ID = "$SHARED$"
 
 
-__store = None
-__store_lock = threading.Lock()
+__db = None
+__db_lock = threading.Lock()
 
 
-def get_store():
+def get_db():
     """
     Opens a new db connection if there is none yet for the current application context.
     """
 
-    global __store
-    with __store_lock:
-        if __store is None:
-            __store = __create_store()
+    global __db
+    with __db_lock:
+        if __db is None:
+            __db = __create_db()
 
-        return __store
+        return __db
 
 
 def build_result(status, data):
@@ -37,17 +37,17 @@ def build_error(status, detail):
     return error, status.value
 
 
-def __create_store():
-    store = Store(
+def __create_db():
+    db = CloudantDatabase(
         os.environ['GRAFEAS_URL'],
         os.environ['GRAFEAS_DB_NAME'],
         os.environ['GRAFEAS_USERNAME'],
         os.environ['GRAFEAS_PASSWORD'])
 
-    store.create_query_index("DT_AI",  ['doc_type', 'account_id'])
-    store.create_query_index("DT_PDI", ['doc_type', 'project_doc_id'])
-    store.create_query_index("DT_NDI", ['doc_type', 'note_doc_id'])
-    return store
+    db.create_query_index("DT_AI",  ['doc_type', 'account_id'])
+    db.create_query_index("DT_PDI", ['doc_type', 'project_doc_id'])
+    db.create_query_index("DT_NDI", ['doc_type', 'note_doc_id'])
+    return db
 
 
 def build_project_name(project_id):

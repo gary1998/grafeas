@@ -49,9 +49,9 @@ ALERT_OCCURRENCE_1_1 = {
     "create_time": "2018-02-03T12:42:10.082053Z",
     "context": {
         "region": "US-South",
-        "account": "Account01",
-        "resource": "Pod01",
-        "service": "Cluster01"
+        "account_id": "Account01",
+        "resource_crn": "Pod01",
+        "service_crn": "Cluster01"
     },
     "finding": {
         "certainty": "MEDIUM",
@@ -88,9 +88,9 @@ ALERT_OCCURRENCE_1_2 = {
     "create_time": "2018-02-04T14:45:23.081063Z",
     "context": {
         "region": "US-South",
-        "account": "Account01",
-        "resource": "Pod02",
-        "service": "Cluster01"
+        "account_id": "Account01",
+        "resource_crn": "Pod02",
+        "service_crn": "Cluster01"
     },
     "finding": {
         "certainty": "HIGH",
@@ -116,9 +116,9 @@ ALERT_OCCURRENCE_1_3 = {
     "create_time": "2018-02-05T21:44:52.047073Z",
     "context": {
         "region": "US-South",
-        "account": "Account01",
-        "resource": "Pod03",
-        "service": "Cluster02"
+        "account_id": "Account01",
+        "resource_crn": "Pod03",
+        "service_crn": "Cluster02"
     },
     "finding": {
         "certainty": "HIGH",
@@ -161,9 +161,9 @@ KPI_OCCURRENCE_2_1 = {
     "create_time": "2018-02-05T12:56:02.061882Z",
     "context": {
         "region": "US-South",
-        "account": "account_guid",
-        "resource": "name of pod",
-        "service": "cluster CRN"
+        "account_id": "account_guid",
+        "resource_crn": "name of pod",
+        "service_crn": "cluster CRN"
     },
     "kpi": {
         "value": 3432
@@ -216,9 +216,9 @@ ALERT_OCCURRENCE_3_1 = {
     "create_time": "2018-02-05T20:43:12.071982Z",
     "context": {
         "region": "US-South",
-        "account": "account_guid",
-        "resource": "name of pod",
-        "service": "cluster CRN"
+        "account_id": "account_guid",
+        "resource_crn": "name of pod",
+        "service_crn": "cluster CRN"
     },
     "finding": {
         "certainty": "HIGH",
@@ -256,9 +256,9 @@ MODIFIED_ALERT_OCCURRENCE_3_1 = {
     "create_time": "2018-02-05T20:43:12.071982Z",
     "context": {
         "region": "US-South",
-        "account": "account_guid",
-        "resource": "name of pod",
-        "service": "cluster CRN"
+        "account_id": "account_guid",
+        "resource_crn": "name of pod",
+        "service_crn": "cluster CRN"
     },
     "finding": {
         "certainty": "HIGH",

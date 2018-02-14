@@ -834,7 +834,7 @@ definitions:
         description: A Service ID, in case CRN is not available
       service_name:
         type: string
-        description: Service Name ((e.g. CertMgr)
+        description: A service name (e.g. CertMgr)
 
       #
       # Only used  by DevOps Insights

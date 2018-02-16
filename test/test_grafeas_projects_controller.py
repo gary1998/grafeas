@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from . import BaseTestCase
 from flask import json
 from http import HTTPStatus
@@ -56,7 +54,7 @@ class TestGrafeasProjectsController(BaseTestCase):
         response = self.get_projects()
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(len(results) >= 1, "An array of one project was expected.")
+        self.assertTrue(len(results) > 0, "An array of one or more projects was expected.")
 
     def test_05_delete_project(self):
         """

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from . import BaseTestCase
 from flask import json
 from http import HTTPStatus
@@ -94,7 +92,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.get_occurrences('ProjectX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
-        self.assertEqual(len(results), 1, "A array of one occurrence was expected.")
+        self.assertTrue(len(results) > 0, "A array of one ore more occurrences was expected.")
 
     def test_07_list_note_occurrences(self):
         """
@@ -107,7 +105,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.get_note_occurrences('ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
-        self.assertEqual(len(results), 1, "An array of occurrence was expected.")
+        self.assertTrue(len(results) > 0, "An array of one or more occurrences was expected.")
 
     def test_08_delete_occurrence(self):
         """

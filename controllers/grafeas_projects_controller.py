@@ -1,6 +1,7 @@
 import connexion
 from http import HTTPStatus
 from . import common
+from util import auth_util
 
 
 def create_project(body):
@@ -13,23 +14,20 @@ def create_project(body):
     :rtype: ApiEmpty
     """
 
-    if 'Account' in connexion.request.headers:
-        account_id = connexion.request.headers['Account']
-    else:
-        account_id = common.SHARED_ACCOUNT_ID
+    account_id = auth_util.get_account_id(connexion.request)
+    db = common.get_db()
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
 
-    db = common.get_db()
     project_id = body['id']
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Project'
     body['account_id'] = account_id
     body['id'] = project_id
     body['name'] = common.build_project_name(project_id)
 
     try:
+        project_doc_id = common.build_project_doc_id(account_id, project_id)
         db.create_doc(project_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
@@ -46,11 +44,7 @@ def delete_project(project_id):
     :rtype: ApiEmpty
     """
 
-    if 'Account' in connexion.request.headers:
-        account_id = connexion.request.headers['Account']
-    else:
-        account_id = common.SHARED_ACCOUNT_ID
-
+    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
 
     try:
@@ -71,11 +65,7 @@ def get_project(project_id):
     :rtype: ApiProject
     """
 
-    if 'Account' in connexion.request.headers:
-        account_id = connexion.request.headers['Account']
-    else:
-        account_id = common.SHARED_ACCOUNT_ID
-
+    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
 
     try:
@@ -83,12 +73,7 @@ def get_project(project_id):
         doc = db.get_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
-        try:
-            project_doc_id = common.build_project_doc_id(common.SHARED_ACCOUNT_ID, project_id)
-            doc = db.get_doc(project_doc_id)
-            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-        except KeyError:
-            return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
 
 
 def list_projects(filter=None, page_size=None, page_token=None):
@@ -105,24 +90,12 @@ def list_projects(filter=None, page_size=None, page_token=None):
     :rtype: ApiListProjectsResponse
     """
 
-    if 'Account' in connexion.request.headers:
-        account_id = connexion.request.headers['Account']
-    else:
-        account_id = common.SHARED_ACCOUNT_ID
-
-    if account_id != common.SHARED_ACCOUNT_ID:
-        account_id_filter = [
-            common.SHARED_ACCOUNT_ID,
-            account_id
-        ]
-    else:
-        account_id_filter = common.SHARED_ACCOUNT_ID
-
+    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
     docs = db.find(
         filter_={
             'doc_type': 'Project',
-            'account_id': account_id_filter
+            'account_id': account_id
         },
         index="DT_AI")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])

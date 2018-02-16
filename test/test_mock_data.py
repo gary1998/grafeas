@@ -29,7 +29,7 @@ class TestMockData(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                #"Account": "Account01", Projects are shared by all accounts
+                "Account": "Account01",
                 "Authorization": "Authorization01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
@@ -42,7 +42,7 @@ class TestMockData(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                #"Account": "Account01", All notes are shared by all accounts
+                "Account": "Account01",
                 "Authorization": "Authorization01"
             })
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))

@@ -3,6 +3,7 @@ import datetime
 from http import HTTPStatus
 import isodate
 from . import common
+from util import auth_util
 
 
 def create_occurrence(project_id, body):
@@ -17,8 +18,8 @@ def create_occurrence(project_id, body):
     :rtype: ApiOccurrence
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+    account_id = auth_util.get_account_id(connexion.request)
+    db = common.get_db()
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -34,24 +35,16 @@ def create_occurrence(project_id, body):
         body['create_time'] = isodate.datetime_isoformat(now)
     body['update_time'] = body['create_time']
 
-    db = common.get_db()
-    account_id = connexion.request.headers['Account']
     occurrence_id = body['id']
     occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
     note_name = body['note_name']
-    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
     project_doc_id = common.build_project_doc_id(account_id, project_id)
 
-    # find note doc id
-    note_doc_id = "{}/{}".format(account_id, note_name)
     try:
+        note_doc_id = "{}/{}".format(account_id, note_name)
         note = db.get_doc(note_doc_id)
     except KeyError:
-        note_doc_id = "{}/{}".format(common.SHARED_ACCOUNT_ID, note_name)
-        try:
-            note = db.get_doc(note_doc_id)
-        except KeyError:
-            return common.build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
 
     body['doc_type'] = 'Occurrence'
     body['account_id'] = account_id
@@ -64,6 +57,7 @@ def create_occurrence(project_id, body):
     body['update_timestamp'] = create_timestamp
 
     try:
+        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         db.create_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
@@ -86,11 +80,8 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     :rtype: ApiListOccurrencesResponse
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
-
+    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
-    account_id = connexion.request.headers['Account']
     project_doc_id = common.build_project_doc_id(account_id, project_id)
     docs = db.find(
         filter_={
@@ -113,14 +104,11 @@ def get_occurrence(project_id, occurrence_id):
     :rtype: ApiOccurrence
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
-
+    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
-    account_id = connexion.request.headers['Account']
-    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:
+        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.get_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
@@ -142,8 +130,8 @@ def update_occurrence(project_id, occurrence_id, body):
     :rtype: ApiNote
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
+    account_id = auth_util.get_account_id(connexion.request)
+    db = common.get_db()
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -157,13 +145,10 @@ def update_occurrence(project_id, occurrence_id, body):
         now = datetime.datetime.now()
         update_timestamp = now.timestamp()
         body['update_time'] = isodate.datetime_isoformat(now)
-
-    db = common.get_db()
-    account_id = connexion.request.headers['Account']
-    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
     body['update_timestamp'] = update_timestamp
 
     try:
+        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.update_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
@@ -183,14 +168,11 @@ def delete_occurrence(project_id, occurrence_id):
     :rtype: ApiEmpty
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
-
+    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
-    account_id = connexion.request.headers['Account']
-    occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
 
     try:
+        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.delete_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except KeyError:
@@ -217,11 +199,9 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     :rtype: ApiListNoteOccurrencesResponse
     """
 
-    if 'Account' not in connexion.request.headers:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Header 'Account' is missing")
-
+    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
-    account_id = connexion.request.headers['Account']
+
     note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
     docs = db.find(
         filter_={

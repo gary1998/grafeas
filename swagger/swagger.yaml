@@ -21,14 +21,16 @@ paths:
           schema:
             $ref: '#/definitions/apiListProjectsResponse'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: filter
           description: The filter expression.
@@ -58,14 +60,16 @@ paths:
           schema:
             $ref: '#/definitions/apiEmpty'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: body
           in: body
@@ -85,14 +89,16 @@ paths:
           schema:
             $ref: '#/definitions/apiProject'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -111,14 +117,16 @@ paths:
           schema:
             $ref: '#/definitions/apiEmpty'
       parameters:
-        - name: Account
-          description: "The unique ID for your cloud account."
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -139,14 +147,16 @@ paths:
           schema:
             $ref: '#/definitions/apiListNotesResponse'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -181,14 +191,16 @@ paths:
           schema:
             $ref: '#/definitions/apiNote'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -213,14 +225,16 @@ paths:
           schema:
             $ref: '#/definitions/apiNote'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -244,14 +258,16 @@ paths:
           schema:
             $ref: '#/definitions/apiNote'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -280,14 +296,16 @@ paths:
           schema:
             $ref: '#/definitions/apiEmpty'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -313,14 +331,16 @@ paths:
           schema:
             $ref: '#/definitions/apiNote'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -346,14 +366,16 @@ paths:
           schema:
             $ref: '#/definitions/apiListOccurrencesResponse'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -390,14 +412,16 @@ paths:
           schema:
             $ref: '#/definitions/apiOccurrence'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -423,14 +447,16 @@ paths:
           schema:
             $ref: '#/definitions/apiOccurrence'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -454,14 +480,16 @@ paths:
           schema:
             $ref: '#/definitions/apiOccurrence'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -490,14 +518,16 @@ paths:
           schema:
             $ref: '#/definitions/apiEmpty'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path
@@ -526,14 +556,16 @@ paths:
           schema:
             $ref: '#/definitions/apiListNoteOccurrencesResponse'
       parameters:
-        - name: Account
-          description: The unique ID for your cloud account.
-          in: header
-          type: string
         - name: Authorization
-          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
           type: string
         - name: project_id
           in: path

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from . import BaseTestCase
 from flask import json
 from http import HTTPStatus
@@ -60,7 +58,7 @@ class TestGrafeasNotesController(BaseTestCase):
         response = self.get_notes('ProjectX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
-        self.assertEqual(len(results), 1, "An array of one note was expected.")
+        self.assertTrue(len(results) > 0, "An array of one or more notes was expected.")
 
     def test_05_create_occurrence(self):
         """

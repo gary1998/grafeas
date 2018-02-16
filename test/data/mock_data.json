@@ -600,7 +600,7 @@
         "region": "US-South",
         "account_id": "Account01",
         "resource_crn": "cert-2",
-         "service_crn": "cert-mgr-1"
+        "service_crn": "cert-mgr-1"
       },
       "finding": {
         "severity": "HIGH",
@@ -898,7 +898,7 @@
       "create_time": "2018-02-01T02:54:34.045685Z",
       "context": {
         "region": "US-South",
-        "account": "Account01",
+        "account_id": "Account01",
         "service_crn": "va-1"
       },
       "kpi": {

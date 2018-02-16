@@ -845,28 +845,25 @@ definitions:
         description: The unique ID for your IBM Cloud account
       region:
         type: string
-        description: An IBM Cloud region
+        description: The IBM Cloud region
       resource_crn:
         type: string
-        description: A resource CRN (e.g. certificate CRN, image CRN)
+        description: The resource CRN (e.g. certificate CRN, image CRN)
       resource_id:
         type: string
-        description: A resource ID, in case CRN is not available
+        description: The resource ID, in case the CRN is not available
       resource_name:
         type: string
-        description: A user-friendly resource name
+        description: The user-friendly resource name
       resource_type:
         type: string
-        description: A resource type name (e.g. Pod, Cluster, Certificate, Image)
+        description: The resource type name (e.g. Pod, Cluster, Certificate, Image)
       service_crn:
         type: string
-        description: A service CRN (e.g. CertMgr Instance CRN)
-      service_id:
-        type: string
-        description: A service ID, in case CRN is not available
+        description: The service CRN (e.g. CertMgr Instance CRN)
       service_name:
         type: string
-        description: A service name (e.g. CertMgr)
+        description: The service name (e.g. CertMgr)
 
       #
       # Only used  by DevOps Insights

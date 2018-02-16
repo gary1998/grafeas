@@ -46,6 +46,13 @@ def create_occurrence(project_id, body):
     except KeyError:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
 
+    try:
+        resource_account_id = body['context']['account_id']
+    except KeyError:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing 'context.account_id' in occurrence: {}".format(occurrence_name))
+
     body['doc_type'] = 'Occurrence'
     body['account_id'] = account_id
     body['project_id'] = project_id

@@ -71,7 +71,10 @@ class TestGrafeasNotesController(BaseTestCase):
             "id": "Occurrence01",
             "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note01'),
             "short_description": "The short description of Occurrence01",
-            "long_description": "The long description of Occurrence01"
+            "long_description": "The long description of Occurrence01",
+            "context": {
+                "account_id": "AccountY"
+            }
         }
 
         response = self.post_occurrence('ProjectX', body)
@@ -88,7 +91,10 @@ class TestGrafeasNotesController(BaseTestCase):
             "id": "Occurrence01",
             "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note01'),
             "short_description": "The short description of Occurrence01",
-            "long_description": "The long description of Occurrence01"
+            "long_description": "The long description of Occurrence01",
+            "context": {
+                "account_id": "AccountY"
+            }
         }
 
         response = self.post_occurrence('ProjectX', body)

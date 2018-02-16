@@ -1,0 +1,222 @@
+{
+  "projects": [
+    {
+      "id": "security-advisor"
+    }
+  ],
+  "notes": [
+    {
+      "kind": "FINDING",
+      "project_id": "security-advisor",
+      "id": "xforce-bot_server",
+      "short_description": "Bot server IP address",
+      "long_description": "Bot server IP address",
+      "reported_by": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "finding_type": {
+        "default_severity": "LOW"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "security-advisor",
+      "id": "xforce-malware_server",
+      "short_description": "Malware server IP address",
+      "long_description": "Malware server IP address",
+      "reported_by": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "finding_type": {
+        "default_severity": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "security-advisor",
+      "id": "xforce-scanner_server",
+      "short_description": "Scanner server IP address",
+      "long_description": "Scanner server IP address",
+      "reported_by": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "finding_type": {
+        "default_severity": "MEDIUM"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "security-advisor",
+      "id": "xforce-malicious_server_ip_count",
+      "short_description": "Number of malicious server IP addresses",
+      "long_description": "Number of malicious server IP addresses",
+      "reported_by": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "create_time": "2018-02-01T08:21:02.067862Z",
+      "kpi_type": {
+        "aggregation_type": "SUM"
+      }
+    }
+  ],
+  "occurrences": [
+    { 
+      "kind": "CARD",
+      "project_id": "security-advisor",
+      "id": "risks_from_servers",
+      "note_name": "projects/core/note/Card",
+      "card": {   
+        "section": "Network",  
+        "title": "Suspicious Server IPs",
+        "finding_note_names": [
+          "projects/security-advisor/notes/xforce_bot_server",
+          "projects/security-advisor/notes/xforce_malware_server",
+          "projects/security-advisor/notes/xforce_scanner_server"
+        ],
+        "elements": [
+          {
+            "widget_type": "SINGLE_VALUE",
+            "value": {
+              "kind": "KPI",
+              "kpi_note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count",
+              "text": "of your server IP addresses are considered malicious and have been blacklisted"
+            }
+          },
+          {
+            "widget_type": "SINGLE_VALUE",
+            "value": {
+              "kind": "FINDING_COUNT",
+              "finding_note_names": [
+                "projects/security-advisor/notes/xforce-bot_server",
+                "projects/security-advisor/notes/xforce-scanner_server"
+              ],
+              "text": "Suspicious server IP addresses reported"
+            }
+          },
+          {
+            "widget_type": "VERTICAL_BAR_CHART",
+            "values": [
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-malware_server"
+                ],
+                "text": "Malware distributers"
+              },
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-bot_server"
+                ],
+                "text": "Bots"
+              },
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-scanner_server"
+                ],
+                "text": "Scanners"
+              }
+            ],
+            "text": "Types of Suspicious Server IPs"
+          }
+        ]
+      }
+    },
+    
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xbs1",
+      "note_name": "projects/security-advisor/notes/xforce_bot_server",
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "server-1",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xms1",
+      "note_name": "projects/security-advisor/notes/xforce_malware_server",
+      "create_time": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "server-2",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xms2",
+      "note_name": "projects/security-advisor/notes/xforce_malware_server",
+      "create_time": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "server-3",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xss1",
+      "note_name": "projects/security-advisor/notes/xforce_scanner_server",
+      "create_time": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "server-3",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "xforce",
+      "id": "xmsic",
+      "note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count",
+      "create_time": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "service_crn": "xforce-1"
+      },
+      "kpi": {
+        "value": 3
+      }
+    }
+  ]
+}

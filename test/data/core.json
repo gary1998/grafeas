@@ -1,0 +1,19 @@
+{
+  "projects": [
+    {
+      "id": "core"
+    }
+  ],
+  "notes": [
+    {
+      "kind": "CARD",
+      "project_id": "core",
+      "id": "v1",
+      "short_description": "Card base note",
+      "long_description": "Card base note",
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "card": {
+      }
+    }
+  ]
+}

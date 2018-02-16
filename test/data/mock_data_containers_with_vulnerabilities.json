@@ -1,0 +1,143 @@
+{
+
+  "notes": [
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "container_with_vulnerabilities",
+      "short_description": "Container with vulnerabilities",
+      "long_description": "Container running image with vulnerabilities",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:20:31.067862Z",
+      "finding_type": {
+        "default_severity": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "container_with_vulnerabilities_count",
+      "short_description": "Number of containers with vulnerabilities",
+      "long_description": "Number of containers running images with vulnerabilities",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:32:02.067862Z",
+      "kpi_type": {
+        "aggregation_type": "SUM"
+      }
+    }
+  ],
+  "occurrences": [
+    { 
+      "kind": "CARD",
+      "project_id": "va",
+      "id": "vulnerabilities_in_containers",
+      "note_name": "projects/core/note/Card",
+      "card": {   
+        "section": "Compute",  
+        "title": "Vulnerabilities In Containers",
+        "finding_note_names": [
+          "projects/va/notes/container_with_vulnerabilities"
+        ],
+        "elements": [
+          {
+            "widget_type": "SINGLE_VALUE",
+            "value": {
+              "kind": "KPI",
+              "kpi_note_name": "projects/va/notes/container_with_vulnerabilities_count",
+              "text": "Containers running images with vulnerabilities"
+            }
+          },
+          {
+            "widget_type": "TIME_SERIES_CHART",
+            "interval": "1d",
+            "buckets": 7,
+            "values": [
+              {
+                "kind": "KPI",
+                "kpi_note_name": "container_with_vulnerabilities_count",
+                "text": ""
+              }
+            ],
+            "text": "Containers running images with vulnerabilities in the past week"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv1",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "container-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv2",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "create_time": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "container-2",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv3",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "create_time": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "container-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "cwvc1",
+      "note_name": "projects/va/notes/container_with_vulnerabilities_count",
+      "create_time": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 7,
+        "total": 35
+      }
+    }
+  ]
+}

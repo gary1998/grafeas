@@ -1,0 +1,181 @@
+{
+  "notes": [
+    {
+      "kind": "FINDING",
+      "project_id": "security-advisor",
+      "id": "xforce-bot_client",
+      "short_description": "Bot client IP address",
+      "long_description": "Bot client IP address",
+      "reported_by": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "finding_type": {
+        "default_severity": "LOW"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "security-advisor",
+      "id": "xforce-malware_client",
+      "short_description": "Malware client IP address",
+      "long_description": "Malware client IP address",
+      "reported_by": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "finding_type": {
+        "default_severity": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "security-advisor",
+      "id": "xforce-scanner_client",
+      "short_description": "Scanner client IP address",
+      "long_description": "Scanner client IP address",
+      "reported_by": {
+        "id": "xforce",
+        "title": "IBM X-Force Threat Intelligence",
+        "href": "https://www.ibm.com/security/xforce"
+      },
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "finding_type": {
+        "default_severity": "MEDIUM"
+      }
+    }
+  ],
+  "occurrences": [
+    { 
+      "kind": "CARD",
+      "project_id": "security-advisor",
+      "id": "risks_from_clients",
+      "note_name": "projects/core/note/Card",
+      "card": {   
+        "section": "Network",  
+        "title": "Suspicious Clients",
+        "finding_note_names": [
+          "projects/security-advisor/notes/xforce_bot_client",
+          "projects/security-advisor/notes/xforce_malware_client",
+          "projects/security-advisor/notes/xforce_scanner_client"
+        ],
+        "elements": [
+          {
+            "widget_type": "SINGLE_VALUE",
+            "value": {
+              "kind": "FINDING_COUNT",
+              "finding_note_names": [
+                "projects/security-advisor/notes/xforce-bot_client",
+                "projects/security-advisor/notes/xforce-malware_client",
+                "projects/security-advisor/notes/xforce-scanner_client"
+              ],
+              "text": "Suspicious clients discovered in the past day"
+            }
+          },
+          {
+            "widget_type": "TIME_SERIES_CHART",
+            "interval": "6h",
+            "buckets": 5,
+            "values": [
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-malware_client"
+                ],
+                "text": "Malware distributers"
+              },
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-bot_client"
+                ],
+                "text": "Bots"
+              },
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-scanner_client"
+                ],
+                "text": "Scanners"
+              }
+            ],
+            "text": "Types of Suspicious Client IPs"
+          }
+        ]
+      }
+    },
+    
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xbc1",
+      "note_name": "projects/security-advisor/notes/xforce_bot_client",
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "client-1",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xmc1",
+      "note_name": "projects/security-advisor/notes/xforce_malware_client",
+      "create_time": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "client-2",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xmc2",
+      "note_name": "projects/security-advisor/notes/xforce_malware_client",
+      "create_time": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "client-3",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "xforce",
+      "id": "xsc1",
+      "note_name": "projects/security-advisor/notes/xforce_scanner_client",
+      "create_time": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "client-3",
+        "service_crn": "xforce-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    }
+  ]
+}

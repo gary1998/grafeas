@@ -53,7 +53,7 @@
     {
       "kind": "CARD",
       "project_id": "security-advisor",
-      "id": "risks_from_clients",
+      "id": "xforce-risks_from_clients",
       "note_name": "projects/core/notes/card-v1",
       "card": {
         "section": "Network",
@@ -115,7 +115,7 @@
       "kind": "FINDING",
       "project_id": "xforce",
       "id": "xbc1",
-      "note_name": "projects/security-advisor/notes/xforce_bot_client",
+      "note_name": "projects/security-advisor/notes/xforce-bot_client",
       "create_time": "2018-02-01T08:20:02.067862Z",
       "context": {
         "region": "US-South",
@@ -132,7 +132,7 @@
       "kind": "FINDING",
       "project_id": "xforce",
       "id": "xmc1",
-      "note_name": "projects/security-advisor/notes/xforce_malware_client",
+      "note_name": "projects/security-advisor/notes/xforce-malware_client",
       "create_time": "2018-02-02T09:24:06.078442Z",
       "context": {
         "region": "US-South",
@@ -149,7 +149,7 @@
       "kind": "FINDING",
       "project_id": "xforce",
       "id": "xmc2",
-      "note_name": "projects/security-advisor/notes/xforce_malware_client",
+      "note_name": "projects/security-advisor/notes/xforce-malware_client",
       "create_time": "2018-02-02T09:24:06.078442Z",
       "context": {
         "region": "US-South",
@@ -166,7 +166,7 @@
       "kind": "FINDING",
       "project_id": "xforce",
       "id": "xsc1",
-      "note_name": "projects/security-advisor/notes/xforce_scanner_client",
+      "note_name": "projects/security-advisor/notes/xforce-scanner_client",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",

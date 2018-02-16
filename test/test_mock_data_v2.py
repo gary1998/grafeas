@@ -32,7 +32,7 @@ class TestMockData(BaseTestCase):
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for occurrence in data.get('occurrences', []):
-                    self.post_occurrence(occurrence['project_id'], occurrence)
+                    self._add_occurrence(occurrence['project_id'], occurrence)
 
     def _add_project(self, body):
         response = self.client.open(

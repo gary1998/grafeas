@@ -53,10 +53,10 @@
     { 
       "kind": "CARD",
       "project_id": "security-advisor",
-      "id": "risks_from_clients",
+      "id": "risks_from_clients",
       "note_name": "projects/core/note/Card",
-      "card": {   
-        "section": "Network",  
+      "card": {
+        "section": "Network",
         "title": "Suspicious Clients",
         "finding_note_names": [
           "projects/security-advisor/notes/xforce_bot_client",

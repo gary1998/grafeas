@@ -74,10 +74,10 @@
     { 
       "kind": "CARD",
       "project_id": "security-advisor",
-      "id": "risks_from_servers",
+      "id": "risks_from_servers",
       "note_name": "projects/core/note/Card",
-      "card": {   
-        "section": "Network",  
+      "card": {
+        "section": "Network",
         "title": "Suspicious Server IPs",
         "finding_note_names": [
           "projects/security-advisor/notes/xforce_bot_server",

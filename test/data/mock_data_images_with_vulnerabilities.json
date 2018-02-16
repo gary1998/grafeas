@@ -70,10 +70,10 @@
     { 
       "kind": "CARD",
       "project_id": "va",
-      "id": "vulnerabilities_in_images",
+      "id": "vulnerabilities_in_images",
       "note_name": "projects/core/note/Card",
-      "card": {   
-        "section": "Compute",  
+      "card": {
+        "section": "Compute",
         "title": "Vulnerabilities In Images",
         "finding_note_names": [
           "projects/va/notes/image_with_vulnerabilities",

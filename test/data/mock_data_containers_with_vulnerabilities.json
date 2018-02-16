@@ -38,10 +38,10 @@
     { 
       "kind": "CARD",
       "project_id": "va",
-      "id": "vulnerabilities_in_containers",
+      "id": "vulnerabilities_in_containers",
       "note_name": "projects/core/note/Card",
-      "card": {   
-        "section": "Compute",  
+      "card": {
+        "section": "Compute",
         "title": "Vulnerabilities In Containers",
         "finding_note_names": [
           "projects/va/notes/container_with_vulnerabilities"

@@ -197,10 +197,10 @@
     { 
       "kind": "CARD",
       "project_id": "security-advisor",
-      "id": "certificates",
+      "id": "certificates",
       "note_name": "projects/core/note/Card",
-      "card": {   
-        "section": "Network",  
+      "card": {
+        "section": "Network",
         "title": "Certificates",
         "finding_note_names": [
           "projects/security-advisor/notes/certmgr_expired_cert",

@@ -1,9 +1,10 @@
 from . import BaseTestCase
 from flask import json
+from http import HTTPStatus
 
 
 FILE_NAMES = [
-    'core.json',
+    'mock_data_core.json',
     'mock_data_suspicious_servers.json',
     'mock_data_suspicious_clients.json',
     'mock_data_certificates.json',
@@ -16,24 +17,24 @@ class TestMockData(BaseTestCase):
         for file_name in FILE_NAMES:
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
-                for project in data['projects']:
-                    self.post_project(project)
+                for project in data.get('projects', []):
+                    self._add_project(project)
 
     def test_02_create_notes(self):
         for file_name in FILE_NAMES:
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
-                for note in data['notes']:
-                    self.post_note(note['project_id'], note)
+                for note in data.get('notes', []):
+                    self._add_note(note['project_id'], note)
 
     def test_03_create_occurrences(self):
         for file_name in FILE_NAMES:
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
-                for occurrence in data['occurrences']:
+                for occurrence in data.get('occurrences', []):
                     self.post_occurrence(occurrence['project_id'], occurrence)
 
-    def post_project(self, body):
+    def _add_project(self, body):
         response = self.client.open(
             path='/v1alpha1/projects',
             method='POST',
@@ -44,11 +45,24 @@ class TestMockData(BaseTestCase):
                 "Account": "AccountA",
                 "Authorization": "Authorization01"
             })
+        self.assertTrue(response.status_code in [HTTPStatus.OK, HTTPStatus.CONFLICT],
+                        "Response body is : " + response.data.decode('utf-8'))
+
+    def _add_note(self, project_id, body):
+        response = self._create_or_replace(
+            '/v1alpha1/projects/{}/notes'.format(project_id),
+            body)
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
-    def post_note(self, project_id, body):
+    def _add_occurrence(self, project_id, body):
+        response = self._create_or_replace(
+            '/v1alpha1/projects/{}/occurrences'.format(project_id),
+            body)
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def _create_or_replace(self, path, body):
         response = self.client.open(
-            path='/v1alpha1/projects/{}/notes'.format(project_id),
+            path=path,
             method='POST',
             data=json.dumps(body),
             headers={
@@ -57,17 +71,16 @@ class TestMockData(BaseTestCase):
                 "Account": "AccountA",
                 "Authorization": "Authorization01"
             })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        if response.status_code == HTTPStatus.CONFLICT:
+            response = self.client.open(
+                path="{}/{}".format(path, body['id']),
+                method='PUT',
+                data=json.dumps(body),
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Account": "AccountA",
+                    "Authorization": "Authorization01"
+                })
 
-    def post_occurrence(self, project_id, body):
-        response = self.client.open(
-            path='/v1alpha1/projects/{}/occurrences'.format(project_id),
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "AccountA",
-                "Authorization": "Authorization01"
-            })
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+        return response

@@ -50,11 +50,11 @@
     }
   ],
   "occurrences": [
-    { 
+    {
       "kind": "CARD",
       "project_id": "security-advisor",
       "id": "risks_from_clients",
-      "note_name": "projects/core/note/Card",
+      "note_name": "projects/core/notes/card-v1",
       "card": {
         "section": "Network",
         "title": "Suspicious Clients",
@@ -66,15 +66,17 @@
         "elements": [
           {
             "widget_type": "SINGLE_VALUE",
-            "value": {
-              "kind": "FINDING_COUNT",
-              "finding_note_names": [
-                "projects/security-advisor/notes/xforce-bot_client",
-                "projects/security-advisor/notes/xforce-malware_client",
-                "projects/security-advisor/notes/xforce-scanner_client"
-              ],
-              "text": "Suspicious clients discovered in the past day"
-            }
+            "values": [
+              {
+                "value_type": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-bot_client",
+                  "projects/security-advisor/notes/xforce-malware_client",
+                  "projects/security-advisor/notes/xforce-scanner_client"
+                ],
+                "text": "Suspicious clients discovered in the past day"
+              }
+            ]
           },
           {
             "widget_type": "TIME_SERIES_CHART",
@@ -82,21 +84,21 @@
             "buckets": 5,
             "values": [
               {
-                "kind": "FINDING_COUNT",
+                "value_type": "FINDING_COUNT",
                 "finding_note_names": [
                   "projects/security-advisor/notes/xforce-malware_client"
                 ],
                 "text": "Malware distributers"
               },
               {
-                "kind": "FINDING_COUNT",
+                "value_type": "FINDING_COUNT",
                 "finding_note_names": [
                   "projects/security-advisor/notes/xforce-bot_client"
                 ],
                 "text": "Bots"
               },
               {
-                "kind": "FINDING_COUNT",
+                "value_type": "FINDING_COUNT",
                 "finding_note_names": [
                   "projects/security-advisor/notes/xforce-scanner_client"
                 ],
@@ -105,10 +107,10 @@
             ],
             "text": "Types of Suspicious Client IPs"
           }
-        ]
+        ]
       }
     },
-    
+
     {
       "kind": "FINDING",
       "project_id": "xforce",

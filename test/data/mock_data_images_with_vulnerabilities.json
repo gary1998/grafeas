@@ -1,5 +1,4 @@
 {
-
   "notes": [
     {
       "kind": "FINDING",
@@ -67,11 +66,11 @@
     }
   ],
   "occurrences": [
-    { 
+    {
       "kind": "CARD",
       "project_id": "va",
       "id": "vulnerabilities_in_images",
-      "note_name": "projects/core/note/Card",
+      "note_name": "projects/core/notes/card-v1",
       "card": {
         "section": "Compute",
         "title": "Vulnerabilities In Images",
@@ -82,19 +81,23 @@
         "elements": [
           {
             "widget_type": "SINGLE_VALUE",
-            "value": {
-              "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count",
-              "text": "Images with vulnerabilities"
-            }
+            "values": [
+              {
+                "value_type": "KPI",
+                "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count",
+                "text": "Images with vulnerabilities"
+              }
+            ]
           },
           {
             "widget_type": "SINGLE_VALUE",
-            "value": {
-              "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/image_with_config_issues_count",
-              "text": "Images with config issues"
-            }
+            "values": [
+              {
+                "value_type": "KPI",
+                "kpi_note_name": "projects/va/notes/image_with_config_issues_count",
+                "text": "Images with config issues"
+              }
+            ]
           },
           {
             "widget_type": "TIME_SERIES_CHART",
@@ -102,14 +105,14 @@
             "buckets": 7,
             "values": [
               {
-                "kind": "KPI",
+                "value_type": "KPI",
                 "kpi_note_name": "image_with_vulnerabilities_count",
                 "text": ""
               }
             ],
             "text": "Images with vulnerabilities in the past week"
           }
-        ]
+        ]
       }
     },
 

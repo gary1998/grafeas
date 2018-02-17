@@ -16,9 +16,9 @@
         ],
         "elements": [
           {
-            "element_type": "SINGLE_VALUE",
+            "kind": "SINGLE_VALUE",
             "value": {
-              "value_type": "FINDING_COUNT",
+              "kind": "FINDING_COUNT",
               "finding_note_names": [
                 "projects/security-advisor/notes/xforce-bot_client",
                 "projects/security-advisor/notes/xforce-malware_client",
@@ -28,26 +28,26 @@
             }
           },
           {
-            "element_type": "TIME_SERIES",
+            "kind": "TIME_SERIES",
             "default_interval": "6h",
             "default_time_range": "1d",
             "values": [
               {
-                "value_type": "FINDING_COUNT",
+                "kind": "FINDING_COUNT",
                 "finding_note_names": [
                   "projects/security-advisor/notes/xforce-malware_client"
                 ],
                 "text": "Malware distributers"
               },
               {
-                "value_type": "FINDING_COUNT",
+                "kind": "FINDING_COUNT",
                 "finding_note_names": [
                   "projects/security-advisor/notes/xforce-bot_client"
                 ],
                 "text": "Bots"
               },
               {
-                "value_type": "FINDING_COUNT",
+                "kind": "FINDING_COUNT",
                 "finding_note_names": [
                   "projects/security-advisor/notes/xforce-scanner_client"
                 ],

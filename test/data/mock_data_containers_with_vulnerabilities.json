@@ -15,33 +15,33 @@
         ],
         "elements": [
           {
-            "element_type": "SINGLE_VALUE",
+            "kind": "SINGLE_VALUE",
             "value": {
-              "value_type": "KPI",
+              "kind": "KPI",
               "kpi_note_name": "projects/va/notes/container_with_vulnerabilities_count",
               "text": "Containers with vulnerabilities"
             }
           },
           {
-            "widget_type": "SINGLE_VALUE",
+            "kind": "SINGLE_VALUE",
             "value": {
-              "value_type": "KPI",
+              "kind": "KPI",
               "kpi_note_name": "projects/va/notes/container_with_config_issues_count",
               "text": "Containers with config issues"
             }
           },
           {
-            "element_type": "TIME_SERIES",
+            "kind": "TIME_SERIES",
             "default_interval": "1d",
             "default_time_range": "1w",
             "values": [
               {
-                "value_type": "KPI",
+                "kind": "KPI",
                 "kpi_note_name": "projects/va/notes/container_with_vulnerabilities_count",
                 "text": "Vulnerabilities"
               },
               {
-                "value_type": "KPI",
+                "kind": "KPI",
                 "kpi_note_name": "projects/va/notes/container_with_config_issues_count",
                 "text": "Config Issues"
               }

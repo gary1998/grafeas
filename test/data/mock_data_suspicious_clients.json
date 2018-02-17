@@ -10,14 +10,14 @@
         "section": "Network",
         "title": "Suspicious Clients",
         "finding_note_names": [
-          "projects/security-advisor/notes/xforce_bot_client",
-          "projects/security-advisor/notes/xforce_malware_client",
-          "projects/security-advisor/notes/xforce_scanner_client"
+          "projects/security-advisor/notes/xforce-bot_client",
+          "projects/security-advisor/notes/xforce-malware_client",
+          "projects/security-advisor/notes/xforce-scanner_client"
         ],
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "value": {
+            "value_type": {
               "kind": "FINDING_COUNT",
               "finding_note_names": [
                 "projects/security-advisor/notes/xforce-bot_client",
@@ -31,7 +31,7 @@
             "kind": "TIME_SERIES",
             "default_interval": "6h",
             "default_time_range": "1d",
-            "values": [
+            "value_types": [
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [

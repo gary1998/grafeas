@@ -10,14 +10,14 @@
         "section": "Network",
         "title": "Suspicious Server IPs",
         "finding_note_names": [
-          "projects/security-advisor/notes/xforce_bot_server",
-          "projects/security-advisor/notes/xforce_malware_server",
-          "projects/security-advisor/notes/xforce_scanner_server"
+          "projects/security-advisor/notes/xforce-bot_server",
+          "projects/security-advisor/notes/xforce-malware_server",
+          "projects/security-advisor/notes/xforce-scanner_server"
         ],
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "value": {
+            "value_type": {
               "kind": "KPI",
               "kpi_note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count",
               "text": "of your server IP addresses are considered malicious and have been blacklisted"
@@ -25,7 +25,7 @@
           },
           {
             "kind": "SINGLE_VALUE",
-            "value": {
+            "value_type": {
               "kind": "FINDING_COUNT",
               "finding_note_names": [
                 "projects/security-advisor/notes/xforce-bot_server",
@@ -37,7 +37,7 @@
           {
             "kind": "BREAKDOWN",
             "direction": "VERTICAL",
-            "values": [
+            "value_types": [
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [

@@ -16,7 +16,7 @@
         "elements": [
           {
             "kind": "SINGLE_VALUE",
-            "value": {
+            "value_type": {
               "kind": "KPI",
               "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count",
               "text": "Images with vulnerabilities"
@@ -24,7 +24,7 @@
           },
           {
             "kind": "SINGLE_VALUE",
-            "value": {
+            "value_type": {
               "kind": "KPI",
               "kpi_note_name": "projects/va/notes/image_with_config_issues_count",
               "text": "Images with config issues"
@@ -34,7 +34,7 @@
             "kind": "TIME_SERIES",
             "interval": "1d",
             "time_range": "1w",
-            "values": [
+            "value_types": [
               {
                 "kind": "KPI",
                 "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count",

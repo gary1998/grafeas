@@ -24,23 +24,7 @@
       },
       "create_time": "2018-02-01T08:20:02.067862Z",
       "finding_type": {
-        "title_id": "T_SUSPICIOUS_SERVER_IPS_TITLE",
-        "default_title": "Suspicious Server IPs",
-        "default_severity": "MEDIUM",
-        "elements": [
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/xforce/notes/MaliciousServerIPCount"
-            ]
-          },
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/xforce/notes/SuspiciousServerIPCount"
-            ]
-          }
-        ]
+        "default_severity": "MEDIUM"
       }
     },
     {
@@ -56,10 +40,6 @@
       },
       "create_time": "2018-02-01T08:21:02.067862Z",
       "kpi_type": {
-        "label_id": "T_MALICIOUS_SERVER_IP_COUNT_LABEL",
-        "default_label": "Malicious server IP addresses",
-        "description_id": "T_MALICIOUS_SERVER_IP_COUNT_DESC",
-        "default_description": "of your server IP addresses are considered malicious and have been blacklisted",
         "aggregation_type": "SUM"
       }
     },
@@ -76,10 +56,6 @@
       },
       "create_time": "2018-02-01T08:22:02.067862Z",
       "kpi_type": {
-        "label_id": "T_SUSPICIOUS_SERVER_IP_COUNT_LABEL",
-        "default_label": "Suspicious server IP addresses",
-        "description_id": "T_SUSPICIOUS_SERVER_IP_COUNT_DESC",
-        "default_description": "Suspicious server IP addresses reported",
         "aggregation_type": "SUM"
       }
     },
@@ -98,17 +74,7 @@
       },
       "create_time": "2018-02-01T08:23:02.067862Z",
       "finding_type": {
-        "title_id": "T_SUSPICIOUS_CLIENTS_TITLE",
-        "default_title": "Suspicious Clients",
-        "default_severity": "HIGH",
-        "elements": [
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/xforce/notes/SuspiciousClientCount"
-            ]
-          }
-        ]
+        "default_severity": "HIGH"
       }
     },
     {
@@ -124,10 +90,6 @@
       },
       "create_time": "2018-02-01T08:24:02.067862Z",
       "kpi_type": {
-        "label_id": "T_SUSPICIOUS_CLIENT_COUNT_LABEL",
-        "default_label": "Risky clients",
-        "description_id": "T_SUSPICIOUS_CLIENT_COUNT_DESC",
-        "default_description": "Risky clients discovered in the past day",
         "aggregation_type": "SUM"
       }
     },
@@ -146,33 +108,7 @@
       },
       "create_time": "2018-02-01T08:25:02.067862Z",
       "finding_type": {
-        "title_id": "T_CERTIFICATES_TITLE",
-        "default_title": "Certificates",
-        "default_severity": "HIGH",
-        "elements": [
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/certificate-manager/notes/ExpiredCertificateCount"
-            ]
-          },
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/certificate-manager/notes/ExpiringIn30DaysCertificateCount"
-            ]
-          },
-          {
-            "kind": "MULTI_VALUE_HISTOGRAM",
-            "note_names": [
-              "projects/certificate-manager/notes/ExpiringIn1DayCertificateCount",
-              "projects/certificate-manager/notes/ExpiringIn10DaysCertificateCount",
-              "projects/certificate-manager/notes/ExpiringIn30DaysCertificateCount",
-              "projects/certificate-manager/notes/ExpiringIn60DaysCertificateCount",
-              "projects/certificate-manager/notes/ExpiringIn90DaysCertificateCount"
-            ]
-          }
-        ]
+        "default_severity": "HIGH"
       }
     },
     {
@@ -188,10 +124,6 @@
       },
       "create_time": "2018-02-01T08:26:02.067862Z",
       "kpi_type": {
-        "label_id": "T_EXPIRED_CERTIFICATE_COUNT_LABEL",
-        "default_label": "Expired certificates",
-        "description_id": "T_EXPIRED_CERTIFICATE_COUNT_DESC",
-        "default_description": "Expired certificates ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
@@ -208,10 +140,6 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi_type": {
-        "label_id": "T_EXPIRING_IN_1_DAY_CERTIFICATE_COUNT_LABEL",
-        "default_label": "1 day",
-        "description_id": "T_EXPIRING_IN_1_DAY_CERTIFICATE_COUNT_DESC",
-        "default_description": "Certificates about to expire in 1 day ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
@@ -228,10 +156,6 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi_type": {
-        "label_id": "T_EXPIRING_IN_10_DAYS_CERTIFICATE_COUNT_LABEL",
-        "default_label": "2-10 days",
-        "description_id": "T_EXPIRING_IN_10_DAYS_CERTIFICATE_COUNT_DESC",
-        "default_description": "Certificates about to expire in 10 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
@@ -248,10 +172,6 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi_type": {
-        "label_id": "T_EXPIRING_IN_30_DAYS_CERTIFICATE_COUNT_LABEL",
-        "default_label": "11-30 days",
-        "description_id": "T_EXPIRING_IN_30_DAYS_CERTIFICATE_COUNT_DESC",
-        "default_description": "Certificates about to expire in 30 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
@@ -268,10 +188,6 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi_type": {
-        "label_id": "T_EXPIRING_IN_60_DAYS_CERTIFICATE_COUNT_LABEL",
-        "default_label": "31-60 days",
-        "description_id": "T_EXPIRING_IN_60_DAYS_CERTIFICATE_COUNT_DESC",
-        "default_description": "Certificates about to expire in 60 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
@@ -288,10 +204,6 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi_type": {
-        "label_id": "T_EXPIRING_IN_90_DAYS_CERTIFICATE_COUNT_LABEL",
-        "default_label": "61-90 days",
-        "description_id": "T_EXPIRING_IN_90_DAYS_CERTIFICATE_COUNT_DESC",
-        "default_description": "Certificates about to expire in 90 days ({0}% of {1} total certificates)",
         "aggregation_type": "SUM"
       }
     },
@@ -311,22 +223,7 @@
       "create_time": "2018-02-01T08:28:02.067862Z",
       "finding_type": {
         "title_id": "T_IMAGE_VULNERABILITIES_TITLE",
-        "default_title": "Images with Vulnerabilities",
-        "default_severity": "HIGH",
-        "elements": [
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/vulnerability-advisor/notes/ImageWithVulnerabilitiesCount"
-            ]
-          },
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/vulnerability-advisor/notes/ImageWithConfigIssuesCount"
-            ]
-          }
-        ]
+        "default_severity": "HIGH"
       }
     },
     {
@@ -342,10 +239,6 @@
       },
       "create_time": "2018-02-01T08:29:02.067862Z",
       "kpi_type": {
-        "label_id": "T_IMAGE_WITH_VULNERABILITIES_COUNT_LABEL",
-        "default_label": "Images with vulnerabilities",
-        "description_id": "T_IMAGE_WITH_VULNERABILITIES_COUNT_DESC",
-        "default_description": "Images with vulnerabilities  ({0}% of {1} total images)",
         "aggregation_type": "SUM"
       }
     },
@@ -362,10 +255,6 @@
       },
       "create_time": "2018-02-01T08:30:02.067862Z",
       "kpi_type": {
-        "label_id": "T_IMAGE_WITH_CONFIG_ISSUES_COUNT_LABEL",
-        "default_label": "Images with configuration issues",
-        "description_id": "T_IMAGE_WITH_CONFIG_ISSUES_COUNT_DESC",
-        "default_description": "Images with configuration issues  ({0}% of {1} total images)",
         "aggregation_type": "SUM"
       }
     },
@@ -384,17 +273,7 @@
       },
       "create_time": "2018-02-01T08:20:31.067862Z",
       "finding_type": {
-        "title_id": "T_CONTAINER_VULNERABILITIES_TITLE",
-        "default_title": "Vulnerabilities in Live Containers",
-        "default_severity": "HIGH",
-        "elements": [
-          {
-            "kind": "SINGLE_VALUE",
-            "note_names": [
-              "projects/vulnerability-advisor/notes/ContainerWithVulnerabilitiesCount"
-            ]
-          }
-        ]
+        "default_severity": "HIGH"
       }
     },
     {
@@ -410,10 +289,6 @@
       },
       "create_time": "2018-02-01T08:32:02.067862Z",
       "kpi_type": {
-        "label_id": "T_CONTAINER_WITH_VULNERABILITIES_COUNT_LABEL",
-        "default_label": "Containers running images with vulnerabilities",
-        "description_id": "T_CONTAINER_WITH_VULNERABILITIES_COUNT_DESC",
-        "default_description": "Containers running images with vulnerabilities ({0}% of {1} total containers)",
         "aggregation_type": "SUM"
       }
     }

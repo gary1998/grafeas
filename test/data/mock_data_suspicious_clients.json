@@ -29,8 +29,8 @@
           },
           {
             "element_type": "TIME_SERIES",
-            "interval": "6h",
-            "time_range": "1d",
+            "default_interval": "6h",
+            "default_time_range": "1d",
             "values": [
               {
                 "value_type": "FINDING_COUNT",

@@ -22,7 +22,7 @@
             "element_type": "SINGLE_VALUE",
             "value": {
               "value_type": "KPI",
-              "note_name": "projects/security-advisor/notes/certmgr_expired_cert_count",
+              "kpi_note_name": "projects/security-advisor/notes/certmgr_expired_cert_count",
               "text": "certificates already expired"
            }
           },
@@ -30,7 +30,7 @@
             "element_type": "SINGLE_VALUE",
             "value": {
               "value_type": "KPI",
-              "note_name": "projects/security-advisor/notes/certmgr_expiring_30days_cert_count",
+              "kpi_note_name": "projects/security-advisor/notes/certmgr_expiring_30days_cert_count",
               "text": "certificates will expire in the next 30 days"
             }
           },
@@ -40,27 +40,27 @@
             "values": [
               {
                 "value_type": "KPI",
-                "note_name": "projects/security-advisor/notes/certmgr_expiring_1day_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr_expiring_1day_cert_count",
                 "text": "1 day"
               },
               {
                 "value_type": "KPI",
-                "note_name": "projects/security-advisor/notes/certmgr_expiring_10days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr_expiring_10days_cert_count",
                 "text": "2-10 days"
               },
               {
                 "value_type": "KPI",
-                "note_name": "projects/security-advisor/notes/certmgr_expiring_30days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr_expiring_30days_cert_count",
                 "text": "11-30 days"
               },
               {
                 "value_type": "KPI",
-                "note_name": "projects/security-advisor/notes/certmgr_expiring_60days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr_expiring_60days_cert_count",
                 "text": "31-60 days"
               },
               {
                 "value_type": "KPI",
-                "note_name": "projects/security-advisor/notes/certmgr_expiring_90days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr_expiring_90days_cert_count",
                 "text": "61-90 days"
               }
             ],

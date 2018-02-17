@@ -1,6 +1,58 @@
 {
   "notes": [
     {
+      "kind": "CARD",
+      "project_id": "va",
+      "id": "images_with_vulnerabilities",
+      "short_description": "A type of card showing images with vulnerabilities",
+      "long_description": "A type of card showing images with vulnerabilities and configuration issues",
+      "card_type": {
+        "section": "Compute",
+        "title": "Images with vulnerabilities",
+        "finding_note_names": [
+          "projects/va/notes/image_with_vulnerabilities",
+          "projects/va/notes/image_with_config_issues"
+        ],
+        "elements": [
+          {
+            "element_type": "SINGLE_VALUE",
+            "value": {
+              "value_type": "KPI",
+              "note_name": "projects/va/notes/image_with_vulnerabilities_count",
+              "text": "Images with vulnerabilities"
+            }
+          },
+          {
+            "widget_type": "SINGLE_VALUE",
+            "value": {
+              "value_type": "KPI",
+              "note_name": "projects/va/notes/image_with_config_issues_count",
+              "text": "Images with config issues"
+            }
+          },
+          {
+            "element_type": "TIME_SERIES",
+            "interval": "1d",
+            "time_range": "1w",
+            "values": [
+              {
+                "value_type": "KPI",
+                "note_name": "projects/va/notes/image_with_vulnerabilities_count",
+                "text": "Vulnerabilities"
+              },
+              {
+                "value_type": "KPI",
+                "note_name": "projects/va/notes/image_with_config_issues_count",
+                "text": "Config Issues"
+              }
+            ],
+            "text": "Images with Vulnerabilities and Config Issues"
+          }
+        ]
+      }
+    },
+
+    {
       "kind": "FINDING",
       "project_id": "va",
       "id": "image_with_vulnerabilities",
@@ -66,55 +118,6 @@
     }
   ],
   "occurrences": [
-    {
-      "kind": "CARD",
-      "project_id": "va",
-      "id": "vulnerabilities_in_images",
-      "note_name": "projects/core/notes/card-v1",
-      "card": {
-        "section": "Compute",
-        "title": "Vulnerabilities In Images",
-        "finding_note_names": [
-          "projects/va/notes/image_with_vulnerabilities",
-          "projects/va/notes/image_with_config_issues"
-        ],
-        "elements": [
-          {
-            "widget_type": "SINGLE_VALUE",
-            "values": [
-              {
-                "value_type": "KPI",
-                "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count",
-                "text": "Images with vulnerabilities"
-              }
-            ]
-          },
-          {
-            "widget_type": "SINGLE_VALUE",
-            "values": [
-              {
-                "value_type": "KPI",
-                "kpi_note_name": "projects/va/notes/image_with_config_issues_count",
-                "text": "Images with config issues"
-              }
-            ]
-          },
-          {
-            "widget_type": "TIME_SERIES_CHART",
-            "interval": "1d",
-            "buckets": 7,
-            "values": [
-              {
-                "value_type": "KPI",
-                "kpi_note_name": "image_with_vulnerabilities_count",
-                "text": ""
-              }
-            ],
-            "text": "Images with vulnerabilities in the past week"
-          }
-        ]
-      }
-    },
 
     {
       "kind": "FINDING",
@@ -231,8 +234,8 @@
         "service_crn": "va-1"
       },
       "kpi": {
-        "value": 7,
-        "total": 35
+        "value": 27,
+        "total": 86
       }
     },
     {
@@ -247,8 +250,8 @@
         "service_crn": "va-1"
       },
       "kpi": {
-        "value": 7,
-        "total": 35
+        "value": 38,
+        "total": 86
       }
     }
   ]

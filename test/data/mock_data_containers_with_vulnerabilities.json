@@ -1,11 +1,79 @@
 {
   "notes": [
     {
+      "kind": "CARD",
+      "project_id": "va",
+      "id": "containers_with_vulnerabilities",
+      "short_description": "A type of card showing containers with vulnerabilities",
+      "long_description": "A type of card showing containers with vulnerabilities and configuration issues",
+      "card_type": {
+        "section": "Compute",
+        "title": "Containers with vulnerabilities",
+        "finding_note_names": [
+          "projects/va/notes/container_with_vulnerabilities",
+          "projects/va/notes/container_with_config_issues"
+        ],
+        "elements": [
+          {
+            "element_type": "SINGLE_VALUE",
+            "value": {
+              "value_type": "KPI",
+              "note_name": "projects/va/notes/container_with_vulnerabilities_count",
+              "text": "Containers with vulnerabilities"
+            }
+          },
+          {
+            "widget_type": "SINGLE_VALUE",
+            "value": {
+              "value_type": "KPI",
+              "note_name": "projects/va/notes/container_with_config_issues_count",
+              "text": "Containers with config issues"
+            }
+          },
+          {
+            "element_type": "TIME_SERIES",
+            "interval": "1d",
+            "time_range": "1w",
+            "values": [
+              {
+                "value_type": "KPI",
+                "note_name": "projects/va/notes/container_with_vulnerabilities_count",
+                "text": "Vulnerabilities"
+              },
+              {
+                "value_type": "KPI",
+                "note_name": "projects/va/notes/container_with_config_issues_count",
+                "text": "Config Issues"
+              }
+            ],
+            "text": "Containers with Vulnerabilities and Config Issues"
+          }
+        ]
+      }
+    },
+
+    {
       "kind": "FINDING",
       "project_id": "va",
       "id": "container_with_vulnerabilities",
       "short_description": "Container with vulnerabilities",
-      "long_description": "Container running image with vulnerabilities",
+      "long_description": "Container with vulnerabilities",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:20:31.067862Z",
+      "finding_type": {
+        "default_severity": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "container_with_config_issues",
+      "short_description": "Container with configuration issues",
+      "long_description": "Container with configuration issues",
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
@@ -21,7 +89,23 @@
       "project_id": "va",
       "id": "container_with_vulnerabilities_count",
       "short_description": "Number of containers with vulnerabilities",
-      "long_description": "Number of containers running images with vulnerabilities",
+      "long_description": "Number of containers running containers with vulnerabilities",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:32:02.067862Z",
+      "kpi_type": {
+        "aggregation_type": "SUM"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "container_with_config_issues_count",
+      "short_description": "Number of containers with configuration issues",
+      "long_description": "Number of containers running containers with vulnerabilities",
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
@@ -34,49 +118,11 @@
     }
   ],
   "occurrences": [
-    {
-      "kind": "CARD",
-      "project_id": "va",
-      "id": "vulnerabilities_in_containers",
-      "note_name": "projects/core/notes/card-v1",
-      "card": {
-        "section": "Compute",
-        "title": "Vulnerabilities In Containers",
-        "finding_note_names": [
-          "projects/va/notes/container_with_vulnerabilities"
-        ],
-        "elements": [
-          {
-            "widget_type": "SINGLE_VALUE",
-            "values": [
-              {
-                "value_type": "KPI",
-                "kpi_note_name": "projects/va/notes/container_with_vulnerabilities_count",
-                "text": "Containers running images with vulnerabilities"
-              }
-            ]
-          },
-          {
-            "widget_type": "TIME_SERIES_CHART",
-            "interval": "1d",
-            "buckets": 7,
-            "values": [
-              {
-                "value_type": "KPI",
-                "kpi_note_name": "container_with_vulnerabilities_count",
-                "text": ""
-              }
-            ],
-            "text": "Containers running images with vulnerabilities in the past week"
-          }
-        ]
-      }
-    },
 
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "cwv1",
+      "id": "iwv1",
       "note_name": "projects/va/notes/container_with_vulnerabilities",
       "create_time": "2018-02-01T08:20:02.067862Z",
       "context": {
@@ -93,7 +139,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "cwv2",
+      "id": "iwv2",
       "note_name": "projects/va/notes/container_with_vulnerabilities",
       "create_time": "2018-02-02T09:24:06.078442Z",
       "context": {
@@ -110,7 +156,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "cwv3",
+      "id": "iwv3",
       "note_name": "projects/va/notes/container_with_vulnerabilities",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
@@ -121,6 +167,57 @@
       },
       "finding": {
         "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwci1",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "create_time": "2018-02-01T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "container-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwci2",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "create_time": "2018-02-02T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "container-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwci3",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "create_time": "2018-02-03T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "resource_crn": "container-4",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
         "certainty": "HIGH"
       }
     },
@@ -138,6 +235,22 @@
       },
       "kpi": {
         "value": 7,
+        "total": 35
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "cwcic1",
+      "note_name": "projects/va/notes/container_with_config_issues_count",
+      "create_time": "2018-02-01T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "agiammar",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 19,
         "total": 35
       }
     }

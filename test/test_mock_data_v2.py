@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 
 FILE_NAMES = [
-    'mock_data_core.json',
+    'mock_data_common.json',
     'mock_data_suspicious_servers.json',
     'mock_data_suspicious_clients.json',
     'mock_data_certificates.json',

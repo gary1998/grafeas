@@ -1,6 +1,71 @@
 {
   "notes": [
     {
+      "kind": "CARD",
+      "project_id": "security-advisor",
+      "id": "xforce-risks_from_servers",
+      "short_description": "A type of card showing suspicious servers",
+      "long_description": "A type of card showing suspicious servers",
+      "card": {
+        "section": "Network",
+        "title": "Suspicious Server IPs",
+        "finding_note_names": [
+          "projects/security-advisor/notes/xforce_bot_server",
+          "projects/security-advisor/notes/xforce_malware_server",
+          "projects/security-advisor/notes/xforce_scanner_server"
+        ],
+        "elements": [
+          {
+            "element_type": "SINGLE_VALUE",
+            "value": {
+              "value_type": "KPI",
+              "kpi_note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count",
+              "text": "of your server IP addresses are considered malicious and have been blacklisted"
+            }
+          },
+          {
+            "element_type": "SINGLE_VALUE",
+            "value": {
+              "value_type": "FINDING_COUNT",
+              "finding_note_names": [
+                "projects/security-advisor/notes/xforce-bot_server",
+                "projects/security-advisor/notes/xforce-scanner_server"
+              ],
+              "text": "Suspicious server IP addresses reported"
+            }
+          },
+          {
+            "element_type": "VERTICAL_BREAKDOWN",
+            "values": [
+              {
+                "value_type": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-malware_server"
+                ],
+                "text": "Malware distributers"
+              },
+              {
+                "value_type": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-bot_server"
+                ],
+                "text": "Bots"
+              },
+              {
+                "value_type": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-scanner_server"
+                ],
+                "text": "Scanners"
+              }
+            ],
+            "text": "Types of Suspicious Server IPs"
+          }
+        ]
+      }
+    },
+
+    {
       "kind": "FINDING",
       "project_id": "security-advisor",
       "id": "xforce-bot_server",
@@ -66,74 +131,6 @@
     }
   ],
   "occurrences": [
-    {
-      "kind": "CARD",
-      "project_id": "security-advisor",
-      "id": "xforce-risks_from_servers",
-      "note_name": "projects/core/notes/card-v1",
-      "card": {
-        "section": "Network",
-        "title": "Suspicious Server IPs",
-        "finding_note_names": [
-          "projects/security-advisor/notes/xforce_bot_server",
-          "projects/security-advisor/notes/xforce_malware_server",
-          "projects/security-advisor/notes/xforce_scanner_server"
-        ],
-        "elements": [
-          {
-            "widget_type": "SINGLE_VALUE",
-            "values": [
-              {
-                "value_type": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count",
-                "text": "of your server IP addresses are considered malicious and have been blacklisted"
-              }
-            ]
-          },
-          {
-            "widget_type": "SINGLE_VALUE",
-            "values": [
-              {
-                "value_type": "FINDING_COUNT",
-                "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-bot_server",
-                  "projects/security-advisor/notes/xforce-scanner_server"
-                ],
-                "text": "Suspicious server IP addresses reported"
-              }
-            ]
-          },
-          {
-            "widget_type": "VERTICAL_BAR_CHART",
-            "values": [
-              {
-                "value_type": "FINDING_COUNT",
-                "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-malware_server"
-                ],
-                "text": "Malware distributers"
-              },
-              {
-                "value_type": "FINDING_COUNT",
-                "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-bot_server"
-                ],
-                "text": "Bots"
-              },
-              {
-                "value_type": "FINDING_COUNT",
-                "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-scanner_server"
-                ],
-                "text": "Scanners"
-              }
-            ],
-            "text": "Types of Suspicious Server IPs"
-          }
-        ]
-      }
-    },
-
     {
       "kind": "FINDING",
       "project_id": "xforce",

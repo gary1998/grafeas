@@ -6,7 +6,7 @@
       "id": "xforce-risks_from_servers",
       "short_description": "A type of card showing suspicious servers",
       "long_description": "A type of card showing suspicious servers",
-      "card": {
+      "card_type": {
         "section": "Network",
         "title": "Suspicious Server IPs",
         "finding_note_names": [

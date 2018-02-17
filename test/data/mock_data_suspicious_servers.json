@@ -35,7 +35,8 @@
             }
           },
           {
-            "element_type": "VERTICAL_BREAKDOWN",
+            "element_type": "BREAKDOWN",
+            "direction": "VERTICAL",
             "values": [
               {
                 "value_type": "FINDING_COUNT",

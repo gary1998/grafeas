@@ -35,7 +35,8 @@
             }
           },
           {
-            "element_type": "HORIZONTAL_BREAKDOWN",
+            "element_type": "BREAKDOWN",
+            "direction": "HORIZONTAL",
             "values": [
               {
                 "value_type": "KPI",

@@ -811,6 +811,15 @@ definitions:
       #
       # IBM extensions start here
       #
+      short_description:
+        type: string
+        description: A one sentence description of this `Occurrence`.
+      long_description:
+        type: string
+        description: A detailed description of this `Occurrence`.
+      reported_by:
+        $ref: '#/definitions/apiReporter'
+        description: Details about the reporter of this `Occurrence`.
       context:
         $ref: '#/definitions/apiContext'
         description: Details about the context of this `Occurrence`

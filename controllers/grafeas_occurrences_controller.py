@@ -64,6 +64,9 @@ def create_occurrence(project_id, body):
     body['create_timestamp'] = create_timestamp
     body['update_timestamp'] = create_timestamp
 
+    #set occurrence default values from the associated note values
+    _set_occurrence_defaults(body, note)
+
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         db.create_doc(occurrence_doc_id, body)
@@ -218,6 +221,20 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
         },
         index="DT_NDI")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+
+
+def _set_occurrence_defaults(occurrence, note):
+    if 'short_description' not in occurrence:
+        occurrence['short_description'] = note.get('short_description')
+    if 'long_description' not in occurrence:
+        occurrence['long_description'] = note.get('long_description')
+    if 'reported_by' not in occurrence:
+        occurrence['reported_by'] = note.get('reported_by')
+
+    if occurrence['kind'] == 'FINDING':
+        finding = occurrence['finding']
+        if 'severity' not in finding:
+            finding['severity'] = note['finding_type'].get('default_severity')
 
 
 def _clean_doc(doc):

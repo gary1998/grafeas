@@ -12,6 +12,7 @@ FILE_NAMES = [
     'mock_data_images_with_vulnerabilities.json'
 ]
 
+
 class TestMockData(BaseTestCase):
     def test_01_create_projects(self):
         for file_name in FILE_NAMES:

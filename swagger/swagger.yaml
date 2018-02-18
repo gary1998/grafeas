@@ -736,6 +736,9 @@ definitions:
       kpi_type:
         $ref: '#/definitions/KpiType'
         description: A KPI type of note.
+      card_type:
+        $ref: '#/definitions/CardType'
+        description: A card type of note.
       #
       # IBM extensions stop here
       #
@@ -751,7 +754,7 @@ definitions:
       This must be 1&#58;1 with members of our oneofs, it can be used for filtering Note and Occurrence on their kind.
        - FINDING&#58; The note and occurrence represent a finding.
        - KPI&#58; The note and occurrence represent a KPI value.
-       = CARD&#58; The note and occurrence represent a card showing findings and KPI values.
+       - CARD&#58; The note represents a card showing findings and KPI values.
 
   apiNoteRelatedUrl:
     type: object
@@ -808,12 +811,6 @@ definitions:
       #
       # IBM extensions start here
       #
-      short_description:
-        type: string
-        description: A one sentence description of this `Occurrence`.
-      long_description:
-        type: string
-        description: A detailed description of this `Occurrence`.
       context:
         $ref: '#/definitions/apiContext'
         description: Details about the context of this `Occurrence`
@@ -955,11 +952,33 @@ definitions:
       total:
         type: number
         description: The total value of this KPI
-
+#
+# Card note definitions
+#
+  CardType:
+    type: object
+    description: CardType provides details about a card note
+    properties:
+      section:
+        type: string
+        description: The section this card type belongs to
+      title:
+        type: string
+        description: The title of this card type
+      finding_note_names:
+        type: array
+        items:
+          type: string
+        description: The finding note names associated to this card type
+      elements:
+        type: array
+        items:
+          $ref: '#/definitions/CardElementType'
+        description: The elements of this card type
 
   CardElementType:
     type: object
-    description: FindingTypeElement provides details about the elements of a FindingType
+    description: CardElementType provides details about the elements of a CardType
     properties:
       kind:
         type: string
@@ -970,5 +989,8 @@ definitions:
         description: |-
           Kind of element
           - NUMERIC&#58; Single numeric value
-          - BREAKDOWN&#58; Breakdown of values
-          - TIME_SERIES&#58; Time-series of values
+          - BREAKDOWN&#58; Breakdown of numeric values
+          - TIME_SERIES&#58; Time-series of numeric values
+      text:
+        type: string
+        description: The text of this element type

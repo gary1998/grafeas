@@ -33,8 +33,8 @@
           {
             "kind": "TIME_SERIES",
             "text": "Images with Vulnerabilities and Config Issues",
-            "interval": "1d",
-            "time_range": "1w",
+            "default_interval": "1d",
+            "default_time_range": "1w",
             "value_types": [
               {
                 "kind": "KPI",

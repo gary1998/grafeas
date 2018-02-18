@@ -19,23 +19,24 @@
         ],
         "elements": [
           {
-            "kind": "SINGLE_VALUE",
+            "kind": "NUMERIC",
+            "text": "certificates already expired",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
-              "text": "certificates already expired"
+              "kpi_note_name": "projects/security-advisor/notes/certmgr-expired_cert_count"
            }
           },
           {
-            "kind": "SINGLE_VALUE",
+            "kind": "NUMERIC",
+            "text": "certificates will expire in the next 30 days",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30days_cert_count",
-              "text": "certificates will expire in the next 30 days"
+              "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30days_cert_count"
             }
           },
           {
             "kind": "BREAKDOWN",
+            "text": "Certificates About To Expire",
             "direction": "HORIZONTAL",
             "value_types": [
               {
@@ -63,8 +64,7 @@
                 "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_90days_cert_count",
                 "text": "61-90 days"
               }
-            ],
-            "text": "Certificates About To Expire"
+            ]
           }
         ]
       }

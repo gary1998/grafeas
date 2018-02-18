@@ -15,23 +15,24 @@
         ],
         "elements": [
           {
-            "kind": "SINGLE_VALUE",
+            "kind": "NUMERIC",
+            "text": "Images with vulnerabilities",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count",
-              "text": "Images with vulnerabilities"
+              "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count"
             }
           },
           {
-            "kind": "SINGLE_VALUE",
+            "kind": "NUMERIC",
+            "text": "Images with config issues",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/image_with_config_issues_count",
-              "text": "Images with config issues"
+              "kpi_note_name": "projects/va/notes/image_with_config_issues_count"
             }
           },
           {
             "kind": "TIME_SERIES",
+            "text": "Images with Vulnerabilities and Config Issues",
             "interval": "1d",
             "time_range": "1w",
             "value_types": [
@@ -45,8 +46,7 @@
                 "kpi_note_name": "projects/va/notes/image_with_config_issues_count",
                 "text": "Config Issues"
               }
-            ],
-            "text": "Images with Vulnerabilities and Config Issues"
+            ]
           }
         ]
       }

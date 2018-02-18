@@ -913,39 +913,10 @@ definitions:
     type: object
     description: FindingType provides details about a finding note.
     properties:
-      title_id:
-        type: string
-        description: The title ID of this finding type (for internationalization)
-      default_title:
-        type: string
-        description: The default title of this finding type
       default_severity:
         $ref: '#/definitions/apiSeverity'
         description: The default severity of the findings related to this `Note`
-      elements:
-        type: array
-        items:
-          $ref: '#/definitions/FindingTypeElement'
-        description: The elements of this `FindingType`
 
-  FindingTypeElement:
-    type: object
-    description: FindingTypeElement provides details about the elements of a FindingType
-    properties:
-      kind:
-        type: string
-        enum:
-        - SINGLE_VALUE
-        - MULTI_VALUE_HISTOGRAM
-        description: |-
-          Kind of element
-          - SINGLE_VALUE&#58; Single value
-          - MULTI_VALUE_HISTOGRAM&#58; Multi values shown in a histogram
-      note_names:
-        type: array
-        description: The names of the notes associated to the 'FindingType'
-        items:
-          type: string
 
   Finding:
     type: object
@@ -964,18 +935,6 @@ definitions:
     type: object
     description: KpiType provides details about a KPI note.
     properties:
-      label_id:
-        type: string
-        description: The label ID of this KPI type (for internationalization)
-      default_label:
-        type: string
-        description: The default label of this KPI type
-      description_id:
-        type: string
-        description: The description ID of this KPI type (for internationalization)
-      default_description:
-        type: string
-        description: The default description of this KPI type
       aggregation_type:
         type: string
         enum:
@@ -996,3 +955,20 @@ definitions:
       total:
         type: number
         description: The total value of this KPI
+
+
+  CardElementType:
+    type: object
+    description: FindingTypeElement provides details about the elements of a FindingType
+    properties:
+      kind:
+        type: string
+        enum:
+        - NUMERIC
+        - BREAKDOWN
+        - TIME_SERIES
+        description: |-
+          Kind of element
+          - NUMERIC&#58; Single numeric value
+          - BREAKDOWN&#58; Breakdown of values
+          - TIME_SERIES&#58; Time-series of values

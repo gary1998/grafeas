@@ -16,19 +16,20 @@
         ],
         "elements": [
           {
-            "kind": "SINGLE_VALUE",
+            "kind": "NUMERIC",
+            "text": "Suspicious clients discovered in the past day",
             "value_type": {
               "kind": "FINDING_COUNT",
               "finding_note_names": [
                 "projects/security-advisor/notes/xforce-bot_client",
                 "projects/security-advisor/notes/xforce-malware_client",
                 "projects/security-advisor/notes/xforce-scanner_client"
-              ],
-              "text": "Suspicious clients discovered in the past day"
+              ]
             }
           },
           {
             "kind": "TIME_SERIES",
+            "text": "Types of Suspicious Client IPs in the past day",
             "default_interval": "6h",
             "default_time_range": "1d",
             "value_types": [
@@ -53,8 +54,7 @@
                 ],
                 "text": "Scanners"
               }
-            ],
-            "text": "Types of Suspicious Client IPs in the past day"
+            ]
           }
         ]
       }

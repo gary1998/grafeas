@@ -112,7 +112,7 @@
   "occurrences": [
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xbc1",
       "note_name": "projects/security-advisor/notes/xforce-bot_client",
       "create_time": "2018-02-01T08:20:02.067862Z",
@@ -129,7 +129,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xmc1",
       "note_name": "projects/security-advisor/notes/xforce-malware_client",
       "create_time": "2018-02-02T09:24:06.078442Z",
@@ -146,7 +146,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xmc2",
       "note_name": "projects/security-advisor/notes/xforce-malware_client",
       "create_time": "2018-02-02T09:24:06.078442Z",
@@ -163,7 +163,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xsc1",
       "note_name": "projects/security-advisor/notes/xforce-scanner_client",
       "create_time": "2018-02-03T10:34:12.056772Z",

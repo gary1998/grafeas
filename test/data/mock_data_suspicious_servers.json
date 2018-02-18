@@ -134,7 +134,7 @@
   "occurrences": [
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xbs1",
       "note_name": "projects/security-advisor/notes/xforce-bot_server",
       "create_time": "2018-02-01T08:20:02.067862Z",
@@ -151,7 +151,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xms1",
       "note_name": "projects/security-advisor/notes/xforce-malware_server",
       "create_time": "2018-02-02T09:24:06.078442Z",
@@ -168,7 +168,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+        "project_id": "security-advisor",
       "id": "xms2",
       "note_name": "projects/security-advisor/notes/xforce-malware_server",
       "create_time": "2018-02-02T09:24:06.078442Z",
@@ -185,7 +185,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xss1",
       "note_name": "projects/security-advisor/notes/xforce-scanner_server",
       "create_time": "2018-02-03T10:34:12.056772Z",
@@ -202,7 +202,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "xforce",
+      "project_id": "security-advisor",
       "id": "xmsic",
       "note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count",
       "create_time": "2018-02-01T02:54:34.045685Z",

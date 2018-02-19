@@ -4,4 +4,3 @@ applications:
   instances: 2
   domains:
    - stage1.ng.bluemix.net
-

@@ -212,7 +212,8 @@
         "service_crn": "xforce-1"
       },
       "kpi": {
-        "value": 3
+        "value": 3,
+        "total": 65
       }
     }
   ]

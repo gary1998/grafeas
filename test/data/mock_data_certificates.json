@@ -396,7 +396,7 @@
         "service_crn": "cert-mgr-2"
       },
       "kpi": {
-        "value": 8,
+        "value": 4,
         "total": 15
       }
     },

@@ -2,3 +2,6 @@ applications:
 - name: grafeas
   memory: 2048M
   instances: 2
+  domains:
+   - stage1.ng.bluemix.net
+

@@ -6,6 +6,7 @@
       "id": "xforce-risks_from_clients",
       "short_description": "A type of card showing suspicious clients",
       "long_description": "A type of card showing suspicious clients",
+      "shared": true,
       "card": {
         "section": "Network",
         "title": "Suspicious Clients",
@@ -66,6 +67,7 @@
       "id": "xforce-bot_client",
       "short_description": "Bot client IP address",
       "long_description": "Bot client IP address",
+      "shared": true,
       "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence",
@@ -82,6 +84,7 @@
       "id": "xforce-malware_client",
       "short_description": "Malware client IP address",
       "long_description": "Malware client IP address",
+      "shared": true,
       "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence",
@@ -98,6 +101,7 @@
       "id": "xforce-scanner_client",
       "short_description": "Scanner client IP address",
       "long_description": "Scanner client IP address",
+      "shared": true,
       "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence",

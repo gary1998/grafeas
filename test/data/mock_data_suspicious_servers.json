@@ -6,6 +6,7 @@
       "id": "xforce-risks_from_servers",
       "short_description": "A type of card showing suspicious servers",
       "long_description": "A type of card showing suspicious servers",
+      "shared": true,
       "card": {
         "section": "Network",
         "title": "Suspicious Server IPs",
@@ -72,6 +73,7 @@
       "id": "xforce-bot_server",
       "short_description": "Bot server IP address",
       "long_description": "Bot server IP address",
+      "shared": true,
       "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence",
@@ -88,6 +90,7 @@
       "id": "xforce-malware_server",
       "short_description": "Malware server IP address",
       "long_description": "Malware server IP address",
+      "shared": true,
       "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence",
@@ -104,6 +107,7 @@
       "id": "xforce-scanner_server",
       "short_description": "Scanner server IP address",
       "long_description": "Scanner server IP address",
+      "shared": true,
       "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence",
@@ -120,6 +124,7 @@
       "id": "xforce-malicious_server_ip_count",
       "short_description": "Number of malicious server IP addresses",
       "long_description": "Number of malicious server IP addresses",
+      "shared": true,
       "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence",

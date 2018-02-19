@@ -6,7 +6,7 @@
       "id": "xforce-risks_from_clients",
       "short_description": "A type of card showing suspicious clients",
       "long_description": "A type of card showing suspicious clients",
-      "card_type": {
+      "card": {
         "section": "Network",
         "title": "Suspicious Clients",
         "finding_note_names": [

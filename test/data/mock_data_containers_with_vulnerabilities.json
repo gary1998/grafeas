@@ -6,7 +6,7 @@
       "id": "containers_with_vulnerabilities",
       "short_description": "A type of card showing containers with vulnerabilities",
       "long_description": "A type of card showing containers with vulnerabilities and configuration issues",
-      "card_type": {
+      "card": {
         "section": "Compute",
         "title": "Containers with vulnerabilities",
         "finding_note_names": [

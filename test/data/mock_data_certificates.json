@@ -6,7 +6,7 @@
       "id": "certmgr-certificates",
       "short_description": "A type of card showing expired and about to expire certificates",
       "long_description": "A type of card showing expired and about to expire certificates",
-      "card_type": {
+      "card": {
         "section": "Network",
         "title": "Certificates",
         "finding_note_names": [

@@ -6,7 +6,7 @@
       "id": "images_with_vulnerabilities",
       "short_description": "A type of card showing images with vulnerabilities",
       "long_description": "A type of card showing images with vulnerabilities and configuration issues",
-      "card_type": {
+      "card": {
         "section": "Compute",
         "title": "Images with vulnerabilities",
         "finding_note_names": [

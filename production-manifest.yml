@@ -1,4 +1,7 @@
 applications:
 - name: grafeas
+  host: grafeas
   memory: 3072M
   instances: 3
+  domains:
+   - ng.bluemix.net

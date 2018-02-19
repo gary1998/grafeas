@@ -1,5 +1,6 @@
 applications:
 - name: grafeas
+  host: grafeas
   memory: 2048M
   instances: 2
   domains:

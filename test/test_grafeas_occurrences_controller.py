@@ -16,7 +16,11 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         body = {
             "id": "Note02",
             "short_description": "The short description of Note02",
-            "long_description": "The long description of Note02"
+            "long_description": "The long description of Note02",
+            "kind": "FINDING",
+            "finding_type": {
+                "default_severity": "HIGH"
+            }
         }
 
         response = self.post_note('ProjectX', body)
@@ -32,7 +36,11 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         body = {
             "id": "Note02",
             "short_description": "The short description of Note02",
-            "long_description": "The long description of Note02"
+            "long_description": "The long description of Note02",
+            "kind": "FINDING",
+            "finding_type": {
+                "default_severity": "MEDIUM"
+            }
         }
 
         response = self.post_note('ProjectX', body)
@@ -50,6 +58,10 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
             "short_description": "The short description of Occurrence02",
             "long_description": "The long description of Occurrence02",
+            "kind": "FINDING",
+            "finding": {
+                "certainty": "MEDIUM"
+            },
             "context": {
                 "account_id": "AccountY"
             }
@@ -70,6 +82,10 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
             "short_description": "The short description of Occurrence02",
             "long_description": "The long description of Occurrence02",
+            "kind": "FINDING",
+            "finding": {
+                "certainty": "HIGH"
+            },
             "context": {
                 "account_id": "AccountY"
             }

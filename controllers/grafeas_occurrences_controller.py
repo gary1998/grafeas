@@ -234,7 +234,7 @@ def _set_occurrence_defaults(occurrence, note):
     if occurrence['kind'] == 'FINDING':
         finding = occurrence['finding']
         if 'severity' not in finding:
-            finding['severity'] = note['finding_type'].get('default_severity')
+            finding['severity'] = note['finding_type'].get('default_severity', 'MEDIUM')
 
 
 def _clean_doc(doc):

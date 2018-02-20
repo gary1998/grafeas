@@ -127,7 +127,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "iwv1",
+      "id": "cwv1",
       "note_name": "projects/va/notes/container_with_vulnerabilities",
       "create_time": "2018-02-01T08:20:02.067862Z",
       "context": {
@@ -144,7 +144,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "iwv2",
+      "id": "cwv2",
       "note_name": "projects/va/notes/container_with_vulnerabilities",
       "create_time": "2018-02-02T09:24:06.078442Z",
       "context": {
@@ -161,7 +161,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "iwv3",
+      "id": "cwv3",
       "note_name": "projects/va/notes/container_with_vulnerabilities",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
@@ -178,7 +178,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "iwci1",
+      "id": "cwci1",
       "note_name": "projects/va/notes/container_with_config_issues",
       "create_time": "2018-02-01T08:20:02.067862Z",
       "context": {
@@ -195,7 +195,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "iwci2",
+      "id": "cwci2",
       "note_name": "projects/va/notes/container_with_config_issues",
       "create_time": "2018-02-02T09:24:06.078442Z",
       "context": {
@@ -212,7 +212,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "iwci3",
+      "id": "cwci3",
       "note_name": "projects/va/notes/container_with_config_issues",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {

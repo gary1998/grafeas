@@ -44,9 +44,10 @@ def __create_db():
         os.environ['GRAFEAS_USERNAME'],
         os.environ['GRAFEAS_PASSWORD'])
 
-    db.create_query_index("DT_AI",  ['doc_type', 'account_id'])
+    db.create_query_index("DT_OAI",  ['doc_type', 'account_id'])
     db.create_query_index("DT_PDI", ['doc_type', 'project_doc_id'])
-    db.create_query_index("DT_NDI", ['doc_type', 'note_doc_id'])
+    db.create_query_index("DT_PDI_CAI", ['doc_type', 'project_doc_id', 'context.account_id'])
+    db.create_query_index("DT_NDI_CAI", ['doc_type', 'note_doc_id', 'context.account_id'])
     return db
 
 

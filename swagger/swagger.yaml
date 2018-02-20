@@ -730,6 +730,7 @@ definitions:
       shared:
         type: boolean
         description: True if this `Note` can be shared by multiple accounts.
+        default: true
       reported_by:
         $ref: '#/definitions/apiReporter'
         description: Details about the reporter of this `Note`.

@@ -33,16 +33,19 @@ def create_note(project_id, body):
     body['update_time'] = body['create_time']
 
     note_id = body['id']
-    note_name = common.build_note_name(project_id, note_id)
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['doc_type'] = 'Note'
     body['account_id'] = account_id
     body['project_id'] = project_id
     body['id'] = note_id
+    note_name = common.build_note_name(project_id, note_id)
     body['name'] = note_name
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['project_doc_id'] = project_doc_id
     body['create_timestamp'] = create_timestamp
     body['update_timestamp'] = create_timestamp
+
+    if 'shared' not in body:
+        body['shared'] = True
 
     try:
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)

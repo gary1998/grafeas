@@ -3,9 +3,6 @@ import threading
 from util.cloudant_client import CloudantDatabase
 
 
-SHARED_ACCOUNT_ID = "$SHARED$"
-
-
 __db = None
 __db_lock = threading.Lock()
 

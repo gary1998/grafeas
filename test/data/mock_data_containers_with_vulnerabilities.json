@@ -6,7 +6,6 @@
       "id": "containers_with_vulnerabilities",
       "short_description": "A type of card showing containers with vulnerabilities",
       "long_description": "A type of card showing containers with vulnerabilities and configuration issues",
-      "shared": true,
       "card": {
         "section": "Compute",
         "title": "Containers with vulnerabilities",
@@ -59,7 +58,6 @@
       "id": "container_with_vulnerabilities",
       "short_description": "Container with vulnerabilities",
       "long_description": "Container with vulnerabilities",
-      "shared": true,
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
@@ -76,7 +74,6 @@
       "id": "container_with_config_issues",
       "short_description": "Container with configuration issues",
       "long_description": "Container with configuration issues",
-      "shared": true,
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
@@ -93,7 +90,6 @@
       "id": "container_with_vulnerabilities_count",
       "short_description": "Number of containers with vulnerabilities",
       "long_description": "Number of containers running containers with vulnerabilities",
-      "shared": true,
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
@@ -110,7 +106,6 @@
       "id": "container_with_config_issues_count",
       "short_description": "Number of containers with configuration issues",
       "long_description": "Number of containers running containers with vulnerabilities",
-      "shared": true,
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",

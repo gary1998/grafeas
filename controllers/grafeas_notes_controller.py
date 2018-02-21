@@ -22,7 +22,30 @@ def create_note(project_id, body):
     account_id = auth_util.get_account_id(connexion.request)
 
     if 'id' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'id'")
+
+    if 'kind' not in body:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'kind'")
+
+    kind = body['kind']
+
+    if kind not in ['CARD', 'FINDING', 'KPI']:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Invalid 'kind' value, only 'CARD', 'FINDING' and 'KPI' are allowed")
+
+    if kind == 'FINDING' and 'finding_type' not in body:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'FINDING' note: 'finding_type'")
+    if kind == 'KPI' and 'kpi_type' not in body:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'KPI' note: 'kpi_type'")
 
     if 'create_time' in body:
         create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
@@ -52,7 +75,9 @@ def create_note(project_id, body):
         db.create_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except KeyError:
-        return common.build_error(HTTPStatus.CONFLICT, "Note already exists: {}".format(note_name))
+        return common.build_error(
+            HTTPStatus.CONFLICT,
+            "Note already exists: {}".format(note_name))
 
 
 def list_notes(project_id, filter=None, page_size=None, page_token=None):

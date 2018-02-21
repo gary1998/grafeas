@@ -23,13 +23,17 @@ def create_occurrence(project_id, body):
     project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     if 'id' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'id'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'id'")
 
     occurrence_id = body['id']
     occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
 
     if 'note_name' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'note_name'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'note_name'")
 
     note_name = body['note_name']
 
@@ -38,22 +42,35 @@ def create_occurrence(project_id, body):
         note_doc_id = "{}/{}".format(account_id, note_name)
         note = db.get_doc(note_doc_id)
     except KeyError:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Note not found: {}".format(note_name))
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Note not found: {}".format(note_name))
 
     if 'kind' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'kind'")
-
-    if body['kind'] not in ['FINDING', 'KPI']:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Invalid 'kind' value, only 'FINDING' and 'KPI' are allowed")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'kind'")
 
     kind = body['kind']
+
+    if kind not in ['FINDING', 'KPI']:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Invalid 'kind' value, only 'FINDING' and 'KPI' are allowed")
+
     if kind == 'FINDING' and 'finding' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'FINDING' occurrence: 'finding'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'FINDING' occurrence: 'finding'")
     if kind == 'KPI' and 'kpi' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'KPI' occurrence: 'kpi'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'KPI' occurrence: 'kpi'")
 
     if 'context' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'context'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'context'")
 
     context = body['context']
 
@@ -61,8 +78,6 @@ def create_occurrence(project_id, body):
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
             "Missing required field: 'context.account_id'")
-
-    resource_account_id = context['account_id']
 
     if 'create_time' in body:
         create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()

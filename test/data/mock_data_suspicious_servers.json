@@ -30,6 +30,7 @@
               "kind": "FINDING_COUNT",
               "finding_note_names": [
                 "projects/security-advisor/notes/xforce-bot_server",
+                "projects/security-advisor/notes/xforce-malware_server",
                 "projects/security-advisor/notes/xforce-scanner_server"
               ]
             }
@@ -218,3 +219,4 @@
     }
   ]
 }
+

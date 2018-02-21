@@ -18,14 +18,51 @@ def create_occurrence(project_id, body):
     :rtype: ApiOccurrence
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     if 'id' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'id'")
+
+    occurrence_id = body['id']
+    occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
 
     if 'note_name' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'note_name'")
+
+    note_name = body['note_name']
+
+    # get the occurrence's note
+    try:
+        note_doc_id = "{}/{}".format(account_id, note_name)
+        note = db.get_doc(note_doc_id)
+    except KeyError:
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Note not found: {}".format(note_name))
+
+    if 'kind' not in body:
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'kind'")
+
+    if body['kind'] not in ['FINDING', 'KPI']:
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Invalid 'kind' value, only 'FINDING' and 'KPI' are allowed")
+
+    kind = body['kind']
+    if kind == 'FINDING' and 'finding' not in body:
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'FINDING' occurrence: 'finding'")
+    if kind == 'KPI' and 'kpi' not in body:
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'KPI' occurrence: 'kpi'")
+
+    if 'context' not in body:
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'context'")
+
+    context = body['context']
+
+    if 'account_id' not in context:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'context.account_id'")
+
+    resource_account_id = context['account_id']
 
     if 'create_time' in body:
         create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
@@ -34,25 +71,6 @@ def create_occurrence(project_id, body):
         create_timestamp = now.timestamp()
         body['create_time'] = isodate.datetime_isoformat(now)
     body['update_time'] = body['create_time']
-
-    occurrence_id = body['id']
-    occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
-    note_name = body['note_name']
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
-
-    try:
-        note_doc_id = "{}/{}".format(account_id, note_name)
-        note = db.get_doc(note_doc_id)
-    except KeyError:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Specified note not found: {}".format(note_name))
-
-    if body['kind'] in ['FINDING', 'KPI']:
-        try:
-            resource_account_id = body['context']['account_id']
-        except KeyError:
-            return common.build_error(
-                HTTPStatus.BAD_REQUEST,
-                "Missing 'context.account_id' in occurrence: {}".format(occurrence_name))
 
     body['doc_type'] = 'Occurrence'
     body['account_id'] = account_id
@@ -91,9 +109,10 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     :rtype: ApiListOccurrencesResponse
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
     project_doc_id = common.build_project_doc_id(account_id, project_id)
+
     docs = db.find(
         filter_={
             'doc_type': 'Occurrence',
@@ -115,8 +134,8 @@ def get_occurrence(project_id, occurrence_id):
     :rtype: ApiOccurrence
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
@@ -141,8 +160,8 @@ def update_occurrence(project_id, occurrence_id, body):
     :rtype: ApiNote
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -179,8 +198,8 @@ def delete_occurrence(project_id, occurrence_id):
     :rtype: ApiEmpty
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
@@ -210,10 +229,10 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     :rtype: ApiListNoteOccurrencesResponse
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
-
+    account_id = auth_util.get_account_id(connexion.request)
     note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+
     docs = db.find(
         filter_={
             'doc_type': 'Occurrence',

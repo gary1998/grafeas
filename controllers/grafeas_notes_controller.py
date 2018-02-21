@@ -18,8 +18,8 @@ def create_note(project_id, body):
     :rtype: ApiNote
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -73,9 +73,10 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     :rtype: ApiListNotesResponse
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
     project_doc_id = common.build_project_doc_id(account_id, project_id)
+
     docs = db.find(
         filter_={
             'doc_type': 'Note',
@@ -97,8 +98,8 @@ def get_note(project_id, note_id):
     :rtype: ApiNote
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     try:
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
@@ -123,8 +124,8 @@ def update_note(project_id, note_id, body):
     :rtype: ApiNote
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     if 'update_time' in body:
         update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
@@ -157,8 +158,8 @@ def delete_note(project_id, note_id):
     :rtype: ApiEmpty
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     try:
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
@@ -183,8 +184,8 @@ def get_occurrence_note(project_id, occurrence_id):
     :rtype: ApiNote
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)

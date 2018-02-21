@@ -14,8 +14,8 @@ def create_project(body):
     :rtype: ApiEmpty
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
@@ -47,8 +47,8 @@ def delete_project(project_id):
     :rtype: ApiEmpty
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     try:
         project_doc_id = common.build_project_doc_id(account_id, project_id)
@@ -68,8 +68,8 @@ def get_project(project_id):
     :rtype: ApiProject
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
 
     try:
         project_doc_id = common.build_project_doc_id(account_id, project_id)
@@ -93,8 +93,9 @@ def list_projects(filter=None, page_size=None, page_token=None):
     :rtype: ApiListProjectsResponse
     """
 
-    account_id = auth_util.get_account_id(connexion.request)
     db = common.get_db()
+    account_id = auth_util.get_account_id(connexion.request)
+
     docs = db.find(
         filter_={
             'doc_type': 'Project',

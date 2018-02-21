@@ -29,7 +29,7 @@ def get_account_id(request):
     if account is None:
         ValueError("Missing 'account' field in IAM bearer token")
 
-    if account is  None:
+    if account is None:
         ValueError("Missing 'account.bss' field in IAM bearer token")
 
     account_id = account['bss']

@@ -4,6 +4,7 @@ from http import HTTPStatus
 import isodate
 from . import common
 from util import auth_util
+from util import exceptions
 
 
 def create_note(project_id, body):
@@ -74,7 +75,7 @@ def create_note(project_id, body):
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         db.create_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
-    except KeyError:
+    except exceptions.AlreadyExistsError:
         return common.build_error(
             HTTPStatus.CONFLICT,
             "Note already exists: {}".format(note_name))
@@ -130,7 +131,7 @@ def get_note(project_id, note_id):
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         note_name = common.build_note_name(project_id, note_id)
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
@@ -166,7 +167,7 @@ def update_note(project_id, note_id, body):
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         doc = db.update_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         note_name = common.build_note_name(project_id, note_id)
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
@@ -190,7 +191,7 @@ def delete_note(project_id, note_id):
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
         doc = db.delete_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         note_name = common.build_note_name(project_id, note_id)
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
@@ -215,7 +216,7 @@ def get_occurrence_note(project_id, occurrence_id):
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         occurrence_doc = db.get_doc(occurrence_doc_id)
-    except KeyError:
+    except exceptions.NotFoundError:
         occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
         return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_name))
 
@@ -224,7 +225,7 @@ def get_occurrence_note(project_id, occurrence_id):
         note_doc_id = "{}/{}".format(account_id, note_name)
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
 

@@ -2,6 +2,7 @@ import connexion
 from http import HTTPStatus
 from . import common
 from util import auth_util
+from util import exceptions
 
 
 def create_project(body):
@@ -33,7 +34,7 @@ def create_project(body):
         project_doc_id = common.build_project_doc_id(account_id, project_id)
         db.create_doc(project_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
-    except KeyError:
+    except exceptions.AlreadyExistsError:
         return common.build_error(HTTPStatus.CONFLICT, "Project already exists: {}".format(project_id))
 
 
@@ -54,7 +55,7 @@ def delete_project(project_id):
         project_doc_id = common.build_project_doc_id(account_id, project_id)
         doc = db.delete_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
 
 
@@ -75,7 +76,7 @@ def get_project(project_id):
         project_doc_id = common.build_project_doc_id(account_id, project_id)
         doc = db.get_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
 
 

@@ -2,9 +2,9 @@ import cloudant
 from cloudant.error import CloudantDatabaseException
 from cloudant.document import Document
 from http import HTTPStatus
-import isodate
 import logging
 import requests
+from util import exceptions
 
 
 logger = logging.getLogger("grafeas.cloudant_client")
@@ -39,7 +39,7 @@ class CloudantDatabase(object):
     def get_doc(self, doc_id):
         doc = Document(self.db, doc_id)
         if not doc.exists():
-            raise KeyError(doc_id)
+            raise exceptions.NotFoundError(doc_id)
 
         doc.fetch()
         return doc
@@ -50,14 +50,14 @@ class CloudantDatabase(object):
             return self.db.create_document(body, throw_on_exists=True)
         except CloudantDatabaseException as e:
             if e.status_code == HTTPStatus.CONFLICT:
-                raise KeyError(doc_id)
+                raise exceptions.AlreadyExistsError(doc_id)
             else:
                 raise
 
     def update_doc(self, doc_id, body):
         doc = Document(self.db, doc_id)
         if not doc.exists():
-            raise KeyError(doc_id)
+            raise exceptions.NotFoundError(doc_id)
 
         doc.fetch()
         doc.update(body)
@@ -67,7 +67,7 @@ class CloudantDatabase(object):
     def delete_doc(self, doc_id):
         doc = Document(self.db, doc_id)
         if not doc.exists():
-            raise KeyError(doc_id)
+            raise exceptions.NotFoundError(doc_id)
 
         doc.fetch()
         doc.delete()

@@ -94,7 +94,31 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.post_occurrence('ProjectX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_05_get_occurrence(self):
+    def test_05_create_or_update_occurrence(self):
+        """
+        Test case for create_occurrence
+
+        Creates a new `Occurrence`. Use this method to create `Occurrences` for a resource.
+        """
+
+        body = {
+            "id": "Occurrence02",
+            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "short_description": "Updated short description of Occurrence02",
+            "long_description": "Updated long description of Occurrence02",
+            "kind": "FINDING",
+            "finding": {
+                "certainty": "HIGH"
+            },
+            "context": {
+                "account_id": "AccountY"
+            }
+        }
+
+        response = self.post_or_put_occurrence('ProjectX', body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_06_get_occurrence(self):
         """
         Test case for get_note
 
@@ -104,7 +128,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.get_occurrence('ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_06_list_occurrences(self):
+    def test_07_list_occurrences(self):
         """
         Test case for list_occurrences
 
@@ -116,7 +140,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         results = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(results) > 0, "A array of one ore more occurrences was expected.")
 
-    def test_07_list_note_occurrences(self):
+    def test_08_list_note_occurrences(self):
         """
         Test case for list_note_occurrences
 
@@ -129,7 +153,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         results = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(results) > 0, "An array of one or more occurrences was expected.")
 
-    def test_08_delete_occurrence(self):
+    def test_09_delete_occurrence(self):
         """
         Test case for delete_occurrence
 
@@ -139,7 +163,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.delete_occurrence('ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_09_delete_missing_occurrence(self):
+    def test_10_delete_missing_occurrence(self):
         """
         Test case for delete_occurrence
 
@@ -149,7 +173,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.delete_occurrence('ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_10_delete_note(self):
+    def test_11_delete_note(self):
         """
         Test case for delete_note
 
@@ -159,7 +183,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.delete_note('ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_11_delete_missing_note(self):
+    def test_12_delete_missing_note(self):
         """
         Test case for delete_note
 

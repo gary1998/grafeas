@@ -128,6 +128,19 @@ class BaseTestCase(TestCase):
                 "Authorization": "AuthorizationX"
             })
 
+    def post_or_put_occurrence(self, project_id, body):
+        return self.client.open(
+            path='/v1alpha1/projects/{}/occurrences'.format(project_id),
+            method='POST',
+            data=json.dumps(body),
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Account": "AccountX",
+                "Authorization": "AuthorizationX",
+                "Replace-If-Exists": "true"
+            })
+
     def get_occurrences(self, project_id):
         return self.client.open(
             path='/v1alpha1/projects/{}/occurrences'.format(project_id),

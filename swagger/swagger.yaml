@@ -423,6 +423,10 @@ paths:
             This is needed only when a UAA token is passed in the Authorization header.
           in: header
           type: string
+        - name: Replace-If-Exists
+          description: It allows replacing an existing occurrence when set to true.
+          in: header
+          type: boolean
         - name: project_id
           in: path
           description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"

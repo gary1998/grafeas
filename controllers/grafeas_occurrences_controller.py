@@ -4,6 +4,7 @@ from http import HTTPStatus
 import isodate
 from . import common
 from util import auth_util
+from util import exceptions
 
 
 def create_occurrence(project_id, body):
@@ -20,6 +21,8 @@ def create_occurrence(project_id, body):
 
     db = common.get_db()
     account_id = auth_util.get_account_id(connexion.request)
+    replace_if_exists_header_value = connexion.request.headers.get('Replace-If-Exists')
+    replace_if_exists = replace_if_exists_header_value is not None and replace_if_exists_header_value.lower() == 'true'
     project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     if 'id' not in body:
@@ -41,7 +44,7 @@ def create_occurrence(project_id, body):
     try:
         note_doc_id = "{}/{}".format(account_id, note_name)
         note = db.get_doc(note_doc_id)
-    except KeyError:
+    except exceptions.NotFoundError:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
             "Note not found: {}".format(note_name))
@@ -97,15 +100,18 @@ def create_occurrence(project_id, body):
     body['create_timestamp'] = create_timestamp
     body['update_timestamp'] = create_timestamp
 
-    #set occurrence default values from the associated note values
+    # set occurrence default values from the associated note values
     _set_occurrence_defaults(body, note)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         db.create_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
-    except KeyError:
-        return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
+    except exceptions.AlreadyExistsError:
+        if replace_if_exists:
+            return update_occurrence(project_id, occurrence_id, body)
+        else:
+            return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
 
 
 def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
@@ -156,7 +162,7 @@ def get_occurrence(project_id, occurrence_id):
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.get_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 
@@ -196,7 +202,7 @@ def update_occurrence(project_id, occurrence_id, body):
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.update_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 
@@ -220,7 +226,7 @@ def delete_occurrence(project_id, occurrence_id):
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.delete_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except KeyError:
+    except exceptions.NotFoundError:
         occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
 

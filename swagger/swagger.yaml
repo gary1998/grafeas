@@ -725,7 +725,7 @@ definitions:
           This field can be used as a filter in list requests.
 
       #
-      # IBM extensions start here
+      # Start IBM extensions
       #
       shared:
         type: boolean
@@ -744,7 +744,7 @@ definitions:
         $ref: '#/definitions/CardType'
         description: A card type of note.
       #
-      # IBM extensions stop here
+      # End IBM extensions
       #
     description: Provides a detailed description of a `Note`.
 
@@ -813,7 +813,7 @@ definitions:
         description: Output only. The time this `Occurrence` was last updated.
 
       #
-      # IBM extensions start here
+      # Start IBM extensions
       #
       short_description:
         type: string
@@ -834,7 +834,7 @@ definitions:
         $ref: '#/definitions/Kpi'
         description: Details of the occurrence of a KPI.
       #
-      # IBM extensions stop here
+      # End IBM extensions
       #
     description: '`Occurrence` includes information about analysis occurrences for an image.'
 
@@ -847,6 +847,16 @@ definitions:
       name:
         type: string
         title: The name of the project of the form "projects/{project_id}"
+      #
+      # Start IBM extensions
+      #
+      shared:
+        type: boolean
+        description: True if this `Project` can be shared by multiple accounts.
+        default: true
+      #
+      # End IBM extensions
+      #
     description: Provides detailed description of a `Project`.
 
   apiContext:

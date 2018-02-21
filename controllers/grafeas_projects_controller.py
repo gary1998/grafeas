@@ -26,6 +26,9 @@ def create_project(body):
     body['id'] = project_id
     body['name'] = common.build_project_name(project_id)
 
+    if 'shared' not in body:
+        body['shared'] = True
+
     try:
         project_doc_id = common.build_project_doc_id(account_id, project_id)
         db.create_doc(project_doc_id, body)

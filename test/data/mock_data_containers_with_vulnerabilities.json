@@ -38,12 +38,16 @@
             "value_types": [
               {
                 "kind": "FINDING_COUNT",
-                "kpi_note_name": "projects/va/notes/container_with_vulnerabilities",
+                "finding_note_names": [
+                  "projects/va/notes/container_with_vulnerabilities"
+                ],
                 "text": "Vulnerabilities"
               },
               {
                 "kind": "FINDING_COUNT",
-                "kpi_note_name": "projects/va/notes/container_with_config_issues",
+                "finding_note_names": [
+                  "projects/va/notes/container_with_config_issues"
+                ],
                 "text": "Config Issues"
               }
             ]

@@ -38,7 +38,7 @@
           {
             "kind": "BREAKDOWN",
             "text": "Types of Suspicious Server IPs",
-            "direction": "VERTICAL",
+            "direction": "HORIZONTAL",
             "value_types": [
               {
                 "kind": "FINDING_COUNT",

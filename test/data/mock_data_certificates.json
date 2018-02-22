@@ -37,7 +37,7 @@
           {
             "kind": "BREAKDOWN",
             "text": "Certificates About To Expire",
-            "direction": "HORIZONTAL",
+            "direction": "VERTICAL",
             "value_types": [
               {
                 "kind": "KPI",

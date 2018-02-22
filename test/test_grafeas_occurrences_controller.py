@@ -153,7 +153,57 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         results = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(results) > 0, "An array of one or more occurrences was expected.")
 
-    def test_09_delete_occurrence(self):
+    def test_09_create_invalid_occurrence(self):
+
+        body = {
+            "context":{
+                "region":"dal10",
+                "account_id": "697e84fcca45c9439aae525d31ef1a27",
+                "resource_name": "N1",
+                "resource_type": "Pod",
+                "service_crn":"39438df3496a49e8aa39eb556ab15b0e",
+                "service_name":"Kubernetes Cluster"
+             },
+            "finding":{
+                "certainty":"LOW",
+                "network":{
+                    "client":{"ip":"1.2.3.1"},
+                    "direction":"Outbound",
+                    "protocol":	"ALL_METHODS"
+                }
+            }
+        }
+
+        response = self.post_occurrence('ProjectX', body)
+        self.assertStatus(response, HTTPStatus.BAD_REQUEST, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_10_create_valid_occurrence(self):
+
+        body = {
+            "kind": "FINDING",
+            "id": "outlier-ag-2",
+            "note_name": "projects/ProjectX/notes/Note02",
+            "context":{
+                "region":"dal10",
+                "account_id": "697e84fcca45c9439aae525d31ef1a27",
+                "resource_name": " datagateway-74b784c444",
+                "resource_type": "Pod",
+                "service_crn": "39438df3496a49e8aa39eb556ab15b0e",
+                "service_name": "Kubernetes Cluster"
+            },
+            "finding":{
+                "certainty":"MEDIUM",
+                "network": {
+                    "direction": "Outbound",
+                    "protocol": "Ethernet/IPv4/TCP"
+                }
+            }
+        }
+
+        response = self.post_occurrence('ProjectX', body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_11_delete_occurrence(self):
         """
         Test case for delete_occurrence
 
@@ -163,7 +213,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.delete_occurrence('ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_10_delete_missing_occurrence(self):
+    def test_12_delete_missing_occurrence(self):
         """
         Test case for delete_occurrence
 
@@ -173,7 +223,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.delete_occurrence('ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_11_delete_note(self):
+    def test_13_delete_note(self):
         """
         Test case for delete_note
 
@@ -183,7 +233,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.delete_note('ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_12_delete_missing_note(self):
+    def test_14_delete_missing_note(self):
         """
         Test case for delete_note
 

@@ -12,10 +12,10 @@
         "finding_note_names": [
           "projects/security-advisor/notes/certmgr-expired_cert",
           "projects/security-advisor/notes/certmgr-expiring_1day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_10days_cert",
-          "projects/security-advisor/notes/certmgr-expiring_30days_cert",
-          "projects/security-advisor/notes/certmgr-expiring_60days_cert",
-          "projects/security-advisor/notes/certmgr-expiring_90days_cert"
+          "projects/security-advisor/notes/certmgr-expiring_10day_cert",
+          "projects/security-advisor/notes/certmgr-expiring_30day_cert",
+          "projects/security-advisor/notes/certmgr-expiring_60day_cert",
+          "projects/security-advisor/notes/certmgr-expiring_90day_cert"
         ],
         "elements": [
           {
@@ -31,7 +31,7 @@
             "text": "certificates will expire in the next 30 days",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30days_cert_count"
+              "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count"
             }
           },
           {
@@ -46,22 +46,22 @@
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_10days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert_count",
                 "text": "2-10 days"
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count",
                 "text": "11-30 days"
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_60days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert_count",
                 "text": "31-60 days"
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_90days_cert_count",
+                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert_count",
                 "text": "61-90 days"
               }
             ]
@@ -105,7 +105,7 @@
     {
       "kind": "FINDING",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_10days_cert",
+      "id": "certmgr-expiring_10day_cert",
       "short_description": "Certificate expiring in 10 days",
       "long_description": "Certificate that will expire in 10 days",
       "reported_by": {
@@ -121,7 +121,7 @@
     {
       "kind": "FINDING",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_30days_cert",
+      "id": "certmgr-expiring_30day_cert",
       "short_description": "Certificate expiring in 30 days",
       "long_description": "Certificate that will expire in 30 days",
       "reported_by": {
@@ -137,7 +137,7 @@
     {
       "kind": "FINDING",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_60days_cert",
+      "id": "certmgr-expiring_60day_cert",
       "short_description": "Certificate expiring in 60 days",
       "long_description": "Certificate that will expire in 60 days",
       "reported_by": {
@@ -153,7 +153,7 @@
     {
       "kind": "FINDING",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_90days_cert",
+      "id": "certmgr-expiring_90day_cert",
       "short_description": "Certificate expiring in 90 days",
       "long_description": "Certificate that will expire in 90 days",
       "reported_by": {
@@ -202,7 +202,7 @@
     {
       "kind": "KPI",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_10days_cert_count",
+      "id": "certmgr-expiring_10day_cert_count",
       "short_description": "Number of certificates expiring in 10 days",
       "long_description": "Number of certificates expiring in 10 days",
       "reported_by": {
@@ -218,7 +218,7 @@
     {
       "kind": "KPI",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_30days_cert_count",
+      "id": "certmgr-expiring_30day_cert_count",
       "short_description": "Number of certificates expiring in 30 days",
       "long_description": "Number of certificates expiring in 30 days",
       "reported_by": {
@@ -234,7 +234,7 @@
     {
       "kind": "KPI",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_60days_cert_count",
+      "id": "certmgr-expiring_60day_cert_count",
       "short_description": "Number of certificates expiring in 60 days",
       "long_description": "Number of certificates expiring in 60 days",
       "reported_by": {
@@ -250,7 +250,7 @@
     {
       "kind": "KPI",
       "project_id": "security-advisor",
-      "id": "certmgr-expiring_90days_cert_count",
+      "id": "certmgr-expiring_90day_cert_count",
       "short_description": "Number of certificates expiring in 90 days",
       "long_description": "Number of certificates expiring in 90 days",
       "reported_by": {
@@ -303,7 +303,7 @@
       "kind": "FINDING",
       "project_id": "security-advisor",
       "id": "ce10dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_10days_cert",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
@@ -320,7 +320,7 @@
       "kind": "FINDING",
       "project_id": "security-advisor",
       "id": "ce30dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_30days_cert",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
@@ -337,7 +337,7 @@
       "kind": "FINDING",
       "project_id": "security-advisor",
       "id": "ce60dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_60days_cert",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
@@ -354,7 +354,7 @@
       "kind": "FINDING",
       "project_id": "security-advisor",
       "id": "ce90dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_90days_cert",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert",
       "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
@@ -436,7 +436,7 @@
       "kind": "KPI",
       "project_id": "security-advisor",
       "id": "ce10dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_10days_cert_count",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert_count",
       "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
@@ -452,7 +452,7 @@
       "kind": "KPI",
       "project_id": "security-advisor",
       "id": "ce30dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_30days_cert_count",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count",
       "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
@@ -468,7 +468,7 @@
       "kind": "KPI",
       "project_id": "security-advisor",
       "id": "ce60dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_60days_cert_count",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert_count",
       "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
@@ -484,7 +484,7 @@
       "kind": "KPI",
       "project_id": "security-advisor",
       "id": "ce90dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_90days_cert_count",
+      "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert_count",
       "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",

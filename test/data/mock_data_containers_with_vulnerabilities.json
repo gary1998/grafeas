@@ -37,13 +37,13 @@
             "default_time_range": "1w",
             "value_types": [
               {
-                "kind": "KPI",
-                "kpi_note_name": "projects/va/notes/container_with_vulnerabilities_count",
+                "kind": "FINDING_COUNT",
+                "kpi_note_name": "projects/va/notes/container_with_vulnerabilities",
                 "text": "Vulnerabilities"
               },
               {
-                "kind": "KPI",
-                "kpi_note_name": "projects/va/notes/container_with_config_issues_count",
+                "kind": "FINDING_COUNT",
+                "kpi_note_name": "projects/va/notes/container_with_config_issues",
                 "text": "Config Issues"
               }
             ]

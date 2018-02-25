@@ -4,7 +4,6 @@ from http import HTTPStatus
 
 
 FILE_NAMES = [
-    'mock_data_common.json',
     'mock_data_suspicious_servers.json',
     'mock_data_suspicious_clients.json',
     'mock_data_certificates.json',
@@ -14,21 +13,21 @@ FILE_NAMES = [
 
 
 class RemoveMockData(BaseTestCase):
-    def test_01_create_projects(self):
+    def test_01_remove_projects(self):
         for file_name in FILE_NAMES:
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for project in data.get('projects', []):
                     self._remove_project(project)
 
-    def test_02_create_notes(self):
+    def test_02_remove_notes(self):
         for file_name in FILE_NAMES:
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for note in data.get('notes', []):
                     self._remove_note(note['project_id'], note)
 
-    def test_03_create_occurrences(self):
+    def test_03_remove_occurrences(self):
         for file_name in FILE_NAMES:
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)

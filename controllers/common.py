@@ -43,8 +43,69 @@ def __create_db():
 
     db.create_query_index("DT_OAI", ['doc_type', 'account_id', 'update_timestamp'])
     db.create_query_index("DT_PDI", ['doc_type', 'project_doc_id', 'update_timestamp'])
-    db.create_query_index("DT_PDI_CAI", ['doc_type', 'project_doc_id', 'context.account_id', 'update_timestamp'])
-    db.create_query_index("DT_NDI_CAI", ['doc_type', 'note_doc_id', 'context.account_id', 'update_timestamp'])
+    db.create_query_index("DT_CAI_PDI", ['doc_type', 'context.account_id', 'project_doc_id', 'update_timestamp'])
+    db.create_query_index("DT_CAI_NDI", ['doc_type', 'context.account_id', 'note_doc_id', 'update_timestamp'])
+
+    db.add_view(
+        'time_series',
+        'finding_count_by_year',
+        """
+        function(doc) {{
+            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
+                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 4)], 1);
+            }}
+        }}
+        """,
+        '_sum')
+
+    db.add_view(
+        'time_series',
+        'finding_count_by_month',
+        """
+        function(doc) {{
+            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
+                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 7)], 1);
+            }}
+        }}
+        """,
+        '_sum')
+
+    db.add_view(
+        'time_series',
+        'finding_count_by_week',
+        """
+        function(doc) {{
+            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
+                emit([doc.context.account_id, doc.note_doc_id, doc.update_week_date.substring(0, 8)], 1);
+            }}
+        }}
+        """,
+        '_sum')
+
+    db.add_view(
+        'time_series',
+        'finding_count_by_day',
+        """
+        function(doc) {{
+            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
+                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 10)], 1);
+            }}
+        }}
+        """,
+        '_sum')
+
+    db.add_view(
+        'time_series',
+        'finding_count_by_hour',
+        """
+        function(doc) {{
+            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
+                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 13)], 1);
+            }}
+        }}
+        """,
+        '_sum')
+
     return db
 
 

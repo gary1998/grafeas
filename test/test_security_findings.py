@@ -67,7 +67,7 @@ ALERT_OCCURRENCE_1_1 = {
             "direction": "Outbound",
             "protocol": "Ethernet/IPv4/TCP"
         },
-        "data_transfered": {
+        "data_transferred": {
             "client_bytes": 43431,
             "server_bytes": 901,
             "client_packets": 232,

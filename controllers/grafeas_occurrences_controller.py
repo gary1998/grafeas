@@ -82,14 +82,6 @@ def create_occurrence(project_id, body):
             HTTPStatus.BAD_REQUEST,
             "Missing required field: 'context.account_id'")
 
-    if 'create_time' in body:
-        create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
-    else:
-        now = datetime.datetime.now()
-        create_timestamp = now.timestamp()
-        body['create_time'] = isodate.datetime_isoformat(now)
-    body['update_time'] = body['create_time']
-
     body['doc_type'] = 'Occurrence'
     body['account_id'] = account_id
     body['project_id'] = project_id
@@ -97,8 +89,18 @@ def create_occurrence(project_id, body):
     body['name'] = occurrence_name
     body['project_doc_id'] = project_doc_id
     body['note_doc_id'] = note_doc_id
+
+    if 'create_time' in body:
+        create_datetime = isodate.parse_datetime(body['create_time'])
+        create_timestamp = create_datetime.timestamp()
+    else:
+        create_datetime = datetime.datetime.now()
+        create_timestamp = create_datetime.timestamp()
+        body['create_time'] = create_datetime.isoformat()
+    body['update_time'] = body['create_time']
     body['create_timestamp'] = create_timestamp
     body['update_timestamp'] = create_timestamp
+    body['update_week_date'] = _week_date_iso_format(create_datetime.isocalendar())
 
     # set occurrence default values from the associated note values
     _set_occurrence_defaults(body, note)
@@ -191,12 +193,14 @@ def update_occurrence(project_id, occurrence_id, body):
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
 
     if 'update_time' in body:
-        update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
+        update_datetime = isodate.parse_datetime(body['update_time'])
+        update_timestamp = update_datetime.timestamp()
     else:
-        now = datetime.datetime.now()
-        update_timestamp = now.timestamp()
-        body['update_time'] = isodate.datetime_isoformat(now)
+        update_datetime = datetime.datetime.now()
+        update_timestamp = update_datetime.timestamp()
+        body['update_time'] = update_datetime.isoformat()
     body['update_timestamp'] = update_timestamp
+    body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
@@ -296,3 +300,7 @@ def _dict_merge(a, b):
         else:
             result[k] = copy.deepcopy(v)
     return result
+
+
+def _week_date_iso_format(iso_calendar):
+    return "{:04d}-W{:02d}-{}".format(iso_calendar[0], iso_calendar[1], iso_calendar[2])

@@ -21,11 +21,15 @@ def create_note(project_id, body):
 
     db = common.get_db()
     account_id = auth_util.get_account_id(connexion.request)
+    project_doc_id = common.build_project_doc_id(account_id, project_id)
 
     if 'id' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
             "Missing required field: 'id'")
+
+    note_id = body['id']
+    note_name = common.build_note_name(project_id, note_id)
 
     if 'kind' not in body:
         return common.build_error(
@@ -48,25 +52,24 @@ def create_note(project_id, body):
             HTTPStatus.BAD_REQUEST,
             "Missing field for 'KPI' note: 'kpi_type'")
 
-    if 'create_time' in body:
-        create_timestamp = isodate.parse_datetime(body['create_time']).timestamp()
-    else:
-        now = datetime.datetime.now()
-        create_timestamp = now.timestamp()
-        body['create_time'] = isodate.datetime_isoformat(now)
-    body['update_time'] = body['create_time']
-
-    note_id = body['id']
     body['doc_type'] = 'Note'
+    body['id'] = note_id
     body['account_id'] = account_id
     body['project_id'] = project_id
-    body['id'] = note_id
-    note_name = common.build_note_name(project_id, note_id)
     body['name'] = note_name
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
     body['project_doc_id'] = project_doc_id
+
+    if 'create_time' in body:
+        create_datetime = isodate.parse_datetime(body['create_time'])
+        create_timestamp = create_datetime.timestamp()
+    else:
+        create_datetime = datetime.datetime.now()
+        create_timestamp = create_datetime.timestamp()
+        body['create_time'] = create_datetime.isoformat()
+    body['update_time'] = body['create_time']
     body['create_timestamp'] = create_timestamp
     body['update_timestamp'] = create_timestamp
+    body['update_week_date'] = _week_date_iso_format(create_datetime.isocalendar())
 
     if 'shared' not in body:
         body['shared'] = True
@@ -153,15 +156,17 @@ def update_note(project_id, note_id, body):
     db = common.get_db()
     account_id = auth_util.get_account_id(connexion.request)
 
-    if 'update_time' in body:
-        update_timestamp = isodate.parse_datetime(body['update_time']).timestamp()
-    else:
-        now = datetime.datetime.now()
-        update_timestamp = now.timestamp()
-        body['update_time'] = isodate.datetime_isoformat(now)
-
     body['id'] = note_id
+
+    if 'update_time' in body:
+        update_datetime = isodate.parse_datetime(body['update_time'])
+        update_timestamp = update_datetime.timestamp()
+    else:
+        update_datetime = datetime.datetime.now()
+        update_timestamp = update_datetime.timestamp()
+        body['update_time'] = update_datetime.isoformat()
     body['update_timestamp'] = update_timestamp
+    body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
 
     try:
         note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
@@ -235,3 +240,7 @@ def _clean_doc(doc):
     doc.pop('doc_type', None)
     doc.pop('account_id', None)
     return doc
+
+
+def _week_date_iso_format(iso_calendar):
+    return "{:04d}-W{:02d}-{}".format(iso_calendar[0], iso_calendar[1], iso_calendar[2])

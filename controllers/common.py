@@ -54,9 +54,9 @@ def __create_db():
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
                 emit([doc.context.account_id, doc.note_doc_id, 
-                      doc.update_time.substring(0, 4), doc.update_time.substring(5, 7), 
-                      doc.update_time.substring(8, 10), doc.update_time.substring(11, 13),
-                      doc.update_time.substring(14, 16), doc.update_time.substring(17, 19)], 1);
+                    parseInt(doc.update_time.substring(0, 4)), parseInt(doc.update_time.substring(5, 7)), 
+                    parseInt(doc.update_time.substring(8, 10)), parseInt(doc.update_time.substring(11, 13)),
+                    parseInt(doc.update_time.substring(14, 16)), parseInt(doc.update_time.substring(17, 19))], 1);
             }}
         }}
         """,
@@ -68,8 +68,8 @@ def __create_db():
         """
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                emit([doc.context.account_id, doc.note_doc_id, doc.update_week_date.substring(0, 4),
-                      doc.update_week_date.substring(6, 8), doc.update_week_date.substring(9, 10)], 1);
+                emit([doc.context.account_id, doc.note_doc_id, parseInt(doc.update_week_date.substring(0, 4)),
+                    parseInt(doc.update_week_date.substring(6, 8)), parseInt(doc.update_week_date.substring(9, 10))], 1);
             }}
         }}
         """,

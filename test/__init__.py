@@ -42,7 +42,7 @@ class BaseTestCase(TestCase):
             })
 
     def delete_project(self, project_id):
-        return  self.client.open(
+        return self.client.open(
             path='/v1alpha1/projects/{}'.format(project_id),
             method='DELETE',
             headers={

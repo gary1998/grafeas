@@ -49,11 +49,14 @@ def __create_db():
 
     db.add_view(
         'time_series',
-        'finding_count_by_year',
+        'finding_count_by_date_time',
         """
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 4)], 1);
+                emit([doc.context.account_id, doc.note_doc_id, 
+                      doc.update_time.substring(0, 4), doc.update_time.substring(5, 7), 
+                      doc.update_time.substring(8, 10), doc.update_time.substring(11, 13),
+                      doc.update_time.substring(14, 16), doc.update_time.substring(17, 19)], 1);
             }}
         }}
         """,
@@ -61,47 +64,12 @@ def __create_db():
 
     db.add_view(
         'time_series',
-        'finding_count_by_month',
+        'finding_count_by_week_date',
         """
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 7)], 1);
-            }}
-        }}
-        """,
-        '_sum')
-
-    db.add_view(
-        'time_series',
-        'finding_count_by_week',
-        """
-        function(doc) {{
-            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                emit([doc.context.account_id, doc.note_doc_id, doc.update_week_date.substring(0, 8)], 1);
-            }}
-        }}
-        """,
-        '_sum')
-
-    db.add_view(
-        'time_series',
-        'finding_count_by_day',
-        """
-        function(doc) {{
-            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 10)], 1);
-            }}
-        }}
-        """,
-        '_sum')
-
-    db.add_view(
-        'time_series',
-        'finding_count_by_hour',
-        """
-        function(doc) {{
-            if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                emit([doc.context.account_id, doc.note_doc_id, doc.update_time.substring(0, 13)], 1);
+                emit([doc.context.account_id, doc.note_doc_id, doc.update_week_date.substring(0, 4),
+                      doc.update_week_date.substring(6, 8), doc.update_week_date.substring(9, 10)], 1);
             }}
         }}
         """,

@@ -44,6 +44,7 @@ def __create_db():
     db.create_query_index("DT_OAI", ['doc_type', 'account_id', 'update_timestamp'])
     db.create_query_index("DT_PDI", ['doc_type', 'project_doc_id', 'update_timestamp'])
     db.create_query_index("DT_CAI_PDI", ['doc_type', 'context.account_id', 'project_doc_id', 'update_timestamp'])
+    db.create_query_index("DT_NDI", ['doc_type', 'note_doc_id', 'update_timestamp'])
     db.create_query_index("DT_CAI_NDI", ['doc_type', 'context.account_id', 'note_doc_id', 'update_timestamp'])
 
     db.add_view(

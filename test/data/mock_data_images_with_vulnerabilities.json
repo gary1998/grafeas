@@ -69,7 +69,12 @@
       },
       "create_time": "2018-02-01T08:20:31.067862Z",
       "finding": {
-        "severity": "HIGH"
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "Go to Vulnerability Advisor to see what the issues are and possible corrective actions."
+          }
+        ]
       }
     },
     {
@@ -85,7 +90,12 @@
       },
       "create_time": "2018-02-01T08:20:31.067862Z",
       "finding": {
-        "severity": "HIGH"
+        "severity": "MEDIUM",
+        "next_steps": [
+          {
+            "title": "Go to Vulnerability Advisor to see what the issues are and possible corrective actions."
+          }
+        ]
       }
     },
     {
@@ -101,7 +111,8 @@
       },
       "create_time": "2018-02-01T08:32:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "HIGH"
       }
     },
     {
@@ -117,7 +128,8 @@
       },
       "create_time": "2018-02-01T08:32:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "MEDIUM"
       }
     }
   ],

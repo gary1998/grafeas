@@ -83,7 +83,24 @@
       },
       "create_time": "2018-02-01T08:26:02.067862Z",
       "finding": {
-        "severity": "HIGH"
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "1. Find your certificate."
+          },
+          {
+            "title": "2. Renew certificate with Certificate Authority."
+          },
+          {
+            "title": "3. Upload renewed certificate to Certificate Manager."
+          },
+          {
+            "title": "4. Redeploy certificate to SSL termination point."
+          },
+          {
+            "title": "5. Delete old certificate from Certificate Manager."
+          }
+        ]
       }
     },
     {
@@ -99,7 +116,24 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
-        "severity": "HIGH"
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "1. Find your certificate."
+          },
+          {
+            "title": "2. Renew certificate with Certificate Authority."
+          },
+          {
+            "title": "3. Upload renewed certificate to Certificate Manager."
+          },
+          {
+            "title": "4. Redeploy certificate to SSL termination point."
+          },
+          {
+            "title": "5. Delete old certificate from Certificate Manager."
+          }
+        ]
       }
     },
     {
@@ -116,6 +150,23 @@
       "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
         "severity": "MEDIUM"
+        "next_steps": [
+          {
+            "title": "1. Find your certificate."
+          },
+          {
+            "title": "2. Renew certificate with Certificate Authority."
+          },
+          {
+            "title": "3. Upload renewed certificate to Certificate Manager."
+          },
+          {
+            "title": "4. Redeploy certificate to SSL termination point."
+          },
+          {
+            "title": "5. Delete old certificate from Certificate Manager."
+          }
+        ]
       }
     },
     {
@@ -131,7 +182,24 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
-        "severity": "MEDIUM"
+        "severity": "MEDIUM",
+        "next_steps": [
+          {
+            "title": "1. Find your certificate."
+          },
+          {
+            "title": "2. Renew certificate with Certificate Authority."
+          },
+          {
+            "title": "3. Upload renewed certificate to Certificate Manager."
+          },
+          {
+            "title": "4. Redeploy certificate to SSL termination point."
+          },
+          {
+            "title": "5. Delete old certificate from Certificate Manager."
+          }
+        ]
       }
     },
     {
@@ -147,7 +215,24 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
-        "severity": "LOW"
+        "severity": "LOW",
+        "next_steps": [
+          {
+            "title": "1. Find your certificate."
+          },
+          {
+            "title": "2. Renew certificate with Certificate Authority."
+          },
+          {
+            "title": "3. Upload renewed certificate to Certificate Manager."
+          },
+          {
+            "title": "4. Redeploy certificate to SSL termination point."
+          },
+          {
+            "title": "5. Delete old certificate from Certificate Manager."
+          }
+        ]
       }
     },
     {
@@ -163,7 +248,24 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
-        "severity": "LOW"
+        "severity": "LOW",
+        "next_steps": [
+          {
+            "title": "1. Find your certificate."
+          },
+          {
+            "title": "2. Renew certificate with Certificate Authority."
+          },
+          {
+            "title": "3. Upload renewed certificate to Certificate Manager."
+          },
+          {
+            "title": "4. Redeploy certificate to SSL termination point."
+          },
+          {
+            "title": "5. Delete old certificate from Certificate Manager."
+          }
+        ]
       }
     },
 
@@ -180,7 +282,8 @@
       },
       "create_time": "2018-02-01T08:26:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "HIGH"
       }
     },
     {
@@ -196,7 +299,8 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "HIGH"
       }
     },
     {
@@ -212,7 +316,8 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "MEDIUM"
       }
     },
     {
@@ -228,7 +333,8 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "MEDIUM"
       }
     },
     {
@@ -244,7 +350,8 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "LOW"
       }
     },
     {
@@ -260,7 +367,8 @@
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
-        "aggregation_type": "SUM"
+        "aggregation_type": "SUM",
+        "severity": "LOW"
       }
     }
   ],

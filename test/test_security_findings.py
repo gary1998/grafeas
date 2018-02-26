@@ -19,7 +19,7 @@ ALERT_NOTE_1 = {
         "title": "IBM X-Force Threat Intelligence Service",
         "href": "http:// documentation url with nice images inside"
     },
-    "finding_type": {
+    "finding": {
         "severity": "HIGH",
         "titles": {
             "context": {
@@ -149,7 +149,7 @@ KPI_NOTE_2 = {
         "title": "IBM X-Force Threat Intelligence Service",
         "href": "http:// documentation url with nice images inside"
     },
-    "kpi_type": {
+    "kpi": {
         "aggregation_type": "SUM"
     }
 }
@@ -185,7 +185,7 @@ ALERT_NOTE_3 = {
     "short_description": "Suspected Data Leakage from a Pod",
     "long_description": "A pods in this cluster sends data to an external IP in volumes that exceed its normal behavior",
     "create_time": "2018-02-04T13:34:34.071264Z",
-    "finding_type": {
+    "finding": {
         "severity": "MEDIUM",
         "titles": {
             "context": {

@@ -18,8 +18,8 @@ class TestGrafeasNotesController(BaseTestCase):
             "short_description": "The short description of Note01",
             "long_description": "The long description of Note01",
             "kind": "FINDING",
-            "finding_type": {
-                "default_severity": "HIGH"
+            "finding": {
+                "severity": "HIGH"
             }
         }
 
@@ -38,8 +38,8 @@ class TestGrafeasNotesController(BaseTestCase):
             "short_description": "The short description of Note01",
             "long_description": "The long description of Note01",
             "kind": "FINDING",
-            "finding_type": {
-                "default_severity": "HIGH"
+            "finding": {
+                "severity": "HIGH"
             }
         }
 

@@ -79,8 +79,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "create_time": "2018-02-01T08:20:02.067862Z",
-      "finding_type": {
-        "default_severity": "LOW"
+      "finding": {
+        "severity": "LOW"
       }
     },
     {
@@ -95,8 +95,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "create_time": "2018-02-01T08:20:02.067862Z",
-      "finding_type": {
-        "default_severity": "HIGH"
+      "finding": {
+        "severity": "HIGH"
       }
     },
     {
@@ -111,8 +111,8 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "create_time": "2018-02-01T08:20:02.067862Z",
-      "finding_type": {
-        "default_severity": "MEDIUM"
+      "finding": {
+        "severity": "MEDIUM"
       }
     },
     {
@@ -127,7 +127,7 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "create_time": "2018-02-01T08:21:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     }

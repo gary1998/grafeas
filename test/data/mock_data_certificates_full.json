@@ -82,8 +82,8 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:26:02.067862Z",
-      "finding_type": {
-        "default_severity": "HIGH"
+      "finding": {
+        "severity": "HIGH"
       }
     },
     {
@@ -98,8 +98,8 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding_type": {
-        "default_severity": "HIGH"
+      "finding": {
+        "severity": "HIGH"
       }
     },
     {
@@ -114,8 +114,8 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding_type": {
-        "default_severity": "MEDIUM"
+      "finding": {
+        "severity": "MEDIUM"
       }
     },
     {
@@ -130,8 +130,8 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding_type": {
-        "default_severity": "MEDIUM"
+      "finding": {
+        "severity": "MEDIUM"
       }
     },
     {
@@ -146,8 +146,8 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding_type": {
-        "default_severity": "LOW"
+      "finding": {
+        "severity": "LOW"
       }
     },
     {
@@ -162,8 +162,8 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding_type": {
-        "default_severity": "LOW"
+      "finding": {
+        "severity": "LOW"
       }
     },
 
@@ -179,7 +179,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:26:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     },
@@ -195,7 +195,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     },
@@ -211,7 +211,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     },
@@ -227,7 +227,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     },
@@ -243,7 +243,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     },
@@ -259,7 +259,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     }

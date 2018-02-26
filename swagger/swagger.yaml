@@ -738,13 +738,13 @@ definitions:
       reported_by:
         $ref: '#/definitions/apiReporter'
         description: Details about the reporter of this `Note`.
-      finding_type:
+      finding:
         $ref: '#/definitions/FindingType'
         description: A finding type of note.
-      kpi_type:
+      kpi:
         $ref: '#/definitions/KpiType'
         description: A KPI type of note.
-      card_type:
+      card:
         $ref: '#/definitions/CardType'
         description: A card type of note.
       #
@@ -937,7 +937,7 @@ definitions:
     type: object
     description: FindingType provides details about a finding note.
     properties:
-      default_severity:
+      severity:
         $ref: '#/definitions/apiSeverity'
         description: The default severity of the findings related to this `Note`
 

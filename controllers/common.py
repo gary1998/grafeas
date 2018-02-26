@@ -47,6 +47,7 @@ def __create_db():
     db.create_query_index("DT_NDI", ['doc_type', 'note_doc_id', 'update_timestamp'])
     db.create_query_index("DT_CAI_NDI", ['doc_type', 'context.account_id', 'note_doc_id', 'update_timestamp'])
 
+    # 2018-04-15T16:30:00
     db.add_view(
         'time_series',
         'finding_count_by_date_time',
@@ -54,22 +55,30 @@ def __create_db():
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
                 emit([doc.context.account_id, doc.note_doc_id, 
-                    parseInt(doc.update_time.substring(0, 4)), parseInt(doc.update_time.substring(5, 7)), 
-                    parseInt(doc.update_time.substring(8, 10)), parseInt(doc.update_time.substring(11, 13)),
-                    parseInt(doc.update_time.substring(14, 16)), parseInt(doc.update_time.substring(17, 19))], 1);
+                    parseInt(doc.update_time.substring(0, 4, 10)),
+                    parseInt(doc.update_time.substring(5, 7, 10)), 
+                    parseInt(doc.update_time.substring(8, 10, 10)),
+                    parseInt(doc.update_time.substring(11, 13, 10)),
+                    parseInt(doc.update_time.substring(14, 16, 10)),
+                    parseInt(doc.update_time.substring(17, 19, 10))],
+                    1);
             }}
         }}
         """,
         '_sum')
 
+    # 2018-W04-2
     db.add_view(
         'time_series',
         'finding_count_by_week_date',
         """
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                emit([doc.context.account_id, doc.note_doc_id, parseInt(doc.update_week_date.substring(0, 4)),
-                    parseInt(doc.update_week_date.substring(6, 8)), parseInt(doc.update_week_date.substring(9, 10))], 1);
+                emit([doc.context.account_id, doc.note_doc_id, 
+                    parseInt(doc.update_week_date.substring(0, 4, 10)),
+                    parseInt(doc.update_week_date.substring(6, 8, 10)),
+                    parseInt(doc.update_week_date.substring(9, 10, 10))],
+                    1);
             }}
         }}
         """,

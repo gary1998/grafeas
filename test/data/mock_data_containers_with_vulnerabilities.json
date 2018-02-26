@@ -68,8 +68,8 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "create_time": "2018-02-01T08:20:31.067862Z",
-      "finding_type": {
-        "default_severity": "HIGH"
+      "finding": {
+        "severity": "HIGH"
       }
     },
     {
@@ -84,8 +84,8 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "create_time": "2018-02-01T08:20:31.067862Z",
-      "finding_type": {
-        "default_severity": "HIGH"
+      "finding": {
+        "severity": "HIGH"
       }
     },
     {
@@ -100,7 +100,7 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "create_time": "2018-02-01T08:32:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     },
@@ -116,7 +116,7 @@
         "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "create_time": "2018-02-01T08:32:02.067862Z",
-      "kpi_type": {
+      "kpi": {
         "aggregation_type": "SUM"
       }
     }

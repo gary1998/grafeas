@@ -276,9 +276,8 @@ def _set_occurrence_defaults(occurrence, note):
         occurrence['reported_by'] = note.get('reported_by')
 
     if occurrence['kind'] == 'FINDING':
-        finding = occurrence['finding']
-        if 'severity' not in finding:
-            finding['severity'] = note['finding_type'].get('default_severity', 'MEDIUM')
+        merged_finding = _dict_merge(note['finding'], occurrence['finding'])
+        occurrence['finding'] = merged_finding
 
 
 def _clean_doc(doc):

@@ -43,14 +43,14 @@ def create_note(project_id, body):
             HTTPStatus.BAD_REQUEST,
             "Invalid 'kind' value, only 'CARD', 'FINDING' and 'KPI' are allowed")
 
-    if kind == 'FINDING' and 'finding_type' not in body:
+    if kind == 'FINDING' and 'finding' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing field for 'FINDING' note: 'finding_type'")
-    if kind == 'KPI' and 'kpi_type' not in body:
+            "Missing field for 'FINDING' note: 'finding")
+    if kind == 'KPI' and 'kpi' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing field for 'KPI' note: 'kpi_type'")
+            "Missing field for 'KPI' note: 'kpi'")
 
     body['doc_type'] = 'Note'
     body['id'] = note_id

@@ -55,12 +55,12 @@ def __create_db():
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
                 emit([doc.context.account_id, doc.note_doc_id, 
-                    parseInt(doc.update_time.substring(0, 4, 10)),
-                    parseInt(doc.update_time.substring(5, 7, 10)), 
-                    parseInt(doc.update_time.substring(8, 10, 10)),
-                    parseInt(doc.update_time.substring(11, 13, 10)),
-                    parseInt(doc.update_time.substring(14, 16, 10)),
-                    parseInt(doc.update_time.substring(17, 19, 10))],
+                    parseInt(doc.update_time.substring(0, 4), 10),
+                    parseInt(doc.update_time.substring(5, 7), 10), 
+                    parseInt(doc.update_time.substring(8, 10), 10),
+                    parseInt(doc.update_time.substring(11, 13), 10),
+                    parseInt(doc.update_time.substring(14, 16), 10),
+                    parseInt(doc.update_time.substring(17, 19), 10)],
                     1);
             }}
         }}
@@ -75,9 +75,9 @@ def __create_db():
         function(doc) {{
             if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
                 emit([doc.context.account_id, doc.note_doc_id, 
-                    parseInt(doc.update_week_date.substring(0, 4, 10)),
-                    parseInt(doc.update_week_date.substring(6, 8, 10)),
-                    parseInt(doc.update_week_date.substring(9, 10, 10))],
+                    parseInt(doc.update_week_date.substring(0, 4), 10),
+                    parseInt(doc.update_week_date.substring(6, 8), 10),
+                    parseInt(doc.update_week_date.substring(9, 10), 10)],
                     1);
             }}
         }}

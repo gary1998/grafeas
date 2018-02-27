@@ -4,6 +4,7 @@ from http import HTTPStatus
 import isodate
 from . import common
 from util import auth_util
+from util import dict_util
 from util import exceptions
 
 
@@ -276,7 +277,7 @@ def _set_occurrence_defaults(occurrence, note):
         occurrence['reported_by'] = note.get('reported_by')
 
     if occurrence['kind'] == 'FINDING':
-        merged_finding = _dict_merge(note['finding'], occurrence['finding'])
+        merged_finding = dict_util.dict_merge(note['finding'], occurrence['finding'])
         occurrence['finding'] = merged_finding
 
 
@@ -286,19 +287,6 @@ def _clean_doc(doc):
     doc.pop('doc_type', None)
     doc.pop('account_id', None)
     return doc
-
-
-def _dict_merge(a, b):
-    import copy
-    if not isinstance(b, dict):
-        return b
-    result = copy.deepcopy(a)
-    for k, v in b.items():
-        if k in result and isinstance(result[k], dict):
-                result[k] = _dict_merge(result[k], v)
-        else:
-            result[k] = copy.deepcopy(v)
-    return result
 
 
 def _week_date_iso_format(iso_calendar):

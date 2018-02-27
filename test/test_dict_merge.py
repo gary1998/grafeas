@@ -26,10 +26,10 @@ class TestMockData(BaseTestCase):
             "severity": "MEDIUM",
             "next_steps": [
                 {
-                    "title": "step1"
+                    "title": "step-1"
                 },
                 {
-                    "title": "step2"
+                    "title": "step-2"
                 }
             ]
         }
@@ -38,9 +38,7 @@ class TestMockData(BaseTestCase):
             "certainty": "HIGH",
             "next_steps": [
                 {
-                    "url": "https:///www.ibm.com"
-                },
-                {
+                    "href": "https:///www.ibm.com"
                 }
             ]
         }
@@ -50,11 +48,61 @@ class TestMockData(BaseTestCase):
             "certainty": "HIGH",
             "next_steps": [
                 {
-                    "title": "step1",
-                    "url": "https:///www.ibm.com"
+                    "title": "step-1",
+                    "href": "https:///www.ibm.com"
                 },
                 {
-                    "title": "step2"
+                    "title": "step-2"
+                }
+            ]
+        }
+
+        result = dict_util.dict_merge(n, o)
+        self.assertDictEqual(result, expected_result, "Result is not what was expected: {}".format(json.dumps(result)))
+
+
+    def test_03(self):
+        n = {
+            "severity": "MEDIUM",
+            "next_steps": [
+                {
+                    "title": "step-1"
+                },
+                {
+                    "title": "step-2"
+                },
+                {
+                    "title": "step-3"
+                }
+            ]
+        }
+
+        o = {
+            "certainty": "HIGH",
+            "next_steps": [
+                {
+                },
+                {
+                },
+                {
+                    "href": "https:///www.ibm.com"
+                }
+            ]
+        }
+
+        expected_result = {
+            "severity": "MEDIUM",
+            "certainty": "HIGH",
+            "next_steps": [
+                {
+                    "title": "step-1"
+                },
+                {
+                    "title": "step-2"
+                },
+                {
+                    "title": "step-3",
+                    "href": "https:///www.ibm.com"
                 }
             ]
         }

@@ -19,7 +19,8 @@ class TestMockData(BaseTestCase):
         }
 
         result = dict_util.dict_merge(n, o)
-        self.assertDictEqual(result, expected_result, "Result is not what was expected: {}".format(json.dumps(result)))
+        self.assertDictEqual(result, expected_result,
+                             "Result is not what was expected: {}".format(json.dumps(result)))
 
     def test_02(self):
         n = {
@@ -58,8 +59,8 @@ class TestMockData(BaseTestCase):
         }
 
         result = dict_util.dict_merge(n, o)
-        self.assertDictEqual(result, expected_result, "Result is not what was expected: {}".format(json.dumps(result)))
-
+        self.assertDictEqual(result, expected_result,
+                             "Result is not what was expected: {}".format(json.dumps(result)))
 
     def test_03(self):
         n = {
@@ -108,4 +109,58 @@ class TestMockData(BaseTestCase):
         }
 
         result = dict_util.dict_merge(n, o)
-        self.assertDictEqual(result, expected_result, "Result is not what was expected: {}".format(json.dumps(result)))
+        self.assertDictEqual(result, expected_result,
+                             "Result is not what was expected: {}".format(json.dumps(result)))
+
+    def test_04(self):
+        n = {
+            "severity": "MEDIUM",
+            "override": "xyz",
+            "next_steps": [
+                {
+                    "title": "step-1"
+                },
+                {
+                    "title": "step-2"
+                },
+                {
+                    "title": "step-3"
+                }
+            ]
+        }
+
+        o = {
+            "certainty": "HIGH",
+            "override": "123",
+            "next_steps": [
+                {
+                },
+                {
+                },
+                {
+                    "href": "https:///www.ibm.com"
+                }
+            ]
+        }
+
+        expected_result = {
+            "severity": "MEDIUM",
+            "certainty": "HIGH",
+            "override": "123",
+            "next_steps": [
+                {
+                    "title": "step-1"
+                },
+                {
+                    "title": "step-2"
+                },
+                {
+                    "title": "step-3",
+                    "href": "https:///www.ibm.com"
+                }
+            ]
+        }
+
+        result = dict_util.dict_merge(n, o)
+        self.assertDictEqual(result, expected_result,
+                             "Result is not what was expected: {}".format(json.dumps(result)))

@@ -79,9 +79,7 @@ def create_note(project_id, body):
         db.create_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except exceptions.AlreadyExistsError:
-        return common.build_error(
-            HTTPStatus.CONFLICT,
-            "Note already exists: {}".format(note_name))
+        return common.build_error(HTTPStatus.CONFLICT, "Note already exists: {}".format(note_doc_id))
 
 
 def list_notes(project_id, filter=None, page_size=None, page_token=None):
@@ -135,8 +133,7 @@ def get_note(project_id, note_id):
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        note_name = common.build_note_name(project_id, note_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
 
 
 def update_note(project_id, note_id, body):
@@ -173,8 +170,7 @@ def update_note(project_id, note_id, body):
         doc = db.update_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        note_name = common.build_note_name(project_id, note_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
 
 
 def delete_note(project_id, note_id):
@@ -197,8 +193,7 @@ def delete_note(project_id, note_id):
         doc = db.delete_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        note_name = common.build_note_name(project_id, note_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
 
 
 def get_occurrence_note(project_id, occurrence_id):
@@ -222,8 +217,7 @@ def get_occurrence_note(project_id, occurrence_id):
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         occurrence_doc = db.get_doc(occurrence_doc_id)
     except exceptions.NotFoundError:
-        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
     try:
         note_name = occurrence_doc['note_name']
@@ -231,7 +225,7 @@ def get_occurrence_note(project_id, occurrence_id):
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
 
 
 def _clean_doc(doc):

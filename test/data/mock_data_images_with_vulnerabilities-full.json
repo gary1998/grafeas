@@ -67,7 +67,6 @@
         "title": "IBM Vulnerability Advisor",
         "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
       },
-      "create_time": "2018-02-01T08:20:31.067862Z",
       "finding": {
         "severity": "HIGH",
         "next_steps": [
@@ -88,7 +87,6 @@
         "title": "IBM Vulnerability Advisor",
         "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
       },
-      "create_time": "2018-02-01T08:20:31.067862Z",
       "finding": {
         "severity": "MEDIUM",
         "next_steps": [
@@ -109,7 +107,6 @@
         "title": "IBM Vulnerability Advisor",
         "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
       },
-      "create_time": "2018-02-01T08:32:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "HIGH"
@@ -126,7 +123,6 @@
         "title": "IBM Vulnerability Advisor",
         "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
       },
-      "create_time": "2018-02-01T08:32:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "MEDIUM"
@@ -139,7 +135,6 @@
       "project_id": "va",
       "id": "iwv1",
       "note_name": "projects/va/notes/image_with_vulnerabilities",
-      "create_time": "2018-02-21T08:20:02.067862Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",
@@ -156,7 +151,6 @@
       "project_id": "va",
       "id": "iwv2",
       "note_name": "projects/va/notes/image_with_vulnerabilities",
-      "create_time": "2018-02-23T09:24:06.078442Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",
@@ -173,7 +167,6 @@
       "project_id": "va",
       "id": "iwv3",
       "note_name": "projects/va/notes/image_with_vulnerabilities",
-      "create_time": "2018-02-25T10:34:12.056772Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",
@@ -206,7 +199,6 @@
       "project_id": "va",
       "id": "iwci1",
       "note_name": "projects/va/notes/image_with_config_issues",
-      "create_time": "2018-02-23T08:20:02.067862Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",
@@ -223,7 +215,6 @@
       "project_id": "va",
       "id": "iwci2",
       "note_name": "projects/va/notes/image_with_config_issues",
-      "create_time": "2018-02-22T09:24:06.078442Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",
@@ -240,7 +231,6 @@
       "project_id": "va",
       "id": "iwci3",
       "note_name": "projects/va/notes/image_with_config_issues",
-      "create_time": "2018-02-25T10:34:12.056772Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",
@@ -274,7 +264,6 @@
       "project_id": "va",
       "id": "iwvc1",
       "note_name": "projects/va/notes/image_with_vulnerabilities_count",
-      "create_time": "2018-02-21T02:54:34.045685Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",
@@ -290,7 +279,6 @@
       "project_id": "va",
       "id": "iwcic1",
       "note_name": "projects/va/notes/image_with_config_issues_count",
-      "create_time": "2018-02-21T02:54:34.045685Z",
       "context": {
         "region": "US-South",
         "account_id": "0209df6649c995e076657f797cb8b6fb",

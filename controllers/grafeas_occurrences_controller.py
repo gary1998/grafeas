@@ -114,7 +114,7 @@ def create_occurrence(project_id, body):
         if replace_if_exists:
             return update_occurrence(project_id, occurrence_id, body)
         else:
-            return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_name))
+            return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
 
 
 def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
@@ -166,8 +166,7 @@ def get_occurrence(project_id, occurrence_id):
         doc = db.get_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
 
 def update_occurrence(project_id, occurrence_id, body):
@@ -208,8 +207,7 @@ def update_occurrence(project_id, occurrence_id, body):
         doc = db.update_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
 
 def delete_occurrence(project_id, occurrence_id):
@@ -232,8 +230,7 @@ def delete_occurrence(project_id, occurrence_id):
         doc = db.delete_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(occurrence_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
 
 def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page_token=None):

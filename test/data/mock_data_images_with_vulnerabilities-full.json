@@ -1,0 +1,306 @@
+{
+  "notes": [
+    {
+      "kind": "CARD",
+      "project_id": "va",
+      "id": "images_with_vulnerabilities",
+      "short_description": "A type of card showing images with vulnerabilities",
+      "long_description": "A type of card showing images with vulnerabilities and configuration issues",
+      "card": {
+        "section": "Compute",
+        "title": "Images with vulnerabilities",
+        "finding_note_names": [
+          "projects/va/notes/image_with_vulnerabilities",
+          "projects/va/notes/image_with_config_issues"
+        ],
+        "elements": [
+          {
+            "kind": "NUMERIC",
+            "text": "Images with vulnerabilities",
+            "value_type": {
+              "kind": "KPI",
+              "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count"
+            }
+          },
+          {
+            "kind": "NUMERIC",
+            "text": "Images with config issues",
+            "value_type": {
+              "kind": "KPI",
+              "kpi_note_name": "projects/va/notes/image_with_config_issues_count"
+            }
+          },
+          {
+            "kind": "TIME_SERIES",
+            "text": "Images with Vulnerabilities and Config Issues",
+            "default_interval": "1d",
+            "default_time_range": "1w",
+            "value_types": [
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/va/notes/image_with_vulnerabilities"
+                ],
+                "text": "Vulnerabilities"
+              },
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/va/notes/image_with_config_issues"
+                ],
+                "text": "Config Issues"
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "image_with_vulnerabilities",
+      "short_description": "Image with vulnerabilities",
+      "long_description": "Image with vulnerabilities",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:20:31.067862Z",
+      "finding": {
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "Go to Vulnerability Advisor to see what the issues are and possible corrective actions."
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "image_with_config_issues",
+      "short_description": "Image with configuration issues",
+      "long_description": "Image with configuration issues",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:20:31.067862Z",
+      "finding": {
+        "severity": "MEDIUM",
+        "next_steps": [
+          {
+            "title": "Go to Vulnerability Advisor to see what the issues are and possible corrective actions."
+          }
+        ]
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "image_with_vulnerabilities_count",
+      "short_description": "Number of images with vulnerabilities",
+      "long_description": "Number of images running images with vulnerabilities",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:32:02.067862Z",
+      "kpi": {
+        "aggregation_type": "SUM",
+        "severity": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "image_with_config_issues_count",
+      "short_description": "Number of images with configuration issues",
+      "long_description": "Number of images running images with vulnerabilities",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "href": "https://console.bluemix.net/docs/images/va/va_index.htm"
+      },
+      "create_time": "2018-02-01T08:32:02.067862Z",
+      "kpi": {
+        "aggregation_type": "SUM",
+        "severity": "MEDIUM"
+      }
+    }
+  ],
+  "occurrences": [
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwv1",
+      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "create_time": "2018-02-21T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwv2",
+      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "create_time": "2018-02-23T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-2",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwv3",
+      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "create_time": "2018-02-25T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwv4",
+      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-4",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwci1",
+      "note_name": "projects/va/notes/image_with_config_issues",
+      "create_time": "2018-02-23T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwci2",
+      "note_name": "projects/va/notes/image_with_config_issues",
+      "create_time": "2018-02-22T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwci3",
+      "note_name": "projects/va/notes/image_with_config_issues",
+      "create_time": "2018-02-25T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-4",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "iwci4",
+      "note_name": "projects/va/notes/image_with_config_issues",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "image-5",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "iwvc1",
+      "note_name": "projects/va/notes/image_with_vulnerabilities_count",
+      "create_time": "2018-02-21T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 27,
+        "total": 86
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "iwcic1",
+      "note_name": "projects/va/notes/image_with_config_issues_count",
+      "create_time": "2018-02-21T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 38,
+        "total": 86
+      }
+    }
+  ]
+}
+

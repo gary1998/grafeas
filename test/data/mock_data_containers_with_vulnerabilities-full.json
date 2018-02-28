@@ -132,5 +132,143 @@
         "severity": "MEDIUM"
       }
     }
+  ],
+  "occurrences": [
+
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv1",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "create_time": "2018-02-25T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "container-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv2",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "create_time": "2018-02-23T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "container-2",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv3",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "create_time": "2018-02-21T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "container-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwci1",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "create_time": "2018-02-20T08:20:02.067862Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "container-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwci2",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "create_time": "2018-02-21T09:24:06.078442Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "container-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwci3",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "create_time": "2018-02-23T10:34:12.056772Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "container-4",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "HIGH"
+      }
+    },
+
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "cwvc1",
+      "note_name": "projects/va/notes/container_with_vulnerabilities_count",
+      "create_time": "2018-02-21T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 7,
+        "total": 35
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "cwcic1",
+      "note_name": "projects/va/notes/container_with_config_issues_count",
+      "create_time": "2018-02-21T02:54:34.045685Z",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 19,
+        "total": 35
+      }
+    }
   ]
 }

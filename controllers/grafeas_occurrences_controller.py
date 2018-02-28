@@ -95,9 +95,9 @@ def create_occurrence(project_id, body):
         create_datetime = isodate.parse_datetime(body['create_time'])
         create_timestamp = create_datetime.timestamp()
     else:
-        create_datetime = datetime.datetime.now()
+        create_datetime = datetime.datetime.utcnow()
         create_timestamp = create_datetime.timestamp()
-        body['create_time'] = create_datetime.isoformat()
+        body['create_time'] = create_datetime.isoformat() + 'Z'
     body['update_time'] = body['create_time']
     body['create_timestamp'] = create_timestamp
     body['update_timestamp'] = create_timestamp
@@ -197,9 +197,9 @@ def update_occurrence(project_id, occurrence_id, body):
         update_datetime = isodate.parse_datetime(body['update_time'])
         update_timestamp = update_datetime.timestamp()
     else:
-        update_datetime = datetime.datetime.now()
+        update_datetime = datetime.datetime.utcnow()
         update_timestamp = update_datetime.timestamp()
-        body['update_time'] = update_datetime.isoformat()
+        body['update_time'] = update_datetime.isoformat() + 'Z'
     body['update_timestamp'] = update_timestamp
     body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
 

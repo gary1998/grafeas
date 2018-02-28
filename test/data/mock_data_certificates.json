@@ -75,7 +75,7 @@
       "project_id": "security-advisor",
       "id": "certmgr-expired_cert",
       "short_description": "Expired certificate",
-      "long_description": "Certificate that already expired",
+      "long_description": "Expired certificate",
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -86,19 +86,19 @@
         "severity": "HIGH",
         "next_steps": [
           {
-            "title": "1. Find your certificate."
+            "title": "Find your certificate."
           },
           {
-            "title": "2. Renew certificate with Certificate Authority."
+            "title": "Renew certificate with Certificate Authority."
           },
           {
-            "title": "3. Upload renewed certificate to Certificate Manager."
+            "title": "Upload renewed certificate to Certificate Manager."
           },
           {
-            "title": "4. Redeploy certificate to SSL termination point."
+            "title": "Redeploy certificate to SSL termination point."
           },
           {
-            "title": "5. Delete old certificate from Certificate Manager."
+            "title": "Delete old certificate from Certificate Manager."
           }
         ]
       }
@@ -108,7 +108,7 @@
       "project_id": "security-advisor",
       "id": "certmgr-expiring_1day_cert",
       "short_description": "Certificate expiring in 1 day",
-      "long_description": "Certificate that will expire in 1 day",
+      "long_description": "Certificate expiring in 1 day",
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -119,19 +119,19 @@
         "severity": "HIGH",
         "next_steps": [
           {
-            "title": "1. Find your certificate."
+            "title": "Find your certificate."
           },
           {
-            "title": "2. Renew certificate with Certificate Authority."
+            "title": "Renew certificate with Certificate Authority."
           },
           {
-            "title": "3. Upload renewed certificate to Certificate Manager."
+            "title": "Upload renewed certificate to Certificate Manager."
           },
           {
-            "title": "4. Redeploy certificate to SSL termination point."
+            "title": "Redeploy certificate to SSL termination point."
           },
           {
-            "title": "5. Delete old certificate from Certificate Manager."
+            "title": "Delete old certificate from Certificate Manager."
           }
         ]
       }
@@ -141,7 +141,7 @@
       "project_id": "security-advisor",
       "id": "certmgr-expiring_10day_cert",
       "short_description": "Certificate expiring in 10 days",
-      "long_description": "Certificate that will expire in 10 days",
+      "long_description": "Certificate expiring in 10 days",
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -152,19 +152,19 @@
         "severity": "MEDIUM",
         "next_steps": [
           {
-            "title": "1. Find your certificate."
+            "title": "Find your certificate."
           },
           {
-            "title": "2. Renew certificate with Certificate Authority."
+            "title": "Renew certificate with Certificate Authority."
           },
           {
-            "title": "3. Upload renewed certificate to Certificate Manager."
+            "title": "Upload renewed certificate to Certificate Manager."
           },
           {
-            "title": "4. Redeploy certificate to SSL termination point."
+            "title": "Redeploy certificate to SSL termination point."
           },
           {
-            "title": "5. Delete old certificate from Certificate Manager."
+            "title": "Delete old certificate from Certificate Manager."
           }
         ]
       }
@@ -174,7 +174,7 @@
       "project_id": "security-advisor",
       "id": "certmgr-expiring_30day_cert",
       "short_description": "Certificate expiring in 30 days",
-      "long_description": "Certificate that will expire in 30 days",
+      "long_description": "Certificate expiring in 30 days",
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -185,19 +185,19 @@
         "severity": "MEDIUM",
         "next_steps": [
           {
-            "title": "1. Find your certificate."
+            "title": "Find your certificate."
           },
           {
-            "title": "2. Renew certificate with Certificate Authority."
+            "title": "Renew certificate with Certificate Authority."
           },
           {
-            "title": "3. Upload renewed certificate to Certificate Manager."
+            "title": "Upload renewed certificate to Certificate Manager."
           },
           {
-            "title": "4. Redeploy certificate to SSL termination point."
+            "title": "Redeploy certificate to SSL termination point."
           },
           {
-            "title": "5. Delete old certificate from Certificate Manager."
+            "title": "Delete old certificate from Certificate Manager."
           }
         ]
       }
@@ -207,7 +207,7 @@
       "project_id": "security-advisor",
       "id": "certmgr-expiring_60day_cert",
       "short_description": "Certificate expiring in 60 days",
-      "long_description": "Certificate that will expire in 60 days",
+      "long_description": "Certificate expiring in 60 days",
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -218,19 +218,19 @@
         "severity": "LOW",
         "next_steps": [
           {
-            "title": "1. Find your certificate."
+            "title": "Find your certificate."
           },
           {
-            "title": "2. Renew certificate with Certificate Authority."
+            "title": "Renew certificate with Certificate Authority."
           },
           {
-            "title": "3. Upload renewed certificate to Certificate Manager."
+            "title": "Upload renewed certificate to Certificate Manager."
           },
           {
-            "title": "4. Redeploy certificate to SSL termination point."
+            "title": "Redeploy certificate to SSL termination point."
           },
           {
-            "title": "5. Delete old certificate from Certificate Manager."
+            "title": "Delete old certificate from Certificate Manager."
           }
         ]
       }
@@ -240,7 +240,7 @@
       "project_id": "security-advisor",
       "id": "certmgr-expiring_90day_cert",
       "short_description": "Certificate expiring in 90 days",
-      "long_description": "Certificate that will expire in 90 days",
+      "long_description": "Certificate expiring in 90 days",
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
@@ -251,19 +251,19 @@
         "severity": "LOW",
         "next_steps": [
           {
-            "title": "1. Find your certificate."
+            "title": "Find your certificate."
           },
           {
-            "title": "2. Renew certificate with Certificate Authority."
+            "title": "Renew certificate with Certificate Authority."
           },
           {
-            "title": "3. Upload renewed certificate to Certificate Manager."
+            "title": "Upload renewed certificate to Certificate Manager."
           },
           {
-            "title": "4. Redeploy certificate to SSL termination point."
+            "title": "Redeploy certificate to SSL termination point."
           },
           {
-            "title": "5. Delete old certificate from Certificate Manager."
+            "title": "Delete old certificate from Certificate Manager."
           }
         ]
       }

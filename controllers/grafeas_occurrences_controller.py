@@ -106,13 +106,17 @@ def create_occurrence(project_id, body):
     # set occurrence default values from the associated note values
     _set_occurrence_defaults(body, note)
 
+    # internalize the security value
+    _set_internal_occurrence_severity(body)
+
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         db.create_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except exceptions.AlreadyExistsError:
         if replace_if_exists:
-            return update_occurrence(project_id, occurrence_id, body)
+            doc = db.update_doc(occurrence_doc_id, body)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
         else:
             return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
 
@@ -202,6 +206,8 @@ def update_occurrence(project_id, occurrence_id, body):
     body['update_timestamp'] = update_timestamp
     body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
 
+    _set_internal_occurrence_severity(body)
+
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.update_doc(occurrence_doc_id, body)
@@ -228,7 +234,7 @@ def delete_occurrence(project_id, occurrence_id):
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
         doc = db.delete_doc(occurrence_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        return common.build_result(HTTPStatus.OK, {})
     except exceptions.NotFoundError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
@@ -265,17 +271,74 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
-def _set_occurrence_defaults(occurrence, note):
-    if 'short_description' not in occurrence:
-        occurrence['short_description'] = note.get('short_description')
-    if 'long_description' not in occurrence:
-        occurrence['long_description'] = note.get('long_description')
-    if 'reported_by' not in occurrence:
-        occurrence['reported_by'] = note.get('reported_by')
+def _set_occurrence_defaults(doc, note):
+    if 'short_description' not in doc:
+        doc['short_description'] = note.get('short_description')
+    if 'long_description' not in doc:
+        doc['long_description'] = note.get('long_description')
+    if 'reported_by' not in doc:
+        doc['reported_by'] = note.get('reported_by')
 
-    if occurrence['kind'] == 'FINDING':
-        merged_finding = dict_util.dict_merge(note['finding'], occurrence['finding'])
-        occurrence['finding'] = merged_finding
+    if doc['kind'] == 'FINDING':
+        merged_finding = dict_util.dict_merge(note['finding'], doc['finding'])
+        doc['finding'] = merged_finding
+
+
+def _set_internal_occurrence_severity(doc):
+    kind = doc['kind']
+    if kind == 'FINDING':
+        details = doc['finding']
+    elif kind == 'KPI':
+        details = doc['kpi']
+    else:
+        return
+
+    # both findings and kpis have severity
+    severity = details.get('severity', 'MEDIUM')
+    severity_lower = severity.lower()
+    if severity_lower not in ['low', 'medium', 'high']:
+        raise ValueError("Invalid severity value: '{}'. Valid values are LOW, MEDIUM, and HIGH.".format(severity))
+
+    details['severity'] = _INTERNAL_LEVEL_MAP[severity_lower]
+
+    # only findings have certainty
+    certainty = details.get('certainty')
+    if certainty is not None:
+        certainty_lower = certainty.lower()
+        if certainty_lower not in ['low', 'medium', 'high']:
+            raise ValueError("Invalid certainty value: '{}'. Valid values are LOW, MEDIUM, and HIGH.".format(severity))
+        details['certainty'] = _INTERNAL_LEVEL_MAP[certainty_lower]
+
+
+def _set_external_occurrence_severity(occurrence):
+    kind = occurrence['kind']
+    if kind == 'FINDING':
+        details = occurrence['finding']
+    elif kind == 'KPI':
+        details = occurrence['kpi']
+    else:
+        return
+
+    severity = details['severity']
+    details['severity'] = _EXTERNAL_LEVEL_MAP[severity]
+
+    certainty = details.get('certainty')
+    if certainty is not None:
+        details['certainty'] = _EXTERNAL_LEVEL_MAP[certainty]
+
+
+_INTERNAL_LEVEL_MAP = {
+    'low': 1,
+    'medium': 2,
+    'high': 3
+}
+
+
+_EXTERNAL_LEVEL_MAP = {
+    1: 'low',
+    2: 'medium',
+    3: 'high'
+}
 
 
 def _clean_doc(doc):
@@ -283,6 +346,9 @@ def _clean_doc(doc):
     doc.pop('_rev', None)
     doc.pop('doc_type', None)
     doc.pop('account_id', None)
+
+    # externalize the security value
+    _set_external_occurrence_severity(doc)
     return doc
 
 

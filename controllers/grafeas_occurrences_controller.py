@@ -279,9 +279,13 @@ def _set_occurrence_defaults(doc, note):
     if 'reported_by' not in doc:
         doc['reported_by'] = note.get('reported_by')
 
-    if doc['kind'] == 'FINDING':
+    kind = doc['kind']
+    if kind == 'FINDING':
         merged_finding = dict_util.dict_merge(note['finding'], doc['finding'])
         doc['finding'] = merged_finding
+    elif kind == 'KPI':
+        merged_kpi = dict_util.dict_merge(note['kpi'], doc['kpi'])
+        doc['kpi'] = merged_kpi
 
 
 def _set_internal_occurrence_severity(doc):

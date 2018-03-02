@@ -41,11 +41,24 @@ def __create_db():
         os.environ['GRAFEAS_USERNAME'],
         os.environ['GRAFEAS_PASSWORD'])
 
-    db.create_query_index("DT_OAI", ['doc_type', 'account_id', 'update_timestamp'])
-    db.create_query_index("DT_PDI", ['doc_type', 'project_doc_id', 'update_timestamp'])
-    db.create_query_index("DT_NDI", ['doc_type', 'note_doc_id', 'update_timestamp'])
-    db.create_query_index("DT_CAI_PDI", ['doc_type', 'context.account_id', 'update_timestamp', 'project_doc_id'])
-    db.create_query_index("DT_CAI_NDI", ['doc_type', 'context.account_id', 'update_timestamp', 'note_doc_id'])
+    db.create_query_index(
+        "DT_OAI_TS",
+        ['doc_type', 'account_id', 'update_timestamp'])
+    db.create_query_index(
+        "DT_PDI_TS",
+        ['doc_type', 'project_doc_id', 'update_timestamp'])
+    db.create_query_index(
+        "DT_NDI_TS",
+        ['doc_type', 'note_doc_id', 'update_timestamp'])
+    db.create_query_index(
+        "DT_CAI_TS_PDI",
+        ['doc_type', 'context.account_id', 'update_timestamp', 'project_doc_id'])
+    db.create_query_index(
+        "DT_CAI_TS_NDI",
+        ['doc_type', 'context.account_id', 'update_timestamp', 'note_doc_id'])
+    db.create_query_index(
+        "DT_CAI_SEV_TS_NDI",
+        ['doc_type', 'context.account_id', 'update_timestamp', 'note_doc_id'])
 
     # 2018-04-15T16:30:00
     db.add_view(

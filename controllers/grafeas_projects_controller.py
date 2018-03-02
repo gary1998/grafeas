@@ -102,7 +102,7 @@ def list_projects(filter=None, page_size=None, page_token=None):
             'doc_type': 'Project',
             'account_id': account_id
         },
-        index="DT_OAI")
+        index="DT_OAI_TS")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 

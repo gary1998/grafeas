@@ -81,7 +81,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:26:02.067862Z",
       "finding": {
         "severity": "HIGH",
         "next_steps": [
@@ -114,7 +113,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
         "severity": "HIGH",
         "next_steps": [
@@ -147,7 +145,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
         "severity": "MEDIUM"
         "next_steps": [
@@ -180,7 +177,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
         "severity": "MEDIUM",
         "next_steps": [
@@ -213,7 +209,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
         "severity": "LOW",
         "next_steps": [
@@ -246,7 +241,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "finding": {
         "severity": "LOW",
         "next_steps": [
@@ -280,7 +274,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:26:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "HIGH"
@@ -297,7 +290,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "HIGH"
@@ -314,7 +306,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "MEDIUM"
@@ -331,7 +322,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "MEDIUM"
@@ -348,7 +338,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "LOW"
@@ -365,7 +354,6 @@
         "title": "IBM Cloud Certificate Manager",
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
-      "create_time": "2018-02-01T08:27:02.067862Z",
       "kpi": {
         "aggregation_type": "SUM",
         "severity": "LOW"
@@ -378,10 +366,9 @@
       "project_id": "security-advisor",
       "id": "cec1",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert",
-      "create_time": "2018-02-01T08:20:02.067862Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-1",
         "service_crn": "cert-mgr-1"
       },
@@ -395,10 +382,9 @@
       "project_id": "security-advisor",
       "id": "ce1dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert",
-      "create_time": "2018-02-02T09:24:06.078442Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-2",
         "service_crn": "cert-mgr-1"
       },
@@ -412,10 +398,9 @@
       "project_id": "security-advisor",
       "id": "ce10dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert",
-      "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-3",
         "service_crn": "cert-mgr-2"
       },
@@ -429,10 +414,9 @@
       "project_id": "security-advisor",
       "id": "ce30dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert",
-      "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-4",
         "service_crn": "cert-mgr-2"
       },
@@ -446,10 +430,9 @@
       "project_id": "security-advisor",
       "id": "ce60dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert",
-      "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-5",
         "service_crn": "cert-mgr-2"
       },
@@ -463,10 +446,9 @@
       "project_id": "security-advisor",
       "id": "ce90dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert",
-      "create_time": "2018-02-03T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-6",
         "service_crn": "cert-mgr-2"
       },
@@ -481,10 +463,9 @@
       "project_id": "security-advisor",
       "id": "cecc1",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
-      "create_time": "2018-02-01T02:54:34.045685Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -497,10 +478,9 @@
       "project_id": "security-advisor",
       "id": "cecc2",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
-      "create_time": "2018-02-01T02:54:34.045685Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-2"
       },
       "kpi": {
@@ -513,10 +493,9 @@
       "project_id": "security-advisor",
       "id": "cecc3",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
-      "create_time": "2018-02-01T02:54:34.045685Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-3"
       },
       "kpi": {
@@ -529,10 +508,9 @@
       "project_id": "security-advisor",
       "id": "ce1dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert_count",
-      "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -545,10 +523,9 @@
       "project_id": "security-advisor",
       "id": "ce10dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert_count",
-      "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -561,10 +538,9 @@
       "project_id": "security-advisor",
       "id": "ce30dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count",
-      "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -577,10 +553,9 @@
       "project_id": "security-advisor",
       "id": "ce60dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert_count",
-      "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -593,10 +568,9 @@
       "project_id": "security-advisor",
       "id": "ce90dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert_count",
-      "create_time": "2018-02-02T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {

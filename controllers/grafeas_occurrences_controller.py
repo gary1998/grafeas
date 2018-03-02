@@ -142,7 +142,7 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
             'doc_type': 'Occurrence',
             'project_doc_id': project_doc_id
         },
-        index="DT_PDI")
+        index="DT_PDI_TS")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
@@ -261,7 +261,7 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
             'doc_type': 'Occurrence',
             'note_doc_id': note_doc_id
         },
-        index="DT_NDI")
+        index="DT_NDI_TS")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 

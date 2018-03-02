@@ -1,387 +1,13 @@
 {
-    "notes": [
-    {
-      "kind": "CARD",
-      "project_id": "security-advisor",
-      "id": "certmgr-certificates",
-      "short_description": "A type of card showing expired and about to expire certificates",
-      "long_description": "A type of card showing expired and about to expire certificates",
-      "card": {
-        "section": "Network",
-        "title": "Certificates",
-        "finding_note_names": [
-          "projects/security-advisor/notes/certmgr-expired_cert",
-          "projects/security-advisor/notes/certmgr-expiring_1day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_10day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_30day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_60day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_90day_cert"
-        ],
-        "elements": [
-          {
-            "kind": "NUMERIC",
-            "text": "certificates already expired",
-            "value_type": {
-              "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/certmgr-expired_cert_count"
-           }
-          },
-          {
-            "kind": "NUMERIC",
-            "text": "certificates will expire in the next 30 days",
-            "value_type": {
-              "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count"
-            }
-          },
-          {
-            "kind": "BREAKDOWN",
-            "text": "Certificates About To Expire",
-            "direction": "VERTICAL",
-            "value_types": [
-              {
-                "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert_count",
-                "text": "1 day"
-              },
-              {
-                "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert_count",
-                "text": "2-10 days"
-              },
-              {
-                "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count",
-                "text": "11-30 days"
-              },
-              {
-                "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert_count",
-                "text": "31-60 days"
-              },
-              {
-                "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert_count",
-                "text": "61-90 days"
-              }
-            ]
-          }
-        ]
-      }
-    },
-
-    {
-      "kind": "FINDING",
-      "project_id": "security-advisor",
-      "id": "certmgr-expired_cert",
-      "short_description": "Expired certificate",
-      "long_description": "Expired certificate",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:26:02.067862Z",
-      "finding": {
-        "severity": "HIGH",
-        "next_steps": [
-          {
-            "title": "Find your certificate."
-          },
-          {
-            "title": "Renew certificate with Certificate Authority."
-          },
-          {
-            "title": "Upload renewed certificate to Certificate Manager."
-          },
-          {
-            "title": "Redeploy certificate to SSL termination point."
-          },
-          {
-            "title": "Delete old certificate from Certificate Manager."
-          }
-        ]
-      }
-    },
-    {
-      "kind": "FINDING",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_1day_cert",
-      "short_description": "Certificate expiring in 1 day",
-      "long_description": "Certificate expiring in 1 day",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding": {
-        "severity": "HIGH",
-        "next_steps": [
-          {
-            "title": "Find your certificate."
-          },
-          {
-            "title": "Renew certificate with Certificate Authority."
-          },
-          {
-            "title": "Upload renewed certificate to Certificate Manager."
-          },
-          {
-            "title": "Redeploy certificate to SSL termination point."
-          },
-          {
-            "title": "Delete old certificate from Certificate Manager."
-          }
-        ]
-      }
-    },
-    {
-      "kind": "FINDING",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_10day_cert",
-      "short_description": "Certificate expiring in 10 days",
-      "long_description": "Certificate expiring in 10 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding": {
-        "severity": "MEDIUM",
-        "next_steps": [
-          {
-            "title": "Find your certificate."
-          },
-          {
-            "title": "Renew certificate with Certificate Authority."
-          },
-          {
-            "title": "Upload renewed certificate to Certificate Manager."
-          },
-          {
-            "title": "Redeploy certificate to SSL termination point."
-          },
-          {
-            "title": "Delete old certificate from Certificate Manager."
-          }
-        ]
-      }
-    },
-    {
-      "kind": "FINDING",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_30day_cert",
-      "short_description": "Certificate expiring in 30 days",
-      "long_description": "Certificate expiring in 30 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding": {
-        "severity": "MEDIUM",
-        "next_steps": [
-          {
-            "title": "Find your certificate."
-          },
-          {
-            "title": "Renew certificate with Certificate Authority."
-          },
-          {
-            "title": "Upload renewed certificate to Certificate Manager."
-          },
-          {
-            "title": "Redeploy certificate to SSL termination point."
-          },
-          {
-            "title": "Delete old certificate from Certificate Manager."
-          }
-        ]
-      }
-    },
-    {
-      "kind": "FINDING",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_60day_cert",
-      "short_description": "Certificate expiring in 60 days",
-      "long_description": "Certificate expiring in 60 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding": {
-        "severity": "LOW",
-        "next_steps": [
-          {
-            "title": "Find your certificate."
-          },
-          {
-            "title": "Renew certificate with Certificate Authority."
-          },
-          {
-            "title": "Upload renewed certificate to Certificate Manager."
-          },
-          {
-            "title": "Redeploy certificate to SSL termination point."
-          },
-          {
-            "title": "Delete old certificate from Certificate Manager."
-          }
-        ]
-      }
-    },
-    {
-      "kind": "FINDING",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_90day_cert",
-      "short_description": "Certificate expiring in 90 days",
-      "long_description": "Certificate expiring in 90 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "finding": {
-        "severity": "LOW",
-        "next_steps": [
-          {
-            "title": "Find your certificate."
-          },
-          {
-            "title": "Renew certificate with Certificate Authority."
-          },
-          {
-            "title": "Upload renewed certificate to Certificate Manager."
-          },
-          {
-            "title": "Redeploy certificate to SSL termination point."
-          },
-          {
-            "title": "Delete old certificate from Certificate Manager."
-          }
-        ]
-      }
-    },
-
-    {
-      "kind": "KPI",
-      "project_id": "security-advisor",
-      "id": "certmgr-expired_cert_count",
-      "short_description": "Number of expired certificates",
-      "long_description": "Number of expired certificates",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:26:02.067862Z",
-      "kpi": {
-        "aggregation_type": "SUM",
-        "severity": "HIGH"
-      }
-    },
-    {
-      "kind": "KPI",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_1day_cert_count",
-      "short_description": "Number of certificates expiring in 1 day",
-      "long_description": "Number of certificates expiring in 1 day",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi": {
-        "aggregation_type": "SUM",
-        "severity": "HIGH"
-      }
-    },
-    {
-      "kind": "KPI",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_10day_cert_count",
-      "short_description": "Number of certificates expiring in 10 days",
-      "long_description": "Number of certificates expiring in 10 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi": {
-        "aggregation_type": "SUM",
-        "severity": "MEDIUM"
-      }
-    },
-    {
-      "kind": "KPI",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_30day_cert_count",
-      "short_description": "Number of certificates expiring in 30 days",
-      "long_description": "Number of certificates expiring in 30 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi": {
-        "aggregation_type": "SUM",
-        "severity": "MEDIUM"
-      }
-    },
-    {
-      "kind": "KPI",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_60day_cert_count",
-      "short_description": "Number of certificates expiring in 60 days",
-      "long_description": "Number of certificates expiring in 60 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi": {
-        "aggregation_type": "SUM",
-        "severity": "LOW"
-      }
-    },
-    {
-      "kind": "KPI",
-      "project_id": "security-advisor",
-      "id": "certmgr-expiring_90day_cert_count",
-      "short_description": "Number of certificates expiring in 90 days",
-      "long_description": "Number of certificates expiring in 90 days",
-      "reported_by": {
-        "id": "certificate-manager",
-        "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
-      },
-      "create_time": "2018-02-01T08:27:02.067862Z",
-      "kpi": {
-        "aggregation_type": "SUM",
-        "severity": "LOW"
-      }
-    }
-  ],
   "occurrences": [
     {
       "kind": "FINDING",
       "project_id": "security-advisor",
       "id": "cec1",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert",
-      "create_time": "2018-02-25T08:20:02.067862Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-1",
         "service_crn": "cert-mgr-1"
       },
@@ -395,10 +21,9 @@
       "project_id": "security-advisor",
       "id": "ce1dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert",
-      "create_time": "2018-02-23T09:24:06.078442Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-2",
         "service_crn": "cert-mgr-1"
       },
@@ -412,10 +37,9 @@
       "project_id": "security-advisor",
       "id": "ce10dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert",
-      "create_time": "2018-02-21T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-3",
         "service_crn": "cert-mgr-2"
       },
@@ -429,10 +53,9 @@
       "project_id": "security-advisor",
       "id": "ce30dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert",
-      "create_time": "2018-02-21T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-4",
         "service_crn": "cert-mgr-2"
       },
@@ -446,10 +69,9 @@
       "project_id": "security-advisor",
       "id": "ce60dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert",
-      "create_time": "2018-02-21T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-5",
         "service_crn": "cert-mgr-2"
       },
@@ -463,10 +85,9 @@
       "project_id": "security-advisor",
       "id": "ce90dc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert",
-      "create_time": "2018-02-23T10:34:12.056772Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "resource_crn": "cert-6",
         "service_crn": "cert-mgr-2"
       },
@@ -481,10 +102,9 @@
       "project_id": "security-advisor",
       "id": "cecc1",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
-      "create_time": "2018-02-23T02:54:34.045685Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -497,10 +117,9 @@
       "project_id": "security-advisor",
       "id": "cecc2",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
-      "create_time": "2018-02-24T02:54:34.045685Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-2"
       },
       "kpi": {
@@ -513,10 +132,9 @@
       "project_id": "security-advisor",
       "id": "cecc3",
       "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
-      "create_time": "2018-02-20T02:54:34.045685Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-3"
       },
       "kpi": {
@@ -529,10 +147,9 @@
       "project_id": "security-advisor",
       "id": "ce1dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert_count",
-      "create_time": "2018-02-20T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -545,10 +162,9 @@
       "project_id": "security-advisor",
       "id": "ce10dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert_count",
-      "create_time": "2018-02-21T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -561,10 +177,9 @@
       "project_id": "security-advisor",
       "id": "ce30dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count",
-      "create_time": "2018-02-24T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -577,10 +192,9 @@
       "project_id": "security-advisor",
       "id": "ce60dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert_count",
-      "create_time": "2018-02-25T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {
@@ -593,10 +207,9 @@
       "project_id": "security-advisor",
       "id": "ce90dcc1",
       "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert_count",
-      "create_time": "2018-02-21T14:45:12.234624Z",
       "context": {
         "region": "US-South",
-        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
         "service_crn": "cert-mgr-1"
       },
       "kpi": {

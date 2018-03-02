@@ -13,7 +13,6 @@ ALERT_NOTE_1 = {
     "short_description": "Suspicious Communication with an External Suspected Server",
     "long_description": "One of the pods in this cluster communicates with a server which is either a suspected bot " +
                         "or known to distribute Malware. This may indicate that your pod is compromised.",
-    "create_time": "2018-02-04T13:34:34.071264Z",
     "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence Service",
@@ -46,7 +45,6 @@ ALERT_OCCURRENCE_1_1 = {
     "kind": "FINDING",
     "id": "xforce-11",
     "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
-    "create_time": "2018-02-03T12:42:10.082053Z",
     "context": {
         "region": "US-South",
         "account_id": "Account01",
@@ -85,7 +83,6 @@ ALERT_OCCURRENCE_1_2 = {
     "kind": "FINDING",
     "id": "xforce-12",
     "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
-    "create_time": "2018-02-04T14:45:23.081063Z",
     "context": {
         "region": "US-South",
         "account_id": "Account01",
@@ -113,7 +110,6 @@ ALERT_OCCURRENCE_1_3 = {
     "kind": "FINDING",
     "id": "xforce-13",
     "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
-    "create_time": "2018-02-05T21:44:52.047073Z",
     "context": {
         "region": "US-South",
         "account_id": "Account01",
@@ -143,7 +139,6 @@ KPI_NOTE_2 = {
     "id": "xforce-NumClients",
     "short_description": "IPs approaching cluster",
     "long_description": "The number of different IPs which approached this cluster",
-    "create_time": "2018-02-04T13:34:34.071264Z",
     "reported_by": {
         "id": "xforce",
         "title": "IBM X-Force Threat Intelligence Service",
@@ -158,7 +153,6 @@ KPI_OCCURRENCE_2_1 = {
     "kind": "KPI",
     "id": "xforce-21",
     "note_name": "projects/security-advisor/notes/xforce-NumClients",
-    "create_time": "2018-02-05T12:56:02.061882Z",
     "context": {
         "region": "US-South",
         "account_id": "account_guid",
@@ -184,7 +178,6 @@ ALERT_NOTE_3 = {
     },
     "short_description": "Suspected Data Leakage from a Pod",
     "long_description": "A pods in this cluster sends data to an external IP in volumes that exceed its normal behavior",
-    "create_time": "2018-02-04T13:34:34.071264Z",
     "finding": {
         "severity": "MEDIUM",
         "titles": {
@@ -213,7 +206,6 @@ ALERT_OCCURRENCE_3_1 = {
     "kind": "FINDING",
     "id": "31",
     "note_name": "projects/outlier/notes/EgressDeviation",
-    "create_time": "2018-02-05T20:43:12.071982Z",
     "context": {
         "region": "US-South",
         "account_id": "account_guid",
@@ -253,7 +245,6 @@ MODIFIED_ALERT_OCCURRENCE_3_1 = {
     "kind": "FINDING",
     "id": "31",
     "note_name": "projects/outlier/notes/EgressDeviation",
-    "create_time": "2018-02-05T20:43:12.071982Z",
     "context": {
         "region": "US-South",
         "account_id": "account_guid",

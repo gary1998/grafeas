@@ -58,7 +58,7 @@ def __create_db():
         ['doc_type', 'context.account_id', 'update_timestamp', 'note_doc_id'])
     db.create_query_index(
         "DT_CAI_SEV_TS_NDI",
-        ['doc_type', 'context.account_id', 'update_timestamp', 'note_doc_id'])
+        ['doc_type', 'context.account_id', 'finding.severity', 'update_timestamp', 'note_doc_id'])
 
     # 2018-04-15T16:30:00
     db.add_view(

@@ -292,13 +292,10 @@ def _set_internal_occurrence_severity(doc):
     kind = doc['kind']
     if kind == 'FINDING':
         details = doc['finding']
-    elif kind == 'KPI':
-        details = doc['kpi']
     else:
         return
 
-    # both findings and kpis have severity
-    severity = details.get('severity', 'MEDIUM')
+    severity = details.get('severity', 'medium')
     severity_lower = severity.lower()
     if severity_lower not in ['low', 'medium', 'high']:
         raise ValueError("Invalid severity value: '{}'. Valid values are LOW, MEDIUM, and HIGH.".format(severity))
@@ -310,7 +307,7 @@ def _set_internal_occurrence_severity(doc):
     if certainty is not None:
         certainty_lower = certainty.lower()
         if certainty_lower not in ['low', 'medium', 'high']:
-            raise ValueError("Invalid certainty value: '{}'. Valid values are LOW, MEDIUM, and HIGH.".format(severity))
+            raise ValueError("Invalid certainty value: '{}'. Valid values are LOW, MEDIUM, and HIGH.".format(certainty))
         details['certainty'] = _INTERNAL_LEVEL_MAP[certainty_lower]
 
 
@@ -318,8 +315,6 @@ def _set_external_occurrence_severity(occurrence):
     kind = occurrence['kind']
     if kind == 'FINDING':
         details = occurrence['finding']
-    elif kind == 'KPI':
-        details = occurrence['kpi']
     else:
         return
 

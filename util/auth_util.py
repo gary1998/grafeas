@@ -42,11 +42,6 @@ def get_subject(request):
     account_id = account.get('bss')
     if not account_id:
         ValueError("Missing 'account.bss' field in IAM bearer token")
-    print("BSS ACCOUNT={}".format(account_id))
-
-    #TODO: Temporary workaround until full IAM token are not passed in the Authorization header
-    if 'Account' in request.headers:
-        account_id = request.headers['Account']
 
     subject = Subject(subject_id, subject_type, account_id)
     print("SUBJECT={}".format(subject))

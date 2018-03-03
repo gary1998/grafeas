@@ -1,6 +1,7 @@
 from flask_testing import TestCase
 import connexion
 import json
+import os
 
 
 class BaseTestCase(TestCase):
@@ -18,7 +19,7 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_projects(self):
@@ -28,7 +29,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_project(self, project_id):
@@ -38,7 +39,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def delete_project(self, project_id):
@@ -48,7 +49,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def post_note(self, project_id, body):
@@ -60,7 +61,7 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_notes(self, project_id):
@@ -70,7 +71,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_note(self, project_id, note_id):
@@ -80,7 +81,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_occurrence_note(self, project_id, occurrence_id):
@@ -90,7 +91,7 @@ class BaseTestCase(TestCase):
             headers = {
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def put_note(self, project_id, note_id, body):
@@ -102,7 +103,7 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def delete_note(self, project_id, note_id):
@@ -113,7 +114,7 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def post_occurrence(self, project_id, body):
@@ -125,7 +126,7 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def post_or_put_occurrence(self, project_id, body):
@@ -137,7 +138,7 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX",
+                "Authorization": os.environ['IAM_BEARER_TOKEN'],
                 "Replace-If-Exists": "true"
             })
 
@@ -148,7 +149,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_occurrence(self, project_id, occurrence_id):
@@ -158,7 +159,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_note_occurrences(self, project_id, note_id):
@@ -168,7 +169,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def put_occurrence(self, project_id, occurrence_id, body):
@@ -180,7 +181,7 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
     def delete_occurrence(self, project_id, occurrence_id):
@@ -191,5 +192,5 @@ class BaseTestCase(TestCase):
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "Account": "AccountX",
-                "Authorization": "AuthorizationX"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })

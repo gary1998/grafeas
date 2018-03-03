@@ -20,8 +20,9 @@ def create_note(project_id, body):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     if 'id' not in body:
         return common.build_error(
@@ -54,7 +55,7 @@ def create_note(project_id, body):
 
     body['doc_type'] = 'Note'
     body['id'] = note_id
-    body['account_id'] = account_id
+    body['account_id'] = subject.account_id
     body['project_id'] = project_id
     body['name'] = note_name
     body['project_doc_id'] = project_doc_id
@@ -75,7 +76,7 @@ def create_note(project_id, body):
         body['shared'] = True
 
     try:
-        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
         db.create_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except exceptions.AlreadyExistsError:
@@ -101,8 +102,9 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     docs = db.find(
         filter_={
@@ -126,10 +128,11 @@ def get_note(project_id, note_id):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     try:
-        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
@@ -151,7 +154,8 @@ def update_note(project_id, note_id, body):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     body['id'] = note_id
 
@@ -166,7 +170,7 @@ def update_note(project_id, note_id, body):
     body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
 
     try:
-        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
         doc = db.update_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
@@ -186,10 +190,11 @@ def delete_note(project_id, note_id):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     try:
-        note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
         doc = db.delete_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
@@ -211,17 +216,18 @@ def get_occurrence_note(project_id, occurrence_id):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     try:
-        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
+        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         occurrence_doc = db.get_doc(occurrence_doc_id)
     except exceptions.NotFoundError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
     try:
         note_name = occurrence_doc['note_name']
-        note_doc_id = "{}/{}".format(account_id, note_name)
+        note_doc_id = "{}/{}".format(subject.account_id, note_name)
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:

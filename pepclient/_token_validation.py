@@ -20,7 +20,6 @@ API_KEY_LEEWAY = 2
 
 
 class TokenClient(object):
-
     def __init__(self, iam_endpoint=iam_urls, logger=None):
         """
         Client to validate IAM tokens

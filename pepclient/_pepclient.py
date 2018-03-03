@@ -4,7 +4,7 @@ import uuid
 from requests import request
 from itertools import product
 from copy import deepcopy
-from _metrics import MetricAggregator
+from pepclient._metrics import MetricAggregator
 import pepclient
 
 from pepclient._default_cache import DefaultCache

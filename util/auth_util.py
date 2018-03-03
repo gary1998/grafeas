@@ -2,12 +2,17 @@ import jwt
 import re
 
 
-def get_account_id(request):
-    #TODO: Temporary workaround until IAM token are not passed in the Authorization header
-    if 'Account' in request.headers:
-        account_id = request.headers['Account']
-        return account_id
+class Subject(object):
+    def __init__(self, subject_id, subject_type, account_id):
+        self.subject_id = subject_id
+        self.subject_type = subject_type
+        self.account_id = account_id
 
+    def __str__(self):
+        return "{}/{}/{}".format(self.subject_type, self.subject_id, self.account_id)
+
+
+def get_subject(request):
     auth_header = request.headers['Authorization']
     if re.match('bearer', auth_header, re.I):
         auth_token = auth_header[7:]
@@ -15,22 +20,34 @@ def get_account_id(request):
         ValueError("Authorization header value does not start with 'bearer'")
 
     decoded_auth_token = jwt.decode(auth_token, verify=False)
-    client_id = decoded_auth_token.get('client_id')
-    if client_id is None:
-        ValueError("Missing client id in bearer token")
+    if 'iam_id' not in decoded_auth_token:
+        ValueError("Invalid IAM bearer token")
 
-    if client_id != 'bx':
-        if client_id == 'cf':
-            raise ValueError("Support for 'cf' client id coming soon!")
-        else:
-            raise ValueError("Unsupported client id: {}", client_id)
+    subject_id = decoded_auth_token['iam_id']
+    subject_type = None
+
+    if 'sub_type' not in decoded_auth_token:
+        subject_type = 'user'
+    else:
+        sub_type = decoded_auth_token['sub_type']
+        if sub_type == 'ServiceId':
+            subject_type = 'service-id'
+        elif sub_type == 'CRN':
+            subject_type = 'crn'
 
     account = decoded_auth_token.get('account')
-    if account is None:
+    if not account:
         ValueError("Missing 'account' field in IAM bearer token")
 
-    if account is None:
+    account_id = account.get('bss')
+    if not account_id:
         ValueError("Missing 'account.bss' field in IAM bearer token")
+    print("BSS ACCOUNT={}".format(account_id))
 
-    account_id = account['bss']
-    return account_id
+    #TODO: Temporary workaround until full IAM token are not passed in the Authorization header
+    if 'Account' in request.headers:
+        account_id = request.headers['Account']
+
+    subject = Subject(subject_id, subject_type, account_id)
+    print("SUBJECT={}".format(subject))
+    return subject

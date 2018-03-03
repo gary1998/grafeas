@@ -21,10 +21,12 @@ def create_occurrence(project_id, body):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+
+    subject = auth_util.get_subject(connexion.request)
     replace_if_exists_header_value = connexion.request.headers.get('Replace-If-Exists')
     replace_if_exists = replace_if_exists_header_value is not None and replace_if_exists_header_value.lower() == 'true'
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
+    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     if 'id' not in body:
         return common.build_error(
@@ -43,7 +45,7 @@ def create_occurrence(project_id, body):
 
     # get the occurrence's note
     try:
-        note_doc_id = "{}/{}".format(account_id, note_name)
+        note_doc_id = "{}/{}".format(subject.account_id, note_name)
         note = db.get_doc(note_doc_id)
     except exceptions.NotFoundError:
         return common.build_error(
@@ -84,7 +86,7 @@ def create_occurrence(project_id, body):
             "Missing required field: 'context.account_id'")
 
     body['doc_type'] = 'Occurrence'
-    body['account_id'] = account_id
+    body['account_id'] = subject.account_id
     body['project_id'] = project_id
     body['id'] = occurrence_id
     body['name'] = occurrence_name
@@ -110,7 +112,7 @@ def create_occurrence(project_id, body):
     _set_internal_occurrence_severity(body)
 
     try:
-        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
+        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         db.create_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except exceptions.AlreadyExistsError:
@@ -138,8 +140,9 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
-    project_doc_id = common.build_project_doc_id(account_id, project_id)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     docs = db.find(
         filter_={
@@ -163,10 +166,11 @@ def get_occurrence(project_id, occurrence_id):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     try:
-        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
+        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         doc = db.get_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
@@ -188,7 +192,8 @@ def update_occurrence(project_id, occurrence_id, body):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -209,7 +214,7 @@ def update_occurrence(project_id, occurrence_id, body):
     _set_internal_occurrence_severity(body)
 
     try:
-        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
+        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         doc = db.update_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
@@ -229,10 +234,11 @@ def delete_occurrence(project_id, occurrence_id):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     try:
-        occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)
+        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         doc = db.delete_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, {})
     except exceptions.NotFoundError:
@@ -259,8 +265,9 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
-    note_doc_id = common.build_note_doc_id(account_id, project_id, note_id)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
 
     docs = db.find(
         filter_={

@@ -16,14 +16,15 @@ def create_project(body):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
 
     project_id = body['id']
     body['doc_type'] = 'Project'
-    body['account_id'] = account_id
+    body['account_id'] = subject.account_id
     body['id'] = project_id
     body['name'] = common.build_project_name(project_id)
 
@@ -31,7 +32,7 @@ def create_project(body):
         body['shared'] = True
 
     try:
-        project_doc_id = common.build_project_doc_id(account_id, project_id)
+        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
         db.create_doc(project_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except exceptions.AlreadyExistsError:
@@ -49,10 +50,11 @@ def delete_project(project_id):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     try:
-        project_doc_id = common.build_project_doc_id(account_id, project_id)
+        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
         doc = db.delete_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
@@ -70,10 +72,10 @@ def get_project(project_id):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    subject = auth_util.get_subject(connexion.request)
 
     try:
-        project_doc_id = common.build_project_doc_id(account_id, project_id)
+        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
         doc = db.get_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
@@ -95,12 +97,13 @@ def list_projects(filter=None, page_size=None, page_token=None):
     """
 
     db = common.get_db()
-    account_id = auth_util.get_account_id(connexion.request)
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
 
     docs = db.find(
         filter_={
             'doc_type': 'Project',
-            'account_id': account_id
+            'account_id': subject.account_id
         },
         index="DT_OAI_TS")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])

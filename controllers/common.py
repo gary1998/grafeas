@@ -1,23 +1,35 @@
+import logging
 import os
 import threading
+import pepclient
 from util.cloudant_client import CloudantDatabase
 
 
-__db = None
-__db_lock = threading.Lock()
+logger = logging.getLogger("grafeas.common")
 
 
-def get_db():
-    """
-    Opens a new db connection if there is none yet for the current application context.
-    """
+def build_project_name(project_id):
+    return "projects/{}".format(project_id)
 
-    global __db
-    with __db_lock:
-        if __db is None:
-            __db = __create_db()
 
-        return __db
+def build_project_doc_id(account_id, project_id):
+    return "{}/projects/{}".format(account_id, project_id)
+
+
+def build_note_name(project_id, note_id):
+    return "projects/{}/notes/{}".format(project_id, note_id)
+
+
+def build_note_doc_id(account_id, project_id, note_id):
+    return "{}/projects/{}/notes/{}".format(account_id, project_id, note_id)
+
+
+def build_occurrence_name(project_id, occurrence_id):
+    return "projects/{}/occurrences/{}".format(project_id, occurrence_id)
+
+
+def build_occurrence_doc_id(account_id, project_id, occurrence_id):
+    return "{}/projects/{}/occurrences/{}".format(account_id, project_id, occurrence_id)
 
 
 def build_result(status, data):
@@ -34,7 +46,161 @@ def build_error(status, detail):
     return error, status.value
 
 
-def __create_db():
+#
+# PEP Client initialization and access
+#
+
+class GrafeasAuthClient(pepclient.PEPClient):
+    def __init__(self):
+        super().__init__()
+
+    def is_authorized(self, params, access_token):
+        return self.is_authz(params, access_token)
+
+    def can_write_project(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.projects.write",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_read_project(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.projects.read",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_delete_project(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.projects.delete",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_write_note(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.notes.write",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_read_note(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.notes.read",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_delete_note(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.notes.delete",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_write_occurrence(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.occurrences.read",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_read_occurrence(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.occurrences.read",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    def can_delete_occurrence(self, subject_id, subject_type, access_token):
+        return self.is_authorized(
+            GrafeasAuthClient.get_params(
+                "grafeas.occurrences.delete",
+                subject_id,
+                subject_type
+            ),
+            access_token)
+
+    @staticmethod
+    def get_params(action, subject):
+        params = {
+            'action': action,
+            'subject': {
+                'id': subject.subj_id,
+                'type': subject.subj_type
+            },
+            'resource': {
+                'attributes': {
+                    'serviceName': 'grafeas'
+                }
+            }
+        }
+
+        return params
+
+
+__auth_client = None
+__auth_client_lock = threading.Lock()
+
+
+def get_auth_client():
+    """
+    Opens a new PEP client if there is none yet for the current application context.
+    """
+
+    global __auth_client
+    with __auth_client_lock:
+        if __auth_client is None:
+            __auth_client = __init_auth_client()
+        return __auth_client
+
+
+def __init_auth_client():
+    logger.info("Initializing Auth client ...")
+    auth_client = GrafeasAuthClient()
+    logger.info("PEP client initialized.")
+    return auth_client
+
+
+#
+# DB initialization and access
+#
+
+__db = None
+__db_lock = threading.Lock()
+
+
+def get_db():
+    """
+    Opens a new db connection if there is none yet for the current application context.
+    """
+
+    global __db
+    with __db_lock:
+        if __db is None:
+            __db = __init_db()
+        return __db
+
+
+def __init_db():
+    logger.info("Initializing DB client ...")
     db = CloudantDatabase(
         os.environ['GRAFEAS_URL'],
         os.environ['GRAFEAS_DB_NAME'],
@@ -97,28 +263,5 @@ def __create_db():
         """,
         '_sum')
 
+    logger.info("DB client initialized.")
     return db
-
-
-def build_project_name(project_id):
-    return "projects/{}".format(project_id)
-
-
-def build_project_doc_id(account_id, project_id):
-    return "{}/projects/{}".format(account_id, project_id)
-
-
-def build_note_name(project_id, note_id):
-    return "projects/{}/notes/{}".format(project_id, note_id)
-
-
-def build_note_doc_id(account_id, project_id, note_id):
-    return "{}/projects/{}/notes/{}".format(account_id, project_id, note_id)
-
-
-def build_occurrence_name(project_id, occurrence_id):
-    return "projects/{}/occurrences/{}".format(project_id, occurrence_id)
-
-
-def build_occurrence_doc_id(account_id, project_id, occurrence_id):
-    return "{}/projects/{}/occurrences/{}".format(account_id, project_id, occurrence_id)

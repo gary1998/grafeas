@@ -1,8 +1,11 @@
+cachetools==2.0.1
 certifi==2017.7.27.1
 cf-deployment-tracker==1.0.4
 cloudant==2.6.0
 connexion==1.1.16
-Flask==0.12.2
+cryptography==2.1.4
+flask==0.12.2
 isodate==0.6.0
 newrelic==2.96.0.80
-PyJWT==1.5.3
+pycrypto==2.6.1
+pyjwt==1.5.3

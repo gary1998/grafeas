@@ -10,6 +10,7 @@
         "section": "Network",
         "title": "Suspicious Clients",
         "finding_note_names": [
+          "projects/security-advisor/notes/xforce-anonym_client",
           "projects/security-advisor/notes/xforce-bot_client",
           "projects/security-advisor/notes/xforce-malware_client",
           "projects/security-advisor/notes/xforce-scanner_client"
@@ -21,6 +22,7 @@
             "value_type": {
               "kind": "FINDING_COUNT",
               "finding_note_names": [
+                "projects/security-advisor/notes/xforce-anonym_client",
                 "projects/security-advisor/notes/xforce-bot_client",
                 "projects/security-advisor/notes/xforce-malware_client",
                 "projects/security-advisor/notes/xforce-scanner_client"
@@ -53,6 +55,12 @@
                   "projects/security-advisor/notes/xforce-scanner_client"
                 ],
                 "text": "Scanners"
+              },{
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/security-advisor/notes/xforce-anonym_client"
+                ],
+                "text": "Anonymous"
               }
             ]
           }

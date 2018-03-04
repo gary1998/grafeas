@@ -4,8 +4,8 @@
       "kind": "CARD",
       "project_id": "security-advisor",
       "id": "xforce-risks_from_clients",
-      "short_description": "A type of card showing suspicious clients",
-      "long_description": "A type of card showing suspicious clients",
+      "short_description": "Suspicious Clients",
+      "long_description": "Suspicious Clients Card",
       "card": {
         "section": "Network",
         "title": "Suspicious Clients",

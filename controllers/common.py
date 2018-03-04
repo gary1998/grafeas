@@ -53,10 +53,10 @@ def build_error(status, detail):
 
 class GrafeasAuthClient(pepclient.PEPClient):
     def __init__(self, enabled=True):
-        super().__init__(pdp_url=os.environ['PDP_BASE_URL'])
         self.api_base_url = os.environ['IAM_API_BASE_URL']
         self.api_key = os.environ['IAM_API_KEY']
         self.access_token = auth_util.get_identity_token(self.api_base_url, self.api_key)
+        super().__init__(pdp_url=os.environ['PDP_BASE_URL'], auth_token=self.access_token)
         self.enabled = enabled
 
     def enable(self, value):
@@ -102,14 +102,15 @@ class GrafeasAuthClient(pepclient.PEPClient):
             },
             "resource": {
                 "attributes": {
-                    "serviceName": "grafeas"
+                    "serviceName": "grafeas",
+                    "scope": "a/{}".format(subject.account_id)
                 }
             }
         }
 
         try:
             result = self.is_authz(params, self.access_token)
-        except pepclient.PEDError as e:
+        except pepclient.PDPError as e:
             logger.info("IAM API key token expired. Regenerating it ...")
             self.access_token = auth_util.get_identity_token(self.api_base_url, self.api_key)
             result = self.is_authz(params, self.access_token)
@@ -170,9 +171,30 @@ def __init_db():
         os.environ['GRAFEAS_USERNAME'],
         os.environ['GRAFEAS_PASSWORD'])
 
+    # Occurrences are partitioned by:
+    #   account_id
+    # and filtered by:
+    #   projectId (optional, defaul = all projects)
+    #   kind (optional, default = all kinds)
+
+    db.create_query_index(
+        "DT_SH_",
+        ['doc_type', 'project_doc_id', 'shared', 'kind'])
+
     db.create_query_index(
         "DT_OAI_TS",
         ['doc_type', 'account_id', 'update_timestamp'])
+
+    # Occurrences are partitioned by:
+    #   resource.account_id
+    # filtered by:
+    #   projectId (optional, defaul = all projects)
+    #   kind (optional, default = all kinds)
+    #   note_name (optional, default = all note names )
+    # and sorted by:
+    #   update_timestamp (default)
+    #   finding.severity (optional)
+
     db.create_query_index(
         "DT_PDI_TS",
         ['doc_type', 'project_doc_id', 'update_timestamp'])

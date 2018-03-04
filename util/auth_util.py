@@ -11,7 +11,7 @@ class Subject(object):
         self.account_id = account_id
 
     def __str__(self):
-        return "{}/{}/{}".format(self.subject_type, self.subject_id, self.account_id)
+        return "type={}, id={}, account={}".format(self.subject_type, self.subject_id, self.account_id)
 
 
 def get_subject(request):

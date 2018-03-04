@@ -4,12 +4,13 @@
       "kind": "CARD",
       "project_id": "security-advisor",
       "id": "xforce-risks_from_servers",
-      "short_description": "A type of card showing suspicious servers",
-      "long_description": "A type of card showing suspicious servers",
+      "short_description": "Suspicious Server IPs",
+      "long_description": "Suspicious Server IPs Card",
       "card": {
         "section": "Network",
         "title": "Suspicious Server IPs",
         "finding_note_names": [
+          "projects/security-advisor/notes/xforce-anonym_server",
           "projects/security-advisor/notes/xforce-bot_server",
           "projects/security-advisor/notes/xforce-malware_server",
           "projects/security-advisor/notes/xforce-scanner_server"
@@ -20,7 +21,7 @@
             "text": "of your server IP addresses are considered malicious and have been blacklisted",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count"
+              "kpi_note_name": "projects/security-advisor/notes/xforce-armada_ips"
             }
           },
           {
@@ -29,6 +30,7 @@
             "value_type": {
               "kind": "FINDING_COUNT",
               "finding_note_names": [
+                "projects/security-advisor/notes/xforce-anonym_server",
                 "projects/security-advisor/notes/xforce-bot_server",
                 "projects/security-advisor/notes/xforce-malware_server",
                 "projects/security-advisor/notes/xforce-scanner_server"

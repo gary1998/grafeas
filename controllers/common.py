@@ -53,10 +53,10 @@ def build_error(status, detail):
 
 class GrafeasAuthClient(pepclient.PEPClient):
     def __init__(self, enabled=True):
-        self.api_base_url = os.environ['IAM_API_BASE_URL']
+        self.iam_base_url = os.environ['IAM_BASE_URL']
         self.api_key = os.environ['IAM_API_KEY']
-        self.access_token = auth_util.get_identity_token(self.api_base_url, self.api_key)
-        super().__init__(pdp_url=os.environ['PDP_BASE_URL'], auth_token=self.access_token)
+        self.access_token = auth_util.get_identity_token(self.iam_base_url, self.api_key)
+        super().__init__(pdp_url=os.environ['IAM_API_BASE_URL'], auth_token=self.access_token)
         self.enabled = enabled
 
     def enable(self, value):
@@ -112,7 +112,7 @@ class GrafeasAuthClient(pepclient.PEPClient):
             result = self.is_authz(params, self.access_token)
         except pepclient.PDPError as e:
             logger.info("IAM API key token expired. Regenerating it ...")
-            self.access_token = auth_util.get_identity_token(self.api_base_url, self.api_key)
+            self.access_token = auth_util.get_identity_token(self.iam_base_url, self.api_key)
             result = self.is_authz(params, self.access_token)
 
         allowed = result['allowed']

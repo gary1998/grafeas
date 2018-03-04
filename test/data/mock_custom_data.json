@@ -1,0 +1,300 @@
+{
+  "projects": [
+    {
+      "id": "my-project"
+    }
+  ],
+  "notes": [
+    {
+      "kind": "CARD",
+      "project_id": "my-project",
+      "id": "my-custom-card",
+      "short_description": "My first custom card",
+      "long_description": "My first custom card",
+      "shared": false,
+      "card": {
+        "section": "Compute",
+        "title": "My First Custom Card",
+        "finding_note_names": [
+          "projects/my-project/notes/my-finding-1",
+          "projects/my-project/notes/my-finding-2"
+        ],
+        "elements": [
+          {
+            "kind": "NUMERIC",
+            "text": "My KPI 1",
+            "value_type": {
+              "kind": "KPI",
+              "kpi_note_name": "projects/my-project/notes/my-kpi-1"
+            }
+          },
+          {
+            "kind": "NUMERIC",
+            "text": "My KPI 2",
+            "value_type": {
+              "kind": "KPI",
+              "kpi_note_name": "projects/my-project/notes/my-kpi-2"
+            }
+          },
+          {
+            "kind": "TIME_SERIES",
+            "text": "My Findings 1 and 2",
+            "default_interval": "1d",
+            "default_time_range": "1w",
+            "value_types": [
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/my-project/notes/my-finding-1"
+                ],
+                "text": "Finding-1"
+              },
+              {
+                "kind": "FINDING_COUNT",
+                "finding_note_names": [
+                  "projects/my-project/notes/my-finding-2"
+                ],
+                "text": "Finding-2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "my-finding-1",
+      "short_description": "My finding 1",
+      "long_description": "My finding 1",
+      "reported_by": {
+        "id": "my-project",
+        "title": "My custom data provider",
+        "href": "https://www.ibm.com"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "Go to my custom page and do some custom actions."
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "my-finding-2",
+      "short_description": "My finding 2",
+      "long_description": "My finding 2",
+      "reported_by": {
+        "id": "my-project",
+        "title": "My custom data provider",
+        "href": "https://www.ibm.com"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "next_steps": [
+          {
+              "title": "Go to my custom page and do some custom actions."
+          }
+        ]
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "my-project",
+      "id": "my-kpi-1",
+      "short_description": "My KPI 1",
+      "long_description": "My KPI 1",
+      "reported_by": {
+        "id": "my-project",
+        "title": "My custom data provider",
+        "href": "https://www.ibm.com"
+      },
+      "kpi": {
+        "aggregation_type": "SUM",
+        "severity": "HIGH"
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "my-project",
+      "id": "my-kpi-2",
+      "short_description": "My KPI 2",
+      "long_description": "My KPI 2",
+      "reported_by": {
+        "id": "my-project",
+        "title": "My custom data provider",
+        "href": "https://www.ibm.com"
+      },
+      "kpi": {
+        "aggregation_type": "SUM",
+        "severity": "MEDIUM"
+      }
+    }
+  ],
+  "occurrences": [
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c1",
+      "note_name": "projects/my-project/notes/my-finding-1",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-1",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c2",
+      "note_name": "projects/my-project/notes/my-finding-1",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-2",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c3",
+      "note_name": "projects/my-project/notes/my-finding-1",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-3",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c4",
+      "note_name": "projects/my-project/notes/my-finding-1",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-4",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c5",
+      "note_name": "projects/my-project/notes/my-finding-2",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-1",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c6",
+      "note_name": "projects/my-project/notes/my-finding-2",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-3",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c7",
+      "note_name": "projects/my-project/notes/my-finding-2",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-4",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "my-project",
+      "id": "c8",
+      "note_name": "projects/my-project/notes/my-finding-2",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "resource_crn": "custom-5",
+        "service_crn": "custom-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+
+    {
+      "kind": "KPI",
+      "project_id": "my-project",
+      "id": "c9",
+      "note_name": "projects/my-project/notes/my-kpi-1",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "service_crn": "custom-1"
+      },
+      "kpi": {
+        "value": 123,
+        "total": 86
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "my-project",
+      "id": "c10",
+      "note_name": "projects/my-project/notes/my-kpi-2",
+      "context": {
+        "region": "US-South",
+        "account_id": "0209df6649c995e076657f797cb8b6fb",
+        "service_crn": "custom-1"
+      },
+      "kpi": {
+        "value": 456,
+        "total": 86
+      }
+    }
+  ]
+}
+

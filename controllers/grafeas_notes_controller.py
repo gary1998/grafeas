@@ -22,6 +22,7 @@ def create_note(project_id, body):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_write_note(subject)
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     if 'id' not in body:
@@ -83,6 +84,45 @@ def create_note(project_id, body):
         return common.build_error(HTTPStatus.CONFLICT, "Note already exists: {}".format(note_doc_id))
 
 
+def update_note(project_id, note_id, body):
+    """
+    Updates an existing &#x60;Note&#x60;.
+
+    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
+    :type project_id: str
+    :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
+    :type note_id: str
+    :param body:
+    :type body: dict | bytes
+
+    :rtype: ApiNote
+    """
+
+    db = common.get_db()
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    auth_client.can_write_note(subject)
+
+    body['id'] = note_id
+
+    if 'update_time' in body:
+        update_datetime = isodate.parse_datetime(body['update_time'])
+        update_timestamp = update_datetime.timestamp()
+    else:
+        update_datetime = datetime.datetime.utcnow()
+        update_timestamp = update_datetime.timestamp()
+        body['update_time'] = update_datetime.isoformat() + 'Z'
+    body['update_timestamp'] = update_timestamp
+    body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
+
+    try:
+        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
+        doc = db.update_doc(note_doc_id, body)
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+    except exceptions.NotFoundError:
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
+
+
 def list_notes(project_id, filter=None, page_size=None, page_token=None):
     """
     Lists all &#x60;Notes&#x60; for a given project.
@@ -104,6 +144,7 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_read_note(subject)
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     docs = db.find(
@@ -130,72 +171,11 @@ def get_note(project_id, note_id):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_read_note(subject)
 
     try:
         note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
         doc = db.get_doc(note_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
-
-
-def update_note(project_id, note_id, body):
-    """
-    Updates an existing &#x60;Note&#x60;.
-
-    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
-    :type project_id: str
-    :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
-    :type note_id: str
-    :param body:
-    :type body: dict | bytes
-
-    :rtype: ApiNote
-    """
-
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-    subject = auth_util.get_subject(connexion.request)
-
-    body['id'] = note_id
-
-    if 'update_time' in body:
-        update_datetime = isodate.parse_datetime(body['update_time'])
-        update_timestamp = update_datetime.timestamp()
-    else:
-        update_datetime = datetime.datetime.utcnow()
-        update_timestamp = update_datetime.timestamp()
-        body['update_time'] = update_datetime.isoformat() + 'Z'
-    body['update_timestamp'] = update_timestamp
-    body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
-
-    try:
-        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
-        doc = db.update_doc(note_doc_id, body)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
-
-
-def delete_note(project_id, note_id):
-    """
-    Deletes the given &#x60;Note&#x60; from the system.
-
-    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
-    :type project_id: str
-    :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
-    :type note_id: str
-
-    :rtype: ApiEmpty
-    """
-
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-    subject = auth_util.get_subject(connexion.request)
-
-    try:
-        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
-        doc = db.delete_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
@@ -218,6 +198,7 @@ def get_occurrence_note(project_id, occurrence_id):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_read_note(subject)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
@@ -229,6 +210,31 @@ def get_occurrence_note(project_id, occurrence_id):
         note_name = occurrence_doc['note_name']
         note_doc_id = "{}/{}".format(subject.account_id, note_name)
         doc = db.get_doc(note_doc_id)
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+    except exceptions.NotFoundError:
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
+
+
+def delete_note(project_id, note_id):
+    """
+    Deletes the given &#x60;Note&#x60; from the system.
+
+    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
+    :type project_id: str
+    :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
+    :type note_id: str
+
+    :rtype: ApiEmpty
+    """
+
+    db = common.get_db()
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    auth_client.can_delete_note(subject)
+
+    try:
+        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
+        doc = db.delete_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
         return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))

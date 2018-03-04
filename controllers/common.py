@@ -2,7 +2,8 @@ import logging
 import os
 import threading
 import pepclient
-from util.cloudant_client import CloudantDatabase
+from util import auth_util
+from util import cloudant_client
 
 
 logger = logging.getLogger("grafeas.common")
@@ -51,109 +52,71 @@ def build_error(status, detail):
 #
 
 class GrafeasAuthClient(pepclient.PEPClient):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, enabled=True):
+        super().__init__(pdp_url=os.environ['PDP_BASE_URL'])
+        self.api_base_url = os.environ['IAM_API_BASE_URL']
+        self.api_key = os.environ['IAM_API_KEY']
+        self.access_token = auth_util.get_identity_token(self.api_base_url, self.api_key)
+        self.enabled = enabled
 
-    def is_authorized(self, params, access_token):
-        return self.is_authz(params, access_token)
+    def enable(self, value):
+        self.enabled = value
 
-    def can_write_project(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.projects.write",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_write_project(self, subject):
+        return self.is_authorized("grafeas.projects.write", subject)
 
-    def can_read_project(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.projects.read",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_read_project(self, subject):
+        return self.is_authorized("grafeas.projects.read", subject)
 
-    def can_delete_project(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.projects.delete",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_delete_project(self, subject):
+        return self.is_authorized("grafeas.projects.delete", subject)
 
-    def can_write_note(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.notes.write",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_write_note(self, subject):
+        return self.is_authorized("grafeas.notes.write", subject)
 
-    def can_read_note(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.notes.read",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_read_note(self, subject):
+        return self.is_authorized("grafeas.notes.read", subject)
 
-    def can_delete_note(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.notes.delete",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_delete_note(self, subject):
+        return self.is_authorized("grafeas.notes.delete", subject)
 
-    def can_write_occurrence(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.occurrences.read",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_write_occurrence(self, subject):
+        return self.is_authorized("grafeas.occurrences.write", subject)
 
-    def can_read_occurrence(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.occurrences.read",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_read_occurrence(self, subject):
+        return self.is_authorized("grafeas.occurrences.read", subject)
 
-    def can_delete_occurrence(self, subject_id, subject_type, access_token):
-        return self.is_authorized(
-            GrafeasAuthClient.get_params(
-                "grafeas.occurrences.delete",
-                subject_id,
-                subject_type
-            ),
-            access_token)
+    def can_delete_occurrence(self, subject):
+        return self.is_authorized("grafeas.occurrences.delete", subject)
 
-    @staticmethod
-    def get_params(action, subject):
+    def is_authorized(self, action, subject):
+        if not self.enabled:
+            logger.info("Subject is authorized: {}".format(subject))
+            return True
+
         params = {
-            'action': action,
-            'subject': {
-                'id': subject.subj_id,
-                'type': subject.subj_type
+            "action": action,
+            "subject": {
+                "id": subject.subject_id,
+                "type": subject.subject_type
             },
-            'resource': {
-                'attributes': {
-                    'serviceName': 'grafeas'
+            "resource": {
+                "attributes": {
+                    "serviceName": "grafeas"
                 }
             }
         }
 
-        return params
+        try:
+            result = self.is_authz(params, self.access_token)
+        except pepclient.PEDError as e:
+            logger.info("IAM API key token expired. Regenerating it ...")
+            self.access_token = auth_util.get_identity_token(self.api_base_url, self.api_key)
+            result = self.is_authz(params, self.access_token)
+
+        allowed = result['allowed']
+        logger.info("Subject {} authorized: {}".format("is" if allowed else "is not", subject))
+        return allowed
 
 
 __auth_client = None
@@ -201,7 +164,7 @@ def get_db():
 
 def __init_db():
     logger.info("Initializing DB client ...")
-    db = CloudantDatabase(
+    db = cloudant_client.CloudantDatabase(
         os.environ['GRAFEAS_URL'],
         os.environ['GRAFEAS_DB_NAME'],
         os.environ['GRAFEAS_USERNAME'],

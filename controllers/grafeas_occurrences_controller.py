@@ -22,8 +22,9 @@ def create_occurrence(project_id, body):
 
     db = common.get_db()
     auth_client = common.get_auth_client()
-
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_write_occurrence(subject)
+
     replace_if_exists_header_value = connexion.request.headers.get('Replace-If-Exists')
     replace_if_exists = replace_if_exists_header_value is not None and replace_if_exists_header_value.lower() == 'true'
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
@@ -123,60 +124,6 @@ def create_occurrence(project_id, body):
             return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
 
 
-def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
-    """
-    Lists active &#x60;Occurrences&#x60; for a given project matching the filters.
-
-    :param project_id: Part of &#x60;parent&#x60;. This contains the project_id for example: projects/{project_id}
-    :type project_id: str
-    :param filter: The filter expression.
-    :type filter: str
-    :param page_size: Number of occurrences to return in the list.
-    :type page_size: int
-    :param page_token: Token to provide to skip to a particular spot in the list.
-    :type page_token: str
-
-    :rtype: ApiListOccurrencesResponse
-    """
-
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-    subject = auth_util.get_subject(connexion.request)
-    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
-
-    docs = db.find(
-        filter_={
-            'doc_type': 'Occurrence',
-            'project_doc_id': project_doc_id
-        },
-        index="DT_PDI_TS")
-    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
-
-
-def get_occurrence(project_id, occurrence_id):
-    """
-    Returns the requested &#x60;Note&#x60;.
-
-    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
-    :type project_id: str
-    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
-    :type occurrence_id: str
-
-    :rtype: ApiOccurrence
-    """
-
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-    subject = auth_util.get_subject(connexion.request)
-
-    try:
-        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
-        doc = db.get_doc(occurrence_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
-
-
 def update_occurrence(project_id, occurrence_id, body):
     """
     Updates an existing &#x60;Note&#x60;.
@@ -194,6 +141,7 @@ def update_occurrence(project_id, occurrence_id, body):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_write_occurrence(subject)
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -221,28 +169,35 @@ def update_occurrence(project_id, occurrence_id, body):
         return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
 
-def delete_occurrence(project_id, occurrence_id):
+def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     """
-    Deletes the given &#x60;Note&#x60; from the system.
+    Lists active &#x60;Occurrences&#x60; for a given project matching the filters.
 
-    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
+    :param project_id: Part of &#x60;parent&#x60;. This contains the project_id for example: projects/{project_id}
     :type project_id: str
-    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
-    :type occurrence_id: str
+    :param filter: The filter expression.
+    :type filter: str
+    :param page_size: Number of occurrences to return in the list.
+    :type page_size: int
+    :param page_token: Token to provide to skip to a particular spot in the list.
+    :type page_token: str
 
-    :rtype: ApiEmpty
+    :rtype: ApiListOccurrencesResponse
     """
 
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_read_occurrence(subject)
+    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
-    try:
-        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
-        doc = db.delete_doc(occurrence_doc_id)
-        return common.build_result(HTTPStatus.OK, {})
-    except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
+    docs = db.find(
+        filter_={
+            'doc_type': 'Occurrence',
+            'project_doc_id': project_doc_id
+        },
+        index="DT_PDI_TS")
+    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
 def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page_token=None):
@@ -267,6 +222,8 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
+    auth_client.can_read_occurrence(subject)
+    auth_client.can_write_occurrence(subject)
     note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
 
     docs = db.find(
@@ -276,6 +233,56 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
         },
         index="DT_NDI_TS")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+
+
+def get_occurrence(project_id, occurrence_id):
+    """
+    Returns the requested &#x60;Note&#x60;.
+
+    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type project_id: str
+    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
+    :type occurrence_id: str
+
+    :rtype: ApiOccurrence
+    """
+
+    db = common.get_db()
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    auth_client.can_read_occurrence(subject)
+
+    try:
+        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
+        doc = db.get_doc(occurrence_doc_id)
+        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+    except exceptions.NotFoundError:
+        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
+
+
+def delete_occurrence(project_id, occurrence_id):
+    """
+    Deletes the given &#x60;Note&#x60; from the system.
+
+    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
+    :type project_id: str
+    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
+    :type occurrence_id: str
+
+    :rtype: ApiEmpty
+    """
+
+    db = common.get_db()
+    auth_client = common.get_auth_client()
+    subject = auth_util.get_subject(connexion.request)
+    auth_client.can_delete_occurrence(subject)
+
+    try:
+        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
+        doc = db.delete_doc(occurrence_doc_id)
+        return common.build_result(HTTPStatus.OK, {})
+    except exceptions.NotFoundError:
+        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
 
 
 def _set_occurrence_defaults(doc, note):

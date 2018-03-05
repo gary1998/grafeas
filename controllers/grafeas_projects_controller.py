@@ -18,7 +18,8 @@ def create_project(body):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_write_project(subject)
+    if not auth_client.can_write_project(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to create projects")
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
@@ -57,7 +58,8 @@ def list_projects(filter=None, page_size=None, page_token=None):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_read_project(subject)
+    if not auth_client.can_read_project(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to list projects")
 
     docs = db.find(
         filter_={
@@ -81,7 +83,8 @@ def get_project(project_id):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_read_project(subject)
+    if not auth_client.can_read_project(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to get projects")
 
     try:
         project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
@@ -104,7 +107,8 @@ def delete_project(project_id):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_delete_project(subject)
+    if not auth_client.can_delete_project(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to delete projects")
 
     try:
         project_doc_id = common.build_project_doc_id(subject.account_id, project_id)

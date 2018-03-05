@@ -22,7 +22,9 @@ def create_note(project_id, body):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_write_note(subject)
+    if not auth_client.can_write_note(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to create notes")
+
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     if 'id' not in body:
@@ -34,9 +36,7 @@ def create_note(project_id, body):
     note_name = common.build_note_name(project_id, note_id)
 
     if 'kind' not in body:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Missing required field: 'kind'")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'kind'")
 
     kind = body['kind']
 
@@ -46,13 +46,9 @@ def create_note(project_id, body):
             "Invalid 'kind' value, only 'CARD', 'FINDING' and 'KPI' are allowed")
 
     if kind == 'FINDING' and 'finding' not in body:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Missing field for 'FINDING' note: 'finding")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'FINDING' note: 'finding")
     if kind == 'KPI' and 'kpi' not in body:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Missing field for 'KPI' note: 'kpi'")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'KPI' note: 'kpi'")
 
     body['doc_type'] = 'Note'
     body['id'] = note_id
@@ -101,7 +97,8 @@ def update_note(project_id, note_id, body):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_write_note(subject)
+    if not auth_client.can_write_note(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to update notes")
 
     body['id'] = note_id
 
@@ -144,7 +141,9 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_read_note(subject)
+    if not auth_client.can_read_note(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to list notes")
+
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     docs = db.find(
@@ -171,7 +170,8 @@ def get_note(project_id, note_id):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_read_note(subject)
+    if not auth_client.can_read_note(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to get notes")
 
     try:
         note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
@@ -198,7 +198,8 @@ def get_occurrence_note(project_id, occurrence_id):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_read_note(subject)
+    if not auth_client.can_read_note(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to get occurrence notes")
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
@@ -230,7 +231,8 @@ def delete_note(project_id, note_id):
     db = common.get_db()
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
-    auth_client.can_delete_note(subject)
+    if not auth_client.can_delete_note(subject):
+        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to delete notes")
 
     try:
         note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)

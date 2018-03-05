@@ -89,6 +89,10 @@ class GrafeasAuthClient(pepclient.PEPClient):
     def can_delete_occurrence(self, subject):
         return self.is_authorized("grafeas.occurrences.delete", subject)
 
+    def can_write_occurrences_for_others(self, subject):
+        # TODO Add action to grafeas service
+        return True
+
     def is_authorized(self, action, subject):
         if not self.enabled:
             logger.info("Subject is authorized: {}".format(subject))

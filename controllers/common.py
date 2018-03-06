@@ -182,10 +182,6 @@ def __init_db():
     #   kind (optional, default = all kinds)
 
     db.create_query_index(
-        "DT_SH_",
-        ['doc_type', 'project_doc_id', 'shared', 'kind'])
-
-    db.create_query_index(
         "DT_OAI_TS",
         ['doc_type', 'account_id', 'update_timestamp'])
 
@@ -208,6 +204,9 @@ def __init_db():
     db.create_query_index(
         "DT_CAI_TS_PDI",
         ['doc_type', 'context.account_id', 'update_timestamp', 'project_doc_id'])
+    db.create_query_index(
+        "DT_CAI_K_NDI_TS",
+        ['doc_type', 'context.account_id', 'kind', 'note_doc_id', 'update_timestamp'])
     db.create_query_index(
         "DT_CAI_TS_NDI",
         ['doc_type', 'context.account_id', 'update_timestamp', 'note_doc_id'])

@@ -3,7 +3,7 @@
     {
       "kind": "CARD",
       "project_id": "security-advisor",
-      "id": "images_with_vulnerabilities",
+      "id": "va-images_with_vulnerabilities",
       "short_description": "A type of card showing images with vulnerabilities",
       "long_description": "A type of card showing images with vulnerabilities and configuration issues",
       "card": {

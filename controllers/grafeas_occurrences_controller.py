@@ -52,7 +52,7 @@ def create_occurrence(project_id, body):
 
         note = db.get_doc(note_doc_id)
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Note not found: {}".format(note_name))
+        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
 
     if not note_name.startswith("projects/") and not note['shared']:
         return common.build_error(HTTPStatus.UNAUTHORIZED, "Occurrence's note is not shared")

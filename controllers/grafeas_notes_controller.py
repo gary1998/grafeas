@@ -40,10 +40,10 @@ def create_note(project_id, body):
 
     kind = body['kind']
 
-    if kind not in ['CARD', 'FINDING', 'KPI']:
+    if kind not in ['CARD', 'FINDING', 'KPI', 'CARD_CONFIGURED']:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Invalid 'kind' value, only 'CARD', 'FINDING' and 'KPI' are allowed")
+            "Invalid 'kind' value, only 'CARD', 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed")
 
     if kind == 'FINDING' and 'finding' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'FINDING' note: 'finding")

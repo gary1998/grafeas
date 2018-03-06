@@ -62,9 +62,9 @@ def create_occurrence(project_id, body):
 
     kind = body['kind']
 
-    if kind not in ['FINDING', 'KPI']:
+    if kind not in ['FINDING', 'KPI', 'CARD_CONFIGURED']:
         return common.build_error(
-            HTTPStatus.BAD_REQUEST, "Invalid 'kind' value, only 'FINDING' and 'KPI' are allowed")
+            HTTPStatus.BAD_REQUEST, "Invalid 'kind' value, only 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed")
 
     if kind == 'FINDING' and 'finding' not in body:
         return common.build_error(
@@ -72,6 +72,9 @@ def create_occurrence(project_id, body):
     if kind == 'KPI' and 'kpi' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST, "Missing field for 'KPI' occurrence: 'kpi'")
+    if kind == 'CARD_CONFIGURED' and 'card_configured' not in body:
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST, "Missing field for 'CARD_CONFIGURED' occurrence: 'card_configured'")
 
     if 'context' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'context'")

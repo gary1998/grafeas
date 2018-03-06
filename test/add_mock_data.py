@@ -5,12 +5,13 @@ import os
 
 
 FILE_NAMES = [
+    "card_configured_data.json"
     #"mock_custom_data.json"
     #'mock_data_suspicious_servers.json',
     #'mock_data_suspicious_clients.json',
     #'mock_data_certificates.json',
     #'mock_data_containers_with_vulnerabilities.json',
-    'mock_data_images_with_vulnerabilities.json'
+    #'mock_data_images_with_vulnerabilities.json'
 ]
 
 

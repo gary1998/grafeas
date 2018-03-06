@@ -15,6 +15,7 @@
           "projects/security-advisor/notes/xforce-malware_server",
           "projects/security-advisor/notes/xforce-scanner_server"
         ],
+        "requires_configuration": true,
         "elements": [
           {
             "kind": "NUMERIC",

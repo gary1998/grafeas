@@ -10,8 +10,8 @@
         "section": "Compute",
         "title": "Images with vulnerabilities",
         "finding_note_names": [
-          "projects/va/notes/image_with_vulnerabilities",
-          "projects/va/notes/image_with_config_issues"
+          "projects/security-advisor/notes/va-image_with_vulnerabilities",
+          "projects/security-advisor/notes/va-image_with_config_issues"
         ],
         "elements": [
           {
@@ -19,7 +19,7 @@
             "text": "Images with vulnerabilities",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/image_with_vulnerabilities_count"
+              "kpi_note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities_count"
             }
           },
           {
@@ -27,7 +27,7 @@
             "text": "Images with config issues",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/image_with_config_issues_count"
+              "kpi_note_name": "projects/security-advisor/notes/va-image_with_config_issues_count"
             }
           },
           {
@@ -39,14 +39,14 @@
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/va/notes/image_with_vulnerabilities"
+                  "projects/security-advisor/notes/va-image_with_vulnerabilities"
                 ],
                 "text": "Vulnerabilities"
               },
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/va/notes/image_with_config_issues"
+                  "projects/security-advisor/notes/va-image_with_config_issues"
                 ],
                 "text": "Config Issues"
               }
@@ -59,7 +59,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "image_with_vulnerabilities",
+      "id": "va-image_with_vulnerabilities",
       "short_description": "Image with vulnerabilities",
       "long_description": "Image with vulnerabilities",
       "reported_by": {
@@ -79,7 +79,7 @@
     {
       "kind": "FINDING",
       "project_id": "va",
-      "id": "image_with_config_issues",
+      "id": "va-image_with_config_issues",
       "short_description": "Image with configuration issues",
       "long_description": "Image with configuration issues",
       "reported_by": {
@@ -99,7 +99,7 @@
     {
       "kind": "KPI",
       "project_id": "va",
-      "id": "image_with_vulnerabilities_count",
+      "id": "va-image_with_vulnerabilities_count",
       "short_description": "Number of images with vulnerabilities",
       "long_description": "Number of images running images with vulnerabilities",
       "reported_by": {
@@ -115,7 +115,7 @@
     {
       "kind": "KPI",
       "project_id": "va",
-      "id": "image_with_config_issues_count",
+      "id": "va-image_with_config_issues_count",
       "short_description": "Number of images with configuration issues",
       "long_description": "Number of images running images with vulnerabilities",
       "reported_by": {
@@ -134,7 +134,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwv1",
-      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -150,7 +150,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwv2",
-      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -166,7 +166,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwv3",
-      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -182,7 +182,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwv4",
-      "note_name": "projects/va/notes/image_with_vulnerabilities",
+      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -198,7 +198,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwci1",
-      "note_name": "projects/va/notes/image_with_config_issues",
+      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -214,7 +214,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwci2",
-      "note_name": "projects/va/notes/image_with_config_issues",
+      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -230,7 +230,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwci3",
-      "note_name": "projects/va/notes/image_with_config_issues",
+      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -246,7 +246,7 @@
       "kind": "FINDING",
       "project_id": "va",
       "id": "iwci4",
-      "note_name": "projects/va/notes/image_with_config_issues",
+      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -263,7 +263,7 @@
       "kind": "KPI",
       "project_id": "va",
       "id": "iwvc1",
-      "note_name": "projects/va/notes/image_with_vulnerabilities_count",
+      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -278,7 +278,7 @@
       "kind": "KPI",
       "project_id": "va",
       "id": "iwcic1",
-      "note_name": "projects/va/notes/image_with_config_issues_count",
+      "note_name": "projects/security-advisor/notes/va-image_with_config_issues_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",

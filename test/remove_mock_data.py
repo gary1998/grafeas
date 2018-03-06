@@ -1,14 +1,15 @@
 from . import BaseTestCase
 from flask import json
 from http import HTTPStatus
+import os
 
 
 FILE_NAMES = [
-    'mock_data_suspicious_servers.json',
-    'mock_data_suspicious_clients.json',
-    'mock_data_certificates.json',
-    #'mock_data_containers_with_vulnerabilities.json',
-    #'mock_data_images_with_vulnerabilities.json'
+    #'mock_data_suspicious_servers.json',
+    #'mock_data_suspicious_clients.json',
+    #'mock_data_certificates.json',
+    'mock_data_containers_with_vulnerabilities.json',
+    'mock_data_images_with_vulnerabilities.json'
 ]
 
 
@@ -56,7 +57,6 @@ class RemoveMockData(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "d0c8a917589e40076961f56b23056d16",
-                "Authorization": "Authorization01"
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             }
         )

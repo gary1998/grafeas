@@ -24,7 +24,7 @@ def create_occurrence(project_id, body):
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
     if not auth_client.can_write_occurrence(subject):
-        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to create occurrences: {}".format(subject))
+        return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create occurrences: {}".format(subject))
 
     replace_if_exists_header_value = connexion.request.headers.get('Replace-If-Exists')
     replace_if_exists = replace_if_exists_header_value is not None and replace_if_exists_header_value.lower() == 'true'
@@ -146,7 +146,7 @@ def update_occurrence(project_id, occurrence_id, body):
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
     if not auth_client.can_write_occurrence(subject):
-        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to update occurrences: {}".format(subject))
+        return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to update occurrences: {}".format(subject))
 
     if 'id' not in body:
         return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
@@ -194,7 +194,7 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
     if not auth_client.can_read_occurrence(subject):
-        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to list occurrences: {}".format(subject))
+        return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to list occurrences: {}".format(subject))
 
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
@@ -232,7 +232,7 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     auth_client.can_read_occurrence(subject)
     if not auth_client.can_write_occurrence(subject):
         return common.build_error(
-            HTTPStatus.UNAUTHORIZED, "Not allowed to update note's occurrences: {}".format(subject))
+            HTTPStatus.FORBIDDEN, "Not allowed to update note's occurrences: {}".format(subject))
 
     note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
 
@@ -261,7 +261,7 @@ def get_occurrence(project_id, occurrence_id):
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
     if not auth_client.can_read_occurrence(subject):
-        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to get occurrences: {}".format(subject))
+        return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get occurrences: {}".format(subject))
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
@@ -287,7 +287,7 @@ def delete_occurrence(project_id, occurrence_id):
     auth_client = common.get_auth_client()
     subject = auth_util.get_subject(connexion.request)
     if not auth_client.can_delete_occurrence(subject):
-        return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to delete occurrences: {}".format(subject))
+        return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to delete occurrences: {}".format(subject))
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)

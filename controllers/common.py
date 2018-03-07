@@ -56,7 +56,7 @@ class GrafeasAuthClient(pepclient.PEPClient):
         self.iam_base_url = os.environ['IAM_BASE_URL']
         self.api_key = os.environ['IAM_API_KEY']
         self.access_token = auth_util.get_identity_token(self.iam_base_url, self.api_key)
-        super().__init__(pdp_url=os.environ['IAM_API_BASE_URL'], auth_token=self.access_token)
+        super().__init__(xacml_url=os.environ['IAM_API_BASE_URL'], auth_token=self.access_token)
         self.enabled = enabled
 
     def enable(self, value):
@@ -98,26 +98,34 @@ class GrafeasAuthClient(pepclient.PEPClient):
             logger.info("Subject is authorized: {}".format(subject))
             return True
 
+        if subject.subject_type == 'user':
+            subject_field_name = "userId"
+        elif subject.subject_type == 'service-id':
+            subject_field_name = "serviceId"
+        else:
+            raise ValueError("Unsupported subject type: {}".format(subject.subject_type))
+
         params = {
-            "action": action,
             "subject": {
-                "id": subject.subject_id,
-                "type": subject.subject_type
+                "iamId": {
+                    subject_field_name: subject.subject_id
+                }
             },
+            "action": action,
             "resource": {
                 "attributes": {
                     "serviceName": "grafeas",
-                    "scope": "a/{}".format(subject.account_id)
+                    "accountId": subject.account_id
                 }
             }
         }
 
         try:
-            result = self.is_authz(params, self.access_token)
+            result = self.is_authz2(params, self.access_token)
         except pepclient.PDPError as e:
             logger.info("IAM API key token expired. Regenerating it ...")
             self.access_token = auth_util.get_identity_token(self.iam_base_url, self.api_key)
-            result = self.is_authz(params, self.access_token)
+            result = self.is_authz2(params, self.access_token)
 
         allowed = result['allowed']
         logger.info("Subject {} authorized: {}".format("is" if allowed else "is not", subject))

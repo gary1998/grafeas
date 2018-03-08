@@ -17,6 +17,12 @@ class NotFoundError(Exception):
         self.resource = resource
 
 
+class ForbiddenError(Exception):
+    def __init__(self, resource):
+        super().__init__("Forbidden: {}".format(resource))
+        self.resource = resource
+
+
 class UnauthorizedError(Exception):
     def __init__(self, resource):
         super().__init__("Unauthorized: {}".format(resource))

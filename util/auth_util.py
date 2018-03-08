@@ -16,17 +16,20 @@ class Subject(object):
 
 def get_subject(request):
     auth_header = request.headers['Authorization']
-    if re.match('bearer', auth_header, re.I):
+    if re.match('bearer ', auth_header, re.I):
         auth_token = auth_header[7:]
     else:
-        raise ValueError("Authorization header value does not start with 'bearer'")
+        auth_token = auth_header
 
-    decoded_auth_token = jwt.decode(auth_token, verify=False)
+    try:
+        decoded_auth_token = jwt.decode(auth_token, verify=False)
+    except jwt.DecodeError:
+        raise ValueError("Invalid JWT token")
+
     if 'iam_id' not in decoded_auth_token:
-        raise ValueError("Invalid IAM bearer token")
+        raise ValueError("Invalid IAM token")
 
     subject_id = decoded_auth_token['iam_id']
-    subject_type = None
 
     if 'sub_type' not in decoded_auth_token:
         subject_type = 'user'
@@ -34,16 +37,16 @@ def get_subject(request):
         sub_type = decoded_auth_token['sub_type']
         if sub_type == 'ServiceId':
             subject_type = 'service-id'
-        elif sub_type == 'CRN':
-            subject_type = 'crn'
+        else:
+            raise ValueError("Unsupported subject type: {}".format(sub_type))
 
     account = decoded_auth_token.get('account')
     if not account:
-        raise ValueError("Missing 'account' field in IAM bearer token")
+        raise ValueError("Invalid IAM token")
 
     account_id = account.get('bss')
     if not account_id:
-        raise ValueError("Missing 'account.bss' field in IAM bearer token")
+        raise ValueError("Invalid IAM token")
 
     return Subject(subject_id, subject_type, account_id)
 

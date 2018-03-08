@@ -22,7 +22,7 @@ def create_project(body):
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_write_project(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create projects: {}".format(subject))
-    except ValueError as e:
+    except Exception as e:
         return common.build_error(HTTPStatus.UNAUTHORIZED, e)
 
     if 'id' not in body:
@@ -66,7 +66,7 @@ def list_projects(filter=None, page_size=None, page_token=None):
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_project(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to list projects: {}".format(subject))
-    except ValueError as e:
+    except Exception as e:
         return common.build_error(HTTPStatus.UNAUTHORIZED, e)
 
     docs = db.find(
@@ -95,7 +95,7 @@ def get_project(project_id):
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_project(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get projects: {}".format(subject))
-    except ValueError as e:
+    except Exception as e:
         return common.build_error(HTTPStatus.UNAUTHORIZED, e)
 
     try:
@@ -123,7 +123,7 @@ def delete_project(project_id):
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_delete_project(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to delete projects: {}".format(subject))
-    except ValueError as e:
+    except Exception as e:
         return common.build_error(HTTPStatus.UNAUTHORIZED, e)
 
     try:

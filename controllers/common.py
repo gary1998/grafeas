@@ -292,22 +292,23 @@ def get_qradar_client():
         return __qradar_client
 
 
-def _init_qradar_client(self):
+def _init_qradar_client():
     if 'QRADAR_HOST' not in os.environ:
         logger.warning("QRadar logging is not enabled due to missing environment variable %s", "QRADAR_HOST")
         return None
 
+    config_dir = os.environ['CONFIG']
     return qradar_client.QRadarClient(
         os.environ['QRADAR_HOST'],
         int(os.environ.get('QRADAR_PORT', "6515")),
         QRADAR_APP_ID, QRADAR_COMP_ID,
         qradar_client.QRadarClient.LOG_USER,
-        os.path.join(self['CONFIG_DIR'], QRADAR_PRIVATE_KEY_FILE),
-        os.path.join(self['CONFIG_DIR'], QRADAR_CERT_FILE),
-        os.path.join(self['CONFIG_DIR'], QRADAR_CA_CERTS_FILE))
+        os.path.join(config_dir, QRADAR_PRIVATE_KEY_FILE),
+        os.path.join(config_dir, QRADAR_CERT_FILE),
+        os.path.join(config_dir, QRADAR_CA_CERTS_FILE))
 
 
-def _log_web_service_auth_succeeded(self, user_name):
+def _log_web_service_auth_succeeded(user_name):
     qradar_client = get_qradar_client()
     if qradar_client is not None:
         method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()
@@ -317,7 +318,7 @@ def _log_web_service_auth_succeeded(self, user_name):
             dest_addr, dest_port)
 
 
-def _log_web_service_auth_failed(self, user_name):
+def _log_web_service_auth_failed(user_name):
     qradar_client = get_qradar_client()
     if qradar_client is not None:
         method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()

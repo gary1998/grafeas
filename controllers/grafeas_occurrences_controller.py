@@ -92,7 +92,7 @@ def create_occurrence(project_id, body):
     context_account_id = context['account_id']
     if context_account_id != subject.account_id:
         if not auth_client.can_write_occurrences_for_others(subject):
-            return common.build_error(HTTPStatus.UNAUTHORIZED, "Not allowed to create occurrences for others")
+            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create occurrences for others")
 
     body['doc_type'] = 'Occurrence'
     body['account_id'] = subject.account_id

@@ -27,7 +27,7 @@ def create_note(project_id, body):
         if not auth_client.can_write_note(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create notes: {}".format(subject))
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, e)
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
 
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
@@ -106,7 +106,7 @@ def update_note(project_id, note_id, body):
         if not auth_client.can_write_note(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to update notes: {}".format(subject))
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, e)
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
 
     body['id'] = note_id
 
@@ -154,7 +154,7 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
         if not auth_client.can_read_note(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to list notes: {}".format(subject))
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, e)
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
 
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
@@ -187,7 +187,7 @@ def get_note(project_id, note_id):
         if not auth_client.can_read_note(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get notes: {}".format(subject))
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, e)
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
 
     try:
         note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
@@ -219,7 +219,7 @@ def get_occurrence_note(project_id, occurrence_id):
         if not auth_client.can_read_note(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get occurrence notes: {}".format(subject))
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, e)
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
@@ -256,7 +256,7 @@ def delete_note(project_id, note_id):
         if not auth_client.can_delete_note(subject):
             return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to delete notes: {}".format(subject))
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, e)
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
 
     try:
         note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)

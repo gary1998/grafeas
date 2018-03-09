@@ -2,9 +2,13 @@ import connexion
 import datetime
 from http import HTTPStatus
 import isodate
+import logging
 from . import common
 from util import auth_util
 from util import exceptions
+
+
+logger = logging.getLogger("grafeas.notes")
 
 
 def create_note(project_id, body):

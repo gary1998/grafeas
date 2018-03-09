@@ -1,8 +1,12 @@
 import connexion
 from http import HTTPStatus
+import logging
 from . import common
 from util import auth_util
 from util import exceptions
+
+
+logger = logging.getLogger("grafeas.projects")
 
 
 def create_project(body):

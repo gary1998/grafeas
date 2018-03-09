@@ -2,10 +2,14 @@ import connexion
 import datetime
 from http import HTTPStatus
 import isodate
+import logging
 from . import common
 from util import auth_util
 from util import dict_util
 from util import exceptions
+
+
+logger = logging.getLogger("grafeas.occurrences")
 
 
 def create_occurrence(project_id, body):

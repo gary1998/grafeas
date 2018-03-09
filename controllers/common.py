@@ -1,10 +1,9 @@
-from flask import request
+
 import logging
 import os
 import threading
 import pepclient
 from util import auth_util
-from util import qradar_client
 from util import cloudant_client
 
 
@@ -262,97 +261,3 @@ def __init_db():
 
     logger.info("DB client initialized.")
     return db
-
-
-#
-# QRADAR
-#
-
-QRADAR_APP_ID = "ng.bluemix.net"
-QRADAR_COMP_ID = "legato"
-QRADAR_PRIVATE_KEY_FILE = "qr_k"
-QRADAR_CERT_FILE = "qr_c"
-QRADAR_CA_CERTS_FILE = "qr_cac"
-
-
-__qradar_client = None
-__qradar_client_lock = threading.Lock()
-
-
-def get_qradar_client():
-    """
-    Opens a new db connection if there is none yet for the current application context.
-    """
-
-    global __qradar_client
-    with __qradar_client_lock:
-        if __qradar_client is None:
-            __qradar_client = _init_qradar_client()
-        return __qradar_client
-
-
-def _init_qradar_client():
-    if 'QRADAR_HOST' not in os.environ:
-        logger.warning("QRadar logging is not enabled due to missing environment variable %s", "QRADAR_HOST")
-        return None
-
-    config_dir = os.environ['CONFIG']
-    return qradar_client.QRadarClient(
-        os.environ['QRADAR_HOST'],
-        int(os.environ.get('QRADAR_PORT', "6515")),
-        QRADAR_APP_ID, QRADAR_COMP_ID,
-        qradar_client.QRadarClient.LOG_USER,
-        os.path.join(config_dir, QRADAR_PRIVATE_KEY_FILE),
-        os.path.join(config_dir, QRADAR_CERT_FILE),
-        os.path.join(config_dir, QRADAR_CA_CERTS_FILE))
-
-
-def _log_web_service_auth_succeeded(user_name):
-    qradar_client = get_qradar_client()
-    if qradar_client is not None:
-        method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()
-        qradar_client.log_web_service_auth_succeeded(
-            method, url, user_name,
-            source_addr, source_port,
-            dest_addr, dest_port)
-
-
-def _log_web_service_auth_failed(user_name):
-    qradar_client = get_qradar_client()
-    if qradar_client is not None:
-        method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()
-        qradar_client.log_web_service_auth_failed(
-            method, url, user_name,
-            source_addr, source_port,
-            dest_addr, dest_port)
-
-
-def _get_request_info():
-    env = request.environ
-    method = env['REQUEST_METHOD']
-    url = request.url
-    source_addr, source_port = _get_request_source()
-    host_n_port = env['HTTP_HOST'].split(':')
-    dest_addr = host_n_port[0]
-    dest_port = host_n_port[1] if len(host_n_port) == 2 else "80"
-    return method, url, source_addr, source_port, dest_addr, dest_port
-
-
-def _get_request_source():
-    env = request.environ
-    headers = request.headers
-
-    if headers.getlist("X-Forwarded-For"):
-        forwarded_for = request.headers.getlist("X-Forwarded-For")[0]
-        source_addrs = forwarded_for.split(',')
-        source_addr = source_addrs[0].strip()
-    else:
-        source_addr = env['REMOTE_ADDR']
-
-    if headers.getlist("X-Forwarded-Port"):
-        forwarded_port = request.headers.get("X-Forwarded-Port")
-        source_port = forwarded_port.strip()
-    else:
-        source_port = env['REMOTE_PORT']
-
-    return (source_addr, source_port)

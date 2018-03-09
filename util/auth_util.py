@@ -1,5 +1,6 @@
 import json
 import jwt
+import os
 import re
 from util import rest_client
 
@@ -15,6 +16,9 @@ class Subject(object):
 
 
 def get_subject(request):
+    if not validate_proto(request):
+        raise ValueError("Only HTTPS connections are allowed")
+
     auth_header = request.headers['Authorization']
     if re.match('bearer ', auth_header, re.I):
         auth_token = auth_header[7:]
@@ -49,6 +53,20 @@ def get_subject(request):
         raise ValueError("Invalid IAM token")
 
     return Subject(subject_id, subject_type, account_id)
+
+
+def validate_proto(request):
+    accept_http = os.environ.get('ACCEPT_HTTP', "false")
+    if accept_http.lower() == 'true':
+        return True
+
+    x_forwarded_proto = request.headers.get("X-Forwarded-Proto")
+    if x_forwarded_proto:
+        proto = x_forwarded_proto.strip()
+        if proto == 'https':
+            return True
+
+    return False
 
 
 def get_identity_token(iam_base_url, api_key):

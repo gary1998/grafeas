@@ -147,22 +147,30 @@ def _init_qradar_client():
 
 def _log_web_service_auth_succeeded(user_name):
     qradar_client = get_qradar_client()
-    if qradar_client is not None:
-        method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()
-        qradar_client.log_web_service_auth_succeeded(
-            method, url, user_name,
-            source_addr, source_port,
-            dest_addr, dest_port)
+    try:
+        if qradar_client is not None:
+            method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()
+            qradar_client.log_web_service_auth_succeeded(
+                method, url, user_name,
+                source_addr, source_port,
+                dest_addr, dest_port)
+    except:
+        # QRadar is not available, skip this
+        logger.exception("Unexpected error while sending 'web service auth succeeded' record to QRadar")
 
 
 def _log_web_service_auth_failed(user_name):
     qradar_client = get_qradar_client()
     if qradar_client is not None:
-        method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()
-        qradar_client.log_web_service_auth_failed(
-            method, url, user_name,
-            source_addr, source_port,
-            dest_addr, dest_port)
+        try:
+            method, url, source_addr, source_port, dest_addr, dest_port = _get_request_info()
+            qradar_client.log_web_service_auth_failed(
+                method, url, user_name,
+                source_addr, source_port,
+                dest_addr, dest_port)
+        except:
+            # QRadar is not available, skip this
+            logger.exception("Unexpected error while sending 'web service auth failed' record to QRadar")
 
 
 def _get_request_info():

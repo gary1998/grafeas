@@ -29,34 +29,45 @@ def create_note(project_id, body):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_write_note(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create notes: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to create notes: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     if 'id' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing required field: 'id'")
+            "Missing required field: 'id'",
+            logger)
 
     note_id = body['id']
     note_name = common.build_note_name(project_id, note_id)
 
     if 'kind' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'kind'")
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'kind'", logger)
 
     kind = body['kind']
 
     if kind not in ['CARD', 'FINDING', 'KPI', 'CARD_CONFIGURED']:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Invalid 'kind' value, only 'CARD', 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed")
+            "Invalid 'kind' value, only 'CARD', 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed",
+            logger)
 
     if kind == 'FINDING' and 'finding' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'FINDING' note: 'finding")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'FINDING' note: 'finding",
+            logger)
     if kind == 'KPI' and 'kpi' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing field for 'KPI' note: 'kpi'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'KPI' note: 'kpi'",
+            logger)
 
     body['doc_type'] = 'Note'
     body['id'] = note_id
@@ -85,7 +96,10 @@ def create_note(project_id, body):
         db.create_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except exceptions.AlreadyExistsError:
-        return common.build_error(HTTPStatus.CONFLICT, "Note already exists: {}".format(note_doc_id))
+        return common.build_error(
+            HTTPStatus.CONFLICT,
+            "Note already exists: {}".format(note_doc_id),
+            logger)
 
 
 def update_note(project_id, note_id, body):
@@ -108,9 +122,12 @@ def update_note(project_id, note_id, body):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_write_note(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to update notes: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to update notes: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     body['id'] = note_id
 
@@ -129,7 +146,10 @@ def update_note(project_id, note_id, body):
         doc = db.update_doc(note_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Note not found: {}".format(note_doc_id),
+            logger)
 
 
 def list_notes(project_id, filter=None, page_size=None, page_token=None):
@@ -156,9 +176,12 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_note(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to list notes: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to list notes: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
@@ -189,16 +212,23 @@ def get_note(project_id, note_id):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_note(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get notes: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to get notes: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(
+            HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     try:
         note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Note not found: {}".format(note_doc_id),
+            logger)
 
 
 def get_occurrence_note(project_id, occurrence_id):
@@ -221,15 +251,21 @@ def get_occurrence_note(project_id, occurrence_id):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_note(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get occurrence notes: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to get occurrence notes: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         occurrence_doc = db.get_doc(occurrence_doc_id)
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Occurrence not found: {}".format(occurrence_doc_id),
+            logger)
 
     try:
         note_name = occurrence_doc['note_name']
@@ -237,7 +273,10 @@ def get_occurrence_note(project_id, occurrence_id):
         doc = db.get_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Note not found: {}".format(note_doc_id),
+            logger)
 
 
 def delete_note(project_id, note_id):
@@ -258,16 +297,22 @@ def delete_note(project_id, note_id):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_delete_note(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to delete notes: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to delete notes: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     try:
         note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
         doc = db.delete_doc(note_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Note not found: {}".format(note_doc_id),
+            logger)
 
 
 def _clean_doc(doc):

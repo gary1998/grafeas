@@ -30,22 +30,31 @@ def create_occurrence(project_id, body):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_write_occurrence(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create occurrences: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to create occurrences: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     replace_if_exists_header_value = connexion.request.headers.get('Replace-If-Exists')
     replace_if_exists = replace_if_exists_header_value is not None and replace_if_exists_header_value.lower() == 'true'
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
     if 'id' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'id'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'id'",
+            logger)
 
     occurrence_id = body['id']
     occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
 
     if 'note_name' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'note_name'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'note_name'",
+            logger)
 
     note_name = body['note_name']
 
@@ -60,43 +69,70 @@ def create_occurrence(project_id, body):
 
         note = db.get_doc(note_doc_id)
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Note not found: {}".format(note_name))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Note not found: {}".format(note_name),
+            logger)
 
     if not note_name.startswith("projects/") and not note['shared']:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, "Occurrence's note is not shared")
+        return common.build_error(
+            HTTPStatus.UNAUTHORIZED,
+            "Occurrence's note is not shared",
+            logger)
 
     if 'kind' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'kind'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'kind'",
+            logger)
 
     kind = body['kind']
 
     if kind not in ['FINDING', 'KPI', 'CARD_CONFIGURED']:
         return common.build_error(
-            HTTPStatus.BAD_REQUEST, "Invalid 'kind' value, only 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed")
+            HTTPStatus.BAD_REQUEST,
+            "Invalid 'kind' value, only 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed",
+            logger)
 
     if kind == 'FINDING' and 'finding' not in body:
         return common.build_error(
-            HTTPStatus.BAD_REQUEST, "Missing field for 'FINDING' occurrence: 'finding'")
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'FINDING' occurrence: 'finding'",
+            logger)
+
     if kind == 'KPI' and 'kpi' not in body:
         return common.build_error(
-            HTTPStatus.BAD_REQUEST, "Missing field for 'KPI' occurrence: 'kpi'")
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'KPI' occurrence: 'kpi'",
+            logger)
+
     if kind == 'CARD_CONFIGURED' and 'card_configured' not in body:
         return common.build_error(
-            HTTPStatus.BAD_REQUEST, "Missing field for 'CARD_CONFIGURED' occurrence: 'card_configured'")
+            HTTPStatus.BAD_REQUEST,
+            "Missing field for 'CARD_CONFIGURED' occurrence: 'card_configured'",
+            logger)
 
     if 'context' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'context'")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'context'",
+            logger)
 
     context = body['context']
 
     if 'account_id' not in context:
         return common.build_error(
-            HTTPStatus.BAD_REQUEST, "Missing required field: 'context.account_id'")
+            HTTPStatus.BAD_REQUEST,
+            "Missing required field: 'context.account_id'",
+            logger)
 
     context_account_id = context['account_id']
     if context_account_id != subject.account_id:
         if not auth_client.can_write_occurrences_for_others(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create occurrences for others")
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to create occurrences for others",
+                logger)
 
     body['doc_type'] = 'Occurrence'
     body['account_id'] = subject.account_id
@@ -125,7 +161,9 @@ def create_occurrence(project_id, body):
         # internalize the security value
         _set_internal_occurrence_severity(body)
     except ValueError as e:
-        return common.build_error(HTTPStatus.BAD_REQUEST, e)
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST, str(e),
+            logger)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
@@ -136,7 +174,10 @@ def create_occurrence(project_id, body):
             doc = db.update_doc(occurrence_doc_id, body)
             return common.build_result(HTTPStatus.OK, _clean_doc(doc))
         else:
-            return common.build_error(HTTPStatus.CONFLICT, "Occurrence already exists: {}".format(occurrence_doc_id))
+            return common.build_error(
+                HTTPStatus.CONFLICT,
+                "Occurrence already exists: {}".format(occurrence_doc_id),
+                logger)
 
 
 def update_occurrence(project_id, occurrence_id, body):
@@ -159,15 +200,24 @@ def update_occurrence(project_id, occurrence_id, body):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_write_occurrence(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to update occurrences: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to update occurrences: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     if 'id' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'id' is missing")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Field 'id' is missing",
+            logger)
 
     if 'note_name' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Field 'note_name' is missing")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Field 'note_name' is missing",
+            logger)
 
     if 'update_time' in body:
         update_datetime = isodate.parse_datetime(body['update_time'])
@@ -186,7 +236,10 @@ def update_occurrence(project_id, occurrence_id, body):
         doc = db.update_doc(occurrence_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Occurrence not found: {}".format(occurrence_doc_id),
+            logger)
 
 
 def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
@@ -211,9 +264,12 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_occurrence(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to list occurrences: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to list occurrences: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
 
@@ -253,9 +309,11 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
         auth_client.can_read_occurrence(subject)
         if not auth_client.can_write_occurrence(subject):
             return common.build_error(
-                HTTPStatus.FORBIDDEN, "Not allowed to update note's occurrences: {}".format(subject))
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to update note's occurrences: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
 
@@ -286,16 +344,22 @@ def get_occurrence(project_id, occurrence_id):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_occurrence(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get occurrences: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to get occurrences: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         doc = db.get_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Occurrence not found: {}".format(occurrence_doc_id),
+            logger)
 
 
 def delete_occurrence(project_id, occurrence_id):
@@ -316,16 +380,22 @@ def delete_occurrence(project_id, occurrence_id):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_delete_occurrence(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to delete occurrences: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to delete occurrences: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     try:
         occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
         doc = db.delete_doc(occurrence_doc_id)
         return common.build_result(HTTPStatus.OK, {})
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Occurrence not found: {}".format(occurrence_doc_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Occurrence not found: {}".format(occurrence_doc_id),
+            logger)
 
 
 def _set_occurrence_defaults(doc, note):

@@ -38,13 +38,16 @@ def build_result(status, data):
     return data, status.value
 
 
-def build_error(status, detail):
+def build_error(status, detail, logger):
+    logger.error("{}: {}".format(status.description, detail))
+
     error = {
         "detail": detail,
         "status": status.value,
         "title": status.description,
         "type": "about:blank"
     }
+
     return error, status.value
 
 

@@ -25,12 +25,18 @@ def create_project(body):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_write_project(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to create projects: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to create projects: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     if 'id' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Project's 'project_id' field is missing")
+        return common.build_error(
+            HTTPStatus.BAD_REQUEST,
+            "Project's 'project_id' field is missing",
+            logger)
 
     project_id = body['id']
     body['doc_type'] = 'Project'
@@ -46,7 +52,10 @@ def create_project(body):
         db.create_doc(project_doc_id, body)
         return common.build_result(HTTPStatus.OK, _clean_doc(body))
     except exceptions.AlreadyExistsError:
-        return common.build_error(HTTPStatus.CONFLICT, "Project already exists: {}".format(project_id))
+        return common.build_error(
+            HTTPStatus.CONFLICT,
+            "Project already exists: {}".format(project_id),
+            logger)
 
 
 def list_projects(filter=None, page_size=None, page_token=None):
@@ -69,9 +78,12 @@ def list_projects(filter=None, page_size=None, page_token=None):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_project(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to list projects: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to list projects: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     docs = db.find(
         filter_={
@@ -98,16 +110,22 @@ def get_project(project_id):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_read_project(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to get projects: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to get projects: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     try:
         project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
         doc = db.get_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Project not found: {}".format(project_id),
+            logger)
 
 
 def delete_project(project_id):
@@ -126,16 +144,22 @@ def delete_project(project_id):
     try:
         subject = auth_util.get_subject(connexion.request)
         if not auth_client.can_delete_project(subject):
-            return common.build_error(HTTPStatus.FORBIDDEN, "Not allowed to delete projects: {}".format(subject))
+            return common.build_error(
+                HTTPStatus.FORBIDDEN,
+                "Not allowed to delete projects: {}".format(subject),
+                logger)
     except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e))
+        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
     try:
         project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
         doc = db.delete_doc(project_doc_id)
         return common.build_result(HTTPStatus.OK, _clean_doc(doc))
     except exceptions.NotFoundError:
-        return common.build_error(HTTPStatus.NOT_FOUND, "Project not found: {}".format(project_id))
+        return common.build_error(
+            HTTPStatus.NOT_FOUND,
+            "Project not found: {}".format(project_id),
+            logger)
 
 
 def _clean_doc(doc):

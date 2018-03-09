@@ -39,7 +39,7 @@ def build_result(status, data):
 
 
 def build_error(status, detail, logger):
-    logger.error("{}: {}".format(status.description, detail))
+    logger.error("{}: {}".format(status.phrase, detail))
 
     error = {
         "detail": detail,
@@ -152,9 +152,9 @@ def get_auth_client():
 
 
 def __init_auth_client():
-    logger.info("Initializing Auth client ...")
+    logger.info("Initializing auth client ...")
     auth_client = GrafeasAuthClient()
-    logger.info("PEP client initialized.")
+    logger.info("Auth client initialized.")
     return auth_client
 
 

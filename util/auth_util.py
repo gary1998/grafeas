@@ -1,5 +1,6 @@
 import json
 import jwt
+import logging
 import os
 import re
 import threading
@@ -8,7 +9,7 @@ from util import qradar_client
 from util import rest_client
 
 
-
+logger = logging.getLogger("grafeas.auth_util")
 
 
 class Subject(object):
@@ -133,7 +134,7 @@ def _init_qradar_client():
         logger.warning("QRadar logging is not enabled due to missing environment variable %s", "QRADAR_HOST")
         return None
 
-    config_dir = os.environ['CONFIG']
+    config_dir = os.environ.get('CONFIG', "config")
     return qradar_client.QRadarClient(
         os.environ['QRADAR_HOST'],
         int(os.environ.get('QRADAR_PORT', "6515")),

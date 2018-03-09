@@ -76,9 +76,8 @@ class QRadarClient(SysLogClient):
         if dest_port is not None:
             payload['dstPort'] = dest_port
 
-        create_datetime = datetime.datetime.utcnow()
-        current_time = create_datetime.timestamp()
-        iso_current_time = current_time.isoformat() + 'Z'
+        current_datetime = datetime.datetime.utcnow()
+        iso_current_time = current_datetime.isoformat() + 'Z'
         message = "1 {} {} {} - - - {}".format(
             iso_current_time,
             self.app_id,

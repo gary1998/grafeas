@@ -424,7 +424,7 @@ def _set_internal_occurrence_severity(doc):
     severity = details.get('severity', 'medium')
     severity_lower = severity.lower()
     if severity_lower not in ['low', 'medium', 'high']:
-        raise ValueError("Invalid severity value: '{}'. Valid values are LOW, MEDIUM, and HIGH".format(severity))
+        raise ValueError("Invalid severity value: {}. Valid values are LOW, MEDIUM, and HIGH".format(severity))
 
     details['severity'] = _INTERNAL_LEVEL_MAP[severity_lower]
 
@@ -433,7 +433,7 @@ def _set_internal_occurrence_severity(doc):
     if certainty is not None:
         certainty_lower = certainty.lower()
         if certainty_lower not in ['low', 'medium', 'high']:
-            raise ValueError("Invalid certainty value: '{}'. Valid values are LOW, MEDIUM, and HIGH".format(certainty))
+            raise ValueError("Invalid certainty value: {}. Valid values are LOW, MEDIUM, and HIGH".format(certainty))
         details['certainty'] = _INTERNAL_LEVEL_MAP[certainty_lower]
 
 

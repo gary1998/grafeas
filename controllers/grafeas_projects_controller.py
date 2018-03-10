@@ -35,7 +35,7 @@ def create_project(body):
     if 'id' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Project's 'project_id' field is missing",
+            "Missing required field: project_id",
             logger)
 
     project_id = body['id']
@@ -54,7 +54,7 @@ def create_project(body):
     except exceptions.AlreadyExistsError:
         return common.build_error(
             HTTPStatus.CONFLICT,
-            "Project already exists: {}".format(project_id),
+            "Project already exists: {}".format(project_doc_id),
             logger)
 
 
@@ -124,7 +124,7 @@ def get_project(project_id):
     except exceptions.NotFoundError:
         return common.build_error(
             HTTPStatus.NOT_FOUND,
-            "Project not found: {}".format(project_id),
+            "Project not found: {}".format(project_doc_id),
             logger)
 
 
@@ -158,7 +158,7 @@ def delete_project(project_id):
     except exceptions.NotFoundError:
         return common.build_error(
             HTTPStatus.NOT_FOUND,
-            "Project not found: {}".format(project_id),
+            "Project not found: {}".format(project_doc_id),
             logger)
 
 

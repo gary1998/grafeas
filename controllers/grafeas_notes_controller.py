@@ -41,32 +41,33 @@ def create_note(project_id, body):
     if 'id' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing required field: 'id'",
+            "Missing required field: id",
             logger)
 
     note_id = body['id']
     note_name = common.build_note_name(project_id, note_id)
 
     if 'kind' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: 'kind'", logger)
+        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: kind", logger)
 
     kind = body['kind']
 
     if kind not in ['CARD', 'FINDING', 'KPI', 'CARD_CONFIGURED']:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Invalid 'kind' value, only 'CARD', 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed",
+            "Invalid 'kind' value: only CARD, CARD_CONFIGURED, FINDING, and KPI are allowed",
             logger)
 
     if kind == 'FINDING' and 'finding' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing field for 'FINDING' note: 'finding",
+            "Missing field for 'FINDING' note: finding",
             logger)
+
     if kind == 'KPI' and 'kpi' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing field for 'KPI' note: 'kpi'",
+            "Missing field for 'KPI' note: kpi",
             logger)
 
     body['doc_type'] = 'Note'

@@ -44,7 +44,7 @@ def create_occurrence(project_id, body):
     if 'id' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing required field: 'id'",
+            "Missing required field: id",
             logger)
 
     occurrence_id = body['id']
@@ -53,7 +53,7 @@ def create_occurrence(project_id, body):
     if 'note_name' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing required field: 'note_name'",
+            "Missing required field: note_name",
             logger)
 
     note_name = body['note_name']
@@ -76,7 +76,7 @@ def create_occurrence(project_id, body):
 
     if not note_name.startswith("projects/") and not note['shared']:
         return common.build_error(
-            HTTPStatus.UNAUTHORIZED,
+            HTTPStatus.FORBIDDEN,
             "Occurrence's note is not shared",
             logger)
 
@@ -91,25 +91,25 @@ def create_occurrence(project_id, body):
     if kind not in ['FINDING', 'KPI', 'CARD_CONFIGURED']:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Invalid 'kind' value, only 'CARD_CONFIGURED', 'FINDING', and 'KPI' are allowed",
+            "Invalid 'kind' value: only CARD_CONFIGURED, FINDING, and KPI are allowed",
             logger)
 
     if kind == 'FINDING' and 'finding' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing field for 'FINDING' occurrence: 'finding'",
+            "Missing field for 'FINDING' occurrence: finding",
             logger)
 
     if kind == 'KPI' and 'kpi' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing field for 'KPI' occurrence: 'kpi'",
+            "Missing field for 'KPI' occurrence: kpi",
             logger)
 
     if kind == 'CARD_CONFIGURED' and 'card_configured' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing field for 'CARD_CONFIGURED' occurrence: 'card_configured'",
+            "Missing field for 'CARD_CONFIGURED' occurrence: card_configured",
             logger)
 
     if 'context' not in body:
@@ -118,16 +118,16 @@ def create_occurrence(project_id, body):
             "Missing required field: 'context'",
             logger)
 
-    context = body['context']
+    resource = body['context']
 
-    if 'account_id' not in context:
+    if 'account_id' not in resource:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Missing required field: 'context.account_id'",
+            "Missing required field: context.account_id",
             logger)
 
-    context_account_id = context['account_id']
-    if context_account_id != subject.account_id:
+    resource_account_id = resource['account_id']
+    if resource_account_id != subject.account_id:
         if not auth_client.can_write_occurrences_for_others(subject):
             return common.build_error(
                 HTTPStatus.FORBIDDEN,
@@ -157,8 +157,7 @@ def create_occurrence(project_id, body):
     try:
         # set occurrence default values from the associated note values
         _set_occurrence_defaults(body, note)
-
-        # internalize the security value
+        # internalize the severity value
         _set_internal_occurrence_severity(body)
     except ValueError as e:
         return common.build_error(
@@ -210,13 +209,13 @@ def update_occurrence(project_id, occurrence_id, body):
     if 'id' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Field 'id' is missing",
+            "Missing required field: id",
             logger)
 
     if 'note_name' not in body:
         return common.build_error(
             HTTPStatus.BAD_REQUEST,
-            "Field 'note_name' is missing",
+            "Missing required field: note_name",
             logger)
 
     if 'update_time' in body:
@@ -425,7 +424,7 @@ def _set_internal_occurrence_severity(doc):
     severity = details.get('severity', 'medium')
     severity_lower = severity.lower()
     if severity_lower not in ['low', 'medium', 'high']:
-        raise ValueError("Invalid severity value: '{}'. Valid values are LOW, MEDIUM, and HIGH.".format(severity))
+        raise ValueError("Invalid severity value: '{}'. Valid values are LOW, MEDIUM, and HIGH".format(severity))
 
     details['severity'] = _INTERNAL_LEVEL_MAP[severity_lower]
 
@@ -434,7 +433,7 @@ def _set_internal_occurrence_severity(doc):
     if certainty is not None:
         certainty_lower = certainty.lower()
         if certainty_lower not in ['low', 'medium', 'high']:
-            raise ValueError("Invalid certainty value: '{}'. Valid values are LOW, MEDIUM, and HIGH.".format(certainty))
+            raise ValueError("Invalid certainty value: '{}'. Valid values are LOW, MEDIUM, and HIGH".format(certainty))
         details['certainty'] = _INTERNAL_LEVEL_MAP[certainty_lower]
 
 

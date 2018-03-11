@@ -188,10 +188,11 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
 
     docs = db.find(
         filter_={
+            'account_id': subject.account_id,
             'doc_type': 'Note',
             'project_doc_id': project_doc_id
         },
-        index="DT_PDI_TS")
+        index="SAI_DT_PDI")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 

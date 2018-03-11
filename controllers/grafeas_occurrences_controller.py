@@ -274,10 +274,11 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
 
     docs = db.find(
         filter_={
+            'context.account_id': subject.account_id,
             'doc_type': 'Occurrence',
             'project_doc_id': project_doc_id
         },
-        index="DT_PDI_TS")
+        index="RAI_DT_PDI")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 
@@ -314,14 +315,17 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     except Exception as e:
         return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
+    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
     note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
 
     docs = db.find(
         filter_={
+            'context.account_id': subject.account_id,
             'doc_type': 'Occurrence',
+            'project_doc_id': project_doc_id,
             'note_doc_id': note_doc_id
         },
-        index="DT_NDI_TS")
+        index="RAI_DT_PDI_NDI")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 

@@ -87,10 +87,10 @@ def list_projects(filter=None, page_size=None, page_token=None):
 
     docs = db.find(
         filter_={
-            'doc_type': 'Project',
-            'account_id': subject.account_id
+            'account_id': subject.account_id,
+            'doc_type': 'Project'
         },
-        index="DT_OAI_TS")
+        index="SAI_DT")
     return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
 
 

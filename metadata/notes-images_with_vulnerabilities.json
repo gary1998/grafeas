@@ -32,7 +32,7 @@
           },
           {
             "kind": "TIME_SERIES",
-            "text": "Images with Vulnerabilities and Config Issues",
+            "text": "Images with Vulnerabilities and Config Issues in the last 7 days",
             "default_interval": "1d",
             "default_time_range": "1w",
             "value_types": [
@@ -129,3 +129,4 @@
     }
   ]
 }
+

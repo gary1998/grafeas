@@ -1,0 +1,132 @@
+{
+  "occurrences": [
+
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv1",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "resource_crn": "container-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv2",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "resource_crn": "container-2",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "HIGH",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwv3",
+      "note_name": "projects/va/notes/container_with_vulnerabilities",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "resource_crn": "container-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwci1",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "resource_crn": "container-1",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "HIGH"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwci2",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "resource_crn": "container-3",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "MEDIUM"
+      }
+    },
+    {
+      "kind": "FINDING",
+      "project_id": "va",
+      "id": "cwci3",
+      "note_name": "projects/va/notes/container_with_config_issues",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "resource_crn": "container-4",
+        "service_crn": "va-1"
+      },
+      "finding": {
+        "severity": "LOW",
+        "certainty": "HIGH"
+      }
+    },
+
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "cwvc1",
+      "note_name": "projects/va/notes/container_with_vulnerabilities_count",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 7,
+        "total": 35
+      }
+    },
+    {
+      "kind": "KPI",
+      "project_id": "va",
+      "id": "cwcic1",
+      "note_name": "projects/va/notes/container_with_config_issues_count",
+      "context": {
+        "region": "US-South",
+        "account_id": "07bf95a005e78385d9238fb552a789ba",
+        "service_crn": "va-1"
+      },
+      "kpi": {
+        "value": 19,
+        "total": 35
+      }
+    }
+  ]
+}

@@ -207,47 +207,47 @@ def __init_db():
     #   finding.severity (optional)
 
     db.create_query_index(
-        "RAI_DT_K_NDI",
+        'RAI_DT_K_NDI',
         ['context.account_id', 'doc_type', 'kind', 'note_doc_id'])
     db.create_query_index(
-        "RAI_DT_K_NDI_TS",
+        'RAI_DT_K_NDI_TS',
         ['context.account_id', 'doc_type', 'kind', 'note_doc_id', 'update_timestamp'])
     db.create_query_index(
-        "RAI_DT_K_PDI",
+        'RAI_DT_K_PDI',
         ['context.account_id', 'doc_type', 'kind', 'project_doc_id'])
     db.create_query_index(
-        "RAI_DT_K_PDI_NDI",
+        'RAI_DT_K_PDI_NDI',
         ['context.account_id', 'doc_type', 'kind', 'project_doc_id', 'note_doc_id'])
     db.create_query_index(
-        "RAI_DT_K_SEV_TS_NDI",
+        'RAI_DT_K_SEV_TS_NDI',
         ['context.account_id', 'doc_type', 'kind', 'finding.severity', 'update_timestamp', 'note_doc_id'])
     db.create_query_index(
-        "RAI_DT_K_SEV_TS_PDI_NDI",
+        'RAI_DT_K_SEV_TS_PDI_NDI',
         ['context.account_id', 'doc_type', 'kind', 'finding.severity', 'update_timestamp', 'project_doc_id', 'note_doc_id'])
     db.create_query_index(
-        "RAI_DT_K_TS_NDI",
+        'RAI_DT_K_TS_NDI',
         ['context.account_id', 'doc_type', 'kind', 'update_timestamp', 'note_doc_id'])
     db.create_query_index(
-        "RAI_DT_K_TS_PDI_NDI",
+        'RAI_DT_K_TS_PDI_NDI',
         ['context.account_id', 'doc_type', 'kind', 'update_timestamp', 'project_doc_id', 'note_doc_id'])
     db.create_query_index(
-        "RAI_DT_NDI_K_TS",
+        'RAI_DT_NDI_K_TS',
         ['context.account_id', 'doc_type', 'note_doc_id', 'kind', 'update_timestamp'])
     db.create_query_index(
-        "RAI_DT_PDI",
+        'RAI_DT_PDI',
         ['context.account_id', 'doc_type', 'project_doc_id'])
     db.create_query_index(
-        "RAI_DT_PDI_NDI",
+        'RAI_DT_PDI_NDI',
         ['context.account_id', 'doc_type', 'project_doc_id', 'note_doc_id'])
     db.create_query_index(
-        "SAI_DT",
-        ['account_id", doc_type'])
+        'SAI_DT',
+        ['account_id', 'doc_type'])
     db.create_query_index(
-        "SAI_DT_K_PDI_S",
-        ['account_id", doc_type', 'kind', 'project_doc_id', 'shared'])
+        'SAI_DT_K_PDI_S',
+        ['account_id', 'doc_type', 'kind', 'project_doc_id', 'shared'])
     db.create_query_index(
-        "SAI_DT_PDI",
-        ['account_id", doc_type', 'project_doc_id'])
+        'SAI_DT_PDI',
+        ['account_id', 'doc_type', 'project_doc_id'])
 
 
 

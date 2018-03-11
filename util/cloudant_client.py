@@ -25,7 +25,7 @@ class CloudantDatabase(object):
 
     def _disconnect(self):
         try:
-            self.disconnect()
+            self.client.disconnect()
         except requests.exceptions.HTTPError:
             logger.exception(
                 "An error was encountered while disconnecting cloudant client: url='%s', user='%s'",
@@ -119,8 +119,8 @@ class CloudantDatabase(object):
             except requests.exceptions.HTTPError as e:
                 logger.exception(
                     "An error was encountered while getting query result: url='%s', user='%s', request-body=%s",
-                    self.client.url,
-                    self.client.username,
+                    self.url,
+                    self.username,
                     e.request.body)
                 self._reconnect()
                 return self.db.get_query_result(

@@ -33,7 +33,7 @@
           {
             "kind": "TIME_SERIES",
             "text": "Containers with Vulnerabilities and Config Issues in the last 7 days",
-            "default_frequency": "1d",
+            "default_interval": "d",
             "default_time_range": "7d",
             "value_types": [
               {

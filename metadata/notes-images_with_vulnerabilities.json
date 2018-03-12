@@ -33,7 +33,7 @@
           {
             "kind": "TIME_SERIES",
             "text": "Images with Vulnerabilities and Config Issues in the last 7 days",
-            "default_frequency": "d",
+            "default_interval": "d",
             "default_time_range": "7d",
             "value_types": [
               {

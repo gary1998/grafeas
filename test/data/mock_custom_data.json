@@ -39,7 +39,7 @@
           {
             "kind": "TIME_SERIES",
             "text": "My Findings 1 and 2",
-            "default_interval": "1d",
+            "default_interval": "d",
             "default_time_range": "1w",
             "value_types": [
               {

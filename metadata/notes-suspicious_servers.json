@@ -91,7 +91,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "MEDIUM"
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "Learn why the external server was flagged as an anonymized server",
+            "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Investigate which process are running in your cluster. If you suspect one of your pods was hacked, restart it, and look for image vulnerabilities"
+          }
+        ]
       }
     },
     {
@@ -106,7 +115,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "LOW"
+        "severity": "HIGH",
+        "next_steps": [
+          {
+          "title": "Learn why the external server was flagged as a suspected bot",
+          "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Investigate which process are running in your cluster. If you suspect one of your pods was hacked, restart it, and look for image vulnerabilities"
+          }
+        ]
       }
     },
     {
@@ -121,7 +139,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "HIGH"
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "Learn why the external server was flagged as a suspected malware distributer",
+            "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Investigate which process are running in your cluster. If you suspect one of your pods was hacked, restart it, and look for image vulnerabilities"
+          }
+        ]
       }
     },
     {
@@ -136,7 +163,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "MEDIUM"
+        "severity": "MEDIUM",
+        "next_steps": [
+          {
+            "title": "Learn why the external server was flagged as a scanner",
+            "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Investigate which process are running in your cluster. If you suspect one of your pods was hacked, restart it, and look for image vulnerabilities"
+          }
+        ]
       }
     },
     {

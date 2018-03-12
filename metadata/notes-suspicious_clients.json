@@ -34,7 +34,7 @@
           {
             "kind": "TIME_SERIES",
             "text": "Types of suspicious clients in the last 7 days",
-            "default_interval": "1d",
+            "default_frequency": "d",
             "default_time_range": "7d",
             "value_types": [
               {
@@ -82,7 +82,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "MEDIUM"
+        "severity": "MEDIUM",
+        "next_steps": [
+          {
+            "title": "Learn why this client was flagged as an anonymizing client",
+            "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Consider protecting your cluster with additional network protection coverage"
+          }
+        ]
       }
     },
     {
@@ -97,7 +106,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "LOW"
+        "severity": "MEDIUM",
+        "next_steps": [
+          {
+            "title": "Learn why this client was flagged as a suspected bot",
+            "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Consider protecting your cluster with additional network protection coverage"
+          }
+        ]
       }
     },
     {
@@ -112,7 +130,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "HIGH"
+        "severity": "HIGH",
+        "next_steps": [
+          {
+            "title": "Learn why this client was flagged as a suspected malware distributer",
+            "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Consider protecting your cluster with additional network protection coverage"
+          }
+        ]
       }
     },
     {
@@ -127,7 +154,16 @@
         "href": "https://www.ibm.com/security/xforce"
       },
       "finding": {
-        "severity": "MEDIUM"
+        "severity": "LOW",
+        "next_steps": [
+          {
+            "title": "Learn why this client was flagged as a suspected scanner",
+            "url": "https://exchange.xforce.ibmcloud.com/"
+          },
+          {
+            "title": "Consider protecting your cluster with additional network protection coverage"
+          }
+        ]
       }
     }
   ]

@@ -186,26 +186,6 @@ def __init_db():
         os.environ['GRAFEAS_USERNAME'],
         os.environ['GRAFEAS_PASSWORD'])
 
-    # Occurrences are partitioned by:
-    #   account_id
-    # and filtered by:
-    #   projectId (optional, defaul = all projects)
-    #   kind (optional, default = all kinds)
-
-    db.create_query_index(
-        "DT_OAI_TS",
-        ['doc_type', 'account_id', 'update_timestamp'])
-
-    # Occurrences are partitioned by:
-    #   resource.account_id
-    # filtered by:
-    #   projectId (optional, defaul = all projects)
-    #   kind (optional, default = all kinds)
-    #   note_name (optional, default = all note names )
-    # and sorted by:
-    #   update_timestamp (default)
-    #   finding.severity (optional)
-
     db.create_query_index(
         'RAI_DT_K_NDI',
         ['context.account_id', 'doc_type', 'kind', 'note_doc_id'])
@@ -248,10 +228,6 @@ def __init_db():
     db.create_query_index(
         'SAI_DT_PDI',
         ['account_id', 'doc_type', 'project_doc_id'])
-
-
-
-
 
     # 2018-04-15T16:30:00
     db.add_view(

@@ -146,7 +146,7 @@
         "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
-        "severity": "HIGH",
+        "severity": "HIGH"
         "next_steps": [
           {
             "title": "Find your certificate."

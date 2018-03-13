@@ -1,6 +1,6 @@
-from . import BaseTestCase
 from flask import json
 from http import HTTPStatus
+from .common_test import BaseTestCase
 
 
 class TestGrafeasProjectsController(BaseTestCase):

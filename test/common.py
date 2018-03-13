@@ -1,4 +1,3 @@
-from requests import HTTPError
 import json
 import os
 from util import rest_client
@@ -26,7 +25,7 @@ class CommonTest(object):
     def post(self, url, data, headers=None):
         try:
             return self.client.post(url, data, headers)
-        except HTTPError as e:
+        except:
             return None
 
     def get(self, url, headers=None):

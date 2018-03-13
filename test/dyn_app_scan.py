@@ -1,7 +1,11 @@
-from http import HTTPStatus
 import json
 import os
 from test import common
+
+
+OK = 200
+NOT_FOUND = 404
+CONFLICT = 409
 
 
 class DynAppScan(common.CommonTest):
@@ -18,7 +22,7 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.post_project(body)
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_create_duplicate_project(self):
         body = {
@@ -26,15 +30,15 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.post_project(body)
-        self.assert_status(response, HTTPStatus.CONFLICT)
+        self.assert_status(response, CONFLICT)
 
     def test_get_project(self):
         response = self.get_project("project01")
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_list_projects(self):
         response = self.get_projects()
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
         results = json.loads(response.content.decode('utf-8'))
         self.assert_true(len(results) > 0, "An array of one or more projects was expected.")
 
@@ -55,7 +59,7 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.post_note('project01', body)
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_create_duplicate_note(self):
         body = {
@@ -69,15 +73,15 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.post_note('project01', body)
-        self.assert_status(response, HTTPStatus.CONFLICT)
+        self.assert_status(response, CONFLICT)
 
     def test_get_note(self):
         response = self.get_note('project01', 'Note01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_list_notes(self):
         response = self.get_notes('project01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
         results = json.loads(response.content.decode('utf-8'))
         self.assert_true(len(results) > 0, "An array of one or more notes was expected.")
 
@@ -93,7 +97,7 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.put_note('project01', 'Note01', body)
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
 
 #
@@ -116,7 +120,7 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.post_occurrence('project01', body)
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_create_duplicate_occurrence(self):
         body = {
@@ -134,7 +138,7 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.post_occurrence('project01', body)
-        self.assert_status(response, HTTPStatus.CONFLICT)
+        self.assert_status(response, CONFLICT)
 
     def test_create_or_update_occurrence(self):
         body = {
@@ -152,25 +156,25 @@ class DynAppScan(common.CommonTest):
         }
 
         response = self.post_or_put_occurrence('project01', body)
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_get_occurrence(self):
         response = self.get_occurrence('project01', 'Occurrence01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_get_occurrence_note(self):
         response = self.get_occurrence_note('project01', 'Occurrence01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_list_occurrences(self):
         response = self.get_occurrences('project01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
         results = json.loads(response.content.decode('utf-8'))
         self.assert_true(len(results) > 0, "A array of one ore more occurrences was expected.")
 
     def test_list_note_occurrences(self):
         response = self.get_note_occurrences('project01', 'Note01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
         results = json.loads(response.content.decode('utf-8'))
         self.assert_true(len(results) > 0, "An array of one or more occurrences was expected.")
 
@@ -182,27 +186,27 @@ class DynAppScan(common.CommonTest):
 
     def test_delete_occurrence(self):
         response = self.delete_occurrence('project01', 'Occurrence01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_delete_missing_occurrence(self):
         response = self.delete_occurrence('project01', 'Occurrence01')
-        self.assert_status(response, HTTPStatus.NOT_FOUND)
+        self.assert_status(response, NOT_FOUND)
 
     def test_delete_note(self):
         response = self.delete_note('project01', 'Note01')
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_delete_missing_note(self):
         response = self.delete_note('project01', 'Note01')
-        self.assert_status(response, HTTPStatus.NOT_FOUND)
+        self.assert_status(response, NOT_FOUND)
 
     def test_delete_project(self):
         response = self.delete_project("project01")
-        self.assert_status(response, HTTPStatus.OK)
+        self.assert_status(response, OK)
 
     def test_delete_missing_project(self):
         response = self.delete_project("project01")
-        self.assert_status(response, HTTPStatus.NOT_FOUND)
+        self.assert_status(response, NOT_FOUND)
 
 
 if __name__ == '__main__':

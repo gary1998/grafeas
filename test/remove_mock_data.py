@@ -1,7 +1,8 @@
 from flask import json
 from http import HTTPStatus
 import os
-from .common_test import BaseTestCase
+from .common_ut import BaseTestCase
+
 
 FILE_NAMES = [
     "card_configured_data.json"

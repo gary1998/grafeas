@@ -1,6 +1,6 @@
 import json
 from util import dict_util
-from .common_test import BaseTestCase
+from .common_ut import BaseTestCase
 
 
 class TestMockData(BaseTestCase):

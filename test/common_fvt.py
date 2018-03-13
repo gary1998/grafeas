@@ -3,7 +3,7 @@ import os
 from util import rest_client
 
 
-class CommonTest(object):
+class CommonFVT(object):
     def __init__(self, api_base_url):
         self.client = rest_client.RestClient()
         self.client.add_header("Accept", "application/json")

@@ -1,6 +1,6 @@
 from flask import json
 from http import HTTPStatus
-from .common_test import BaseTestCase
+from .common_ut import BaseTestCase
 
 
 class TestGrafeasOccurrencesController(BaseTestCase):

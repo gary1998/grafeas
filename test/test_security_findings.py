@@ -1,6 +1,6 @@
 from flask import json
 from http import HTTPStatus
-from .common_test import BaseTestCase
+from .common_ut import BaseTestCase
 
 
 XFORCE_PROJECT = {
@@ -30,11 +30,11 @@ ALERT_NOTE_1 = {
         "next_steps": [
             {
                 "title": "Check information about the external suspected server",
-                "href": " https://exchange.xforce.ibmcloud.com/"
+                "url": " https://exchange.xforce.ibmcloud.com/"
             },
             {
                 "title": "Check the pod to see what is running and which executable is sending out this communication",
-                "href": " http:// text documentation"
+                "url": " http:// text documentation"
 
             }
         ]
@@ -73,7 +73,7 @@ ALERT_OCCURRENCE_1_1 = {
         },
         "next_steps": [
             {
-                "href": " https://exchange.xforce.ibmcloud.com/ip/111.90.147.66"
+                "url": " https://exchange.xforce.ibmcloud.com/ip/111.90.147.66"
             }
         ]
     }
@@ -196,7 +196,7 @@ ALERT_NOTE_3 = {
             },
             {
                 "title": "Examine which process in the Pod is sending out the excessive data",
-                "href": " http:// text documentation"
+                "url": " http:// text documentation"
             }
         ]
     }

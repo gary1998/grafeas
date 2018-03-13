@@ -1,6 +1,6 @@
 import json
 import os
-from test import common
+from test import common_fvt
 
 
 OK = 200
@@ -8,7 +8,7 @@ NOT_FOUND = 404
 CONFLICT = 409
 
 
-class DynAppScan(common.CommonTest):
+class DynAppScan(common_fvt.CommonFVT):
     def __init__(self, api_base_url):
         super().__init__(api_base_url)
 

@@ -179,7 +179,6 @@ class DynAppScan(common_fvt.CommonFVT):
         self.assert_true(len(results) > 0, "An array of one or more occurrences was expected.")
 
 
-
     #
     # Cleanup
     #

@@ -15,7 +15,7 @@ class CommonFVT(object):
         if response is None:
             print("FAILURE - Exception raised (no response)")
         elif response.status_code == status_code:
-            print("OK")
+            print("OK: {}".format(response.content.decode('utf-8')))
         else:
             print("FAILURE: {}".format(response.content.decode('utf-8')))
 

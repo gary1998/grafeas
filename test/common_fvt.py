@@ -27,28 +27,28 @@ class CommonFVT(object):
 
     def post(self, url, data, headers=None):
         try:
-            return self.client.post(url, data, headers)
+            return self.client.post(url, data, headers, verify=False)
         except HTTPError as e:
             print(e)
             return None
 
     def get(self, url, headers=None):
         try:
-            return self.client.get(url, headers)
+            return self.client.get(url, headers, verify=False)
         except HTTPError as e:
             print(e)
             return None
 
     def put(self, url, data, headers=None):
         try:
-            return self.client.put(url, data, headers)
+            return self.client.put(url, data, headers, verify=False)
         except HTTPError as e:
             print(e)
             return None
 
     def delete(self, url, headers=None):
         try:
-            return self.client.delete(url, headers)
+            return self.client.delete(url, headers, verify=False)
         except HTTPError as e:
             print(e)
             return None

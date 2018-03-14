@@ -14,10 +14,13 @@ class CommonFVT(object):
     def assert_status(self, response, status_code):
         if response is None:
             print("FAILURE - Exception raised (no response)")
-        elif response.status_code == status_code:
+            return
+
+        if response.status_code == status_code:
             print("OK: {}".format(response.content.decode('utf-8')))
         else:
             print("FAILURE: {}".format(response.content.decode('utf-8')))
+        print("Response Headers: {}".format(response.headers))
 
     def assert_true(self, value, message):
             if value:

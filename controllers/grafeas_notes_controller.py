@@ -23,84 +23,88 @@ def create_note(project_id, body):
     :rtype: ApiNote
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_write_note(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_write_note(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to create notes: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
+
+        if 'id' not in body:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to create notes: {}".format(subject),
+                HTTPStatus.BAD_REQUEST,
+                "Missing required field: id",
                 logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
-    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
+        note_id = body['id']
+        note_name = common.build_note_name(project_id, note_id)
 
-    if 'id' not in body:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Missing required field: id",
-            logger)
+        if 'kind' not in body:
+            return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: kind", logger)
 
-    note_id = body['id']
-    note_name = common.build_note_name(project_id, note_id)
+        kind = body['kind']
 
-    if 'kind' not in body:
-        return common.build_error(HTTPStatus.BAD_REQUEST, "Missing required field: kind", logger)
+        if kind not in ['CARD', 'FINDING', 'KPI', 'CARD_CONFIGURED']:
+            return common.build_error(
+                HTTPStatus.BAD_REQUEST,
+                "Invalid 'kind' value: only CARD, CARD_CONFIGURED, FINDING, and KPI are allowed",
+                logger)
 
-    kind = body['kind']
+        if kind == 'FINDING' and 'finding' not in body:
+            return common.build_error(
+                HTTPStatus.BAD_REQUEST,
+                "Missing field for 'FINDING' note: finding",
+                logger)
 
-    if kind not in ['CARD', 'FINDING', 'KPI', 'CARD_CONFIGURED']:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Invalid 'kind' value: only CARD, CARD_CONFIGURED, FINDING, and KPI are allowed",
-            logger)
+        if kind == 'KPI' and 'kpi' not in body:
+            return common.build_error(
+                HTTPStatus.BAD_REQUEST,
+                "Missing field for 'KPI' note: kpi",
+                logger)
 
-    if kind == 'FINDING' and 'finding' not in body:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Missing field for 'FINDING' note: finding",
-            logger)
+        body['doc_type'] = 'Note'
+        body['id'] = note_id
+        body['account_id'] = subject.account_id
+        body['project_id'] = project_id
+        body['name'] = note_name
+        body['project_doc_id'] = project_doc_id
 
-    if kind == 'KPI' and 'kpi' not in body:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Missing field for 'KPI' note: kpi",
-            logger)
+        if 'create_time' in body:
+            create_datetime = isodate.parse_datetime(body['create_time'])
+            create_timestamp = create_datetime.timestamp()
+        else:
+            create_datetime = datetime.datetime.utcnow()
+            create_timestamp = create_datetime.timestamp()
+            body['create_time'] = create_datetime.isoformat() + 'Z'
+        body['update_time'] = body['create_time']
+        body['create_timestamp'] = create_timestamp
+        body['update_timestamp'] = create_timestamp
+        body['update_week_date'] = _week_date_iso_format(create_datetime.isocalendar())
 
-    body['doc_type'] = 'Note'
-    body['id'] = note_id
-    body['account_id'] = subject.account_id
-    body['project_id'] = project_id
-    body['name'] = note_name
-    body['project_doc_id'] = project_doc_id
+        if 'shared' not in body:
+            body['shared'] = True
 
-    if 'create_time' in body:
-        create_datetime = isodate.parse_datetime(body['create_time'])
-        create_timestamp = create_datetime.timestamp()
-    else:
-        create_datetime = datetime.datetime.utcnow()
-        create_timestamp = create_datetime.timestamp()
-        body['create_time'] = create_datetime.isoformat() + 'Z'
-    body['update_time'] = body['create_time']
-    body['create_timestamp'] = create_timestamp
-    body['update_timestamp'] = create_timestamp
-    body['update_week_date'] = _week_date_iso_format(create_datetime.isocalendar())
-
-    if 'shared' not in body:
-        body['shared'] = True
-
-    try:
-        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
-        db.create_doc(note_doc_id, body)
-        return common.build_result(HTTPStatus.OK, _clean_doc(body))
-    except exceptions.AlreadyExistsError:
-        return common.build_error(
-            HTTPStatus.CONFLICT,
-            "Note already exists: {}".format(note_doc_id),
-            logger)
+        try:
+            note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
+            db.create_doc(note_doc_id, body)
+            return common.build_result(HTTPStatus.OK, _clean_doc(body))
+        except exceptions.AlreadyExistsError:
+            return common.build_error(
+                HTTPStatus.CONFLICT,
+                "Note already exists: {}".format(note_doc_id),
+                logger)
+    except:
+        logger.exception("An unexpected error was encountered while creating a note")
+        raise
 
 
 def update_note(project_id, note_id, body):
@@ -117,40 +121,44 @@ def update_note(project_id, note_id, body):
     :rtype: ApiNote
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_write_note(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_write_note(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to update notes: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        body['id'] = note_id
+
+        if 'update_time' in body:
+            update_datetime = isodate.parse_datetime(body['update_time'])
+            update_timestamp = update_datetime.timestamp()
+        else:
+            update_datetime = datetime.datetime.utcnow()
+            update_timestamp = update_datetime.timestamp()
+            body['update_time'] = update_datetime.isoformat() + 'Z'
+        body['update_timestamp'] = update_timestamp
+        body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
+
+        try:
+            note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
+            doc = db.update_doc(note_doc_id, body)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except exceptions.NotFoundError:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to update notes: {}".format(subject),
+                HTTPStatus.NOT_FOUND,
+                "Note not found: {}".format(note_doc_id),
                 logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-    body['id'] = note_id
-
-    if 'update_time' in body:
-        update_datetime = isodate.parse_datetime(body['update_time'])
-        update_timestamp = update_datetime.timestamp()
-    else:
-        update_datetime = datetime.datetime.utcnow()
-        update_timestamp = update_datetime.timestamp()
-        body['update_time'] = update_datetime.isoformat() + 'Z'
-    body['update_timestamp'] = update_timestamp
-    body['update_week_date'] = _week_date_iso_format(update_datetime.isocalendar())
-
-    try:
-        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
-        doc = db.update_doc(note_doc_id, body)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(
-            HTTPStatus.NOT_FOUND,
-            "Note not found: {}".format(note_doc_id),
-            logger)
+    except:
+        logger.exception("An unexpected error was encountered while updating a note")
+        raise
 
 
 def list_notes(project_id, filter=None, page_size=None, page_token=None):
@@ -171,29 +179,33 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     :rtype: ApiListNotesResponse
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_read_note(subject):
-            return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to list notes: {}".format(subject),
-                logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+        db = common.get_db()
+        auth_client = common.get_auth_client()
 
-    project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_read_note(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to list notes: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
-    docs = db.find(
-        filter_={
-            'account_id': subject.account_id,
-            'doc_type': 'Note',
-            'project_doc_id': project_doc_id
-        },
-        index="SAI_DT_PDI")
-    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
+
+        docs = db.find(
+            filter_={
+                'account_id': subject.account_id,
+                'doc_type': 'Note',
+                'project_doc_id': project_doc_id
+            },
+            index="SAI_DT_PDI")
+        return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+    except:
+        logger.exception("An unexpected error was encountered while listing notes")
+        raise
 
 
 def get_note(project_id, note_id):
@@ -208,29 +220,33 @@ def get_note(project_id, note_id):
     :rtype: ApiNote
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_read_note(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_read_note(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to get notes: {}".format(subject),
+                    logger)
+        except Exception as e:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to get notes: {}".format(subject),
-                logger)
-    except Exception as e:
-        return common.build_error(
-            HTTPStatus.UNAUTHORIZED, str(e), logger)
+                HTTPStatus.UNAUTHORIZED, str(e), logger)
 
-    try:
-        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
-        doc = db.get_doc(note_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(
-            HTTPStatus.NOT_FOUND,
-            "Note not found: {}".format(note_doc_id),
-            logger)
+        try:
+            note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
+            doc = db.get_doc(note_doc_id)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except exceptions.NotFoundError:
+            return common.build_error(
+                HTTPStatus.NOT_FOUND,
+                "Note not found: {}".format(note_doc_id),
+                logger)
+    except:
+        logger.exception("An unexpected error was encountered while getting a note")
+        raise
 
 
 def get_occurrence_note(project_id, occurrence_id):
@@ -247,38 +263,42 @@ def get_occurrence_note(project_id, occurrence_id):
     :rtype: ApiNote
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_read_note(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_read_note(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to get occurrence notes: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        try:
+            occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
+            occurrence_doc = db.get_doc(occurrence_doc_id)
+        except exceptions.NotFoundError:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to get occurrence notes: {}".format(subject),
+                HTTPStatus.NOT_FOUND,
+                "Occurrence not found: {}".format(occurrence_doc_id),
                 logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
-    try:
-        occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
-        occurrence_doc = db.get_doc(occurrence_doc_id)
-    except exceptions.NotFoundError:
-        return common.build_error(
-            HTTPStatus.NOT_FOUND,
-            "Occurrence not found: {}".format(occurrence_doc_id),
-            logger)
-
-    try:
-        note_name = occurrence_doc['note_name']
-        note_doc_id = "{}/{}".format(subject.account_id, note_name)
-        doc = db.get_doc(note_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(
-            HTTPStatus.NOT_FOUND,
-            "Note not found: {}".format(note_doc_id),
-            logger)
+        try:
+            note_name = occurrence_doc['note_name']
+            note_doc_id = "{}/{}".format(subject.account_id, note_name)
+            doc = db.get_doc(note_doc_id)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except exceptions.NotFoundError:
+            return common.build_error(
+                HTTPStatus.NOT_FOUND,
+                "Note not found: {}".format(note_doc_id),
+                logger)
+    except:
+        logger.exception("An unexpected error was encountered while getting an occurrence's note")
+        raise
 
 
 def delete_note(project_id, note_id):
@@ -293,28 +313,32 @@ def delete_note(project_id, note_id):
     :rtype: ApiEmpty
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_delete_note(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_delete_note(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to delete notes: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        try:
+            note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
+            doc = db.delete_doc(note_doc_id)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except exceptions.NotFoundError:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to delete notes: {}".format(subject),
+                HTTPStatus.NOT_FOUND,
+                "Note not found: {}".format(note_doc_id),
                 logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-    try:
-        note_doc_id = common.build_note_doc_id(subject.account_id, project_id, note_id)
-        doc = db.delete_doc(note_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(
-            HTTPStatus.NOT_FOUND,
-            "Note not found: {}".format(note_doc_id),
-            logger)
+    except:
+        logger.exception("An unexpected error was encountered while deleting a note")
+        raise
 
 
 def _clean_doc(doc):

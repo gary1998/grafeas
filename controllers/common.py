@@ -38,8 +38,8 @@ def build_result(status, data):
     return data, status.value
 
 
-def build_error(status, detail, logger):
-    logger.error("{}: {}".format(status.phrase, detail))
+def build_error(status, detail, module_logger):
+    module_logger.error("{}: {}".format(status.phrase, detail))
 
     error = {
         "detail": detail,

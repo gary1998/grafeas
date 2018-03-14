@@ -19,43 +19,47 @@ def create_project(body):
     :rtype: ApiEmpty
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_write_project(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_write_project(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to create projects: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        if 'id' not in body:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to create projects: {}".format(subject),
+                HTTPStatus.BAD_REQUEST,
+                "Missing required field: project_id",
                 logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
-    if 'id' not in body:
-        return common.build_error(
-            HTTPStatus.BAD_REQUEST,
-            "Missing required field: project_id",
-            logger)
+        project_id = body['id']
+        body['doc_type'] = 'Project'
+        body['account_id'] = subject.account_id
+        body['id'] = project_id
+        body['name'] = common.build_project_name(project_id)
 
-    project_id = body['id']
-    body['doc_type'] = 'Project'
-    body['account_id'] = subject.account_id
-    body['id'] = project_id
-    body['name'] = common.build_project_name(project_id)
+        if 'shared' not in body:
+            body['shared'] = True
 
-    if 'shared' not in body:
-        body['shared'] = True
-
-    try:
-        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
-        db.create_doc(project_doc_id, body)
-        return common.build_result(HTTPStatus.OK, _clean_doc(body))
-    except exceptions.AlreadyExistsError:
-        return common.build_error(
-            HTTPStatus.CONFLICT,
-            "Project already exists: {}".format(project_doc_id),
-            logger)
+        try:
+            project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
+            db.create_doc(project_doc_id, body)
+            return common.build_result(HTTPStatus.OK, _clean_doc(body))
+        except exceptions.AlreadyExistsError:
+            return common.build_error(
+                HTTPStatus.CONFLICT,
+                "Project already exists: {}".format(project_doc_id),
+                logger)
+    except:
+        logger.exception("An unexpected error was encountered while creating a project")
+        raise
 
 
 def list_projects(filter=None, page_size=None, page_token=None):
@@ -72,26 +76,30 @@ def list_projects(filter=None, page_size=None, page_token=None):
     :rtype: ApiListProjectsResponse
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_read_project(subject):
-            return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to list projects: {}".format(subject),
-                logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+        db = common.get_db()
+        auth_client = common.get_auth_client()
 
-    docs = db.find(
-        filter_={
-            'account_id': subject.account_id,
-            'doc_type': 'Project'
-        },
-        index="SAI_DT")
-    return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_read_project(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to list projects: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        docs = db.find(
+            filter_={
+                'account_id': subject.account_id,
+                'doc_type': 'Project'
+            },
+            index="SAI_DT")
+        return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+    except:
+        logger.exception("An unexpected error was encountered while listing projects")
+        raise
 
 
 def get_project(project_id):
@@ -104,28 +112,32 @@ def get_project(project_id):
     :rtype: ApiProject
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_read_project(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_read_project(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to get projects: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        try:
+            project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
+            doc = db.get_doc(project_doc_id)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except exceptions.NotFoundError:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to get projects: {}".format(subject),
+                HTTPStatus.NOT_FOUND,
+                "Project not found: {}".format(project_doc_id),
                 logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-    try:
-        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
-        doc = db.get_doc(project_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(
-            HTTPStatus.NOT_FOUND,
-            "Project not found: {}".format(project_doc_id),
-            logger)
+    except:
+        logger.exception("An unexpected error was encountered while getting a project")
+        raise
 
 
 def delete_project(project_id):
@@ -138,28 +150,32 @@ def delete_project(project_id):
     :rtype: ApiEmpty
     """
 
-    db = common.get_db()
-    auth_client = common.get_auth_client()
-
     try:
-        subject = auth_util.get_subject(connexion.request)
-        if not auth_client.can_delete_project(subject):
+        db = common.get_db()
+        auth_client = common.get_auth_client()
+
+        try:
+            subject = auth_util.get_subject(connexion.request)
+            if not auth_client.can_delete_project(subject):
+                return common.build_error(
+                    HTTPStatus.FORBIDDEN,
+                    "Not allowed to delete projects: {}".format(subject),
+                    logger)
+        except Exception as e:
+            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
+
+        try:
+            project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
+            doc = db.delete_doc(project_doc_id)
+            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
+        except exceptions.NotFoundError:
             return common.build_error(
-                HTTPStatus.FORBIDDEN,
-                "Not allowed to delete projects: {}".format(subject),
+                HTTPStatus.NOT_FOUND,
+                "Project not found: {}".format(project_doc_id),
                 logger)
-    except Exception as e:
-        return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-    try:
-        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
-        doc = db.delete_doc(project_doc_id)
-        return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-    except exceptions.NotFoundError:
-        return common.build_error(
-            HTTPStatus.NOT_FOUND,
-            "Project not found: {}".format(project_doc_id),
-            logger)
+    except:
+        logger.exception("An unexpected error was encountered while deleting a project")
+        raise
 
 
 def _clean_doc(doc):

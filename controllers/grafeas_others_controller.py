@@ -1,5 +1,14 @@
+import logging
+
+
+logger = logging.getLogger("grafeas.occurrences")
+
 
 def get_home_page():
-    with open('static/index.html', 'r') as f:
-        data = f.read()
-        return data
+    try:
+        with open('static/index.html', 'r') as f:
+            data = f.read()
+            return data
+    except:
+        logger.exception("An unexpected error was encountered while getting the home page")
+        raise

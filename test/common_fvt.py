@@ -1,6 +1,7 @@
 import json
 import os
 from util import rest_client
+from requests import HTTPError
 
 
 class CommonFVT(object):
@@ -12,9 +13,11 @@ class CommonFVT(object):
 
     def assert_status(self, response, status_code):
         if response is None:
-            print("FAILURE")
+            print("FAILURE - Exception raised (no response)")
+        elif response.status_code == status_code:
+            print("OK")
         else:
-            print("OK" if response.status_code == status_code else "FAILURE")
+            print("FAILURE: {}".format(response.content.decode('utf-8')))
 
     def assert_true(self, value, message):
             if value:
@@ -25,25 +28,29 @@ class CommonFVT(object):
     def post(self, url, data, headers=None):
         try:
             return self.client.post(url, data, headers)
-        except:
+        except HTTPError as e:
+            print(e)
             return None
 
     def get(self, url, headers=None):
         try:
             return self.client.get(url, headers)
-        except:
+        except HTTPError as e:
+            print(e)
             return None
 
     def put(self, url, data, headers=None):
         try:
             return self.client.put(url, data, headers)
-        except:
+        except HTTPError as e:
+            print(e)
             return None
 
     def delete(self, url, headers=None):
         try:
             return self.client.delete(url, headers)
-        except:
+        except HTTPError as e:
+            print(e)
             return None
 
     def post_project(self, body):

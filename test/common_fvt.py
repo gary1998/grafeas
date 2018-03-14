@@ -20,6 +20,8 @@ class CommonFVT(object):
             print("OK: {}".format(response.content.decode('utf-8')))
         else:
             print("FAILURE: {}".format(response.content.decode('utf-8')))
+
+        print("Request Headers: {}".format(response.request.headers))
         print("Response Headers: {}".format(response.headers))
 
     def assert_true(self, value, message):

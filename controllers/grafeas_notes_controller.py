@@ -1,4 +1,5 @@
 import connexion
+from cloudant.error import CloudantDatabaseException
 import datetime
 from http import HTTPStatus
 import isodate
@@ -100,8 +101,12 @@ def create_note(project_id, body):
         except exceptions.AlreadyExistsError:
             return common.build_error(
                 HTTPStatus.CONFLICT,
-                "Note already exists: {}".format(note_doc_id),
-                logger)
+                "Note already exists: {}".format(note_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while creating a note")
         raise
@@ -154,8 +159,12 @@ def update_note(project_id, note_id, body):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Note not found: {}".format(note_doc_id),
-                logger)
+                "Note not found: {}".format(note_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while updating a note")
         raise
@@ -188,8 +197,7 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
             if not auth_client.can_read_note(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to list notes: {}".format(subject),
-                    logger)
+                    "Not allowed to list notes: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -203,6 +211,11 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
             },
             index="SAI_DT_PDI")
         return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while listing notes")
         raise
@@ -229,8 +242,7 @@ def get_note(project_id, note_id):
             if not auth_client.can_read_note(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to get notes: {}".format(subject),
-                    logger)
+                    "Not allowed to get notes: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(
                 HTTPStatus.UNAUTHORIZED, str(e), logger)
@@ -242,8 +254,12 @@ def get_note(project_id, note_id):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Note not found: {}".format(note_doc_id),
-                logger)
+                "Note not found: {}".format(note_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while getting a note")
         raise
@@ -272,8 +288,7 @@ def get_occurrence_note(project_id, occurrence_id):
             if not auth_client.can_read_note(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to get occurrence notes: {}".format(subject),
-                    logger)
+                    "Not allowed to get occurrence notes: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -283,8 +298,7 @@ def get_occurrence_note(project_id, occurrence_id):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Occurrence not found: {}".format(occurrence_doc_id),
-                logger)
+                "Occurrence not found: {}".format(occurrence_doc_id), logger)
 
         try:
             note_name = occurrence_doc['note_name']
@@ -294,8 +308,12 @@ def get_occurrence_note(project_id, occurrence_id):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Note not found: {}".format(note_doc_id),
-                logger)
+                "Note not found: {}".format(note_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while getting an occurrence's note")
         raise
@@ -322,8 +340,7 @@ def delete_note(project_id, note_id):
             if not auth_client.can_delete_note(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to delete notes: {}".format(subject),
-                    logger)
+                    "Not allowed to delete notes: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -334,8 +351,12 @@ def delete_note(project_id, note_id):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Note not found: {}".format(note_doc_id),
-                logger)
+                "Note not found: {}".format(note_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while deleting a note")
         raise

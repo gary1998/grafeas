@@ -1,4 +1,5 @@
 import connexion
+from cloudant.error import CloudantDatabaseException
 import datetime
 from http import HTTPStatus
 import isodate
@@ -33,8 +34,7 @@ def create_occurrence(project_id, body):
             if not auth_client.can_write_occurrence(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to create occurrences: {}".format(subject),
-                    logger)
+                    "Not allowed to create occurrences: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -45,8 +45,7 @@ def create_occurrence(project_id, body):
         if 'id' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing required field: id",
-                logger)
+                "Missing required field: id", logger)
 
         occurrence_id = body['id']
         occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
@@ -54,8 +53,7 @@ def create_occurrence(project_id, body):
         if 'note_name' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing required field: note_name",
-                logger)
+                "Missing required field: note_name", logger)
 
         note_name = body['note_name']
 
@@ -72,68 +70,58 @@ def create_occurrence(project_id, body):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Note not found: {}".format(note_name),
-                logger)
+                "Note not found: {}".format(note_name), logger)
 
         if not note_name.startswith("projects/") and not note['shared']:
             return common.build_error(
                 HTTPStatus.FORBIDDEN,
-                "Occurrence's note is not shared",
-                logger)
+                "Occurrence's note is not shared", logger)
 
         if 'kind' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing required field: 'kind'",
-                logger)
+                "Missing required field: 'kind'", logger)
 
         kind = body['kind']
 
         if kind not in ['FINDING', 'KPI', 'CARD_CONFIGURED']:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Invalid 'kind' value: only CARD_CONFIGURED, FINDING, and KPI are allowed",
-                logger)
+                "Invalid 'kind' value: only CARD_CONFIGURED, FINDING, and KPI are allowed", logger)
 
         if kind == 'FINDING' and 'finding' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing field for 'FINDING' occurrence: finding",
-                logger)
+                "Missing field for 'FINDING' occurrence: finding", logger)
 
         if kind == 'KPI' and 'kpi' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing field for 'KPI' occurrence: kpi",
-                logger)
+                "Missing field for 'KPI' occurrence: kpi", logger)
 
         if kind == 'CARD_CONFIGURED' and 'card_configured' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing field for 'CARD_CONFIGURED' occurrence: card_configured",
-                logger)
+                "Missing field for 'CARD_CONFIGURED' occurrence: card_configured", logger)
 
         if 'context' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing required field: 'context'",
-                logger)
+                "Missing required field: 'context'", logger)
 
         resource = body['context']
 
         if 'account_id' not in resource:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing required field: context.account_id",
-                logger)
+                "Missing required field: context.account_id", logger)
 
         resource_account_id = resource['account_id']
         if resource_account_id != subject.account_id:
             if not auth_client.can_write_occurrences_for_others(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to create occurrences for others",
-                    logger)
+                    "Not allowed to create occurrences for others", logger)
 
         body['doc_type'] = 'Occurrence'
         body['account_id'] = subject.account_id
@@ -162,8 +150,7 @@ def create_occurrence(project_id, body):
             _set_internal_occurrence_severity(body)
         except ValueError as e:
             return common.build_error(
-                HTTPStatus.BAD_REQUEST, str(e),
-                logger)
+                HTTPStatus.BAD_REQUEST, str(e), logger)
 
         try:
             occurrence_doc_id = common.build_occurrence_doc_id(subject.account_id, project_id, occurrence_id)
@@ -176,8 +163,12 @@ def create_occurrence(project_id, body):
             else:
                 return common.build_error(
                     HTTPStatus.CONFLICT,
-                    "Occurrence already exists: {}".format(occurrence_doc_id),
-                    logger)
+                    "Occurrence already exists: {}".format(occurrence_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while creating an occurrence")
         raise
@@ -206,22 +197,19 @@ def update_occurrence(project_id, occurrence_id, body):
             if not auth_client.can_write_occurrence(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to update occurrences: {}".format(subject),
-                    logger)
+                    "Not allowed to update occurrences: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
         if 'id' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing required field: id",
-                logger)
+                "Missing required field: id", logger)
 
         if 'note_name' not in body:
             return common.build_error(
                 HTTPStatus.BAD_REQUEST,
-                "Missing required field: note_name",
-                logger)
+                "Missing required field: note_name", logger)
 
         if 'update_time' in body:
             update_datetime = isodate.parse_datetime(body['update_time'])
@@ -242,8 +230,12 @@ def update_occurrence(project_id, occurrence_id, body):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Occurrence not found: {}".format(occurrence_doc_id),
-                logger)
+                "Occurrence not found: {}".format(occurrence_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while updating an occurrence")
         raise
@@ -274,8 +266,7 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
             if not auth_client.can_read_occurrence(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to list occurrences: {}".format(subject),
-                    logger)
+                    "Not allowed to list occurrences: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -289,6 +280,11 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
             },
             index="RAI_DT_PDI")
         return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while listing occurrences")
         raise
@@ -323,8 +319,7 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
             if not auth_client.can_write_occurrence(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to update note's occurrences: {}".format(subject),
-                    logger)
+                    "Not allowed to update note's occurrences: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -340,6 +335,11 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
             },
             index="RAI_DT_PDI_NDI")
         return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while listing a note's occurrences")
         raise
@@ -366,8 +366,7 @@ def get_occurrence(project_id, occurrence_id):
             if not auth_client.can_read_occurrence(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to get occurrences: {}".format(subject),
-                    logger)
+                    "Not allowed to get occurrences: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -378,8 +377,12 @@ def get_occurrence(project_id, occurrence_id):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Occurrence not found: {}".format(occurrence_doc_id),
-                logger)
+                "Occurrence not found: {}".format(occurrence_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while getting an occurrence")
         raise
@@ -406,8 +409,7 @@ def delete_occurrence(project_id, occurrence_id):
             if not auth_client.can_delete_occurrence(subject):
                 return common.build_error(
                     HTTPStatus.FORBIDDEN,
-                    "Not allowed to delete occurrences: {}".format(subject),
-                    logger)
+                    "Not allowed to delete occurrences: {}".format(subject), logger)
         except Exception as e:
             return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
 
@@ -418,8 +420,12 @@ def delete_occurrence(project_id, occurrence_id):
         except exceptions.NotFoundError:
             return common.build_error(
                 HTTPStatus.NOT_FOUND,
-                "Occurrence not found: {}".format(occurrence_doc_id),
-                logger)
+                "Occurrence not found: {}".format(occurrence_doc_id), logger)
+
+    except CloudantDatabaseException as e:
+        return common.build_error(
+            e.status_code,
+            "An unexpected DB error was encountered: {}".format(str(e)), logger)
     except:
         logger.exception("An unexpected error was encountered while deleting an occurrence")
         raise

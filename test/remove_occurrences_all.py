@@ -48,7 +48,7 @@ def delete_occurrences(docs):
     for doc in docs:
         occurrence_doc_id = doc['_id']
         update_time = doc['update_time']
-        print("Deleting occurrence #{}: {} - {}".format(n, occurrence_doc_id, update_time))
+        print("Deleting occurrence #{}: {} ({})".format(n, occurrence_doc_id, update_time))
         db.delete_doc(occurrence_doc_id)
         n += 1
 

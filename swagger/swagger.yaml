@@ -24,6 +24,30 @@ paths:
       tags:
        - others
       x-swagger-router-controller: "controllers.grafeas_others_controller"
+  /v1alpha1/account-data:
+    delete:
+      summary: Delete all account data
+      operationId: delete_account_data
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiEmpty'
+      parameters:
+        - name: Authorization
+          description: The user authentication agent (UAA) or the Identity & Access Management (IAM) JSON web token.
+          in: header
+          required: true
+          type: string
+        - name: Account
+          description: |-
+            The unique ID for your cloud account.
+            This is needed only when a UAA token is passed in the Authorization header.
+          in: header
+          type: string
+      tags:
+        - GrafeasAccount
+      x-swagger-router-controller: "controllers.grafeas_account_data_controller"
   /v1alpha1/projects:
     get:
       summary: Lists `Projects`

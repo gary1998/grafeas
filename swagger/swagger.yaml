@@ -615,18 +615,6 @@ paths:
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
 
 definitions:
-  apiCertainty:
-    type: string
-    enum:
-      - LOW
-      - MEDIUM
-      - HIGH
-    description: |-
-      Note provider-assigned confidence on the validity of an occurrence
-      - LOW&#58; Low Certainty
-      - MEDIUM&#58; Medium Certainty
-      - HIGH&#58; High Certainty
-
   apiEmpty:
     type: object
     description: |-
@@ -697,13 +685,8 @@ definitions:
 
   apiNote:
     type: object
+    description: Provides a detailed description of a `Note`.
     properties:
-      project_id:
-        type: string
-        title: The project id of the note
-      id:
-        type: string
-        title: The id of the note
       name:
         type: string
         title: |-
@@ -742,14 +725,21 @@ definitions:
           This field can be used as a filter in list requests.
 
       #
-      # Start IBM extensions
+      # IBM extensions
       #
+
+      project_id:
+        type: string
+        title: The project id of the note
+      id:
+        type: string
+        title: The id of the note
       shared:
         type: boolean
         description: True if this `Note` can be shared by multiple accounts.
         default: true
       reported_by:
-        $ref: '#/definitions/apiReporter'
+        $ref: '#/definitions/Reporter'
         description: Details about the reporter of this `Note`.
       finding:
         $ref: '#/definitions/FindingType'
@@ -758,12 +748,15 @@ definitions:
         $ref: '#/definitions/KpiType'
         description: A KPI type of note.
       card:
-        $ref: '#/definitions/CardType'
+        $ref: '#/definitions/Card'
         description: A card type of note.
-      #
-      # End IBM extensions
-      #
-    description: Provides a detailed description of a `Note`.
+
+    required:
+      - id
+      - short_description
+      - long_description
+      - kind
+      - reported_by
 
   apiNoteKind:
     type: string
@@ -781,24 +774,19 @@ definitions:
 
   apiNoteRelatedUrl:
     type: object
+    description: Metadata for any related URL information
     properties:
-      url:
-        type: string
-        title: Specific URL to associate with the note
       label:
         type: string
         title: Label to describe usage of the URL
-    description: Metadata for any related URL information
+      url:
+        type: string
+        title: Specific URL to associate with the note
 
   apiOccurrence:
     type: object
+    description: '`Occurrence` includes information about analysis occurrences for an image.'
     properties:
-      project_id:
-        type: string
-        title: The project id of the occurrence
-      id:
-        type: string
-        title: The id of the occurrence
       name:
         type: string
         description: |-
@@ -832,19 +820,17 @@ definitions:
         description: Output only. The time this `Occurrence` was last updated.
 
       #
-      # Start IBM extensions
+      # IBM extensions
       #
-      short_description:
+
+      project_id:
         type: string
-        description: A one sentence description of this `Occurrence`.
-      long_description:
+        title: The project id of the occurrence
+      id:
         type: string
-        description: A detailed description of this `Occurrence`.
-      reported_by:
-        $ref: '#/definitions/apiReporter'
-        description: Details about the reporter of this `Occurrence`.
+        title: The id of the occurrence
       context:
-        $ref: '#/definitions/apiContext'
+        $ref: '#/definitions/Context'
         description: Details about the context of this `Occurrence`
       finding:
         $ref: '#/definitions/Finding'
@@ -852,33 +838,45 @@ definitions:
       kpi:
         $ref: '#/definitions/Kpi'
         description: Details of the occurrence of a KPI.
-      #
-      # End IBM extensions
-      #
-    description: '`Occurrence` includes information about analysis occurrences for an image.'
+
+    required:
+      - note_name
+      - kind
+      - context
 
   apiProject:
     type: object
+    description: Provides detailed description of a `Project`.
     properties:
-      id:
-        type: string
-        title: The id of the project
       name:
         type: string
         title: The name of the project of the form "projects/{project_id}"
+
       #
-      # Start IBM extensions
+      # IBM extensions
       #
+
+      id:
+        type: string
+        title: The id of the project
       shared:
         type: boolean
         description: True if this `Project` can be shared by multiple accounts.
         default: true
-      #
-      # End IBM extensions
-      #
-    description: Provides detailed description of a `Project`.
 
-  apiContext:
+  Certainty:
+    type: string
+    enum:
+      - LOW
+      - MEDIUM
+      - HIGH
+    description: |-
+      Note provider-assigned confidence on the validity of an occurrence
+      - LOW&#58; Low Certainty
+      - MEDIUM&#58; Medium Certainty
+      - HIGH&#58; High Certainty
+
+  Context:
     type: object
     properties:
       account_id:
@@ -907,7 +905,7 @@ definitions:
         description: The service name (e.g. CertMgr)
 
       #
-      # Only used  by DevOps Insights
+      # Used  by DevOps Insights
       #
       environment_name:
         type: string
@@ -919,7 +917,10 @@ definitions:
         type: string
         description: The id of the toolchain the occurrence applies to
 
-  apiReporter:
+    required:
+      - account_id
+
+  Reporter:
     type: object
     description: The entity reporting a note
     properties:
@@ -933,7 +934,11 @@ definitions:
         type: string
         description: The href of this reporter
 
-  apiSeverity:
+    required:
+      - id
+      - title
+
+  Severity:
     type: string
     enum:
       - LOW
@@ -948,28 +953,110 @@ definitions:
 #
 # Finding note and occurrence definitions
 #
+
   FindingType:
     type: object
     description: FindingType provides details about a finding note.
     properties:
       severity:
-        $ref: '#/definitions/apiSeverity'
+        $ref: '#/definitions/Severity'
+        default: MEDIUM
         description: The default severity of the findings related to this `Note`
+      next_steps:
+        type: array
+        items:
+          $ref: '#/definitions/RemediationStep'
+        description: Common remediation steps for the finding of this type
 
+    required:
+      - severity
 
   Finding:
     type: object
     description: Finding provides details about a finding occurrence.
     properties:
       severity:
-        $ref: '#/definitions/apiSeverity'
+        $ref: '#/definitions/Severity'
         description: The common severity of this `Occurrence`
       certainty:
-        $ref: '#/definitions/apiCertainty'
+        $ref: '#/definitions/Certainty'
+        default: HIGH
         description: The confidence level on this `Occurrence`
+      next_steps:
+        type: array
+        items:
+          $ref: '#/definitions/RemediationStep'
+        description: Remediation steps for the issues reported in this finding. They override the note's next steps.
+      network_connection:
+        $ref: '#/definitions/NetworkConnection'
+        description: Network connection details of this finding
+      data_transferred:
+        $ref: '#/definitions/DataTransferred'
+        description: Data transferred details of this finding
+
+  RemediationStep:
+    type: object
+    description: A remediation step description and associated URL
+    properties:
+      title:
+        type: string
+        description: Title of this next step
+      url:
+        type: string
+        description: The URL associated to this next steps
+
+  NetworkConnection:
+    type: object
+    description: It provides details about a network connection
+    properties:
+      direction:
+        type: string
+        description: The direction of this network connection
+      protocol:
+        type: string
+        description: The protocol of this network connection
+      client:
+        $ref: '#/definitions/SocketAddress'
+        description: The client socket address of this network connection
+      server:
+        $ref: '#/definitions/SocketAddress'
+        description: The server socket address of this network connection
+
+  SocketAddress:
+    type: object
+    description: It provides details about a socket address
+    properties:
+      address:
+        type: string
+        description: he IP address of this socket address
+      port:
+        type: integer
+        description: he port number of this socket address
+
+    required:
+      - address
+
+  DataTransferred:
+    type: object
+    description: It provides details about data transferred between clients and servers
+    properties:
+      client_bytes:
+        type: integer
+        description: The number of client bytes transferred
+      server_bytes:
+        type: integer
+        description: The number of server bytes transferred
+      client_packets:
+        type: integer
+        description: The number of client packets transferred
+      server_packets:
+        type: integer
+        description: The number of server packets transferred
+
 #
 # KPI note and occurrence definitions
 #
+
   KpiType:
     type: object
     description: KpiType provides details about a KPI note.
@@ -977,7 +1064,7 @@ definitions:
       aggregation_type:
         type: string
         enum:
-        - SUM
+          - SUM
         description: |-
           The aggregation type of the KPI values.
           - SUM&#58; A single-value metrics aggregation type that sums up numeric values
@@ -994,10 +1081,12 @@ definitions:
       total:
         type: number
         description: The total value of this KPI
+
 #
-# Card note definitions
+# Card note details
 #
-  CardType:
+
+  Card:
     type: object
     description: CardType provides details about a card note
     properties:
@@ -1012,22 +1101,26 @@ definitions:
         items:
           type: string
         description: The finding note names associated to this card type
+      requires_configuration:
+        type: boolean
+        default: false
       elements:
         type: array
         items:
-          $ref: '#/definitions/CardElementType'
+          $ref: '#/definitions/CardElement'
         description: The elements of this card type
 
-  CardElementType:
+  CardElement:
     type: object
     description: CardElementType provides details about the elements of a CardType
+    discriminator: kind
     properties:
       kind:
         type: string
         enum:
-        - NUMERIC
-        - BREAKDOWN
-        - TIME_SERIES
+          - NUMERIC
+          - BREAKDOWN
+          - TIME_SERIES
         description: |-
           Kind of element
           - NUMERIC&#58; Single numeric value
@@ -1036,3 +1129,105 @@ definitions:
       text:
         type: string
         description: The text of this element type
+      default_interval:
+        type: string
+        default: "d"
+    required:
+      - kind
+      - text
+
+  NumericCardElement:
+    description: A card element with a single numeric value
+    allOf:
+    - $ref: '#/definitions/CardElement'
+    - type: object
+      properties:
+        value_type:
+          type: string
+          description: the value type associated to this card element
+      required:
+      - value_type
+
+  BreakdownCardElement:
+    description: A representation of a cat
+    allOf:
+    - $ref: '#/definitions/CardElement'
+    - type: object
+      properties:
+        direction:
+          type: string
+          description: The direction of this breakdown card element
+        value_types:
+          type: array
+          items:
+            $ref: '#/definitions/ValueType'
+          description: the value types associated to this card element
+      required:
+      - value_types
+
+  TimeSeriesCardElement:
+    description: A representation of a cat
+    allOf:
+    - $ref: '#/definitions/CardElement'
+    - type: object
+      properties:
+        default_time_range:
+          type: string
+          default: "7d"
+        value_types:
+          type: array
+          items:
+            $ref: '#/definitions/ValueType'
+          description: the value types associated to this card element
+      required:
+      - value_types
+
+  ValueType:
+    type: object
+    description: the value type of a card element
+    discriminator: kind
+    properties:
+      kind:
+        type: string
+        enum:
+          - KPI
+          - FINDING
+        description: |-
+          Kind of element
+          - KPI&#58; Kind of value derived from a KPI occurrence
+          - FINDING_COUNT&#58; Kind of value derived from a count of finding occurrences
+      text:
+        type: string
+        description: The text of this element type
+        default: ""
+    required:
+      - kind
+      - text
+
+  KpiValueType:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ValueType'
+    - type: object
+      properties:
+        kpi_note_name:
+          type: string
+          description: |-
+            The name of the kpi note associated to the occurrence with the value for this card element value type
+      required:
+        - kpi_note_name
+
+  FindingCountValueType:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ValueType'
+    - type: object
+      properties:
+        finding_note_names:
+          type: array
+          items:
+            type: string
+          description: |-
+            the names of the finding note associated that act as filters for counting the occurrences
+      required:
+        - finding_note_names

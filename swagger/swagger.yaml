@@ -648,6 +648,7 @@ definitions:
       The JSON representation for `Empty` is empty JSON object `{}`.
 
   apiListNoteOccurrencesResponse:
+    description: Response including listed occurrences for a note.
     type: object
     properties:
       occurrences:
@@ -658,10 +659,10 @@ definitions:
       next_page_token:
         type: string
         description: Token to receive the next page of notes.
-    description: Response including listed occurrences for a note.
 
   apiListNotesResponse:
     type: object
+    description: Response including listed notes.
     properties:
       notes:
         type: array
@@ -673,10 +674,10 @@ definitions:
         description: |-
           The next pagination token in the list response. It should be used as
           page_token for the following request. An empty value means no more result.
-    description: Response including listed notes.
 
   apiListOccurrencesResponse:
     type: object
+    description: Response including listed active occurrences.
     properties:
       occurrences:
         type: array
@@ -689,10 +690,10 @@ definitions:
           The next pagination token in the list response. It should be used as
           `page_token` for the following request. An empty value means no more
           results.
-    description: Response including listed active occurrences.
 
   apiListProjectsResponse:
     type: object
+    description: Response including listed projects
     properties:
       projects:
         type: array
@@ -705,7 +706,6 @@ definitions:
           The next pagination token in the list response. It should be used as
           `page_token` for the following request. An empty value means no more
           results.
-    description: Response including listed projects
 
   apiNote:
     type: object
@@ -774,7 +774,6 @@ definitions:
       card:
         $ref: '#/definitions/Card'
         description: A card type of note.
-
     required:
       - id
       - short_description
@@ -862,7 +861,6 @@ definitions:
       kpi:
         $ref: '#/definitions/Kpi'
         description: Details of the occurrence of a KPI.
-
     required:
       - note_name
       - kind
@@ -931,6 +929,7 @@ definitions:
       #
       # Used  by DevOps Insights
       #
+
       environment_name:
         type: string
         description: The name of the environment the occurrence applies to
@@ -940,7 +939,6 @@ definitions:
       toolchain_id:
         type: string
         description: The id of the toolchain the occurrence applies to
-
     required:
       - account_id
 
@@ -957,7 +955,6 @@ definitions:
       href:
         type: string
         description: The href of this reporter
-
     required:
       - id
       - title
@@ -991,7 +988,6 @@ definitions:
         items:
           $ref: '#/definitions/RemediationStep'
         description: Common remediation steps for the finding of this type
-
     required:
       - severity
 
@@ -1056,7 +1052,6 @@ definitions:
       port:
         type: integer
         description: he port number of this socket address
-
     required:
       - address
 
@@ -1094,6 +1089,8 @@ definitions:
           - SUM&#58; A single-value metrics aggregation type that sums up numeric values
             that are extracted from KPI occurrences.
         default: SUM
+    required:
+      - aggregation_type
 
   Kpi:
     type: object
@@ -1105,6 +1102,8 @@ definitions:
       total:
         type: number
         description: The total value of this KPI
+    required:
+      - value
 
 #
 # Card note details
@@ -1112,19 +1111,19 @@ definitions:
 
   Card:
     type: object
-    description: CardType provides details about a card note
+    description: Card provides details about a card kind of note
     properties:
       section:
         type: string
-        description: The section this card type belongs to
+        description: The section this card belongs to
       title:
         type: string
-        description: The title of this card type
+        description: The title of this card
       finding_note_names:
         type: array
         items:
           type: string
-        description: The finding note names associated to this card type
+        description: The finding note names associated to this card
       requires_configuration:
         type: boolean
         default: false
@@ -1132,11 +1131,11 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/CardElement'
-        description: The elements of this card type
+        description: The elements of this card
 
   CardElement:
     type: object
-    description: CardElementType provides details about the elements of a CardType
+    description: CardElement provides details about the elements of a Card
     discriminator: kind
     properties:
       kind:
@@ -1152,10 +1151,11 @@ definitions:
           - TIME_SERIES&#58; Time-series of numeric values
       text:
         type: string
-        description: The text of this element type
-      default_interval:
+        description: The text of this card element
+      default_time_range:
         type: string
-        default: "d"
+        description: The default time range of this card element
+        default: "7d"
     required:
       - kind
       - text
@@ -1173,7 +1173,7 @@ definitions:
       - value_type
 
   BreakdownCardElement:
-    description: A representation of a cat
+    description: A card element with a breakdown of values
     allOf:
     - $ref: '#/definitions/CardElement'
     - type: object
@@ -1190,14 +1190,15 @@ definitions:
       - value_types
 
   TimeSeriesCardElement:
-    description: A representation of a cat
+    description: A card element with a time series chart
     allOf:
     - $ref: '#/definitions/CardElement'
     - type: object
       properties:
-        default_time_range:
+        default_interval:
           type: string
-          default: "7d"
+          description: The default interval of the time series
+          default: "d"
         value_types:
           type: array
           items:

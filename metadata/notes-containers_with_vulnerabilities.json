@@ -65,7 +65,7 @@
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
-        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+        "url": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "finding": {
         "severity": "HIGH",
@@ -85,7 +85,7 @@
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
-        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+        "url": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "finding": {
         "severity": "MEDIUM",
@@ -105,7 +105,7 @@
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
-        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+        "url": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi": {
         "aggregation_type": "SUM",
@@ -121,7 +121,7 @@
       "reported_by": {
         "id": "va",
         "title": "IBM Vulnerability Advisor",
-        "href": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+        "url": "https://console.bluemix.net/docs/containers/va/va_index.htm"
       },
       "kpi": {
         "aggregation_type": "SUM",

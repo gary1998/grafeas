@@ -79,7 +79,7 @@
       "reported_by": {
         "id": "xforce",
         "title": "Security Advisor",
-        "href": "https://www.ibm.com/security/xforce"
+        "url": "https://www.ibm.com/security/xforce"
       },
       "finding": {
         "severity": "MEDIUM",
@@ -103,7 +103,7 @@
       "reported_by": {
         "id": "xforce",
         "title": "Security Advisor",
-        "href": "https://www.ibm.com/security/xforce"
+        "url": "https://www.ibm.com/security/xforce"
       },
       "finding": {
         "severity": "MEDIUM",
@@ -127,7 +127,7 @@
       "reported_by": {
         "id": "xforce",
         "title": "Security Advisor",
-        "href": "https://www.ibm.com/security/xforce"
+        "url": "https://www.ibm.com/security/xforce"
       },
       "finding": {
         "severity": "HIGH",
@@ -151,7 +151,7 @@
       "reported_by": {
         "id": "xforce",
         "title": "Security Advisor",
-        "href": "https://www.ibm.com/security/xforce"
+        "url": "https://www.ibm.com/security/xforce"
       },
       "finding": {
         "severity": "LOW",

@@ -20,6 +20,11 @@ class TestGrafeasNotesController(BaseTestCase):
             "kind": "FINDING",
             "finding": {
                 "severity": "HIGH"
+            },
+            "reported_by": {
+                "id": "The ID of the reporter",
+                "title": "The title of the reporter",
+                "url": "The url of the reporter"
             }
         }
 
@@ -40,6 +45,11 @@ class TestGrafeasNotesController(BaseTestCase):
             "kind": "FINDING",
             "finding": {
                 "severity": "HIGH"
+            },
+            "reported_by": {
+                "id": "The ID of the reporter",
+                "title": "The title of the reporter",
+                "url": "The url of the reporter"
             }
         }
 
@@ -134,8 +144,14 @@ class TestGrafeasNotesController(BaseTestCase):
 
         body = {
             "id": "Note01",
+            "kind": "FINDING",
             "short_description": "The updated short description of Note01",
-            "long_description": "The updated long description of Note01"
+            "long_description": "The updated long description of Note01",
+            "reported_by": {
+                "id": "The ID of the reporter",
+                "title": "The title of the reporter",
+                "url": "The url of the reporter"
+            }
         }
 
         response = self.put_note('ProjectX', 'Note01', body)

@@ -39,7 +39,7 @@ class TestMockData(BaseTestCase):
             "certainty": "HIGH",
             "next_steps": [
                 {
-                    "href": "https:///www.ibm.com"
+                    "url": "https:///www.ibm.com"
                 }
             ]
         }
@@ -50,7 +50,7 @@ class TestMockData(BaseTestCase):
             "next_steps": [
                 {
                     "title": "step-1",
-                    "href": "https:///www.ibm.com"
+                    "url": "https:///www.ibm.com"
                 },
                 {
                     "title": "step-2"
@@ -86,7 +86,7 @@ class TestMockData(BaseTestCase):
                 {
                 },
                 {
-                    "href": "https:///www.ibm.com"
+                    "url": "https:///www.ibm.com"
                 }
             ]
         }
@@ -103,7 +103,7 @@ class TestMockData(BaseTestCase):
                 },
                 {
                     "title": "step-3",
-                    "href": "https:///www.ibm.com"
+                    "url": "https:///www.ibm.com"
                 }
             ]
         }
@@ -138,7 +138,7 @@ class TestMockData(BaseTestCase):
                 {
                 },
                 {
-                    "href": "https:///www.ibm.com"
+                    "url": "https:///www.ibm.com"
                 }
             ]
         }
@@ -156,7 +156,7 @@ class TestMockData(BaseTestCase):
                 },
                 {
                     "title": "step-3",
-                    "href": "https:///www.ibm.com"
+                    "url": "https:///www.ibm.com"
                 }
             ]
         }

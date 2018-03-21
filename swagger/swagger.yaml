@@ -952,9 +952,9 @@ definitions:
       title:
         type: string
         description: The title of this reporter
-      href:
+      url:
         type: string
-        description: The href of this reporter
+        description: The url of this reporter
     required:
       - id
       - title

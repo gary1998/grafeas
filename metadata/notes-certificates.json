@@ -79,7 +79,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
         "severity": "HIGH",
@@ -111,7 +111,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
         "severity": "HIGH",
@@ -143,7 +143,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
         "severity": "HIGH",
@@ -175,7 +175,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
         "severity": "MEDIUM",
@@ -207,7 +207,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
         "severity": "LOW",
@@ -239,7 +239,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "finding": {
         "severity": "LOW",
@@ -272,7 +272,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
         "aggregation_type": "SUM",
@@ -288,7 +288,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
         "aggregation_type": "SUM",
@@ -304,7 +304,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
         "aggregation_type": "SUM",
@@ -320,7 +320,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
         "aggregation_type": "SUM",
@@ -336,7 +336,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
         "aggregation_type": "SUM",
@@ -352,7 +352,7 @@
       "reported_by": {
         "id": "certificate-manager",
         "title": "IBM Cloud Certificate Manager",
-        "href": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
       },
       "kpi": {
         "aggregation_type": "SUM",

@@ -71,7 +71,7 @@
       "reported_by": {
         "id": "my-project",
         "title": "My custom data provider",
-        "href": "https://www.ibm.com"
+        "url": "https://www.ibm.com"
       },
       "finding": {
         "severity": "HIGH",
@@ -91,7 +91,7 @@
       "reported_by": {
         "id": "my-project",
         "title": "My custom data provider",
-        "href": "https://www.ibm.com"
+        "url": "https://www.ibm.com"
       },
       "finding": {
         "severity": "MEDIUM",
@@ -111,7 +111,7 @@
       "reported_by": {
         "id": "my-project",
         "title": "My custom data provider",
-        "href": "https://www.ibm.com"
+        "url": "https://www.ibm.com"
       },
       "kpi": {
         "aggregation_type": "SUM",
@@ -127,7 +127,7 @@
       "reported_by": {
         "id": "my-project",
         "title": "My custom data provider",
-        "href": "https://www.ibm.com"
+        "url": "https://www.ibm.com"
       },
       "kpi": {
         "aggregation_type": "SUM",

@@ -170,7 +170,7 @@ class CloudantStore(store.Store):
     def _internalize_occurrence(doc):
         kind = doc['kind']
         if kind != 'FINDING':
-            return
+            return doc
 
         details = doc['finding']
         severity = details['severity']
@@ -185,7 +185,7 @@ class CloudantStore(store.Store):
     def _externalize_occurrence(doc):
         kind = doc['kind']
         if kind != 'FINDING':
-            return
+            return doc
 
         details = doc['finding']
         severity = details['severity']

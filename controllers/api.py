@@ -127,7 +127,7 @@ class API(object):
         occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
         note_name = body['note_name']
 
-        # get the occurrence's note
+        # get the occurrence's note name parts
         try:
             if note_name.startswith("projects/"):
                 # relative name
@@ -144,12 +144,13 @@ class API(object):
         except IndexError:
             raise exceptions.BadRequestError("Invalid note name: {}".format(note_name))
 
+        # verify note exists (a not-found exception will be raised if the note does not exist)
         note = self.store.get_note(note_account_id, note_project_id, note_id)
 
         if not note_name.startswith("projects/") and not note['shared']:
             raise exceptions.JSONError.from_http_status(
                 http.HTTPStatus.FORBIDDEN,
-                "Occurrence's note is not shared")
+                "Occurrence's note is not shared: {}".format(note_name))
 
         kind = body['kind']
         self._validate_occurrence_kind(kind, body)

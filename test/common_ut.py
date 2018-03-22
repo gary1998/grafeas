@@ -18,7 +18,6 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -28,7 +27,6 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -38,7 +36,6 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -48,7 +45,6 @@ class BaseTestCase(TestCase):
             method='DELETE',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -60,7 +56,6 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -70,7 +65,6 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -80,7 +74,6 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -90,7 +83,6 @@ class BaseTestCase(TestCase):
             method = 'GET',
             headers = {
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -102,7 +94,6 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -113,7 +104,6 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -125,7 +115,6 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -137,7 +126,6 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN'],
                 "Replace-If-Exists": "true"
             })
@@ -148,7 +136,6 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -158,7 +145,6 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -168,7 +154,6 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -180,7 +165,6 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
@@ -191,6 +175,5 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Account": "AccountX",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })

@@ -792,8 +792,8 @@ definitions:
       This must be 1&#58;1 with members of our oneofs, it can be used for filtering Note and Occurrence on their kind.
        - FINDING&#58; The note and occurrence represent a finding.
        - KPI&#58; The note and occurrence represent a KPI value.
-       - CARD&#58; The note represents a card showing findings and KPI values.
-       - CARD&#58; The note represents a card configured for a user account.
+       - CARD&#58; The note represents a card showing findings and related metric values.
+       - CARD_CONFIGURED&#58; The note represents a card configured for a user account.
 
   apiNoteRelatedUrl:
     type: object
@@ -862,6 +862,7 @@ definitions:
         $ref: '#/definitions/Kpi'
         description: Details of the occurrence of a KPI.
     required:
+      - id
       - note_name
       - kind
       - context

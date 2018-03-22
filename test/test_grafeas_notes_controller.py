@@ -147,6 +147,10 @@ class TestGrafeasNotesController(BaseTestCase):
             "kind": "FINDING",
             "short_description": "The updated short description of Note01",
             "long_description": "The updated long description of Note01",
+            "finding": {
+                "severity": "MEDIUM",
+                "certainty": "LOW"
+            },
             "reported_by": {
                 "id": "The ID of the reporter",
                 "title": "The title of the reporter",

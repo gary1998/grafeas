@@ -20,6 +20,11 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             "kind": "FINDING",
             "finding": {
                 "severity": "HIGH"
+            },
+            "reported_by": {
+                "id": "The reporter ID",
+                "title": "The reporter title",
+                "url": "The reporter URL"
             }
         }
 
@@ -40,6 +45,11 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             "kind": "FINDING",
             "finding": {
                 "severity": "MEDIUM"
+            },
+            "reported_by": {
+                "id": "The reporter ID",
+                "title": "The reporter title",
+                "url": "The reporter URL"
             }
         }
 
@@ -63,7 +73,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "MEDIUM"
             },
             "context": {
-                "account_id": "AccountY"
+                "account_id": "0209df6649c995e076657f797cb8b6fb"
             }
         }
 
@@ -87,7 +97,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "HIGH"
             },
             "context": {
-                "account_id": "AccountY"
+                "account_id": "0209df6649c995e076657f797cb8b6fb"
             }
         }
 
@@ -111,7 +121,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "HIGH"
             },
             "context": {
-                "account_id": "AccountY"
+                "account_id": "0209df6649c995e076657f797cb8b6fb"
             }
         }
 
@@ -138,7 +148,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         response = self.get_occurrences('ProjectX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         results = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(len(results) > 0, "A array of one ore more occurrences was expected.")
+        self.assertTrue(len(results) > 0, "An array of one ore more occurrences was expected.")
 
     def test_08_list_note_occurrences(self):
         """

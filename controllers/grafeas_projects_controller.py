@@ -1,9 +1,8 @@
 import connexion
-from cloudant.error import CloudantDatabaseException
-from http import HTTPStatus
+import http
 import logging
-from . import common
-from util import auth_util
+from controllers import api
+from controllers import common
 from util import exceptions
 
 
@@ -21,46 +20,12 @@ def create_project(body):
     """
 
     try:
-        db = common.get_db()
-        auth_client = common.get_auth_client()
-
-        try:
-            subject = auth_util.get_subject(connexion.request)
-            if not auth_client.can_write_project(subject):
-                return common.build_error(
-                    HTTPStatus.FORBIDDEN,
-                    "Not allowed to create projects: {}".format(subject), logger)
-        except Exception as e:
-            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-        if 'id' not in body:
-            return common.build_error(
-                HTTPStatus.BAD_REQUEST,
-                "Missing required field: project_id",
-                logger)
-
-        project_id = body['id']
-        body['doc_type'] = 'Project'
-        body['account_id'] = subject.account_id
-        body['id'] = project_id
-        body['name'] = common.build_project_name(project_id)
-
-        if 'shared' not in body:
-            body['shared'] = True
-
-        try:
-            project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
-            db.create_doc(project_doc_id, body)
-            return common.build_result(HTTPStatus.OK, _clean_doc(body))
-        except exceptions.AlreadyExistsError:
-            return common.build_error(
-                HTTPStatus.CONFLICT,
-                "Project already exists: {}".format(project_doc_id), logger)
-
-    except CloudantDatabaseException as e:
-        return common.build_error(
-            e.status_code,
-            "An unexpected DB error was encountered: {}".format(str(e)), logger)
+        api_impl = api.get_api_impl()
+        doc = api_impl.create_project(connexion.request, body)
+        return common.build_result(http.HTTPStatus.OK, doc)
+    except exceptions.JSONError as e:
+        logger.exception("An error was encountered while creating a project")
+        return e.to_error()
     except:
         logger.exception("An unexpected error was encountered while creating a project")
         raise
@@ -81,30 +46,12 @@ def list_projects(filter=None, page_size=None, page_token=None):
     """
 
     try:
-        db = common.get_db()
-        auth_client = common.get_auth_client()
-
-        try:
-            subject = auth_util.get_subject(connexion.request)
-            if not auth_client.can_read_project(subject):
-                return common.build_error(
-                    HTTPStatus.FORBIDDEN,
-                    "Not allowed to list projects: {}".format(subject), logger)
-        except Exception as e:
-            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-        docs = db.find(
-            filter_={
-                'account_id': subject.account_id,
-                'doc_type': 'Project'
-            },
-            index="SAI_DT")
-        return common.build_result(HTTPStatus.OK, [_clean_doc(doc) for doc in docs])
-
-    except CloudantDatabaseException as e:
-        return common.build_error(
-            e.status_code,
-            "An unexpected DB error was encountered: {}".format(str(e)), logger)
+        api_impl = api.get_api_impl()
+        docs = api_impl.list_projects(connexion.request, filter, page_size, page_token)
+        return common.build_result(http.HTTPStatus.OK, docs)
+    except exceptions.JSONError as e:
+        logger.exception("An error was encountered while listing projects")
+        return e.to_error()
     except:
         logger.exception("An unexpected error was encountered while listing projects")
         raise
@@ -121,31 +68,12 @@ def get_project(project_id):
     """
 
     try:
-        db = common.get_db()
-        auth_client = common.get_auth_client()
-
-        try:
-            subject = auth_util.get_subject(connexion.request)
-            if not auth_client.can_read_project(subject):
-                return common.build_error(
-                    HTTPStatus.FORBIDDEN,
-                    "Not allowed to get projects: {}".format(subject), logger)
-        except Exception as e:
-            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-        try:
-            project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
-            doc = db.get_doc(project_doc_id)
-            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-        except exceptions.NotFoundError:
-            return common.build_error(
-                HTTPStatus.NOT_FOUND,
-                "Project not found: {}".format(project_doc_id), logger)
-
-    except CloudantDatabaseException as e:
-        return common.build_error(
-            e.status_code,
-            "An unexpected DB error was encountered: {}".format(str(e)), logger)
+        api_impl = api.get_api_impl()
+        docs = api_impl.get_project(connexion.request, project_id)
+        return common.build_result(http.HTTPStatus.OK, docs)
+    except exceptions.JSONError as e:
+        logger.exception("An error was encountered while getting a project")
+        return e.to_error()
     except:
         logger.exception("An unexpected error was encountered while getting a project")
         raise
@@ -162,39 +90,12 @@ def delete_project(project_id):
     """
 
     try:
-        db = common.get_db()
-        auth_client = common.get_auth_client()
-
-        try:
-            subject = auth_util.get_subject(connexion.request)
-            if not auth_client.can_delete_project(subject):
-                return common.build_error(
-                    HTTPStatus.FORBIDDEN,
-                    "Not allowed to delete projects: {}".format(subject), logger)
-        except Exception as e:
-            return common.build_error(HTTPStatus.UNAUTHORIZED, str(e), logger)
-
-        try:
-            project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
-            doc = db.delete_doc(project_doc_id)
-            return common.build_result(HTTPStatus.OK, _clean_doc(doc))
-        except exceptions.NotFoundError:
-            return common.build_error(
-                HTTPStatus.NOT_FOUND,
-                "Project not found: {}".format(project_doc_id), logger)
-
-    except CloudantDatabaseException as e:
-        return common.build_error(
-            e.status_code,
-            "An unexpected DB error was encountered: {}".format(str(e)), logger)
+        api_impl = api.get_api_impl()
+        docs = api_impl.delete_project(connexion.request, project_id)
+        return common.build_result(http.HTTPStatus.OK, {})
+    except exceptions.JSONError as e:
+        logger.exception("An error was encountered while deleting a project")
+        return e.to_error()
     except:
         logger.exception("An unexpected error was encountered while deleting a project")
         raise
-
-
-def _clean_doc(doc):
-    doc.pop('_id', None)
-    doc.pop('_rev', None)
-    doc.pop('doc_type', None)
-    doc.pop('account_id', None)
-    return doc

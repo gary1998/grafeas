@@ -28,9 +28,9 @@ def create_note(project_id, body):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a note")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while creating a note")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def update_note(project_id, note_id, body):
@@ -54,9 +54,9 @@ def update_note(project_id, note_id, body):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while updating a note")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while updating a note")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def list_notes(project_id, filter=None, page_size=None, page_token=None):
@@ -82,9 +82,9 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing notes")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while listing notes")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def get_occurrence_note(project_id, occurrence_id):
@@ -106,9 +106,9 @@ def get_occurrence_note(project_id, occurrence_id):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting an occurrence's note")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while getting an occurrence's note")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def get_note(project_id, note_id):
@@ -130,9 +130,9 @@ def get_note(project_id, note_id):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a note")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while getting a note")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def delete_note(project_id, note_id):
@@ -154,8 +154,8 @@ def delete_note(project_id, note_id):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting a note")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while deleting a note")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 

@@ -26,9 +26,9 @@ def create_project(body):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a project")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while creating a project")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def list_projects(filter=None, page_size=None, page_token=None):
@@ -52,9 +52,9 @@ def list_projects(filter=None, page_size=None, page_token=None):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing projects")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while listing projects")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def get_project(project_id):
@@ -74,9 +74,9 @@ def get_project(project_id):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a project")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while getting a project")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def delete_project(project_id):
@@ -96,6 +96,6 @@ def delete_project(project_id):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting a project")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while deleting a project")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()

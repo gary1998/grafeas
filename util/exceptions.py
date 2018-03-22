@@ -97,6 +97,14 @@ class BadRequestError(JSONError):
             instance)
 
 
+class InternalServerError(JSONError):
+    def __init__(self, detail: str, instance: str=None):
+        super().__init__(
+            detail,
+            HTTPStatus.INTERNAL_SERVER_ERROR.value, HTTPStatus.INTERNAL_SERVER_ERROR.phrase,
+            instance)
+
+
 class ForbiddenError(JSONError):
     def __init__(self, detail: str, instance: str=None):
         super().__init__(

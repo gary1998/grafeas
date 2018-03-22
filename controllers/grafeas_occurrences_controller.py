@@ -35,9 +35,9 @@ def create_occurrence(project_id, body):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating an occurrence")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while creating an occurrence")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def update_occurrence(project_id, occurrence_id, body):
@@ -61,9 +61,9 @@ def update_occurrence(project_id, occurrence_id, body):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while updating an occurrence")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while updating a occurrence")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
@@ -89,9 +89,9 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing occurrences")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while listing occurrences")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page_token=None):
@@ -120,9 +120,9 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing note occurrences")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while listing note occurrences")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def get_occurrence(project_id, occurrence_id):
@@ -144,9 +144,9 @@ def get_occurrence(project_id, occurrence_id):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting an occurrence")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while getting an occurrence")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()
 
 
 def delete_occurrence(project_id, occurrence_id):
@@ -168,6 +168,6 @@ def delete_occurrence(project_id, occurrence_id):
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting an occurrence")
         return e.to_error()
-    except:
+    except Exception as e:
         logger.exception("An unexpected error was encountered while deleting an occurrence")
-        raise
+        return exceptions.InternalServerError(str(e)).to_error()

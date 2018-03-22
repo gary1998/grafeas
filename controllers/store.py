@@ -54,7 +54,6 @@ class Store(abc.ABC):
     def delete_occurrence(self, account_id, project_id, occurrence_id):
         pass
 
-
-
-
-
+    @abc.abstractmethod
+    def delete_all_account_data(self, account_id):
+        pass

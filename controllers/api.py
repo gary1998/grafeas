@@ -213,7 +213,7 @@ class API(object):
     def delete_all_account_data(self, request):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_delete_occurrences(subject)
-        self.store.delete__all_account_data(subject.account_id)
+        self.store.delete_all_account_data(subject.account_id)
 
     @staticmethod
     def _week_date_iso_format(iso_calendar):

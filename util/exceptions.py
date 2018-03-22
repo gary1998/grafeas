@@ -89,6 +89,14 @@ class NotFoundError(JSONError):
             instance)
 
 
+class BadRequestError(JSONError):
+    def __init__(self, detail: str, instance: str=None):
+        super().__init__(
+            detail,
+            HTTPStatus.BAD_REQUEST.value, HTTPStatus.BAD_REQUEST.phrase,
+            instance)
+
+
 class ForbiddenError(JSONError):
     def __init__(self, detail: str, instance: str=None):
         super().__init__(

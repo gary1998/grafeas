@@ -128,18 +128,21 @@ class API(object):
         note_name = body['note_name']
 
         # get the occurrence's note
-        if note_name.startswith("projects/"):
-            # relative name
-            note_name_parts = note_name.split('/')
-            note_account_id = subject.account_id
-            note_project_id = note_name_parts[1]
-            note_id = note_name_parts[3]
-        else:
-            # absolute name
-            note_name_parts = note_name.split('/')
-            note_account_id = note_name_parts[0]
-            note_project_id = note_name_parts[2]
-            note_id = note_name_parts[4]
+        try:
+            if note_name.startswith("projects/"):
+                # relative name
+                note_name_parts = note_name.split('/')
+                note_account_id = subject.account_id
+                note_project_id = note_name_parts[1]
+                note_id = note_name_parts[3]
+            else:
+                # absolute name
+                note_name_parts = note_name.split('/')
+                note_account_id = note_name_parts[0]
+                note_project_id = note_name_parts[2]
+                note_id = note_name_parts[4]
+        except IndexError:
+            raise exceptions.BadRequestError("Invalid note name: {}".format(note_name))
 
         note = self.store.get_note(note_account_id, note_project_id, note_id)
 
@@ -219,30 +222,22 @@ class API(object):
     def _validate_note_kind(kind, body):
         field_name = API.NOTE_KIND_FIELD_NAME_MAP.get(kind)
         if field_name is None:
-            raise exceptions.JSONError(
-                "Invalid note's kind: {}".format(kind),
-                http.HTTPStatus.BAD_REQUEST.value, http.HTTPStatus.BAD_REQUEST.phrase)
+            raise exceptions.BadRquestError("Invalid note's kind: {}".format(kind))
 
         if field_name == 'NOT-REQUIRED':
             return
 
         if field_name not in body:
-            raise exceptions.JSONError(
-                "Missing note's field '{}' for kind '{}'".format(field_name, kind),
-                http.HTTPStatus.BAD_REQUEST.value, http.HTTPStatus.BAD_REQUEST.phrase)
+            raise exceptions.BadRquestError("Missing note's field '{}' for kind '{}'".format(field_name, kind))
 
     @staticmethod
     def _validate_occurrence_kind(kind, body):
         field_name = API.OCCURRENCE_KIND_FIELD_NAME_MAP.get(kind)
         if field_name is None:
-            raise exceptions.JSONError(
-                "Invalid occurrence's kind: {}".format(kind),
-                http.HTTPStatus.BAD_REQUEST.value, http.HTTPStatus.BAD_REQUEST.phrase)
+            raise exceptions.BadRquestError("Invalid occurrence's kind: {}".format(kind))
 
         if field_name not in body:
-            raise exceptions.JSONError(
-                "Missing occurrence's field '{}' for kind '{}'".format(field_name, kind),
-                http.HTTPStatus.BAD_REQUEST.value, http.HTTPStatus.BAD_REQUEST.phrase)
+            raise exceptions.BadRquestError("Missing occurrence's field '{}' for kind '{}'".format(field_name, kind))
 
     @staticmethod
     def _set_occurrence_defaults(body, note):

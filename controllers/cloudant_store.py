@@ -22,11 +22,13 @@ class CloudantStore(store.Store):
 
     def create_project(self, account_id, project_id, body):
         project_doc_id = common.build_project_doc_id(account_id, project_id)
-        return CloudantStore._clean_doc(self.db.create_doc(project_doc_id, body))
+        doc = self.db.create_doc(project_doc_id, body)
+        return CloudantStore._clean_doc(doc)
 
     def get_project(self, account_id, project_id):
         project_doc_id = common.build_project_doc_id(account_id, project_id)
-        return CloudantStore._clean_doc(self.db.get_doc(project_doc_id))
+        doc = self.db.get_doc(project_doc_id)
+        return CloudantStore._clean_doc(doc)
 
     def list_projects(self, account_id, filter_, page_size, page_token):
         docs = self.db.find(
@@ -96,6 +98,8 @@ class CloudantStore(store.Store):
                 doc = self.db.update_doc(occurrence_doc_id, body)
         else:
             raise ValueError("Invalid write occurrence mode: {}".format(mode))
+
+        return CloudantStore._clean_occurrence(doc)
 
     def get_occurrence(self, account_id, project_id, occurrence_id):
         occurrence_doc_id = common.build_occurrence_doc_id(account_id, project_id, occurrence_id)

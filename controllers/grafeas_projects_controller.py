@@ -31,10 +31,12 @@ def create_project(body):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def list_projects(filter=None, page_size=None, page_token=None):
+def list_projects(account_id=None, filter=None, page_size=None, page_token=None):
     """
     Lists &#x60;Projects&#x60;
 
+    :param account_id: Account ID of requested projects if different from subject's account ID
+    :type account_id: str
     :param filter: The filter expression.
     :type filter: str
     :param page_size: Number of projects to return in the list.
@@ -57,12 +59,14 @@ def list_projects(filter=None, page_size=None, page_token=None):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def get_project(project_id):
+def get_project(project_id, account_id=None):
     """
     Returns the requested &#x60;Project&#x60;.
 
     :param project_id: Part of &#x60;parent&#x60;. This field contains the project_id for example: projects/{project_id}
     :type project_id: str
+    :param account_id: Account ID of requested project if different from subject's account ID
+    :type account_id: str
 
     :rtype: ApiProject
     """

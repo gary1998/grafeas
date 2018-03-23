@@ -43,39 +43,6 @@ paths:
         - GrafeasAccount
       x-swagger-router-controller: "controllers.grafeas_account_data_controller"
   /v1alpha1/projects:
-    get:
-      summary: Lists `Projects`
-      operationId: list_projects
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/apiListProjectsResponse'
-      parameters:
-        - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
-          in: header
-          required: true
-          type: string
-        - name: filter
-          description: The filter expression.
-          in: query
-          required: false
-          type: string
-        - name: page_size
-          description: Number of projects to return in the list.
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: page_token
-          description: Token to provide to skip to a particular spot in the list.
-          in: query
-          required: false
-          type: string
-      tags:
-        - GrafeasProjects
-      x-swagger-router-controller: "controllers.grafeas_projects_controller"
     post:
       summary: Creates a new `Project`.
       operationId: create_project
@@ -98,6 +65,45 @@ paths:
       tags:
         - GrafeasProjects
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
+    get:
+      summary: Lists `Projects`
+      operationId: list_projects
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiListProjectsResponse'
+      parameters:
+        - name: Authorization
+          description: The Identity & Access Management (IAM) JSON web token.
+          in: header
+          required: true
+          type: string
+        - name: account_id
+          description: Account ID of requested `Projects` if different from subject's account ID
+          in: query
+          required: false
+          type: string
+        - name: filter
+          description: The filter expression.
+          in: query
+          required: false
+          type: string
+        - name: page_size
+          description: Number of projects to return in the list.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          description: Token to provide to skip to a particular spot in the list.
+          in: query
+          required: false
+          type: string
+      tags:
+        - GrafeasProjects
+      x-swagger-router-controller: "controllers.grafeas_projects_controller"
+
   /v1alpha1/projects/{project_id}:
     get:
       summary: Returns the requested `Project`.
@@ -117,6 +123,11 @@ paths:
           in: path
           description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
+          type: string
+        - name: account_id
+          description: Account ID of requested `Project` if different from subject's account ID
+          in: query
+          required: false
           type: string
       tags:
         - GrafeasProjects
@@ -145,44 +156,6 @@ paths:
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
 
   /v1alpha1/projects/{project_id}/notes:
-    get:
-      summary: Lists all `Notes` for a given project.
-      operationId: list_notes
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/apiListNotesResponse'
-      parameters:
-        - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
-          in: header
-          required: true
-          type: string
-        - name: project_id
-          in: path
-          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
-          required: true
-          type: string
-        - name: filter
-          description: The filter expression.
-          in: query
-          required: false
-          type: string
-        - name: page_size
-          description: Number of notes to return in the list.
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: page_token
-          description: Token to provide to skip to a particular spot in the list.
-          in: query
-          required: false
-          type: string
-      tags:
-        - GrafeasNotes
-      x-swagger-router-controller: "controllers.grafeas_notes_controller"
     post:
       summary: Creates a new `Note`.
       operationId: create_note
@@ -210,6 +183,50 @@ paths:
       tags:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
+    get:
+      summary: Lists all `Notes` for a given project.
+      operationId: list_notes
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiListNotesResponse'
+      parameters:
+        - name: Authorization
+          description: The Identity & Access Management (IAM) JSON web token.
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+        - name: account_id
+          description: Account ID of requested `Notes` if different from subject's account ID
+          in: query
+          required: false
+          type: string
+        - name: filter
+          description: The filter expression.
+          in: query
+          required: false
+          type: string
+        - name: page_size
+          description: Number of notes to return in the list.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          description: Token to provide to skip to a particular spot in the list.
+          in: query
+          required: false
+          type: string
+      tags:
+        - GrafeasNotes
+      x-swagger-router-controller: "controllers.grafeas_notes_controller"
+
   /v1alpha1/projects/{project_id}/notes/{note_id}:
     get:
       summary: Returns the requested `Note`.
@@ -234,6 +251,11 @@ paths:
           in: path
           description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
           required: true
+          type: string
+        - name: account_id
+          description: Account ID of requested `Note` if different from subject's account ID
+          in: query
+          required: false
           type: string
       tags:
         - GrafeasNotes
@@ -298,7 +320,7 @@ paths:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
-  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}/notes:
+  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}/note:
     get:
       summary: Gets the `Note` attached to the given `Occurrence`.
       operationId: get_occurrence_note
@@ -323,49 +345,16 @@ paths:
           description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
           required: true
           type: "string"
+        - name: account_id
+          description: Account ID of requested `Note` if different from subject's account ID
+          in: query
+          required: false
+          type: string
       tags:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
   /v1alpha1/projects/{project_id}/occurrences:
-    get:
-      summary: Lists active `Occurrences` for a given project matching the filters.
-      operationId: list_occurrences
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/apiListOccurrencesResponse'
-      parameters:
-        - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
-          in: header
-          required: true
-          type: string
-        - name: project_id
-          in: path
-          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
-          required: true
-          type: string
-        - name: filter
-          description: The filter expression.
-          in: query
-          required: false
-          type: string
-        - name: page_size
-          description: Number of occurrences to return in the list.
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: page_token
-          description: Token to provide to skip to a particular spot in the list.
-          in: query
-          required: false
-          type: string
-      tags:
-        - GrafeasOccurrences
-      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     post:
       summary: |-
         Creates a new `Occurrence`. Use this method to create `Occurrences`
@@ -399,6 +388,49 @@ paths:
       tags:
         - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+    get:
+      summary: Lists active `Occurrences` for a given project matching the filters.
+      operationId: list_occurrences
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/apiListOccurrencesResponse'
+      parameters:
+        - name: Authorization
+          description: The Identity & Access Management (IAM) JSON web token.
+          in: header
+          required: true
+          type: string
+        - name: project_id
+          in: path
+          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
+          required: true
+          type: string
+        - name: account_id
+          description: Account ID of requested `Occurrences` if different from subject's account ID
+          in: query
+          required: false
+          type: string
+        - name: filter
+          description: The filter expression.
+          in: query
+          required: false
+          type: string
+        - name: page_size
+          description: Number of occurrences to return in the list.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page_token
+          description: Token to provide to skip to a particular spot in the list.
+          in: query
+          required: false
+          type: string
+      tags:
+        - GrafeasOccurrences
+      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
 
   /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}:
     get:
@@ -424,6 +456,11 @@ paths:
           in: path
           description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
           required: true
+          type: string
+        - name: account_id
+          description: Account ID of requested `Occurrence` if different from subject's account ID
+          in: query
+          required: false
           type: string
       tags:
         - GrafeasOccurrences
@@ -515,6 +552,11 @@ paths:
           in: path
           description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
           required: true
+          type: string
+        - name: account_id
+          description: Account ID of requested `Occurrences` if different from subject's account ID
+          in: query
+          required: false
           type: string
         - name: filter
           description: The filter expression.

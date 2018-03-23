@@ -79,7 +79,7 @@ class BaseTestCase(TestCase):
 
     def get_occurrence_note(self, project_id, occurrence_id):
         return self.client.open(
-            path = '/v1alpha1/projects/{}/occurrences/{}/notes'.format(project_id, occurrence_id),
+            path = '/v1alpha1/projects/{}/occurrences/{}/note'.format(project_id, occurrence_id),
             method = 'GET',
             headers = {
                 "Accept": "application/json",

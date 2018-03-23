@@ -59,12 +59,14 @@ def update_note(project_id, note_id, body):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def list_notes(project_id, filter=None, page_size=None, page_token=None):
+def list_notes(project_id, account_id=None, filter=None, page_size=None, page_token=None):
     """
     Lists all &#x60;Notes&#x60; for a given project.
 
     :param project_id: Part of &#x60;parent&#x60;. This field contains the project_id for example: projects/{project_id}
     :type project_id: str
+    :param account_id: Account ID of requested notes if different from subject's account ID
+    :type account_id: str
     :param filter: The filter expression.
     :type filter: str
     :param page_size: Number of notes to return in the list.
@@ -87,7 +89,7 @@ def list_notes(project_id, filter=None, page_size=None, page_token=None):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def get_occurrence_note(project_id, occurrence_id):
+def get_occurrence_note(project_id, occurrence_id, account_id=None):
     """
     Gets the &#x60;Note&#x60; attached to the given &#x60;Occurrence&#x60;.
 
@@ -95,6 +97,8 @@ def get_occurrence_note(project_id, occurrence_id):
     :type project_id: str
     :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
     :type occurrence_id: str
+    :param account_id: Account ID of requested note if different from subject's account ID
+    :type account_id: str
 
     :rtype: ApiNote
     """
@@ -111,7 +115,7 @@ def get_occurrence_note(project_id, occurrence_id):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def get_note(project_id, note_id):
+def get_note(project_id, note_id, account_id=None):
     """
     Returns the requested &#x60;Note&#x60;.
 
@@ -119,6 +123,8 @@ def get_note(project_id, note_id):
     :type project_id: str
     :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
     :type note_id: str
+    :param account_id: Account ID of requested note if different from subject's account ID
+    :type account_id: str
 
     :rtype: ApiNote
     """

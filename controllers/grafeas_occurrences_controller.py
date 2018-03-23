@@ -66,12 +66,14 @@ def update_occurrence(project_id, occurrence_id, body):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
+def list_occurrences(project_id, account_id=None, filter=None, page_size=None, page_token=None):
     """
     Lists active &#x60;Occurrences&#x60; for a given project matching the filters.
 
     :param project_id: Part of &#x60;parent&#x60;. This contains the project_id for example: projects/{project_id}
     :type project_id: str
+    :param account_id: Account ID of requested occurrences if different from subject's account ID
+    :type account_id: str
     :param filter: The filter expression.
     :type filter: str
     :param page_size: Number of occurrences to return in the list.
@@ -94,7 +96,7 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page_token=None):
+def list_note_occurrences(project_id, note_id, account_id=None, filter=None, page_size=None, page_token=None):
     """
     Lists &#x60;Occurrences&#x60; referencing the specified &#x60;Note&#x60;.
     Use this method to get all occurrences referencing your &#x60;Note&#x60; across all your customer projects.
@@ -103,6 +105,8 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
     :type project_id: str
     :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
     :type note_id: str
+    :param account_id: Account ID of requested occurrences if different from subject's account ID
+    :type account_id: str
     :param filter: The filter expression.
     :type filter: str
     :param page_size: Number of notes to return in the list.
@@ -125,7 +129,7 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def get_occurrence(project_id, occurrence_id):
+def get_occurrence(project_id, occurrence_id, account_id=None):
     """
     Returns the requested &#x60;Note&#x60;.
 
@@ -133,7 +137,8 @@ def get_occurrence(project_id, occurrence_id):
     :type project_id: str
     :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/notes/{occurrence_id}
     :type occurrence_id: str
-
+    :param account_id: Account ID of requested occurrence if different from subject's account ID
+    :type account_id: str
     :rtype: ApiOccurrence
     """
 

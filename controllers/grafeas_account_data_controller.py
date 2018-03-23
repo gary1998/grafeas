@@ -17,7 +17,7 @@ def delete_account_data():
     :rtype: ApiEmpty
     """
     try:
-        auth_client = auth.get_auth_cllient()
+        auth_client = auth.get_auth_client()
         subject = auth_client.get_subject(connexion.request)
         auth_client.assert_can_delete_occurrences(subject)
 

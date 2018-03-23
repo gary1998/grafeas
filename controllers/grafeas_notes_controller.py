@@ -189,4 +189,3 @@ def delete_note(project_id, note_id):
     except Exception as e:
         logger.exception("An unexpected error was encountered while deleting a note")
         return exceptions.InternalServerError(str(e)).to_error()
-

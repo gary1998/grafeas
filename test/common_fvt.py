@@ -98,7 +98,7 @@ class CommonFVT(object):
 
     def get_occurrence_note(self, project_id, occurrence_id):
         return self.get(
-            url = '{}/v1alpha1/projects/{}/occurrences/{}/notes'.format(
+            url = '{}/v1alpha1/projects/{}/occurrences/{}/note'.format(
                 self.api_base_url, project_id, occurrence_id))
 
     def put_note(self, project_id, note_id, body):

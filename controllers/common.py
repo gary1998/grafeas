@@ -1,4 +1,5 @@
 import logging
+from util import exceptions
 
 
 logger = logging.getLogger("grafeas.common")
@@ -22,6 +23,19 @@ def build_project_name(project_id):
 
 def build_note_name(project_id, note_id):
     return "projects/{}/notes/{}".format(project_id, note_id)
+
+
+def parse_note_name(note_name, subject):
+    try:
+        note_name_parts = note_name.split('/')
+        if note_name_parts[0] == "projects":
+            # relative name
+            return subject.account_id, note_name_parts[1], note_name_parts[3]
+        else:
+            # absolute name
+            return note_name_parts[0], note_name_parts[2], note_name_parts[4]
+    except IndexError:
+        raise exceptions.BadRequestError("Invalid note name: {}".format(note_name))
 
 
 def build_occurrence_name(project_id, occurrence_id):

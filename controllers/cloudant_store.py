@@ -1,4 +1,3 @@
-import copy
 import logging
 import os
 from controllers import common

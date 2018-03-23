@@ -111,7 +111,7 @@ class GrafeasAuthClient(pepclient.PEPClient):
         try:
             result = self.is_authz2(params, self.access_token)
         except pepclient.PDPError as e:
-            logger.info("IAM API key token expired. Regenerating it ...")
+            logger.exception("IAM API key token expired. Regenerating it ...")
             self.access_token = auth_util.get_identity_token(self.iam_base_url, self.api_key)
             result = self.is_authz2(params, self.access_token)
 

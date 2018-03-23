@@ -49,7 +49,7 @@ def list_projects(account_id=None, filter=None, page_size=None, page_token=None)
 
     try:
         api_impl = api.get_api_impl()
-        docs = api_impl.list_projects(connexion.request, filter, page_size, page_token)
+        docs = api_impl.list_projects(connexion.request, account_id, filter, page_size, page_token)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing projects")
@@ -73,7 +73,7 @@ def get_project(project_id, account_id=None):
 
     try:
         api_impl = api.get_api_impl()
-        docs = api_impl.get_project(connexion.request, project_id)
+        docs = api_impl.get_project(connexion.request, project_id, account_id)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a project")
@@ -95,8 +95,8 @@ def delete_project(project_id):
 
     try:
         api_impl = api.get_api_impl()
-        docs = api_impl.delete_project(connexion.request, project_id)
-        return common.build_result(http.HTTPStatus.OK, {})
+        doc = api_impl.delete_project(connexion.request, project_id)
+        return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting a project")
         return e.to_error()

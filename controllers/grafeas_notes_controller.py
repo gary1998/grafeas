@@ -23,7 +23,8 @@ def create_note(project_id, body):
 
     try:
         api_impl = api.get_api_impl()
-        doc = api_impl.write_note(connexion.request, project_id, body['id'], body, mode='create')
+        note_id = body['id']
+        doc = api_impl.write_note(connexion.request, project_id, note_id, body, mode='create')
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a note")
@@ -79,7 +80,7 @@ def list_notes(project_id, account_id=None, filter=None, page_size=None, page_to
 
     try:
         api_impl = api.get_api_impl()
-        docs = api_impl.list_notes(connexion.request, project_id, filter, page_size, page_token)
+        docs = api_impl.list_notes(connexion.request, project_id, account_id, filter, page_size, page_token)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing notes")
@@ -105,7 +106,7 @@ def get_occurrence_note(project_id, occurrence_id, account_id=None):
 
     try:
         api_impl = api.get_api_impl()
-        docs = api_impl.get_occurrence_note(connexion.request, project_id, occurrence_id)
+        docs = api_impl.get_occurrence_note(connexion.request, project_id, occurrence_id, account_id)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting an occurrence's note")
@@ -131,7 +132,7 @@ def get_note(project_id, note_id, account_id=None):
 
     try:
         api_impl = api.get_api_impl()
-        doc = api_impl.get_note(connexion.request, project_id, note_id)
+        doc = api_impl.get_note(connexion.request, project_id, note_id, account_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a note")
@@ -163,5 +164,4 @@ def delete_note(project_id, note_id):
     except Exception as e:
         logger.exception("An unexpected error was encountered while deleting a note")
         return exceptions.InternalServerError(str(e)).to_error()
-
 

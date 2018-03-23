@@ -34,12 +34,12 @@ class API(object):
 
         return self.store.create_project(subject.account_id, project_id, body)
 
-    def list_projects(self, request, filter_, page_size, page_token):
+    def list_projects(self, request, as_account_id, filter_, page_size, page_token):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_projects(subject)
         return self.store.list_projects(subject.account_id, filter_, page_size, page_token)
 
-    def get_project(self, request, project_id):
+    def get_project(self, request, project_id, as_account_id):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_projects(subject)
         return self.store.get_project(subject.account_id, project_id)
@@ -93,23 +93,23 @@ class API(object):
 
         return self.store.write_note(subject.account_id, project_id, note_id, body, mode)
 
-    def list_notes(self, request, project_id, filter_, page_size, page_token):
+    def list_notes(self, request, project_id, as_account_id, filter_, page_size, page_token):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_notes(subject)
         return self.store.list_notes(subject.account_id, project_id, filter_, page_size, page_token)
 
-    def get_note(self, request, project_id, note_id):
+    def get_note(self, request, project_id, note_id, as_account_id):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_notes(subject)
         return self.store.get_note(subject.account_id, project_id, note_id)
 
-    def get_occurrence_note(self, request, project_id, occurrence_id):
+    def get_occurrence_note(self, request, project_id, occurrence_id, as_account_id):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_notes(subject)
         occurrence_doc = self.store.get_occurrence(subject.account_id, project_id, occurrence_id)
         note_name = occurrence_doc['note_name']
-        note_name_parts = note_name.split('/')
-        return self.store.get_note(subject.account_id, note_name_parts[1], note_name_parts[3])
+        note_account_id, note_project_id, note_id = common.parse_note_name(note_name, subject)
+        return self.store.get_note(note_account_id, note_project_id, note_id)
 
     def delete_note(self, request, project_id, note_id):
         subject = self.auth_client.get_subject(request)
@@ -123,31 +123,13 @@ class API(object):
     def write_occurrence(self, request, project_id, occurrence_id, body, mode='create'):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_write_occurrences(subject)
-        project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
         occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
         note_name = body['note_name']
 
-        # get the occurrence's note name parts
-        try:
-            if note_name.startswith("projects/"):
-                # relative name
-                note_name_parts = note_name.split('/')
-                note_account_id = subject.account_id
-                note_project_id = note_name_parts[1]
-                note_id = note_name_parts[3]
-            else:
-                # absolute name
-                note_name_parts = note_name.split('/')
-                note_account_id = note_name_parts[0]
-                note_project_id = note_name_parts[2]
-                note_id = note_name_parts[4]
-        except IndexError:
-            raise exceptions.BadRequestError("Invalid note name: {}".format(note_name))
-
-        # verify note exists (a not-found exception will be raised if the note does not exist)
+        # verify note exists (a not-found exception will be raised if the note does not exist) and access is allowed
+        note_account_id, note_project_id, note_id = common.parse_note_name(note_name, subject)
         note = self.store.get_note(note_account_id, note_project_id, note_id)
-
-        if not note_name.startswith("projects/") and not note['shared']:
+        if note_account_id != subject.account_id and not note['shared']:
             raise exceptions.JSONError.from_http_status(
                 http.HTTPStatus.FORBIDDEN,
                 "Occurrence's note is not shared: {}".format(note_name))
@@ -165,7 +147,7 @@ class API(object):
         body['project_id'] = project_id
         body['id'] = occurrence_id
         body['name'] = occurrence_name
-        body['project_doc_id'] = project_doc_id
+        body['project_doc_id'] = common.build_project_doc_id(subject.account_id, project_id)
         body['note_doc_id'] = common.build_note_doc_id(note_account_id, note_project_id, note_id)
 
         if 'create_time' in body:
@@ -190,17 +172,17 @@ class API(object):
         self._set_occurrence_defaults(body, note)
         return self.store.write_occurrence(subject.account_id, project_id, occurrence_id, body, mode)
 
-    def list_occurrences(self, request, project_id, filter_, page_size, page_token):
+    def list_occurrences(self, request, project_id, as_account_id, filter_, page_size, page_token):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_occurrences(subject)
         return self.store.list_occurrences(subject.account_id, project_id, filter_, page_size, page_token)
 
-    def list_note_occurrences(self, request, project_id, note_id, filter_, page_size, page_token):
+    def list_note_occurrences(self, request, project_id, note_id, as_account_id, filter_, page_size, page_token):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_occurrences(subject)
         return self.store.list_note_occurrences(subject.account_id, project_id, note_id, filter_, page_size, page_token)
 
-    def get_occurrence(self, request, project_id, occurrence_id):
+    def get_occurrence(self, request, project_id, occurrence_id, as_account_id):
         subject = self.auth_client.get_subject(request)
         self.auth_client.assert_can_read_occurrences(subject)
         return self.store.get_occurrence(subject.account_id, project_id, occurrence_id)
@@ -223,22 +205,22 @@ class API(object):
     def _validate_note_kind(kind, body):
         field_name = API.NOTE_KIND_FIELD_NAME_MAP.get(kind)
         if field_name is None:
-            raise exceptions.BadRquestError("Invalid note's kind: {}".format(kind))
+            raise exceptions.BadRequestError("Invalid note's kind: {}".format(kind))
 
         if field_name == 'NOT-REQUIRED':
             return
 
         if field_name not in body:
-            raise exceptions.BadRquestError("Missing note's field '{}' for kind '{}'".format(field_name, kind))
+            raise exceptions.BadRequestError("Missing note's field '{}' for kind '{}'".format(field_name, kind))
 
     @staticmethod
     def _validate_occurrence_kind(kind, body):
         field_name = API.OCCURRENCE_KIND_FIELD_NAME_MAP.get(kind)
         if field_name is None:
-            raise exceptions.BadRquestError("Invalid occurrence's kind: {}".format(kind))
+            raise exceptions.BadRequestError("Invalid occurrence's kind: {}".format(kind))
 
         if field_name not in body:
-            raise exceptions.BadRquestError("Missing occurrence's field '{}' for kind '{}'".format(field_name, kind))
+            raise exceptions.BadRequestError("Missing occurrence's field '{}' for kind '{}'".format(field_name, kind))
 
     @staticmethod
     def _set_occurrence_defaults(body, note):

@@ -12,17 +12,14 @@ logger = logging.getLogger("grafeas.api")
 
 
 class API(object):
-    def __init__(self, auth_client, store):
-        self.auth_client = auth_client
+    def __init__(self, store):
         self.store = store
 
     #
     #  Projects
     #
 
-    def create_project(self, request, body):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_write_projects(subject)
+    def create_project(self, subject, body):
         project_id = body['id']
         body['doc_type'] = 'Project'
         body['account_id'] = subject.account_id
@@ -34,28 +31,20 @@ class API(object):
 
         return self.store.create_project(subject.account_id, project_id, body)
 
-    def list_projects(self, request, as_account_id, filter_, page_size, page_token):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_projects(subject)
+    def list_projects(self, subject, as_account_id, filter_, page_size, page_token):
         return self.store.list_projects(subject.account_id, filter_, page_size, page_token)
 
-    def get_project(self, request, project_id, as_account_id):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_projects(subject)
+    def get_project(self, subject, project_id, as_account_id):
         return self.store.get_project(subject.account_id, project_id)
 
-    def delete_project(self, request, project_id):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_delete_projects(subject)
+    def delete_project(self, subject, project_id):
         self.store.delete_project(subject.account_id, project_id)
 
     #
     #  Notes
     #
 
-    def write_note(self, request, project_id, note_id, body, mode='create'):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_write_notes(subject)
+    def write_note(self, subject, project_id, note_id, body, mode='create'):
         project_doc_id = common.build_project_doc_id(subject.account_id, project_id)
         note_name = common.build_note_name(project_id, note_id)
 
@@ -93,37 +82,26 @@ class API(object):
 
         return self.store.write_note(subject.account_id, project_id, note_id, body, mode)
 
-    def list_notes(self, request, project_id, as_account_id, filter_, page_size, page_token):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_notes(subject)
+    def list_notes(self, subject, project_id, as_account_id, filter_, page_size, page_token):
         return self.store.list_notes(subject.account_id, project_id, filter_, page_size, page_token)
 
-    def get_note(self, request, project_id, note_id, as_account_id):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_notes(subject)
+    def get_note(self, subject, project_id, note_id, as_account_id):
         return self.store.get_note(subject.account_id, project_id, note_id)
 
-    def get_occurrence_note(self, request, project_id, occurrence_id, as_account_id):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_notes(subject)
+    def get_occurrence_note(self, subject, project_id, occurrence_id, as_account_id):
         occurrence_doc = self.store.get_occurrence(subject.account_id, project_id, occurrence_id)
         note_name = occurrence_doc['note_name']
         note_account_id, note_project_id, note_id = common.parse_note_name(note_name, subject)
         return self.store.get_note(note_account_id, note_project_id, note_id)
 
-    def delete_note(self, request, project_id, note_id):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_delete_notes(subject)
+    def delete_note(self, subject, project_id, note_id):
         self.store.delete_note(subject.account_id, project_id, note_id)
 
     #
     #  Occurrences
     #
 
-    def write_occurrence(self, request, project_id, occurrence_id, body, mode='create'):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_write_occurrences(subject)
-        occurrence_name = common.build_occurrence_name(project_id, occurrence_id)
+    def write_occurrence(self, subject, project_id, occurrence_id, body, mode='create'):
         note_name = body['note_name']
 
         # verify note exists (a not-found exception will be raised if the note does not exist) and access is allowed
@@ -137,16 +115,11 @@ class API(object):
         kind = body['kind']
         self._validate_occurrence_kind(kind, body)
 
-        resource = body['context']
-        resource_account_id = resource['account_id']
-        if resource_account_id != subject.account_id:
-            self.auth_client.assert_can_write_occurrences_for_others(subject)
-
         body['doc_type'] = 'Occurrence'
         body['account_id'] = subject.account_id
         body['project_id'] = project_id
         body['id'] = occurrence_id
-        body['name'] = occurrence_name
+        body['name'] = common.build_occurrence_name(project_id, occurrence_id)
         body['project_doc_id'] = common.build_project_doc_id(subject.account_id, project_id)
         body['note_doc_id'] = common.build_note_doc_id(note_account_id, note_project_id, note_id)
 
@@ -172,29 +145,19 @@ class API(object):
         self._set_occurrence_defaults(body, note)
         return self.store.write_occurrence(subject.account_id, project_id, occurrence_id, body, mode)
 
-    def list_occurrences(self, request, project_id, as_account_id, filter_, page_size, page_token):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_occurrences(subject)
+    def list_occurrences(self, subject, project_id, as_account_id, filter_, page_size, page_token):
         return self.store.list_occurrences(subject.account_id, project_id, filter_, page_size, page_token)
 
-    def list_note_occurrences(self, request, project_id, note_id, as_account_id, filter_, page_size, page_token):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_occurrences(subject)
+    def list_note_occurrences(self, subject, project_id, note_id, as_account_id, filter_, page_size, page_token):
         return self.store.list_note_occurrences(subject.account_id, project_id, note_id, filter_, page_size, page_token)
 
-    def get_occurrence(self, request, project_id, occurrence_id, as_account_id):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_read_occurrences(subject)
+    def get_occurrence(self, subject, project_id, occurrence_id, as_account_id):
         return self.store.get_occurrence(subject.account_id, project_id, occurrence_id)
 
-    def delete_occurrence(self, request, project_id, occurrence_id):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_delete_occurrences(subject)
+    def delete_occurrence(self, subject, project_id, occurrence_id):
         self.store.delete_occurrence(subject.account_id, project_id, occurrence_id)
 
-    def delete_all_account_data(self, request):
-        subject = self.auth_client.get_subject(request)
-        self.auth_client.assert_can_delete_occurrences(subject)
+    def delete_all_account_data(self, subject):
         self.store.delete_all_account_data(subject.account_id)
 
     @staticmethod
@@ -259,13 +222,10 @@ __api_impl_lock = threading.Lock()
 
 
 def get_api_impl():
-    from controllers import auth
     from controllers import cloudant_store
 
     global __api_impl
     with __api_impl_lock:
         if __api_impl is None:
-            __api_impl = API(
-                auth.GrafeasAuthClient(),
-                cloudant_store.CloudantStore())
+            __api_impl = API(cloudant_store.CloudantStore())
         return __api_impl

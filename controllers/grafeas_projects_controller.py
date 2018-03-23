@@ -2,6 +2,7 @@ import connexion
 import http
 import logging
 from controllers import api
+from controllers import auth
 from controllers import common
 from util import exceptions
 
@@ -20,8 +21,12 @@ def create_project(body):
     """
 
     try:
+        auth_client = auth.get_auth_client()
+        subject = auth_client.get_subject(connexion.request)
+        auth_client.assert_can_write_projects(subject)
+
         api_impl = api.get_api_impl()
-        doc = api_impl.create_project(connexion.request, body)
+        doc = api_impl.create_project(subject, body)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a project")
@@ -48,8 +53,12 @@ def list_projects(account_id=None, filter=None, page_size=None, page_token=None)
     """
 
     try:
+        auth_client = auth.get_auth_client()
+        subject = auth_client.get_subject(connexion.request)
+        auth_client.assert_can_read_projects(subject)
+
         api_impl = api.get_api_impl()
-        docs = api_impl.list_projects(connexion.request, account_id, filter, page_size, page_token)
+        docs = api_impl.list_projects(subject, account_id, filter, page_size, page_token)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing projects")
@@ -72,9 +81,13 @@ def get_project(project_id, account_id=None):
     """
 
     try:
+        auth_client = auth.get_auth_client()
+        subject = auth_client.get_subject(connexion.request)
+        auth_client.assert_can_read_projects(subject)
+
         api_impl = api.get_api_impl()
-        docs = api_impl.get_project(connexion.request, project_id, account_id)
-        return common.build_result(http.HTTPStatus.OK, docs)
+        doc = api_impl.get_project(subject, project_id, account_id)
+        return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a project")
         return e.to_error()
@@ -94,8 +107,12 @@ def delete_project(project_id):
     """
 
     try:
+        auth_client = auth.get_auth_client()
+        subject = auth_client.get_subject(connexion.request)
+        auth_client.assert_can_delete_projects(subject)
+
         api_impl = api.get_api_impl()
-        doc = api_impl.delete_project(connexion.request, project_id)
+        doc = api_impl.delete_project(subject, project_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting a project")

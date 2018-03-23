@@ -1,6 +1,7 @@
 import logging
 import os
 import pepclient
+import threading
 from util import auth_util
 from util import exceptions
 
@@ -118,3 +119,15 @@ class GrafeasAuthClient(pepclient.PEPClient):
         allowed = result['allowed']
         logger.info("Subject {} authorized: {}".format("is" if allowed else "is not", subject))
         return allowed
+
+
+__auth_client = None
+__auth_client_lock = threading.Lock()
+
+
+def get_auth_client():
+    global __auth_client
+    with __auth_client_lock:
+        if __auth_client is None:
+            __auth_client = GrafeasAuthClient()
+        return __auth_client

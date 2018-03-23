@@ -13,18 +13,18 @@ logger = logging.getLogger("grafeas.auth_util")
 
 
 class Subject(object):
-    def __init__(self, subject_id, subject_type, account_id):
-        self.subject_id = subject_id
-        self.subject_type = subject_type
+    def __init__(self, id, type_, account_id):
+        self.id = id
+        self.type = type_
         self.account_id = account_id
 
     def __str__(self):
-        return "type={}, id={}, account={}".format(self.subject_type, self.subject_id, self.account_id)
+        return "type={}, id={}, account={}".format(self.type, self.id, self.account_id)
 
 
 def get_subject(request):
     try:
-        subject_id = None
+        id_ = None
         if not validate_proto(request):
             raise ValueError("Only HTTPS connections are allowed")
 
@@ -42,14 +42,14 @@ def get_subject(request):
         if 'iam_id' not in decoded_auth_token:
             raise ValueError("Invalid IAM token")
 
-        subject_id = decoded_auth_token['iam_id']
+        id_ = decoded_auth_token['iam_id']
 
         if 'sub_type' not in decoded_auth_token:
-            subject_type = 'user'
+            type_ = 'user'
         else:
             sub_type = decoded_auth_token['sub_type']
             if sub_type == 'ServiceId':
-                subject_type = 'service-id'
+                type_ = 'service-id'
             else:
                 raise ValueError("Unsupported subject type: {}".format(sub_type))
 
@@ -61,9 +61,9 @@ def get_subject(request):
         if not account_id:
             raise ValueError("Invalid IAM token")
 
-        return Subject(subject_id, subject_type, account_id)
+        return Subject(id_, type_, account_id)
     except:
-        _log_web_service_auth_failed(subject_id if subject_id else "NO-NAME")
+        _log_web_service_auth_failed(id_ if id_ else "NO-NAME")
         raise
 
 

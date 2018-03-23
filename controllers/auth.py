@@ -86,17 +86,17 @@ class GrafeasAuthClient(pepclient.PEPClient):
             logger.info("Subject is authorized: {}".format(subject))
             return True
 
-        if subject.subject_type == 'user':
+        if subject.type == 'user':
             subject_field_name = "userId"
-        elif subject.subject_type == 'service-id':
+        elif subject.type == 'service-id':
             subject_field_name = "serviceId"
         else:
-            raise ValueError("Unsupported subject type: {}".format(subject.subject_type))
+            raise ValueError("Unsupported subject type: {}".format(subject.type))
 
         params = {
             "subject": {
                 "iamId": {
-                    subject_field_name: subject.subject_id
+                    subject_field_name: subject.id
                 }
             },
             "action": action,
@@ -118,10 +118,3 @@ class GrafeasAuthClient(pepclient.PEPClient):
         allowed = result['allowed']
         logger.info("Subject {} authorized: {}".format("is" if allowed else "is not", subject))
         return allowed
-
-
-def init_auth_client():
-
-    auth_client = GrafeasAuthClient()
-
-    return auth_client

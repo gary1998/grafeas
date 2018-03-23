@@ -31,10 +31,10 @@ class API(object):
 
         return self.store.create_project(subject.account_id, project_id, body)
 
-    def list_projects(self, subject, as_account_id, filter_, page_size, page_token):
+    def list_projects(self, subject, filter_, page_size, page_token):
         return self.store.list_projects(subject.account_id, filter_, page_size, page_token)
 
-    def get_project(self, subject, project_id, as_account_id):
+    def get_project(self, subject, project_id):
         return self.store.get_project(subject.account_id, project_id)
 
     def delete_project(self, subject, project_id):
@@ -82,13 +82,13 @@ class API(object):
 
         return self.store.write_note(subject.account_id, project_id, note_id, body, mode)
 
-    def list_notes(self, subject, project_id, as_account_id, filter_, page_size, page_token):
+    def list_notes(self, subject, project_id, filter_, page_size, page_token):
         return self.store.list_notes(subject.account_id, project_id, filter_, page_size, page_token)
 
-    def get_note(self, subject, project_id, note_id, as_account_id):
+    def get_note(self, subject, project_id, note_id):
         return self.store.get_note(subject.account_id, project_id, note_id)
 
-    def get_occurrence_note(self, subject, project_id, occurrence_id, as_account_id):
+    def get_occurrence_note(self, subject, project_id, occurrence_id):
         occurrence_doc = self.store.get_occurrence(subject.account_id, project_id, occurrence_id)
         note_name = occurrence_doc['note_name']
         note_account_id, note_project_id, note_id = common.parse_note_name(note_name, subject)
@@ -145,13 +145,13 @@ class API(object):
         self._set_occurrence_defaults(body, note)
         return self.store.write_occurrence(subject.account_id, project_id, occurrence_id, body, mode)
 
-    def list_occurrences(self, subject, project_id, as_account_id, filter_, page_size, page_token):
+    def list_occurrences(self, subject, project_id, filter_, page_size, page_token):
         return self.store.list_occurrences(subject.account_id, project_id, filter_, page_size, page_token)
 
-    def list_note_occurrences(self, subject, project_id, note_id, as_account_id, filter_, page_size, page_token):
+    def list_note_occurrences(self, subject, project_id, note_id, filter_, page_size, page_token):
         return self.store.list_note_occurrences(subject.account_id, project_id, note_id, filter_, page_size, page_token)
 
-    def get_occurrence(self, subject, project_id, occurrence_id, as_account_id):
+    def get_occurrence(self, subject, project_id, occurrence_id):
         return self.store.get_occurrence(subject.account_id, project_id, occurrence_id)
 
     def delete_occurrence(self, subject, project_id, occurrence_id):
@@ -213,7 +213,8 @@ class API(object):
         'FINDING': 'finding',
         'KPI': 'kpi',
         'CARD': 'card',
-        'CARD_CONFIGURED': 'card_configured'
+        'CARD_CONFIGURED': 'card_configured',
+        'ACCOUNT_DELETED': 'account_deleted'
     }
 
 

@@ -82,6 +82,11 @@ class GrafeasAuthClient(pepclient.PEPClient):
             raise exceptions.ForbiddenError(
                 "Not allowed to write occurrences for others: {}".format(subject))
 
+    def assert_can_delete_occurrences_for_others(self, subject):
+        if not self.is_authorized(subject, "grafeas.occurrences.delete_for_others"):
+            raise exceptions.ForbiddenError(
+                "Not allowed to delete occurrences for others: {}".format(subject))
+
     def is_authorized(self, subject, action):
         if not self.enabled:
             logger.info("Subject is authorized: {}".format(subject))

@@ -24,10 +24,10 @@ paths:
       tags:
        - others
       x-swagger-router-controller: "controllers.grafeas_others_controller"
-  /v1alpha1/account-data:
+  /v1alpha1/accounts/{account_id}:
     delete:
-      summary: Delete all account data
-      operationId: delete_account_data
+      summary: Deletes the data of the given account from the system
+      operationId: delete_account
       responses:
         '200':
           description: ''
@@ -39,9 +39,14 @@ paths:
           in: header
           required: true
           type: string
+        - name: account_id
+          in: path
+          description: "Account ID"
+          required: true
+          type: string
       tags:
         - GrafeasAccount
-      x-swagger-router-controller: "controllers.grafeas_account_data_controller"
+      x-swagger-router-controller: "controllers.grafeas_accounts_controller"
   /v1alpha1/projects:
     post:
       summary: Creates a new `Project`.
@@ -78,11 +83,6 @@ paths:
           description: The Identity & Access Management (IAM) JSON web token.
           in: header
           required: true
-          type: string
-        - name: account_id
-          description: Account ID of requested `Projects` if different from subject's account ID
-          in: query
-          required: false
           type: string
         - name: filter
           description: The filter expression.
@@ -123,11 +123,6 @@ paths:
           in: path
           description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
-          type: string
-        - name: account_id
-          description: Account ID of requested `Project` if different from subject's account ID
-          in: query
-          required: false
           type: string
       tags:
         - GrafeasProjects
@@ -202,11 +197,6 @@ paths:
           description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
           required: true
           type: string
-        - name: account_id
-          description: Account ID of requested `Notes` if different from subject's account ID
-          in: query
-          required: false
-          type: string
         - name: filter
           description: The filter expression.
           in: query
@@ -251,11 +241,6 @@ paths:
           in: path
           description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
           required: true
-          type: string
-        - name: account_id
-          description: Account ID of requested `Note` if different from subject's account ID
-          in: query
-          required: false
           type: string
       tags:
         - GrafeasNotes
@@ -345,11 +330,6 @@ paths:
           description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
           required: true
           type: "string"
-        - name: account_id
-          description: Account ID of requested `Note` if different from subject's account ID
-          in: query
-          required: false
-          type: string
       tags:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
@@ -407,11 +387,6 @@ paths:
           description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
           required: true
           type: string
-        - name: account_id
-          description: Account ID of requested `Occurrences` if different from subject's account ID
-          in: query
-          required: false
-          type: string
         - name: filter
           description: The filter expression.
           in: query
@@ -456,11 +431,6 @@ paths:
           in: path
           description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
           required: true
-          type: string
-        - name: account_id
-          description: Account ID of requested `Occurrence` if different from subject's account ID
-          in: query
-          required: false
           type: string
       tags:
         - GrafeasOccurrences
@@ -552,11 +522,6 @@ paths:
           in: path
           description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
           required: true
-          type: string
-        - name: account_id
-          description: Account ID of requested `Occurrences` if different from subject's account ID
-          in: query
-          required: false
           type: string
         - name: filter
           description: The filter expression.

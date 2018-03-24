@@ -30,8 +30,8 @@ def delete_account(account_id):
         api_impl.delete_account_occurrences(account_id)
 
         account_deleted_occurrence = {
-            "id": "data-deleted-for-account-{}".format(account_id),
-            "note_name": "projects/core/notes/account_deleted",
+            "id": "account-deleted-{}".format(account_id),
+            "note_name": "system/projects/core/notes/account_deleted",
             "kind": "ACCOUNT_DELETED",
             "account_deleted": {
                 "account_id": account_id
@@ -39,7 +39,7 @@ def delete_account(account_id):
         }
 
         occurrence_id = account_deleted_occurrence['id']
-        api_impl.write_occurrence(subject, "core", occurrence_id, account_deleted_occurrence)
+        api_impl.write_occurrence('system', 'core', occurrence_id, account_deleted_occurrence)
         logger.info("Data deleted for account: {}".format(account_id))
         return common.build_result(http.HTTPStatus.OK, {})
     except exceptions.JSONError as e:

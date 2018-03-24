@@ -38,7 +38,7 @@ def create_occurrence(project_id, body):
 
         api_impl = api.get_api_impl()
         occurrence_id = body['id']
-        doc = api_impl.write_occurrence(subject, project_id, occurrence_id, body, mode)
+        doc = api_impl.write_occurrence(subject.account_id, project_id, occurrence_id, body, mode)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating an occurrence")
@@ -74,7 +74,7 @@ def update_occurrence(project_id, occurrence_id, body):
             auth_client.assert_can_write_occurrences_for_others(subject)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.write_occurrence(subject, project_id, occurrence_id, body, mode='update')
+        doc = api_impl.write_occurrence(subject.account_id, project_id, occurrence_id, body, mode='update')
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while updating an occurrence")
@@ -106,7 +106,7 @@ def list_occurrences(project_id, filter=None, page_size=None, page_token=None):
         auth_client.assert_can_read_occurrences(subject)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_occurrences(subject, project_id, filter, page_size, page_token)
+        docs = api_impl.list_occurrences(subject.account_id, project_id, filter, page_size, page_token)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing occurrences")
@@ -141,7 +141,7 @@ def list_note_occurrences(project_id, note_id, filter=None, page_size=None, page
         auth_client.assert_can_read_occurrences(subject)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_note_occurrences(subject, project_id, note_id, filter, page_size, page_token)
+        docs = api_impl.list_note_occurrences(subject.account_id, project_id, note_id, filter, page_size, page_token)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing note occurrences")
@@ -169,7 +169,7 @@ def get_occurrence(project_id, occurrence_id):
         auth_client.assert_can_read_occurrences(subject)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.get_occurrence(subject, project_id, occurrence_id)
+        doc = api_impl.get_occurrence(subject.account_id, project_id, occurrence_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting an occurrence")
@@ -197,7 +197,7 @@ def delete_occurrence(project_id, occurrence_id):
         auth_client.assert_can_delete_occurrences(subject)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.delete_occurrence(subject, project_id, occurrence_id)
+        doc = api_impl.delete_occurrence(subject.account_id, project_id, occurrence_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting an occurrence")

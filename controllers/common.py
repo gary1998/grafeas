@@ -25,12 +25,12 @@ def build_note_name(project_id, note_id):
     return "projects/{}/notes/{}".format(project_id, note_id)
 
 
-def parse_note_name(note_name, subject):
+def parse_note_name(note_name, subject_account_id):
     try:
         note_name_parts = note_name.split('/')
         if note_name_parts[0] == "projects":
             # relative name
-            return subject.account_id, note_name_parts[1], note_name_parts[3]
+            return subject_account_id, note_name_parts[1], note_name_parts[3]
         else:
             # absolute name
             return note_name_parts[0], note_name_parts[2], note_name_parts[4]
@@ -44,3 +44,6 @@ def build_occurrence_name(project_id, occurrence_id):
 
 def build_result(status_code, data):
     return data, status_code
+
+
+FIELD_NOT_REQUIRED = "$NOT-REQUIRED"

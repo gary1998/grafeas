@@ -26,7 +26,7 @@ def create_project(body):
         auth_client.assert_can_write_projects(subject)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.create_project(subject, body)
+        doc = api_impl.create_project(subject.account_id, body)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a project")
@@ -56,7 +56,7 @@ def list_projects(filter=None, page_size=None, page_token=None):
         auth_client.assert_can_read_projects(subject)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_projects(subject, filter, page_size, page_token)
+        docs = api_impl.list_projects(subject.account_id, filter, page_size, page_token)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing projects")
@@ -82,7 +82,7 @@ def get_project(project_id):
         auth_client.assert_can_read_projects(subject)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.get_project(subject, project_id)
+        doc = api_impl.get_project(subject.account_id, project_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a project")
@@ -108,7 +108,7 @@ def delete_project(project_id):
         auth_client.assert_can_delete_projects(subject)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.delete_project(subject, project_id)
+        doc = api_impl.delete_project(subject.account_id, project_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting a project")

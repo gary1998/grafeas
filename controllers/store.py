@@ -55,5 +55,5 @@ class Store(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def delete_all_account_data(self, subject_account_id):
+    def delete_account_occurrences(self, resource_account_id):
         pass

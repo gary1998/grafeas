@@ -109,11 +109,11 @@ class CloudantStore(store.Store):
         project_doc_id = common.build_project_doc_id(subject_account_id, project_id)
         docs = self.db.find(
             filter_={
-                'context.account_id': subject_account_id,
+                'account_id': subject_account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_doc_id
             },
-            index="RAI_DT_PDI")
+            index="SAI_DT_PDI")
         return [CloudantStore._clean_occurrence(doc) for doc in docs]
 
     def list_note_occurrences(self, subject_account_id, project_id, note_id, filter_, page_size, page_token):
@@ -121,22 +121,22 @@ class CloudantStore(store.Store):
         note_doc_id = common.build_note_doc_id(subject_account_id, project_id, note_id)
         docs = self.db.find(
             filter_={
-                'context.account_id': subject_account_id,
+                'account_id': subject_account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_doc_id,
                 'note_doc_id': note_doc_id
             },
-            index="RAI_DT_PDI_NDI")
+            index="SAI_DT_PDI_NDI")
         return [CloudantStore._clean_occurrence(doc) for doc in docs]
 
     def delete_occurrence(self, subject_account_id, project_id, occurrence_id):
         occurrence_doc_id = common.build_occurrence_doc_id(subject_account_id, project_id, occurrence_id)
         return self.db.delete_doc(occurrence_doc_id)
 
-    def delete_all_account_data(self, subject_account_id):
+    def delete_account_occurrences(self, resource_account_id):
         docs = self.db.find(
             filter_={
-                'context.account_id': subject_account_id,
+                'context.account_id': resource_account_id,
                 'doc_type': 'Occurrence'
             },
             index="RAI_DT",
@@ -258,6 +258,9 @@ class CloudantStore(store.Store):
         db.create_query_index(
             'SAI_DT_PDI',
             ['account_id', 'doc_type', 'project_doc_id'])
+        db.create_query_index(
+            'SAI_DT_PDI_NDI',
+            ['account_id', 'doc_type', 'project_doc_id', 'note_doc_id'])
 
         # 2018-04-15T16:30:00
         db.add_view(

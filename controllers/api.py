@@ -206,7 +206,8 @@ class API(object):
         'FINDING': 'finding',
         'KPI': 'kpi',
         'CARD': 'card',
-        'CARD_CONFIGURED': 'NOT-REQUIRED'
+        'CARD_CONFIGURED': 'NOT-REQUIRED',
+        'ACCOUNT_DELETED': 'NOT-REQUIRED'
     }
 
     OCCURRENCE_KIND_FIELD_NAME_MAP = {

@@ -27,7 +27,7 @@ def delete_account(account_id):
                 "Not allowed to delete requested account's occurrences: {}".format(subject.account_id))
 
         api_impl = api.get_api_impl()
-        api_impl.delete_all_account_data(subject)
+        api_impl.delete_account_occurrences(account_id)
 
         account_deleted_occurrence = {
             "id": "data-deleted-for-account-{}".format(account_id),

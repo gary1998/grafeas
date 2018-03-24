@@ -33,7 +33,7 @@ def delete_account(account_id):
             "id": "account-deleted-{}".format(account_id),
             "note_name": "system/projects/core/notes/account_deleted",
             "kind": "ACCOUNT_DELETED",
-            "account_deleted": {
+            "context": {
                 "account_id": account_id
             }
         }

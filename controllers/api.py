@@ -49,7 +49,7 @@ class API(object):
         note_name = common.build_note_name(project_id, note_id)
 
         kind = body['kind']
-        API._validate_note_kind(kind, body)
+        API._validate_kind_field(kind, body, API._NOTE_KIND_FIELD_NAME_MAP)
 
         body['doc_type'] = 'Note'
         body['id'] = note_id
@@ -113,7 +113,7 @@ class API(object):
                 "Occurrence's note is not shared: {}".format(note_name))
 
         kind = body['kind']
-        self._validate_occurrence_kind(kind, body)
+        self._validate_kind_field(kind, body, API._OCCURRENCE_KIND_FIELD_NAME_MAP)
 
         body['doc_type'] = 'Occurrence'
         body['account_id'] = subject_account_id
@@ -165,25 +165,17 @@ class API(object):
         return "{:04d}-W{:02d}-{}".format(iso_calendar[0], iso_calendar[1], iso_calendar[2])
 
     @staticmethod
-    def _validate_note_kind(kind, body):
-        field_name = API.NOTE_KIND_FIELD_NAME_MAP.get(kind)
+    def _validate_kind_field(kind, body, map_):
+        field_name = map_.get(kind)
+
         if field_name is None:
-            raise exceptions.BadRequestError("Invalid note's kind: {}".format(kind))
+            raise exceptions.BadRequestError("Invalid kind: {}".format(kind))
 
         if field_name == common.FIELD_NOT_REQUIRED:
             return
 
         if field_name not in body:
-            raise exceptions.BadRequestError("Missing note's field '{}' for kind '{}'".format(field_name, kind))
-
-    @staticmethod
-    def _validate_occurrence_kind(kind, body):
-        field_name = API.OCCURRENCE_KIND_FIELD_NAME_MAP.get(kind)
-        if field_name is None:
-            raise exceptions.BadRequestError("Invalid occurrence's kind: {}".format(kind))
-
-        if field_name not in body:
-            raise exceptions.BadRequestError("Missing occurrence's field '{}' for kind '{}'".format(field_name, kind))
+            raise exceptions.BadRequestError("Missing field '{}' for kind '{}'".format(field_name, kind))
 
     @staticmethod
     def _set_occurrence_defaults(body, note):
@@ -202,7 +194,7 @@ class API(object):
             merged_kpi = dict_util.dict_merge(note['kpi'], body['kpi'])
             body['kpi'] = merged_kpi
 
-    NOTE_KIND_FIELD_NAME_MAP = {
+    _NOTE_KIND_FIELD_NAME_MAP = {
         'FINDING': 'finding',
         'KPI': 'kpi',
         'CARD': 'card',
@@ -210,12 +202,12 @@ class API(object):
         'ACCOUNT_DELETED': common.FIELD_NOT_REQUIRED
     }
 
-    OCCURRENCE_KIND_FIELD_NAME_MAP = {
+    _OCCURRENCE_KIND_FIELD_NAME_MAP = {
         'FINDING': 'finding',
         'KPI': 'kpi',
         'CARD': 'card',
         'CARD_CONFIGURED': 'card_configured',
-        'ACCOUNT_DELETED': 'account_deleted'
+        'ACCOUNT_DELETED': common.FIELD_NOT_REQUIRED
     }
 
 

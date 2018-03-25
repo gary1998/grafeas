@@ -178,3 +178,13 @@ class BaseTestCase(TestCase):
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
+
+    def delete_account(self, account_id):
+        return self.client.open(
+            path='/v1alpha1/accounts/{}'.format(account_id),
+            method='DELETE',
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
+            })

@@ -157,8 +157,8 @@ class API(object):
     def delete_occurrence(self, subject_account_id, project_id, occurrence_id):
         self.store.delete_occurrence(subject_account_id, project_id, occurrence_id)
 
-    def delete_all_account_data(self, subject_account_id):
-        self.store.delete_all_account_data(subject_account_id)
+    def delete_account_occurrences(self, resource_account_id):
+        self.store.delete_account_occurrences(resource_account_id)
 
     @staticmethod
     def _week_date_iso_format(iso_calendar):

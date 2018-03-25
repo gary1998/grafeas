@@ -3,6 +3,9 @@ from http import HTTPStatus
 from .common_ut import BaseTestCase
 
 
+TEST_RESOURCE_ACCOUNT_ID = "0209df6649c995e076657f797cb8b6fb"
+
+
 class TestGrafeasOccurrencesController(BaseTestCase):
     """ GrafeasOccurrencesController integration test stubs """
 
@@ -97,7 +100,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "HIGH"
             },
             "context": {
-                "account_id": "0209df6649c995e076657f797cb8b6fb"
+                "account_id": TEST_RESOURCE_ACCOUNT_ID
             }
         }
 
@@ -121,7 +124,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "HIGH"
             },
             "context": {
-                "account_id": "0209df6649c995e076657f797cb8b6fb"
+                "account_id": TEST_RESOURCE_ACCOUNT_ID
             }
         }
 
@@ -226,6 +229,20 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         response = self.delete_note('ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
+
+    '''
+    DANGEROUS - USE WITH EXTREME CARE!
+    
+    def test_14_delete_account(self):
+        """
+        Test case for delete_note
+
+        Deletes the given `Note` from the system.
+        """
+
+        response = self.delete_account( TEST_RESOURCE_ACCOUNT_ID)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+    '''
 
 
 if __name__ == '__main__':

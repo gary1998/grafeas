@@ -21,10 +21,10 @@ def delete_account(account_id):
         subject = auth_client.get_subject(connexion.request)
         auth_client.assert_can_delete_occurrences(subject)
 
-        if account_id != subject.account_id:
-            raise exceptions.JSONError.from_http_status(
-                http.HTTPStatus.FORBIDDEN,
-                "Not allowed to delete requested account's occurrences: {}".format(subject.account_id))
+        if account_id == subject.account_id:
+            auth_client.assert_can_delete_occurrences(subject)
+        else:
+            auth_client.assert_can_delete_occurrences_for_others(subject)
 
         api_impl = api.get_api_impl()
         api_impl.delete_account_occurrences(account_id)

@@ -201,5 +201,5 @@ def _get_request_source():
     else:
         source_port = env['REMOTE_PORT']
 
-    return (source_addr, source_port)
+    return source_addr, source_port
 

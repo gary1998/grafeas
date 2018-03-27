@@ -6,6 +6,11 @@
       "id": "xforce-risks_from_servers",
       "short_description": "Suspicious Server IPs",
       "long_description": "Suspicious Server IPs Card",
+      "reported_by": {
+        "id": "xforce",
+        "title": "Security Advisor",
+        "url": "https://www.ibm.com/security/xforce"
+      },
       "card": {
         "section": "Network",
         "title": "Suspicious Server IPs",
@@ -75,7 +80,9 @@
               }
             ]
           }
-        ]
+        ],
+        "badge_text": "Awesome! You don't have any suspicious server IP",
+        "badge_image": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSI0N3B4IiBoZWlnaHQ9IjY4cHgiIHZpZXdCb3g9IjAgMCA0NyA2OCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5TbGljZSAxPC90aXRsZT4gICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgb3BhY2l0eT0iMC4yNzc3NDAwMzYiPiAgICAgICAgPGcgaWQ9IlBhZ2UtMS1Db3B5IiBmaWxsPSIjM0YzRjNGIj4gICAgICAgICAgICA8cGF0aCBkPSJNMjMuMTExMyw0LjU2MiBMMzYuNjEwMyw5LjgyOCBDMzYuMDcwMywxMy4xODkgMzMuMTM4MywyNy45ODYgMjMuMTIxMywzMS4wNyBMMjMuMTExMywzMS4wNjYgTDIzLjExMTMsNC41NjIgWiBNMTIuMDIwMyw1Ny43MjQgTDM0LjEwNDMsNTcuNzI0IEwzNC4xMDQzLDQ2LjY0IEwxMi4wMjAzLDQ2LjY0IEwxMi4wMjAzLDU3LjcyNCBaIE0yMS4zMTIzLDM0Ljk4NSBMMjEuMzEyMyw0MC43NjEgTDE3LjA2MjMsNDAuNzYxIEwxNy4wNjIzLDQzLjY0IEw5LjAyMDMsNDMuNjQgTDkuMDIwMyw2MC43MjQgTDM3LjEwNDMsNjAuNzI0IEwzNy4xMDQzLDQzLjY0IEwyOS4wNjIzLDQzLjY0IEwyOS4wNjIzLDQwLjc2MSBMMjQuODEyMyw0MC43NjEgTDI0LjgxMjMsMzQuOTg1IEMzOC4zODgzLDI5LjggNDEuMDM5Myw4LjgyMSA0MS4xNDgzLDcuOSBMNDEuMjQzMyw3LjA5NCBMNDAuNDg4Myw2LjgwMSBMMjMuNDM2MywwLjE0OCBMMjMuMDU1MywwIEwyMi42NzQzLDAuMTQ4IEw1LjYzNzMsNi44MDEgTDQuODgyMyw3LjA5NiBMNC45NzczLDcuOSBDNS4wODczLDguODIxIDcuNzM3MywyOS43OTkgMjEuMzEyMywzNC45ODUgWiIgaWQ9IkZpbGwtMSI+PC9wYXRoPiAgICAgICAgICAgIDxwYXRoIGQ9Ik00NC4xMjUsNjIuODA1NyBMMiw2Mi44MDU3IEMwLjg5NSw2Mi44MDU3IDAsNjMuNzAxNyAwLDY0LjgwNTcgTDAsNjcuNTU1NyBMNDYuMTI1LDY3LjU1NTcgTDQ2LjEyNSw2NC44MDU3IEM0Ni4xMjUsNjMuNzAxNyA0NS4yMjksNjIuODA1NyA0NC4xMjUsNjIuODA1NyIgaWQ9IkZpbGwtMyI+PC9wYXRoPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+"
       }
     },
 

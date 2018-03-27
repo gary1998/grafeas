@@ -6,6 +6,11 @@
       "id": "certmgr-certificates",
       "short_description": "A type of card showing expired and about to expire certificates",
       "long_description": "A type of card showing expired and about to expire certificates",
+      "reported_by": {
+        "id": "certificate-manager",
+        "title": "IBM Cloud Certificate Manager",
+        "url": "https://console.bluemix.net/docs/services/certificate-manager/index.html"
+      },
       "card": {
         "section": "Network",
         "title": "Certificates",
@@ -24,7 +29,7 @@
             "value_type": {
               "kind": "KPI",
               "kpi_note_name": "projects/security-advisor/notes/certmgr-expired_cert_count"
-           }
+            }
           },
           {
             "kind": "NUMERIC",
@@ -66,7 +71,9 @@
               }
             ]
           }
-        ]
+        ],
+        "badge_text": "Wonderful! You don't have any certificates about to expire in the next 90 days",
+        "badge_image": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSI0N3B4IiBoZWlnaHQ9IjYxcHgiIHZpZXdCb3g9IjAgMCA0NyA2MSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5TbGljZSAxPC90aXRsZT4gICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgb3BhY2l0eT0iMC4yNTg1NDg0NiI+ICAgICAgICA8cGF0aCBkPSJNMjMuMzM3LDM1LjgyNjYgQzE1Ljk2MiwzNS44MjY2IDkuOTgzLDI5Ljg0NzYgOS45ODMsMjIuNDcyNiBDOS45ODMsMTUuMDk3NiAxNS45NjIsOS4xMTg2IDIzLjMzNyw5LjExODYgQzMwLjcxMiw5LjExODYgMzYuNjkxLDE1LjA5NzYgMzYuNjkxLDIyLjQ3MjYgQzM2LjY5MSwyOS44NDc2IDMwLjcxMiwzNS44MjY2IDIzLjMzNywzNS44MjY2IFogTTQxLjQ2MiwyNi4yMDg2IEw0Ni42NzUsMjMuMzM1NiBMNDEuNDYyLDIwLjQ2ODYgTDQ1LjUzLDE2LjEyNzYgTDM5LjY4NiwxNS4wMDc2IEw0Mi4yMTcsOS42MjA2IEwzNi4zMTQsMTAuMzYwNiBMMzcuMDUyLDQuNDU3NiBMMzEuNjY4LDYuOTg2NiBMMzAuNTQ4LDEuMTQzNiBMMjYuMjA3LDUuMjExNiBMMjMuMzM2LDAuMDAwNiBMMjAuNDY0LDUuMjExNiBMMTYuMTI1LDEuMTQzNiBMMTUuMDA0LDYuOTg2NiBMOS42MTksNC40NTc2IEwxMC4zNjEsMTAuMzYwNiBMNC40NTYsOS42MjA2IEw2Ljk4NSwxNS4wMDc2IEwxLjE0MSwxNi4xMjc2IEw1LjIxMSwyMC40Njg2IEwwLDIzLjMzNTYgTDUuMjExLDI2LjIwODYgTDEuMTQxLDMwLjU0OTYgTDYuOTg1LDMxLjY2ODYgTDQuNDU2LDM3LjA1NDYgTDEwLjM2MSwzNi4zMTI2IEw5LjYxOSw0Mi4yMTc2IEwxNS4wMDQsMzkuNjg3NiBMMTUuMTc1LDQwLjU3NjYgTDExLjYxOCw2MC45MzM2IEwyMy4zMzcsNDkuMTkzNiBMMzUuMDU0LDYwLjkzMzYgTDMxLjQ5OSw0MC41NzQ2IEwzMS42NjgsMzkuNjg3NiBMMzcuMDUyLDQyLjIxNzYgTDM2LjMxNCwzNi4zMTI2IEw0Mi4yMTcsMzcuMDU0NiBMMzkuNjg2LDMxLjY2ODYgTDQ1LjUzLDMwLjU0OTYgTDQxLjQ2MiwyNi4yMDg2IFoiIGZpbGw9IiMzRjNGM0YiPjwvcGF0aD4gICAgPC9nPjwvc3ZnPg=="
       }
     },
 

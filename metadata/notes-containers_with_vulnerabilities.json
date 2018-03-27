@@ -6,6 +6,11 @@
       "id": "containers_with_vulnerabilities",
       "short_description": "A type of card showing containers with vulnerabilities",
       "long_description": "A type of card showing containers with vulnerabilities and configuration issues",
+      "reported_by": {
+        "id": "va",
+        "title": "IBM Vulnerability Advisor",
+        "url": "https://console.bluemix.net/docs/containers/va/va_index.htm"
+      },
       "card": {
         "section": "Compute",
         "title": "Containers with vulnerabilities",
@@ -52,7 +57,9 @@
               }
             ]
           }
-        ]
+        ],
+        "badge_text": "Stunning! You don't have any container running images with vulnerabilities",
+        "badge_image": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSI1MXB4IiBoZWlnaHQ9IjY0cHgiIHZpZXdCb3g9IjAgMCA1MSA2NCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5TbGljZSAxPC90aXRsZT4gICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+ICAgIDxkZWZzPiAgICAgICAgPHBvbHlnb24gaWQ9InBhdGgtMSIgcG9pbnRzPSIwIDAuMDI2OSA1MC4xODUgMC4wMjY5IDUwLjE4NSAzNC40NDY5IDAgMzQuNDQ2OSI+PC9wb2x5Z29uPiAgICA8L2RlZnM+ICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIG9wYWNpdHk9IjAuMjI2NjE5MTEyIj4gICAgICAgIDxnPiAgICAgICAgICAgIDxwYXRoIGQ9Ik0zMC4zMjcxLDU3LjU5NDcgTDI1LjA5MzEsNTQuODQxNyBMMTkuODU3MSw1Ny41OTQ3IEwyMC44NTcxLDUxLjc2NTcgTDE2LjYyMTEsNDcuNjM3NyBMMjIuNDc0MSw0Ni43ODQ3IEwyNS4wOTMxLDQxLjQ4MjcgTDI3LjcxMTEsNDYuNzg0NyBMMzMuNTY0MSw0Ny42Mzc3IEwyOS4zMjgxLDUxLjc2NTcgTDMwLjMyNzEsNTcuNTk0NyBaIE0yNS4wOTQxLDM2LjY1NDcgQzE3Ljc2OTEsMzYuNjU0NyAxMS44MzMxLDQyLjU4OTcgMTEuODMzMSw0OS45MTI3IEMxMS44MzMxLDU3LjIzNzcgMTcuNzY5MSw2My4xNzM3IDI1LjA5NDEsNjMuMTczNyBDMzIuNDE2MSw2My4xNzM3IDM4LjM1MzEsNTcuMjM3NyAzOC4zNTMxLDQ5LjkxMjcgQzM4LjM1MzEsNDIuNTg5NyAzMi40MTYxLDM2LjY1NDcgMjUuMDk0MSwzNi42NTQ3IFoiIGlkPSJGaWxsLTEiIGZpbGw9IiMzRjNGM0YiPjwvcGF0aD4gICAgICAgICAgICA8cG9seWdvbiBpZD0iRmlsbC0zIiBmaWxsPSIjM0YzRjNGIiBwb2ludHM9IjMzLjcyNjUgMTAuNTI2OSA0MC4yODg1IC0wLjAwMDEgOS44MDI1IC0wLjAwMDEgMTYuMzY1NSAxMC41MjY5Ij48L3BvbHlnb24+ICAgICAgICAgICAgPGcgaWQ9Ikdyb3VwLTciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAwMDAwLCAwLjE3MzgwMCkiPiAgICAgICAgICAgICAgICA8bWFzayBpZD0ibWFzay0yIiBmaWxsPSJ3aGl0ZSI+ICAgICAgICAgICAgICAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNwYXRoLTEiPjwvdXNlPiAgICAgICAgICAgICAgICA8L21hc2s+ICAgICAgICAgICAgICAgIDxnIGlkPSJDbGlwLTYiPjwvZz4gICAgICAgICAgICAgICAgPHBvbHlnb24gaWQ9IkZpbGwtNSIgZmlsbD0iIzNGM0YzRiIgbWFzaz0idXJsKCNtYXNrLTIpIiBwb2ludHM9IjQzLjAwNzggMC4wMjY5IDI1LjA5MzggMjguNjkzOSA3LjE3OTggMC4wMjY5IC0wLjAwMDIgNS42MzY5IDE4LjAwNDggMzQuNDE5OSAxOC4wMDQ4IDM0LjQ0NjkgMzIuMDg2OCAzNC40NDY5IDMyLjA4NjggMzQuMzg3OSAzMi4xNTk4IDM0LjQ0NjkgNTAuMTg1OCA1LjYzNjkiPjwvcG9seWdvbj4gICAgICAgICAgICA8L2c+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4="
       }
     },
 

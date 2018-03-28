@@ -5,6 +5,7 @@ from .common_ut import BaseTestCase
 
 
 FILE_NAMES = [
+    "sa-sections.json",
     "notes-certificates.json",
     "notes-images_with_vulnerabilities.json",
     "notes-suspicious_clients.json",
@@ -12,7 +13,7 @@ FILE_NAMES = [
 ]
 
 
-class TestMockData(BaseTestCase):
+class AddMetadaData(BaseTestCase):
     def test_01_create_projects(self):
         for file_name in FILE_NAMES:
             with open("metadata/{}".format(file_name)) as f:

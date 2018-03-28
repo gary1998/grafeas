@@ -5,9 +5,6 @@ from util import exceptions
 logger = logging.getLogger("grafeas.common")
 
 
-FIELD_NOT_REQUIRED = "$NOT-REQUIRED"
-
-
 def build_project_doc_id(subject_account_id, project_id):
     return "{}/projects/{}".format(subject_account_id, project_id)
 

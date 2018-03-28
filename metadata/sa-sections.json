@@ -1,0 +1,37 @@
+{
+  "notes": [
+    {
+      "kind": "SECTION",
+      "project_id": "security-advisor",
+      "id": "network-section",
+      "short_description": "Dashboard network section metadata",
+      "long_description": "Dashboard network section metadata",
+      "reported_by": {
+        "id": "security-advisor",
+        "title": "IBM Security Advisor",
+        "url": "https://console.bluemix.net/security/advisor"
+      },
+      "section": {
+        "title": "Network",
+        "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAMAAAHoucBSAAAAXVBMVEUAAAD///+AgP9JbbZAgL9JgLZEd7s8eLRDebxAdrY+dLI+dLlAcbE8crVBdrc7cbJAdLQ9dLE9dLc8crM7c7U+cLE+dLQ8cLI9cLE+cbM9cLI9cbM9cLI9cLI9cLIrkbipAAAAHnRSTlMAAQIHDA4PERMcISEkJicrLC4uL0ViY7bI6u/w8fNBh/XcAAABi0lEQVQ4y5WT3YKqMAyER1EQ/EH8yrLV3bz/Y56LQm0R3GOu4jBNJpMoqa4lCUCqXQ+1anpcPYETRTdJV+AqBkDAgK4eruPX8D38FmYQStwAzMy4SfiIZ3xpez5vQ/YkwJSD+TEH38cUvswspD3gQSTNGdys2rybpP3Uh33EyGPiPcxcAu+lbZjuO2VvdR6zvgec2QM45+hgZsBZ20D5zStoHym5uiVla1NIUnls22OZQZeJeYnQLq25C9gh73SQpGLWnkJSHDFRVYHP5VOpe5mJTgCDd/fs/ZTcIbr+HN1C+BemmQ0JGGo6PwCo42WBnarwymc69SyV+FzEUsnsiy4t+7ns/MqOQmyqpkvlNtVmgaXixFKcihnvwHocEt6O9xEHOgG4wfvBrVBPYY4L48nPbE3jspHUAOF0ZlvJopHKkLmHmdnvT79GLXXMgf7+5GbSj2rnjyM3l96+YebS2zfdg/SHm7qXqarvdxONLv1laBOd/8PQyybZZqZqcZufXMgHV/fJJf/Hv+MfJRNnL0IthqAAAAAASUVORK5CYII="
+      }
+    },
+
+    {
+      "kind": "SECTION",
+      "project_id": "security-advisor",
+      "id": "compute-section",
+      "short_description": "Dashboard compute section metadata",
+      "long_description": "Dashboard compute section metadata",
+      "reported_by": {
+        "id": "security-advisor",
+        "title": "IBM Security Advisor",
+        "url": "https://console.bluemix.net/security/advisor"
+      },
+      "section": {
+        "title": "Compute",
+        "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAMAAAHoucBSAAAAS1BMVEUAAAD///+AgP9JbbZAgL9JgLZEd7s8eLRDebxAdrY+dLI+dLlAcbE8crVBdrc7cbJAdLQ9dLE9dLc8crM8cbI8cLM7b7M+cLI9cLIAh475AAAAGHRSTlMAAQIHDA4PERMcISEkJicrLC4uL2prbOhyJudzAAABLElEQVQ4y6VTiZaDIAxMtfW+0635/y9dAqJBQxffhieEYd7kAAGgrsEYEqHxCZFqv2ygp8BivgkJJ3NgxjY7xJ3yOdtkJfFNRG80EgsrIU9LgAd8gKzvM+dZFA+PfStgdYzLC09Rd+cKBakroxl7eRa+dgxDkzyyw/OzDUOxZtAraB9BdQU9WiSzWBVsRTuObRFAg2cOO/SUmk+HVWGkirH8FB7za0o2q9KuK1lb7aaE+cqc3X0dgL9lRfSfTDW6mqdakV672iW9n3rnI3fk7FE2Muu5KR8KC/JO6wJ2+YlXYdwqwZPZk/guBQVxNSZ2ro4B/7aBa2uO/foTHH/Ww29Mz06RMbIvoE1ktjAmMscbzPTo6RUFXfp869KNzqff5p0XcuPV3XnJCX/HL2o8YwOMWp22AAAAAElFTkSuQmCC"
+      }
+    }
+  ]
+}

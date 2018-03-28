@@ -171,7 +171,10 @@ class API(object):
         if field_name is None:
             raise exceptions.BadRequestError("Invalid kind: {}".format(kind))
 
-        if field_name == common.FIELD_NOT_REQUIRED:
+        if field_name == API.KIND_NOT_SUPPORTED:
+            raise exceptions.BadRequestError("Invalid kind: {}".format(kind))
+
+        if field_name == API.FIELD_NOT_REQUIRED:
             return
 
         if field_name not in body:
@@ -194,20 +197,25 @@ class API(object):
             merged_kpi = dict_util.dict_merge(note['kpi'], body['kpi'])
             body['kpi'] = merged_kpi
 
+    FIELD_NOT_REQUIRED = "$NOT-REQUIRED"
+    KIND_NOT_SUPPORTED = "$NOT-SUPPORTED"
+
     _NOTE_KIND_FIELD_NAME_MAP = {
         'FINDING': 'finding',
         'KPI': 'kpi',
         'CARD': 'card',
-        'CARD_CONFIGURED': common.FIELD_NOT_REQUIRED,
-        'ACCOUNT_DELETED': common.FIELD_NOT_REQUIRED
+        'SECTION': 'section',
+        'CARD_CONFIGURED': FIELD_NOT_REQUIRED,
+        'ACCOUNT_DELETED': FIELD_NOT_REQUIRED
     }
 
     _OCCURRENCE_KIND_FIELD_NAME_MAP = {
         'FINDING': 'finding',
         'KPI': 'kpi',
-        'CARD': 'card',
+        'CARD': KIND_NOT_SUPPORTED,
+        'SECTION': KIND_NOT_SUPPORTED,
         'CARD_CONFIGURED': 'card_configured',
-        'ACCOUNT_DELETED': common.FIELD_NOT_REQUIRED
+        'ACCOUNT_DELETED': FIELD_NOT_REQUIRED
     }
 
 

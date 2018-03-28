@@ -672,13 +672,16 @@ definitions:
         description: Details about the reporter of this `Note`.
       finding:
         $ref: '#/definitions/FindingType'
-        description: A finding type of note.
+        description: The finding details of the note.
       kpi:
         $ref: '#/definitions/KpiType'
-        description: A KPI type of note.
+        description: The KPI details of the note.
       card:
         $ref: '#/definitions/Card'
-        description: A card type of note.
+        description: The card details of the note.
+      section:
+        $ref: '#/definitions/Section'
+        description: The section details of the note.
     required:
       - id
       - short_description
@@ -1014,6 +1017,24 @@ definitions:
       - value
 
 #
+# Section note details
+#
+
+  Section:
+    type: object
+    description: Card provides details about a card kind of note
+    properties:
+      title:
+        type: string
+        description: The title of this section
+      image:
+        type: string
+        description: The image of this section
+    required:
+      - title
+      - image
+
+#
 # Card note details
 #
 
@@ -1035,11 +1056,21 @@ definitions:
       requires_configuration:
         type: boolean
         default: false
+      badge_text:
+        type: string
+        description: The text associated to the card's badge
+      badge_image:
+        type: string
+        description: The base64 content of the image associated to the card's badge
       elements:
         type: array
         items:
           $ref: '#/definitions/CardElement'
         description: The elements of this card
+    required:
+      - section
+      - title
+      - elements
 
   CardElement:
     type: object

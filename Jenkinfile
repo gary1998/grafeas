@@ -1,0 +1,75 @@
+
+pipeline {
+
+    agent {
+        label ""
+    }
+    stages {
+      stage('Checkout SCM') {
+        steps {
+          script {
+            STAGE_NAME = "Checkout SCM"
+
+            checkout scm
+
+            sh "coverage xml -o test/coverage.xml"
+          }
+        }
+      }
+      stage ("SonarQube analysis") {
+        options {
+          timeout(time: 5, unit: 'MINUTES')
+        }
+        steps {
+          script {
+            STAGE_NAME = "SonarQube analysis"
+
+            withSonarQubeEnv('SecurityAdvisor') {
+              sh "../../../sonar-scanner/bin/sonar-scanner"
+            }
+
+            try {
+              // Check whether coverage threshold is met, otherwise fail the job.
+              qualitygate = waitForQualityGate()
+              if (qualitygate.status != "OK") {
+                currentBuild.result = "FAILURE"
+              }
+            }catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
+              currentBuild.result = "FAILURE"
+            }
+          }
+        }
+      }
+      stage ("Build Container Image") {
+        steps {
+          script {
+            STAGE_NAME = "Build Docker container image"
+
+            // Build the Docker container image and push to Bluemix Container Registry.
+            sh """
+              bx login -a https://api.ng.bluemix.net -u <user_name> -p <password> -c <account_id>
+              bx cr login
+              docker build -t registry.ng.bluemix.net/<registry_namespace>/<image_name>:<image_tag>.
+              docker push registry.ng.bluemix.net/<registry_namespace>/<image_name>:<image_tag>
+            """
+
+            // Delete the built image from the build machine.
+            sh "docker rmi registry.ng.bluemix.net/ <registry_namespace>/<image_name>:<image_tag>
+          }
+        }
+
+      }
+      stage ("Publish to Kubernetes") {
+        steps {
+          script {
+            STAGE_NAME = "Deploy to Kubernetes cluster"
+              sh """
+              export KUBECONFIG=<KUBECONFIG_PATH>
+              cd config/helm/grafeas/
+              helm install .
+            """
+          }
+        }
+      }
+    }
+}

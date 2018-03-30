@@ -1,0 +1,67 @@
+---
+global:
+  # env refers to the environment properties belong to during build-time. Default is "development".
+  env: development
+
+  # grafeas micro-service properties.
+  name: grafeas
+  imageName:
+    development: grafeas
+    stage:
+    pre_production:
+    production:
+  imageTag:
+    development:
+    stage:
+    pre_production:
+    production:
+  registryNamespace:
+    development:
+    stage:
+    pre_production:
+    production:
+  registryHostName:
+    development:
+    stage:
+    pre_production:
+    production: registry.ng.bluemix.net
+  log_level:
+    development: debug
+    stage: info
+    pre_production: info
+    production: info
+  clusterNamespace:
+    development:
+    stage:
+    pre_production:
+    production:
+  grafeasDB:
+    development: grafeas
+    stage:
+    pre_production:
+    production:
+  iamBaseUrl:
+    development: https://iam.ng.bluemix.net
+    stage:
+    pre_production:
+    production:
+  iamApiBaseUrl:
+    development: https://iam-api.ng.bluemix.net
+    stage:
+    pre_production:
+    production:
+  acceptHttp:
+    development: '"true"'
+    stage: '"false"'
+    pre_production: '"false"'
+    production: '"false"'
+  qradarHost:
+    development:
+    stage:
+    pre_production:
+    production:
+  grafeasUrl:
+    development: https://f0f93306-a37b-4180-9eb0-48b3e95ea167-bluemix.cloudant.com
+    stage:
+    pre_production:
+    production:

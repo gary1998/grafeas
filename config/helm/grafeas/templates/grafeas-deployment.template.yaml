@@ -1,0 +1,102 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: {{ .Values.global.name }}
+ namespace: {{ index .Values.global.clusterNamespace .Values.global.env }}
+ labels:
+  app: {{ .Values.global.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.global.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.name }}
+    spec:
+      containers:
+      - image: {{ index .Values.global.registryHostName .Values.global.env }}/{{ index .Values.global.registryNamespace .Values.global.env }}/{{ index .Values.global.imageName .Values.global.env }}:{{ index .Values.global.imageTag .Values.global.env }}
+        name: {{ .Values.global.name }}
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: IAM_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: iamBaseUrl
+        - name: IAM_API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: iamApiBaseUrl
+        - name: IAM_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: grafeas-secret
+              key: iamApiKey
+        - name: GRAFEAS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: grafeasUrl
+        - name: GRAFEAS_DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: grafeasDB
+        - name: GRAFEAS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: grafeas-secret
+              key: grafeasUsername
+        - name: GRAFEAS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: grafeas-secret
+              key: grafeasPassword
+        - name: ACCEPT_HTTP
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: acceptHttp
+        - name: QRADAR_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: qradarHost
+        - name: ROOT_CERT
+          valueFrom:
+            secretKeyRef:
+              name: grafeas-certificates-credentials
+              key: rootCert
+        - name: TLS_CERT
+          valueFrom:
+            secretKeyRef:
+              name: grafeas-certificates-credentials
+              key: tlsCert
+        - name: TLS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: grafeas-certificates-credentials
+              key: tlsKey
+
+        ports:
+        - containerPort: 8080
+          hostPort: 8081
+          protocol: TCP
+
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 30
+
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+          periodSeconds: 30

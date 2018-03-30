@@ -1,0 +1,15 @@
+#When gateway is in the same namespace 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: grafeas-network-policy
+  namespace: secadvisor
+spec:
+  podSelector:
+    matchLabels:
+         app: grafeas
+  ingress:
+  - from:
+    - podSelector:
+       matchLabels: 
+         app : gw

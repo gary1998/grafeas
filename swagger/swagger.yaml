@@ -24,6 +24,28 @@ paths:
       tags:
        - others
       x-swagger-router-controller: "controllers.grafeas_others_controller"
+  /healthz:
+    get:
+      summary: Return the liveness
+      operationId: get_liveness
+      parameters: []
+      responses:
+        200:
+          description: 'Liveness check passed'
+      tags:
+       - others
+      x-swagger-router-controller: "controllers.grafeas_others_controller"
+  /ready:
+    get:
+      summary: Return the readiness
+      operationId: get_readiness
+      parameters: []
+      responses:
+        200:
+          description: 'Ready check passed'
+      tags:
+       - others
+      x-swagger-router-controller: "controllers.grafeas_others_controller"
   /v1alpha1/accounts/{account_id}:
     delete:
       summary: Deletes the data of the given account from the system

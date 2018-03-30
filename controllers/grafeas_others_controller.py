@@ -1,7 +1,11 @@
+import http
 import logging
+import http.client
 from util import exceptions
 
-logger = logging.getLogger("grafeas.occurrences")
+KEYPROTECT_ROOT_KEY = None
+
+logger = logging.getLogger("grafeas.others")
 
 
 def get_home_page():
@@ -12,3 +16,11 @@ def get_home_page():
     except Exception as e:
         logger.exception("An unexpected error was encountered while reading the home page file")
         return exceptions.InternalServerError(str(e)).to_error()
+
+
+def get_readiness():
+    return "Readiness check successful", http.HTTPStatus.OK
+
+
+def get_liveness():
+    return "Liveness health check successful", http.HTTPStatus.OK

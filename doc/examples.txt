@@ -1,0 +1,96 @@
+{
+   "kind": "CARD",
+    "project_id": "security-advisor",
+    "id": "xforce-risks_from_clients",
+    "description": "Suspicious Clients Card",
+    "card": {
+        "section": "Network",
+        "title": "Suspicious Clients",
+        "finding_note_names": [
+            "projects/security-advisor/notes/xforce-bot_client",
+            "projects/security-advisor/notes/xforce-malware_client",
+            "projects/security-advisor/notes/xforce-scanner_client"
+        ],
+        "elements": [
+            {
+                "kind": "NUMERIC",
+                "text": "Suspicious clients discovered in the past day",
+                "default_time_range": "1d",
+                "value_type": {
+                    "kind": "FINDING_COUNT",
+                    "finding_note_names": [
+                        "projects/security-advisor/notes/xforce-bot_client",
+                        "projects/security-advisor/notes/xforce-malware_client",
+                        "projects/security-advisor/notes/xforce-scanner_client"
+                    ]
+                }
+            },
+            {
+                "kind": "TIME_SERIES",
+                "text": "Types of suspicious clients in the last 7 days",
+                "default_interval": "d",
+                "default_time_range": "7d",
+                "value_types": [
+                    {
+                        "kind": "FINDING_COUNT",
+                        "finding_note_names": [
+                            "projects/security-advisor/notes/xforce-malware_client"
+                        ],
+                         "text": "Malware distributers"
+                    },
+                    {
+                        "kind": "FINDING_COUNT",
+                        "finding_note_names": [
+                            "projects/security-advisor/notes/xforce-bot_client"
+                        ],
+                        "text": "Bots"
+                    },
+                    {
+                        "kind": "FINDING_COUNT",
+                        "finding_note_names": [
+                            "projects/security-advisor/notes/xforce-scanner_client"
+                        ],
+                        "text": "Scanners"
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+
+{
+    "kind": "FINDING",
+    "name": "projects/security-advisor/occurrences/xforce-1520863475194",
+    "note_name": "projects/security-advisor/notes/xforce-scanner_client",
+    "create_time": "2018-03-12T14:04:35.330302Z",
+    "update_time": "2018-03-12T14:04:35.330302Z",
+     "finding": {
+        "severity": "MEDIUM",
+        "certainty": "HIGH",
+        "network": {
+            "client": {
+                "ip": "80.82.77.139",
+                "port": "13443"
+            },
+            "server": {
+                "ip": "169.60.192.118",
+                "port": "5984"
+            }
+        },
+        "next_steps": [
+            {
+                "title": "Verify in IBM X-Force Threat Intelligence what this client IP was classified as a scanner"
+                "url": "https://exchange.xforce.ibmcloud.com/ip/80.82.77.139"
+            }
+        ]
+    },
+    "context": {
+        "region": "dal10",
+        "account_id": "0ce28a8d963f13ef436b3f12f71d213a",
+        "resource_name": "",
+        "resource_type": "Pod",
+        "service_crn": "crn:v1:bluemix:public:containers-kubernetes:dal10:a/0ce28a8d963f13ef436b3f12f71d213a:6661a3c5d333452ab4dd6a01db17b9a7::",
+        "service_name": "Kubernetes Cluster"
+     }
+}

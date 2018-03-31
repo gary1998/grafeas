@@ -45,7 +45,7 @@ class API(object):
     #
 
     def write_note(self, subject_account_id, project_id, note_id, body, mode='create'):
-        project_doc_id = common.build_project_doc_id(subject_account_id, project_id)
+        project_full_name = common.build_project_full_name(subject_account_id, project_id)
         note_name = common.build_note_name(project_id, note_id)
 
         kind = body['kind']
@@ -55,7 +55,7 @@ class API(object):
         body['id'] = note_id
         body['account_id'] = subject_account_id
         body['project_id'] = project_id
-        body['project_doc_id'] = project_doc_id
+        body['project_doc_id'] = project_full_name
         body['name'] = note_name
 
         if 'create_time' in body:
@@ -120,8 +120,8 @@ class API(object):
         body['project_id'] = project_id
         body['id'] = occurrence_id
         body['name'] = common.build_occurrence_name(project_id, occurrence_id)
-        body['project_doc_id'] = common.build_project_doc_id(subject_account_id, project_id)
-        body['note_doc_id'] = common.build_note_doc_id(note_account_id, note_project_id, note_id)
+        body['project_doc_id'] = common.build_project_full_name(subject_account_id, project_id)
+        body['note_doc_id'] = common.build_note_full_name(note_account_id, note_project_id, note_id)
 
         if 'create_time' in body:
             create_datetime = isodate.parse_datetime(body['create_time'])
@@ -191,10 +191,10 @@ class API(object):
 
         kind = body['kind']
         if kind == 'FINDING':
-            merged_finding = dict_util.dict_merge(note['finding'], body['finding'])
+            merged_finding = dict_util.override(note['finding'], body['finding'])
             body['finding'] = merged_finding
         elif kind == 'KPI':
-            merged_kpi = dict_util.dict_merge(note['kpi'], body['kpi'])
+            merged_kpi = dict_util.override(note['kpi'], body['kpi'])
             body['kpi'] = merged_kpi
 
     FIELD_NOT_REQUIRED = "$NOT-REQUIRED"

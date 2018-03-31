@@ -5,24 +5,33 @@ from util import exceptions
 logger = logging.getLogger("grafeas.common")
 
 
-def build_project_doc_id(subject_account_id, project_id):
-    return "{}/projects/{}".format(subject_account_id, project_id)
-
-
-def build_note_doc_id(subject_account_id, project_id, note_id):
-    return "{}/projects/{}/notes/{}".format(subject_account_id, project_id, note_id)
-
-
-def build_occurrence_doc_id(subject_account_id, project_id, occurrence_id):
-    return "{}/projects/{}/occurrences/{}".format(subject_account_id, project_id, occurrence_id)
+#
+#   DOC ID -> FULL NAME
+#
 
 
 def build_project_name(project_id):
     return "projects/{}".format(project_id)
 
 
+def build_project_full_name(subject_account_id, project_id):
+    return "{}/projects/{}".format(subject_account_id, project_id)
+
+
 def build_note_name(project_id, note_id):
     return "projects/{}/notes/{}".format(project_id, note_id)
+
+
+def build_note_full_name(subject_account_id, project_id, note_id):
+    return "{}/projects/{}/notes/{}".format(subject_account_id, project_id, note_id)
+
+
+def build_occurrence_name(project_id, occurrence_id):
+    return "projects/{}/occurrences/{}".format(project_id, occurrence_id)
+
+
+def build_occurrence_full_name(subject_account_id, project_id, occurrence_id):
+    return "{}/projects/{}/occurrences/{}".format(subject_account_id, project_id, occurrence_id)
 
 
 def parse_note_name(note_name, subject_account_id):
@@ -36,10 +45,6 @@ def parse_note_name(note_name, subject_account_id):
             return note_name_parts[0], note_name_parts[2], note_name_parts[4]
     except IndexError:
         raise exceptions.BadRequestError("Invalid note name: {}".format(note_name))
-
-
-def build_occurrence_name(project_id, occurrence_id):
-    return "projects/{}/occurrences/{}".format(project_id, occurrence_id)
 
 
 def build_result(status_code, data):

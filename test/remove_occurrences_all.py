@@ -25,13 +25,13 @@ def backup_all(db, filename):
             f.write(json.dumps(doc) + '\n')
 
 
-def get_occurrences_of_notes(db, note_doc_ids):
+def get_occurrences_of_notes(db, note_full_names):
     return db.find(
         filter_={
             'context.account_id': USER_ACCOUNT_ID,
             'doc_type': 'Occurrence',
             'kind': 'FINDING',
-            'note_doc_id': note_doc_ids
+            'note_doc_id': note_full_names
         },
         index="RAI_DT_K_TS_NDI",
         sort=[
@@ -46,10 +46,10 @@ def get_occurrences_of_notes(db, note_doc_ids):
 def delete_occurrences(docs):
     n = 1
     for doc in docs:
-        occurrence_doc_id = doc['_id']
+        occurrence_full_name = doc['_id']
         update_time = doc['update_time']
-        print("Deleting occurrence #{}: {} ({})".format(n, occurrence_doc_id, update_time))
-        db.delete_doc(occurrence_doc_id)
+        print("Deleting occurrence #{}: {} ({})".format(n, occurrence_full_name, update_time))
+        db.delete_doc(occurrence_full_name)
         n += 1
 
 

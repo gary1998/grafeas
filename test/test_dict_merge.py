@@ -18,7 +18,7 @@ class TestMockData(BaseTestCase):
             "certainty": "HIGH"
         }
 
-        result = dict_util.dict_merge(n, o)
+        result = dict_util.override(n, o)
         self.assertDictEqual(result, expected_result,
                              "Result is not what was expected: {}".format(json.dumps(result)))
 
@@ -58,7 +58,7 @@ class TestMockData(BaseTestCase):
             ]
         }
 
-        result = dict_util.dict_merge(n, o)
+        result = dict_util.override(n, o)
         self.assertDictEqual(result, expected_result,
                              "Result is not what was expected: {}".format(json.dumps(result)))
 
@@ -108,7 +108,7 @@ class TestMockData(BaseTestCase):
             ]
         }
 
-        result = dict_util.dict_merge(n, o)
+        result = dict_util.override(n, o)
         self.assertDictEqual(result, expected_result,
                              "Result is not what was expected: {}".format(json.dumps(result)))
 
@@ -161,6 +161,6 @@ class TestMockData(BaseTestCase):
             ]
         }
 
-        result = dict_util.dict_merge(n, o)
+        result = dict_util.override(n, o)
         self.assertDictEqual(result, expected_result,
                              "Result is not what was expected: {}".format(json.dumps(result)))

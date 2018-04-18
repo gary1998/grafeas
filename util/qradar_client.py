@@ -28,6 +28,9 @@ class QRadarClient(SysLogClient):
         super().__init__(host, port, facility, private_key_file, cert_file, ca_certs_file)
         self.app_id = app_id
         self.comp_id = comp_id
+
+    def close(self):
+        super().close()
     
     def log_web_service_auth_succeeded(
             self, method, url, user_name, 

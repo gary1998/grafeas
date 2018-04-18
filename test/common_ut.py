@@ -2,6 +2,8 @@ from flask_testing import TestCase
 import connexion
 import json
 import os
+from controllers import auth
+from util import auth_util
 
 
 class BaseTestCase(TestCase):
@@ -10,6 +12,11 @@ class BaseTestCase(TestCase):
         app.add_api('swagger.yaml')
         app.app.config['TESTING'] = True
         return app.app
+
+    @classmethod
+    def tearDownClass(cls):
+        auth.close_auth_client()
+        auth_util.close_qradar_client()
 
     def post_project(self, body):
         return self.client.open(

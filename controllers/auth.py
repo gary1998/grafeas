@@ -23,6 +23,9 @@ class GrafeasAuthClient(pepclient.PEPClient):
         self.enabled = enabled
         logger.info("Auth client initialized.")
 
+    def close(self):
+        super().finish()
+
     def enable(self, value):
         self.enabled = value
 
@@ -136,3 +139,12 @@ def get_auth_client():
         if __auth_client is None:
             __auth_client = GrafeasAuthClient()
         return __auth_client
+
+
+def close_auth_client():
+    global __auth_client
+    with __auth_client_lock:
+        if __auth_client is not None:
+            __auth_client.close()
+
+

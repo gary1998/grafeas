@@ -233,8 +233,8 @@ def get_api_impl():
             try:
                 __api_impl.write_note('system', 'core', 'card_configured', {
                     "kind": "CARD_CONFIGURED",
-                    "short_description": "Used by occurrences to indicate a card was configured for the user account",
-                    "long_description": "Used by occurrences to indicate a card was configured for the user account"
+                    "short_description": "Used to indicate a card was configured for the user account",
+                    "long_description": "Used to indicate a card was configured for the user account"
                 })
             except exceptions.AlreadyExistsError:
                 pass
@@ -242,8 +242,8 @@ def get_api_impl():
             try:
                 __api_impl.write_note('system', 'core', 'account_deleted', {
                     "kind": "ACCOUNT_DELETED",
-                    "short_description": "Used by occurrences to indicate a user account was deleted",
-                    "long_description": "Used by occurrences to indicate a user account was deleted"
+                    "short_description": "Used to indicate a user account was deleted",
+                    "long_description": "Used to indicate a user account was deleted"
                 })
             except exceptions.AlreadyExistsError:
                 pass

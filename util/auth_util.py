@@ -82,24 +82,24 @@ def validate_proto(request):
 
 
 def get_identity_token(iam_base_url, api_key):
-    client = rest_client.RestClient()
-    client.add_header("Accept", "application/json")
-    client.add_header("Content-Type", "application/x-www-form-urlencoded")
+    with rest_client.RestClient() as client:
+        client.add_header("Accept", "application/json")
+        client.add_header("Content-Type", "application/x-www-form-urlencoded")
 
-    body = {
-        "grant_type": "urn:ibm:params:oauth:grant-type:apikey",
-        "apikey": api_key
-    }
+        body = {
+            "grant_type": "urn:ibm:params:oauth:grant-type:apikey",
+            "apikey": api_key
+        }
 
-    response = client.post(
-        url="{}/identity/token".format(iam_base_url),
-        data=body)
+        response = client.post(
+            url="{}/identity/token".format(iam_base_url),
+            data=body)
 
-    if response.status_code != 200:
-        response.raise_for_status()
+        if response.status_code != 200:
+            response.raise_for_status()
 
-    content = json.loads(response.content.decode('utf-8'))
-    return content['access_token']
+        content = json.loads(response.content.decode('utf-8'))
+        return content['access_token']
 
 
 #
@@ -127,6 +127,16 @@ def get_qradar_client():
         if __qradar_client is None:
             __qradar_client = _init_qradar_client()
         return __qradar_client
+
+
+def close_qradar_client():
+    try:
+        global __qradar_client
+        with __qradar_client_lock:
+            if __qradar_client is not None:
+                __qradar_client.close()
+    except:
+        logger.exception("An unexpcted error was encountered while closing QRadar client")
 
 
 def _init_qradar_client():

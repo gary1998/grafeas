@@ -16,7 +16,7 @@ spec:
         app: {{ .Values.global.name }}
     spec:
       containers:
-      - image: {{ index .Values.global.registryHostName .Values.global.env }}/{{ index .Values.global.registryNamespace .Values.global.env }}/{{ index .Values.global.imageName .Values.global.env }}:{{ index .Values.global.imageTag .Values.global.env }}
+      - image: {{ index .Values.global.registryHostName .Values.global.env }}/{{ index .Values.global.registryNamespace .Values.global.env }}/{{ index .Values.global.imageName .Values.global.env }}:{{ .Values.global.tag | default "dummy" }}
         name: {{ .Values.global.name }}
         imagePullPolicy: IfNotPresent
         env:

@@ -5,23 +5,19 @@ global:
 
   # grafeas micro-service properties.
   name: grafeas
+  tag:
   imageName:
     development: grafeas
     stage:
     pre_production:
     production:
-  imageTag:
-    development:
-    stage:
-    pre_production:
-    production:
   registryNamespace:
-    development:
+    development: secadvisor_dev
     stage:
     pre_production:
     production:
   registryHostName:
-    development:
+    development: registry.ng.bluemix.net
     stage:
     pre_production:
     production: registry.ng.bluemix.net
@@ -31,7 +27,7 @@ global:
     pre_production: info
     production: info
   clusterNamespace:
-    development:
+    development: securityadvisor-dev-dal10
     stage:
     pre_production:
     production:

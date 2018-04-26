@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: grafeas-network-policy
-  namespace: secadvisor
+  namespace: {{ index .Values.global.clusterNamespace .Values.global.env }}
 spec:
   podSelector:
     matchLabels:
@@ -12,4 +12,7 @@ spec:
   - from:
     - podSelector:
        matchLabels: 
-         app : gw
+         app : findingsapi
+    - podSelector:
+       matchLabels:
+         microservice : analyticsdistributor

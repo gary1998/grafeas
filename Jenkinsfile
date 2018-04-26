@@ -17,6 +17,13 @@
       kafkaSaslPassword = credentials("security_advisor_kafka_password")
       redis_auth = credentials("${cloudcerts_redis_auth_dev}")
       xforceToken = credentials("security-advisor-xforce-token")
+      GRAFEAS_URL = credentials("security_advisor_cloudant_url_dev")
+      GRAFEAS_USERNAME = credentials("security_advisor_cloudant_username_dev")
+      GRAFEAS_PASSWORD = credentials("security_advisor_cloudant_password_dev")
+      IAM_BEARER_TOKEN = credentials("security_advisor_iam_bearer_token_dev")
+      IAM_API_BASE_URL = credentials("security_advisor_iam_api_base_url_dev")
+      IAM_API_KEY = credentials("security_advisor_iam_api_key_dev")
+      IAM_BASE_URL = credentials("security_advisor_iam_base_url")
     }
 
     // Defines which build machines group is used.
@@ -164,11 +171,11 @@
             STAGE_NAME = "Unit & Integration tests"
 
             sh """
-              pip install --no-cache-dir -r requirements.txt
+              pip3.6 install --no-cache-dir -r requirements.txt
               mv test/unit-tests/test_security_findings.py test/unit-tests/test_security_findings.py_back
               mv test/unit-tests/test_dict_merge.py test/unit-tests/test_dict_merge.py_back
-              coverage run --source=. -m unittest discover -s test
-              coverage xml -o test/coverage.xml
+              coverage-3.6 run --source=. -m unittest discover -s test
+              coverage-3.6 xml -o test/coverage.xml
             """
           }
         }
@@ -231,14 +238,14 @@
             STAGE_NAME = "Merge pull request"
 
             // Check if the Pull Request requires a review.
-            isMergeable = sh(script: "curl -s https://github.ibm.com/api/v3/repos/security-services/${repositoryName}/pulls/$CHANGE_ID?access_token=$JENKINSBOT_PSW | jq '.mergeable_state' | tr -d '\"'", returnStdout:true).trim()
+            isMergeable = sh(script: "curl -s https://github.ibm.com/api/v3/repos/oneibmcloud/${repositoryName}/pulls/$CHANGE_ID?access_token=$JENKINSBOT_PSW | jq '.mergeable_state' | tr -d '\"'", returnStdout:true).trim()
 
             if (isMergeable == "blocked") {
               env.shouldBuild = "false"
               slackSend (channel: "secadvisor-health", color: '#e9a820', message: "*${repositoryName}*/<$CHANGE_URL|PR-$CHANGE_ID>: Pull Request review required.")
             } else {
               // Attempt merging the Pull Request.
-              isMerged = sh(script: "curl -s -o /dev/null -w '%{http_code}' -X PUT -d '{\"commit_title\": \"Merge pull request\"}'  https://github.ibm.com/api/v3/repos/security-services/${repositoryName}/pulls/$CHANGE_ID/merge?access_token=$JENKINSBOT_PSW", returnStdout:true).trim()
+              isMerged = sh(script: "curl -s -o /dev/null -w '%{http_code}' -X PUT -d '{\"commit_title\": \"Merge pull request\"}'  https://github.ibm.com/api/v3/repos/oneibmcloud/${repositoryName}/pulls/$CHANGE_ID/merge?access_token=$JENKINSBOT_PSW", returnStdout:true).trim()
 
               if (isMerged != "200") {
                 currentBuild.result = "FAILURE"

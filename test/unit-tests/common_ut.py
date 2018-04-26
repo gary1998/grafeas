@@ -5,10 +5,9 @@ import os
 from controllers import auth
 from util import auth_util
 
-
 class BaseTestCase(TestCase):
     def create_app(self):
-        app = connexion.App(__name__, specification_dir='../swagger/')
+        app = connexion.App(__name__, specification_dir='../../swagger/')
         app.add_api('swagger.yaml')
         app.app.config['TESTING'] = True
         return app.app

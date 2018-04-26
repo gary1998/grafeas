@@ -18,21 +18,21 @@ FILE_NAMES = [
 class TestMockData(BaseTestCase):
     def test_01_create_projects(self):
         for file_name in FILE_NAMES:
-            with open("test/data/{}".format(file_name)) as f:
+            with open("test/unit-tests/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for project in data.get('projects', []):
                     self._add_project(project)
 
     def test_02_create_notes(self):
         for file_name in FILE_NAMES:
-            with open("test/data/{}".format(file_name)) as f:
+            with open("test/unit-tests/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for note in data.get('notes', []):
                     self._add_note(note['project_id'], note)
 
     def test_03_create_occurrences(self):
         for file_name in FILE_NAMES:
-            with open("test/data/{}".format(file_name)) as f:
+            with open("test/unit-tests/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for occurrence in data.get('occurrences', []):
                     self._add_occurrence(occurrence['project_id'], occurrence)

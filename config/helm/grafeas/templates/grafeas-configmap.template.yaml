@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafeas-configuration
+  namespace: {{ index .Values.global.clusterNamespace .Values.global.env }}
+data:
+  log_level: {{ index .Values.global.log_level .Values.global.env | quote }}
+  iamBaseUrl: {{ index .Values.global.iamBaseUrl .Values.global.env | quote }}
+  iamApiBaseUrl: {{ index .Values.global.iamApiBaseUrl .Values.global.env | quote }}
+  qradarHost: {{ index .Values.global.qradarHost .Values.global.env | quote }}
+  acceptHttp: {{ index .Values.global.acceptHttp .Values.global.env  }}
+  grafeasDB: {{ index .Values.global.grafeasDB .Values.global.env | quote }}
+  grafeasUrl: {{ index .Values.global.grafeasUrl .Values.global.env | quote }}

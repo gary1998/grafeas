@@ -1,6 +1,6 @@
 import json
 import os
-from test import common_fvt
+import common_fvt
 
 
 OK = 200

@@ -4,3 +4,4 @@ name: grafeas
 description: This chart manages the grafeas micro-service.
 version: 0.0.1
 appVersion: 0.0.1
+icon:

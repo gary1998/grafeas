@@ -277,7 +277,7 @@
 
             // Build the Docker container image and push to Bluemix Container Registry.
             sh """
-              dos2unix environment.sh
+              // dos2unix environment.sh
               docker login -u token -p ${dockerLogin} registry.ng.bluemix.net
               docker build -t registry.ng.bluemix.net/${registryNamespace}/${microServiceName}:0.0.$BUILD_NUMBER .
               docker push registry.ng.bluemix.net/${registryNamespace}/${microServiceName}:0.0.$BUILD_NUMBER

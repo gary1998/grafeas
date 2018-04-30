@@ -6,6 +6,9 @@ global:
   # grafeas micro-service properties.
   name: grafeas
   tag:
+  certificateSecretMountPath : /etc/secrets
+  sslCertPath: /etc/secrets/tls_cert
+  sslKeyPath: /etc/secrets/tls_key
   imageName:
     development: grafeas
     stage:
@@ -51,13 +54,18 @@ global:
     stage: '"false"'
     pre_production: '"false"'
     production: '"false"'
+  grafeasConfigureSsl:
+    development: '"true"'
+    stage: '"true"'
+    pre_production: '"true"'
+    production: '"true"'
   qradarHost:
     development:
     stage:
     pre_production:
     production:
   grafeasUrl:
-    development: https://f0f93306-a37b-4180-9eb0-48b3e95ea167-bluemix.cloudant.com
+    development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
     stage:
     pre_production:
     production:

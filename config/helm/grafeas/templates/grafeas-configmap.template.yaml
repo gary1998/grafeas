@@ -11,3 +11,7 @@ data:
   acceptHttp: {{ index .Values.global.acceptHttp .Values.global.env  }}
   grafeasDB: {{ index .Values.global.grafeasDB .Values.global.env | quote }}
   grafeasUrl: {{ index .Values.global.grafeasUrl .Values.global.env | quote }}
+  certificateSecretMountPath: {{ .Values.global.certificateSecretMountPath | quote }}
+  sslCertPath: {{ .Values.global.sslCertPath | quote }}
+  sslKeyPath: {{ .Values.global.sslKeyPath | quote }}
+  grafeasConfigureSsl: {{ index .Values.global.grafeasConfigureSsl .Values.global.env }}

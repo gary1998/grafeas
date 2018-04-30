@@ -67,21 +67,21 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: qradarHost
-        - name: ROOT_CERT
+        - name: GRFAEAS_CONFIGURE_SSL
           valueFrom:
-            secretKeyRef:
-              name: grafeas-certificates-credentials
-              key: root_cert
-        - name: TLS_CERT
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: grafeasConfigureSsl
+        - name: SSL_KEY_PATH
           valueFrom:
-            secretKeyRef:
-              name: grafeas-certificates-credentials
-              key: tls_cert
-        - name: TLS_KEY
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: sslKeyPath
+        - name: SSL_CERT_PATH
           valueFrom:
-            secretKeyRef:
-              name: grafeas-certificates-credentials
-              key: tls_key
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: sslCertPath
 
         ports:
         - containerPort: 8080
@@ -90,6 +90,7 @@ spec:
 
         readinessProbe:
           httpGet:
+            scheme: HTTPS
             path: /ready
             port: 8080
           initialDelaySeconds: 10
@@ -97,8 +98,18 @@ spec:
 
         livenessProbe:
           httpGet:
+            scheme: HTTPS
             path: /healthz
             port: 8080
           initialDelaySeconds: 30
           timeoutSeconds: 10
           periodSeconds: 30
+
+        volumeMounts:
+        - name: secrets
+          mountPath: {{ .Values.global.certificateSecretMountPath }}
+          readOnly: true
+      volumes:
+      - name: secrets
+        secret:
+          secretName: grafeas-certificates-credentials

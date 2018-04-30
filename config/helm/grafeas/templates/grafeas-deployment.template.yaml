@@ -15,6 +15,8 @@ spec:
       labels:
         app: {{ .Values.global.name }}
     spec:
+      imagePullSecrets:
+      - name: bluemix-{{ index .Values.global.clusterNamespace .Values.global.env }}-secret
       containers:
       - image: {{ index .Values.global.registryHostName .Values.global.env }}/{{ index .Values.global.registryNamespace .Values.global.env }}/{{ index .Values.global.imageName .Values.global.env }}:{{ .Values.global.tag | default "dummy" }}
         name: {{ .Values.global.name }}
@@ -69,17 +71,17 @@ spec:
           valueFrom:
             secretKeyRef:
               name: grafeas-certificates-credentials
-              key: rootCert
+              key: root_cert
         - name: TLS_CERT
           valueFrom:
             secretKeyRef:
               name: grafeas-certificates-credentials
-              key: tlsCert
+              key: tls_cert
         - name: TLS_KEY
           valueFrom:
             secretKeyRef:
               name: grafeas-certificates-credentials
-              key: tlsKey
+              key: tls_key
 
         ports:
         - containerPort: 8080

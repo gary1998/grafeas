@@ -21,6 +21,8 @@ class API(object):
 
     def create_project(self, subject_account_id, body):
         project_id = body['id']
+        common.validate_id(project_id)
+
         body['doc_type'] = 'Project'
         body['account_id'] = subject_account_id
         body['id'] = project_id
@@ -45,6 +47,9 @@ class API(object):
     #
 
     def write_note(self, subject_account_id, project_id, note_id, body, mode='create'):
+        common.validate_id(project_id)
+        common.validate_id(note_id)
+
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
         note_name = common.build_note_name(project_id, note_id)
 
@@ -65,7 +70,7 @@ class API(object):
             create_datetime = datetime.datetime.utcnow()
             create_timestamp = create_datetime.timestamp()
             body['create_time'] = create_datetime.isoformat() + 'Z'
-        body['create_timestamp'] = create_timestamp
+        body['create_timestamp'] = int(round(create_timestamp * 1000))
 
         if 'update_time' in body:
             update_datetime = isodate.parse_datetime(body['update_time'])
@@ -74,7 +79,7 @@ class API(object):
             update_datetime = datetime.datetime.utcnow()
             update_timestamp = update_datetime.timestamp()
             body['update_time'] = update_datetime.isoformat() + 'Z'
-        body['update_timestamp'] = update_timestamp
+        body['update_timestamp'] = int(round(update_timestamp * 1000))
         body['update_week_date'] = API._week_date_iso_format(update_datetime.isocalendar())
 
         if 'shared' not in body:
@@ -102,9 +107,11 @@ class API(object):
     #
 
     def write_occurrence(self, subject_account_id, project_id, occurrence_id, body, mode='create'):
-        note_name = body['note_name']
+        common.validate_id(project_id)
+        common.validate_id(occurrence_id)
 
         # verify note exists (a not-found exception will be raised if the note does not exist) and access is allowed
+        note_name = body['note_name']
         note_account_id, note_project_id, note_id = common.parse_note_name(note_name, subject_account_id)
         note = self.store.get_note(note_account_id, note_project_id, note_id)
         if note_account_id != subject_account_id and not note['shared']:
@@ -130,7 +137,7 @@ class API(object):
             create_datetime = datetime.datetime.utcnow()
             create_timestamp = create_datetime.timestamp()
             body['create_time'] = create_datetime.isoformat() + 'Z'
-        body['create_timestamp'] = create_timestamp
+        body['create_timestamp'] = int(round(create_timestamp * 1000))
 
         if 'update_time' in body:
             update_datetime = isodate.parse_datetime(body['update_time'])
@@ -139,7 +146,7 @@ class API(object):
             update_datetime = datetime.datetime.utcnow()
             update_timestamp = update_datetime.timestamp()
             body['update_time'] = update_datetime.isoformat() + 'Z'
-        body['update_timestamp'] = update_timestamp
+        body['update_timestamp'] = int(round(update_timestamp * 1000))
         body['update_week_date'] = self._week_date_iso_format(update_datetime.isocalendar())
 
         self._set_occurrence_defaults(body, note)

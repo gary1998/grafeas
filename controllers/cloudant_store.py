@@ -216,6 +216,9 @@ class CloudantStore(store.Store):
             os.environ['GRAFEAS_PASSWORD'])
 
         db.create_query_index(
+            'DT',
+            ['doc_type'])
+        db.create_query_index(
             'RAI_DT',
             ['context.account_id', 'doc_type'])
         db.create_query_index(

@@ -49,3 +49,16 @@ def parse_note_name(note_name, subject_account_id):
 
 def build_result(status_code, data):
     return data, status_code
+
+
+def validate_id(id_):
+    import re
+    # URL safe characters: Alphanumerics [0-9a-zA-Z], special characters $-_.+!*'(),
+
+    if not id_:
+        raise exceptions.BadRequestError("ID is empty")
+
+    safe_characters = r'[^0-9a-zA-Z-_\.&%]'
+    if re.search(safe_characters, id_):
+        raise exceptions.BadRequestError(
+            "ID contains invalid characters, only 0-9, a-z, A-Z, and -_.&% are allowed: {}".format(id_))

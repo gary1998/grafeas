@@ -10,7 +10,6 @@ import hashlib
 import logging
 from urllib import parse
 from io import StringIO
-import threading
 from util import dict_util
 from util import exceptions
 
@@ -137,18 +136,17 @@ class ElasticsearchQueryBuilder(object):
         self.body['size'] = size
 
 
-class ResourceType(object):
-    def __init__(self, name, key_field_names):
-        self.name = name
+class IdBuilder(object):
+    def __init__(self,key_field_names):
         self.key_field_names = key_field_names
 
     def build_id(self, resource):
-        resource_sha = hashlib.sha1()
+        hash = hashlib.sha1()
         for field_name in self.key_field_names:
             value = resource[field_name]
-            resource_sha.update(value.encode('utf-8'))
+            hash.update(value.encode('utf-8'))
 
-        return resource_sha.hexdigest()
+        return hash.hexdigest()
 
 
 class ElasticsearchBulkWriter(object):
@@ -163,77 +161,73 @@ class ElasticsearchBulkWriter(object):
     UPDATE = 3
     DELETE = 4
 
-    def __init__(self, client, index: str, resource_type: ResourceType, max_buf_len: int):
+    def __init__(self, client, index: str, doc_type: str, max_buf_len: int):
         self.client = client
         self.index = index
-        self.resource_type = resource_type
+        self.doc_type = doc_type
         self.buf = StringIO()
         self.max_buf_len = max_buf_len
-        self.lock = threading.Lock()
 
-    def create(self, doc):
-        self._write(doc, ElasticsearchBulkWriter.CREATE)
+    def create(self, doc, doc_id):
+        self._write(doc, doc_id, ElasticsearchBulkWriter.CREATE)
 
-    def create_or_update(self, doc):
-        self._write(doc, ElasticsearchBulkWriter.INDEX)
+    def create_or_update(self, doc, doc_id=None):
+        self._write(doc, doc_id, ElasticsearchBulkWriter.INDEX)
 
-    def update(self, doc):
-        self._write(doc, ElasticsearchBulkWriter.UPDATE)
+    def update(self, doc, doc_id):
+        self._write(doc, doc_id, ElasticsearchBulkWriter.UPDATE)
 
-    def delete(self, key_fields):
-        self._write(key_fields, ElasticsearchBulkWriter.DELETE)
+    def delete(self, doc_id):
+        self._write(None, doc_id, ElasticsearchBulkWriter.DELETE)
 
-    def _write(self, doc, action):
-        with self.lock:
-            if self.buf.tell() > self.max_buf_len:
-                self.flush()
+    def _write(self, doc, doc_id, action):
+        if self.buf.tell() > self.max_buf_len:
+            self.flush()
 
-            doc_id = self.resource_type.build_id(doc)
-            if action == ElasticsearchBulkWriter.CREATE:
-                option = {
-                    'create': {
-                        '_id': doc_id
-                    }
+        if action == ElasticsearchBulkWriter.CREATE:
+            option = {
+                'create': {
+                    '_id': doc_id
                 }
-                data = doc
-            elif action == ElasticsearchBulkWriter.INDEX:
-                option = {
-                    'index': {
-                        '_id': doc_id
-                    }
+            }
+            data = doc
+        elif action == ElasticsearchBulkWriter.INDEX:
+            option = {
+                'index': {
+                    '_id': doc_id
                 }
-                data = doc
-            elif action == ElasticsearchBulkWriter.UPDATE:
-                option = {
-                    'update': {
-                        '_id': doc_id,
-                        '_retry_on_conflict': 3
-                    }
+            }
+            data = doc
+        elif action == ElasticsearchBulkWriter.UPDATE:
+            option = {
+                'update': {
+                    '_id': doc_id,
+                    '_retry_on_conflict': 3
                 }
-                data = {"doc": doc}
-            else:
-                option = {
-                    'delete': {
-                        '_id': doc_id
-                   }
-                }
+            }
+            data = {"doc": doc}
+        else:
+            option = {
+                'delete': {
+                    '_id': doc_id
+               }
+            }
 
-            json.dump(option, self.buf)
-            self.buf.write('\n')
-            if action != ElasticsearchBulkWriter.DELETE:
-                json.dump(data, self.buf)
-            self.buf.write('\n')
+        json.dump(option, self.buf)
+        self.buf.write('\n')
+        if action != ElasticsearchBulkWriter.DELETE:
+            json.dump(data, self.buf)
+        self.buf.write('\n')
 
     def flush(self):
         # Index/update the last docs in the buffer
-        with self.lock:
-            if self.buf.tell() > 0:
-                self.client._bulk(
-                    self.index,
-                    self.resource_type.name,
-                    self.buf.getvalue())
-                self.buf.close()
-                self.buf = StringIO()
+        if self.buf.tell() > 0:
+            self.client._bulk(
+                self.index,
+                self.doc_type,
+                self.buf.getvalue())
+            self.buf.close()
+            self.buf = StringIO()
 
     def close(self):
         self.flush()
@@ -271,15 +265,16 @@ class ElasticsearchClient(object):
         self.client = None
         logger.debug("Elasticsearch client closed")
 
-    def get_query_builder(self):
-        return ElasticsearchQueryBuilder()
-
-    def get_bulk_writer(self, index:str, resource_type: ResourceType, max_buf_len: int = MAX_POST_DATA_LEN):
-        return ElasticsearchBulkWriter(self, index, resource_type, max_buf_len)
+    def get_bulk_writer(self, index:str, doc_type: str, max_buf_len: int = MAX_POST_DATA_LEN):
+        return ElasticsearchBulkWriter(self, index, doc_type, max_buf_len)
 
     def create_index(self, index, config=None):
         logger.info("Creating index '%s' ...", index)
         self.client.indices.create(index, config, update_all_types=True)
+
+    def get_index(self, index):
+        logger.info("Getting index '%s' ...", index)
+        return self.client.indices.get(index)
 
     def delete_index(self, index):
         logger.info("Deleting index '%s' ...", index)
@@ -492,3 +487,18 @@ class BluemixElasticsearchClient(ElasticsearchClient):
             config['public_hostname'],
             config['username'],
             config['password'])
+
+
+class ComposeElasticsearchClient(ElasticsearchClient):
+    def __init__(self, hosts, username, password):
+        logger.info("Initializing Compose elasticsearch client: %s ...", hosts)
+
+        es_conf = {
+            'hosts': hosts,
+            'http_auth': (username, password),
+            'use_ssl': True,
+            'verify_certs': True
+            #'ca_certs': '/Users/agiammar/Documents/Projects/DevOps Insights/Certificates/compose-es-dev.cert'
+        }
+        super(ComposeElasticsearchClient, self).__init__(es_conf)
+        logger.info("Compose elasticsearch client initialized.")

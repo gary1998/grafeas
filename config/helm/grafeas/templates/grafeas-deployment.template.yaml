@@ -67,7 +67,7 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: qradarHost
-        - name: GRFAEAS_CONFIGURE_SSL
+        - name: GRAFEAS_CONFIGURE_SSL
           valueFrom:
             configMapKeyRef:
               name: grafeas-configuration

@@ -12,7 +12,7 @@ spec:
   - from:
     - podSelector:
        matchLabels: 
-         app : findingsapi
+         microservice: findingsapi
     - podSelector:
        matchLabels:
-         microservice : analyticsdistributor
+         microservice: analyticsdistributor

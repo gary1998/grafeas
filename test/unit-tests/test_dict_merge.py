@@ -51,9 +51,6 @@ class TestMockData(BaseTestCase):
                 {
                     "title": "step-1",
                     "url": "https:///www.ibm.com"
-                },
-                {
-                    "title": "step-2"
                 }
             ]
         }

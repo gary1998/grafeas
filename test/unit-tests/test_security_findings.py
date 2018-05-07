@@ -282,6 +282,7 @@ MODIFIED_ALERT_OCCURRENCE_3_1 = {
 
 
 class TestSecurityFindings(BaseTestCase):
+
     def test_01_create_project(self):
         response = self.post_project(XFORCE_PROJECT)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
@@ -293,14 +294,18 @@ class TestSecurityFindings(BaseTestCase):
     def test_03_create_occurrence(self):
         response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1['id'])
 
     def test_04_create_occurrence(self):
         response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2['id'])
 
     def test_05_create_occurrence(self):
         response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3['id'])
+        self.delete_note(XFORCE_PROJECT['id'], ALERT_NOTE_1['id'])
 
     def test_06_create_note(self):
         response = self.post_note(XFORCE_PROJECT['id'], KPI_NOTE_2)
@@ -309,6 +314,9 @@ class TestSecurityFindings(BaseTestCase):
     def test_07_create_occurrence(self):
         response = self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'])
+        self.delete_note(XFORCE_PROJECT['id'], KPI_NOTE_2['id'])
+        self.delete_project(XFORCE_PROJECT['id'])
 
     def test_08_create_project(self):
         response = self.post_project(OUTLIER_PROJECT)
@@ -323,54 +331,13 @@ class TestSecurityFindings(BaseTestCase):
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_11_create_occurrence(self):
-        response = self.put_occurrence(OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'],
-                                       MODIFIED_ALERT_OCCURRENCE_3_1)
+        response = self.post_or_put_occurrence(OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'])
+        self.delete_note(OUTLIER_PROJECT['id'], ALERT_NOTE_3['id'])
+        self.delete_project(OUTLIER_PROJECT['id'])
 
-    def post_project(self, body):
-        return self.client.open(
-            path='/v1alpha1/projects',
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "AccountY",
-                "Authorization": "AuthorizationY"
-            })
 
-    def post_note(self, project_id, body):
-        return self.client.open(
-            path='/v1alpha1/projects/{}/notes'.format(project_id),
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "AccountY",
-                "Authorization": "AuthorizationY"
-            })
-
-    def post_occurrence(self, project_id, body):
-        return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences'.format(project_id),
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "AccountY",
-                "Authorization": "AuthorizationY"
-            })
-
-    def put_occurrence(self, project_id, occurrence_id, body):
-        return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
-            method='PUT',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Account": "AccountY",
-                "Authorization": "AuthorizationY"
-            })
+if __name__ == '__main__':
+    import unittest
+    unittest.main()

@@ -172,8 +172,6 @@
 
             sh """
               pip3.6 install --no-cache-dir -r requirements.txt
-              mv test/unit-tests/test_security_findings.py test/unit-tests/test_security_findings.py_back
-              mv test/unit-tests/test_dict_merge.py test/unit-tests/test_dict_merge.py_back
               coverage-3.6 run --source=. -m unittest discover -s test
               coverage-3.6 xml -o test/coverage.xml
             """

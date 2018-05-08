@@ -93,11 +93,14 @@ class CloudantDatabase(object):
         view = ddoc.get_view(view_name)
         return view
 
-    def all_docs(self):
-        view = self.db.all_docs()
+    def all_docs(self, include_docs: bool=False, skip: int=0, limit: int=0):
+        view = self.db.all_docs(
+            include_docs=include_docs,
+            skip=skip,
+            limit=limit)
         return view['rows']
 
-    def find(self, filter_: dict, index: str, fields: list = None, sort: list = None, skip: int = 0, limit: int = 0):
+    def find(self, filter_: dict, index: str, fields: list = None, sort: list = None, skip: int=0, limit: int=0):
         kwargs = {}
 
         if skip != 0:

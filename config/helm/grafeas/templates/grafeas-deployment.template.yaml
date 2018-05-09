@@ -6,7 +6,13 @@ metadata:
  labels:
   app: {{ .Values.global.name }}
 spec:
-  replicas: 1
+  revisionHistoryLimit: 10
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+    type: RollingUpdate
   selector:
     matchLabels:
       app: {{ .Values.global.name }}

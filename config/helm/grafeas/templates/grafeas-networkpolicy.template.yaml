@@ -16,3 +16,7 @@ spec:
     - podSelector:
        matchLabels:
          microservice: analyticsdistributor
+
+    - podSelector:
+       matchLabels:
+         microservice: opsmgr

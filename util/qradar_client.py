@@ -6,7 +6,11 @@ Created on Oct 11, 2017
 
 import datetime
 import json
+import logging
 from util.syslog_client import SysLogClient
+
+
+logger = logging.getLogger("util.qradar_client")
 
 
 # Example: 
@@ -86,4 +90,58 @@ class QRadarClient(SysLogClient):
             self.app_id,
             self.comp_id,
             json.dumps(payload))        
-        return message    
+        return message
+
+    def log_request_auth_succeeded(self, request, user_name):
+        try:
+            method, url, source_addr, source_port, dest_addr, dest_port = QRadarClient._get_request_info(request)
+            self.log_web_service_auth_succeeded(
+                method, url, user_name,
+                source_addr, source_port,
+                dest_addr, dest_port)
+        except:
+            # QRadar is not available, skip this
+            logger.exception("Unexpected error while sending 'web service auth succeeded' record to QRadar")
+
+    def log_request_auth_failed(self, request, user_name):
+        try:
+            method, url, source_addr, source_port, dest_addr, dest_port = QRadarClient._get_request_info(request)
+            self.log_web_service_auth_failed(
+                method, url, user_name,
+                source_addr, source_port,
+                dest_addr, dest_port)
+        except:
+            # QRadar is not available, skip this
+            logger.exception("Unexpected error while sending 'web service auth failed' record to QRadar")
+
+    @staticmethod
+    def _get_request_info(request):
+        env = request.environ
+        method = env['REQUEST_METHOD']
+        url = request.url
+        source_addr, source_port = QRadarClient._get_request_source(request)
+        host_n_port = env['HTTP_HOST'].split(':')
+        dest_addr = host_n_port[0]
+        dest_port = host_n_port[1] if len(host_n_port) == 2 else "80"
+        return method, url, source_addr, source_port, dest_addr, dest_port
+
+    @staticmethod
+    def _get_request_source(request):
+        env = request.environ
+        headers = request.headers
+
+        if headers.getlist("X-Forwarded-For"):
+            forwarded_for = request.headers.getlist("X-Forwarded-For")[0]
+            source_addrs = forwarded_for.split(',')
+            source_addr = source_addrs[0].strip()
+        else:
+            source_addr = env['REMOTE_ADDR']
+
+        if headers.getlist("X-Forwarded-Port"):
+            forwarded_port = request.headers.get("X-Forwarded-Port")
+            source_port = forwarded_port.strip()
+        else:
+            source_port = env['REMOTE_PORT']
+
+        return source_addr, source_port
+

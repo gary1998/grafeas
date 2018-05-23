@@ -44,8 +44,10 @@ class GrafeasAuthClient(object):
             self.pep_client.finish()
         except:
             logger.exception("An unexpected error was encountered while closing PEP client")
+
         try:
-            self.qradar_client.close()
+            if self.qradar_client is not None:
+                self.qradar_client.close()
         except:
             logger.exception("An unexpected error was encountered while closing QRadar client")
 

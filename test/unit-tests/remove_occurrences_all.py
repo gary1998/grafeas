@@ -1,5 +1,6 @@
 import json
-from controllers import common
+import os
+from util import cloudant_client
 
 NOTE_ACCOUNT_ID='0ce28a8d963f13ef436b3f12f71d213a'
 USER_ACCOUNT_ID='697e84fcca45c9439aae525d31ef1a27'
@@ -19,14 +20,85 @@ SUSPICIOUS_SERVERS_NOTES_IDS=[
 ]
 
 
-def backup_all(db, filename):
+def init_db():
+    db = cloudant_client.CloudantDatabase(
+        os.environ['GRAFEAS_URL'],
+        os.environ['GRAFEAS_DB_NAME'],
+        os.environ['GRAFEAS_USERNAME'],
+        os.environ['GRAFEAS_PASSWORD'])
+    print("DB initialized.")
+    return db
+
+
+def backup_all(filename):
+    db = init_db()
+
+    n = 1
+    skip = 0
+    limit = 1000
+
     with open(filename, 'w') as f:
-        for doc in db.all_docs():
-            f.write(json.dumps(doc) + '\n')
+        while True:
+            docs = db.all_docs(include_docs=True, skip=skip, limit=limit)
+            for doc in docs:
+                f.write(json.dumps(doc) + '\n')
+                n += 1
+
+            if len(docs) < limit:
+                break
+            skip += limit
+            print("{} docs backup up".format(skip))
+
+    print("{} total docs backup up".format(n))
 
 
-def get_occurrences_of_notes(db, note_full_names):
-    return db.find(
+def delete_all_findings_before_date(date):
+    db = init_db()
+    date = date[:10] # truncate date to first 10 chars (only iso date chars)
+
+    deleted_count = 0
+    handled_count = 0
+    skip = 0
+    limit = 1000
+
+    while True:
+        try:
+            docs = db.all_docs(include_docs=True, skip=skip, limit=limit)
+            for doc in docs:
+                handled_count += 1
+
+                doc = doc['doc']
+                if doc.get('doc_type') != 'Occurrence':
+                    continue
+
+                if doc.get('kind') != 'FINDING':
+                    continue
+
+                update_time = doc['update_time']
+                update_date = update_time[:10]
+                if update_date < date:
+                    doc_id = doc['_id']
+                    print("Deleting {} #{}: {} ({})".format(doc['kind'], handled_count, doc_id, update_time))
+                    db.delete_doc(doc_id)
+                    deleted_count += 1
+
+            if len(docs) < limit:
+                break
+            skip += limit
+            print("{} findings handled".format(handled_count))
+        except Exception as e:
+            print("An unexpected error was encountered while deleting findings: {}".format(str(e)))
+            print("Re-initializing DB ...")
+            db = init_db()
+            skip = handled_count
+
+    print("{} total findings deleted".format(deleted_count))
+
+
+def delete_findings_of_notes(note_full_names):
+    db = init_db()
+
+    docs = db.find(
         filter_={
             'context.account_id': USER_ACCOUNT_ID,
             'doc_type': 'Occurrence',
@@ -42,8 +114,10 @@ def get_occurrences_of_notes(db, note_full_names):
         ],
         fields=['_id', 'update_time'])
 
+    _delete_occurrences(db, docs)
 
-def delete_occurrences(docs):
+
+def _delete_occurrences(db, docs):
     n = 1
     for doc in docs:
         occurrence_full_name = doc['_id']
@@ -52,20 +126,12 @@ def delete_occurrences(docs):
         db.delete_doc(occurrence_full_name)
         n += 1
 
+#backup_all(db, "grafeas-backup-stage1")
+delete_all_findings_before_date('2018-05-14')
 
-db = common.get_db()
-#backup_all(db, "grafeas-backup")
-
-suspicious_server_findings = get_occurrences_of_notes(db, SUSPICIOUS_SERVERS_NOTES_IDS)
-print("Deleting all suspicious server findings: {}".format(len(suspicious_server_findings)))
-input("Press Enter to continue...")
-delete_occurrences(suspicious_server_findings)
+'''
+delete_findings_of_notes(SUSPICIOUS_SERVERS_NOTES_IDS)
+dekete_findings_of_notes(SUSPICIOUS_CLIENTS_NOTES_IDS)
 print("Done!")
+'''
 
-suspicious_client_findings = get_occurrences_of_notes(db, SUSPICIOUS_CLIENTS_NOTES_IDS)
-findings_to_delete = suspicious_client_findings[80:]
-print("Deleting suspicious clients findings: {} of {}".format(
-    len(findings_to_delete), len(suspicious_client_findings)))
-input("Press Enter to continue...")
-delete_occurrences(findings_to_delete)
-print("Done!")

@@ -3,7 +3,6 @@ import connexion
 import json
 import os
 from controllers import auth
-from util import auth_util
 
 class BaseTestCase(TestCase):
     def create_app(self):
@@ -15,7 +14,6 @@ class BaseTestCase(TestCase):
     @classmethod
     def tearDownClass(cls):
         auth.close_auth_client()
-        auth_util.close_qradar_client()
 
     def post_project(self, body):
         return self.client.open(

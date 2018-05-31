@@ -21,6 +21,15 @@ spec:
       labels:
         app: {{ .Values.global.name }}
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: servicename
+                operator: In
+                values:
+                - security-advisor
       imagePullSecrets:
       - name: bluemix-{{ index .Values.global.clusterNamespace .Values.global.env }}-secret
       containers:

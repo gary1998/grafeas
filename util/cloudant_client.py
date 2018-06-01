@@ -74,12 +74,13 @@ class CloudantDatabase(object):
         doc.delete()
         return doc
 
-    def create_query_index(self, index_name, fields):
+    def create_query_index(self, index_name, fields, index_type='json'):
         ddoc = self.db.get_design_document("_design/" + index_name)
         if not ddoc.exists():
             self.db.create_query_index(
                 design_document_id=index_name,
                 index_name=index_name,
+                index_type=index_type,
                 fields=fields)
 
     def add_view(self, ddoc_id, view_name, map_func, reduce_func=None, **kwargs):

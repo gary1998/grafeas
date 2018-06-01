@@ -35,7 +35,7 @@ class CloudantStore(store.Store):
                 'account_id': subject_account_id,
                 'doc_type': 'Project'
             },
-            index="SAI_DT")
+            index="ALL_FIELDS")
         return [CloudantStore._clean_doc(doc) for doc in docs]
 
     def delete_project(self, subject_account_id, project_id):
@@ -71,7 +71,7 @@ class CloudantStore(store.Store):
                 'doc_type': 'Note',
                 'project_doc_id': project_full_name
             },
-            index="SAI_DT_PDI")
+            index="ALL_FIELDS")
         return [CloudantStore._clean_doc(doc) for doc in docs]
 
     def delete_note(self, subject_account_id, project_id, note_id):
@@ -113,7 +113,7 @@ class CloudantStore(store.Store):
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name
             },
-            index="SAI_DT_PDI")
+            index="ALL_FIELDS")
         return [CloudantStore._clean_occurrence(doc) for doc in docs]
 
     def list_note_occurrences(self, subject_account_id, project_id, note_id, filter_, page_size, page_token):
@@ -126,7 +126,7 @@ class CloudantStore(store.Store):
                 'project_doc_id': project_full_name,
                 'note_doc_id': note_full_name
             },
-            index="SAI_DT_PDI_NDI")
+            index="ALL_FIELDS")
         return [CloudantStore._clean_occurrence(doc) for doc in docs]
 
     def delete_occurrence(self, subject_account_id, project_id, occurrence_id):
@@ -134,17 +134,25 @@ class CloudantStore(store.Store):
         return self.db.delete_doc(occurrence_full_name)
 
     def delete_account_occurrences(self, resource_account_id):
-        docs = self.db.find(
-            filter_={
-                'context.account_id': resource_account_id,
-                'doc_type': 'Occurrence'
-            },
-            index="RAI_DT",
-            fields=['_id'])
+        max_occurrence_count = 200 # cloudant limit when a text index is used
 
-        for doc in docs:
-            occurrence_full_name = doc['_id']
-            self.db.delete_doc(occurrence_full_name)
+        while True:
+            docs = self.db.find(
+                filter_={
+                    'context.account_id': resource_account_id,
+                    'doc_type': 'Occurrence'
+                },
+                index="ALL_FIELDS",
+                fields=['_id'],
+                limit=max_occurrence_count
+            )
+
+            for doc in docs:
+                occurrence_full_name = doc['_id']
+                self.db.delete_doc(occurrence_full_name)
+
+            if len(docs) < max_occurrence_count:
+                break
 
     @staticmethod
     def _clean_doc(doc):
@@ -216,66 +224,21 @@ class CloudantStore(store.Store):
             os.environ['GRAFEAS_PASSWORD'])
 
         db.create_query_index(
-            'DT',
-            ['doc_type'])
-        db.create_query_index(
-            'RAI_DT',
-            ['context.account_id', 'doc_type'])
-        db.create_query_index(
-            'RAI_DT_K_NDI',
-            ['context.account_id', 'doc_type', 'kind', 'note_doc_id'])
-        db.create_query_index(
-            'RAI_DT_K_NDI_TS',
-            ['context.account_id', 'doc_type', 'kind', 'note_doc_id', 'update_timestamp'])
-        db.create_query_index(
-            'RAI_DT_K_PDI',
-            ['context.account_id', 'doc_type', 'kind', 'project_doc_id'])
+            'ALL_FIELDS',
+            [],
+            'text')
         db.create_query_index(
             'RAI_DT_K_PDI_NDI',
             ['context.account_id', 'doc_type', 'kind', 'project_doc_id', 'note_doc_id'])
-        db.create_query_index(
-            'RAI_DT_K_SEV_TS_NDI',
-            ['context.account_id', 'doc_type', 'kind', 'finding.severity', 'update_timestamp', 'note_doc_id'])
-        db.create_query_index(
-            'RAI_DT_K_SEV_TS_PDI_NDI',
-            ['context.account_id', 'doc_type', 'kind', 'finding.severity', 'update_timestamp',
-             'project_doc_id', 'note_doc_id'])
-        db.create_query_index(
-            'RAI_DT_K_TS_NDI',
-            ['context.account_id', 'doc_type', 'kind', 'update_timestamp', 'note_doc_id'])
-        db.create_query_index(
-            'RAI_DT_K_TS_PDI_NDI',
-            ['context.account_id', 'doc_type', 'kind', 'update_timestamp', 'project_doc_id', 'note_doc_id'])
-        db.create_query_index(
-            'RAI_DT_NDI_K_TS',
-            ['context.account_id', 'doc_type', 'note_doc_id', 'kind', 'update_timestamp'])
-        db.create_query_index(
-            'RAI_DT_PDI',
-            ['context.account_id', 'doc_type', 'project_doc_id'])
-        db.create_query_index(
-            'RAI_DT_PDI_NDI',
-            ['context.account_id', 'doc_type', 'project_doc_id', 'note_doc_id'])
-        db.create_query_index(
-            'SAI_DT',
-            ['account_id', 'doc_type'])
-        db.create_query_index(
-            'SAI_DT_K_PDI_S',
-            ['account_id', 'doc_type', 'kind', 'project_doc_id', 'shared'])
-        db.create_query_index(
-            'SAI_DT_PDI',
-            ['account_id', 'doc_type', 'project_doc_id'])
-        db.create_query_index(
-            'SAI_DT_PDI_NDI',
-            ['account_id', 'doc_type', 'project_doc_id', 'note_doc_id'])
 
         # 2018-04-15T16:30:00
         db.add_view(
-            'time_series',
-            'finding_count_by_date_time',
+            'occurrences',
+            'occurrence_count_by_date_time',
             """
             function(doc) {{
-                if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                    emit([doc.context.account_id, doc.note_doc_id,
+                if (doc.doc_type == "Occurrence") {{
+                    emit([doc.context.account_id, doc.kind, doc.note_doc_id,
                         parseInt(doc.update_time.substring(0, 4), 10),
                         parseInt(doc.update_time.substring(5, 7), 10),
                         parseInt(doc.update_time.substring(8, 10), 10),
@@ -290,12 +253,12 @@ class CloudantStore(store.Store):
 
         # 2018-W04-2
         db.add_view(
-            'time_series',
-            'finding_count_by_week_date',
+            'occurrences',
+            'occurrence_count_by_week_date',
             """
             function(doc) {{
-                if (doc.doc_type == "Occurrence" && doc.kind == 'FINDING') {{
-                    emit([doc.context.account_id, doc.note_doc_id,
+                if (doc.doc_type == "Occurrence") {{
+                    emit([doc.context.account_id, doc.kind, doc.note_doc_id,
                         parseInt(doc.update_week_date.substring(0, 4), 10),
                         parseInt(doc.update_week_date.substring(6, 8), 10),
                         parseInt(doc.update_week_date.substring(9, 10), 10)],

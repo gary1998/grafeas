@@ -228,6 +228,9 @@ class CloudantStore(store.Store):
             [],
             'text')
         db.create_query_index(
+            'RAI_DT_K',
+            ['context.account_id', 'doc_type', 'kind']) # required by Legato's occurrenceCount
+        db.create_query_index(
             'RAI_DT_K_PDI_NDI',
             ['context.account_id', 'doc_type', 'kind', 'project_doc_id', 'note_doc_id'])
 

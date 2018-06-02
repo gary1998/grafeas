@@ -227,12 +227,23 @@ class CloudantStore(store.Store):
             'ALL_FIELDS',
             [],
             'text')
+        # required by Legato's Query.occurrenceCount
         db.create_query_index(
             'RAI_DT_K',
-            ['context.account_id', 'doc_type', 'kind']) # required by Legato's occurrenceCount
+            ['context.account_id', 'doc_type', 'kind'])
+        # required by Legato's Card.findingCount
+        db.create_query_index(
+            'RAI_DT_K_NDI',
+            ['context.account_id', 'doc_type', 'kind', 'note_doc_id'])
+        # required by Legato's Card.get_configured_card_occurrences
+        db.create_query_index(
+            'RAI_DT_K_PDI',
+            ['context.account_id', 'doc_type', 'kind', 'project_doc_id'])
+        # required by Legato's Card.findingCount
         db.create_query_index(
             'RAI_DT_K_PDI_NDI',
             ['context.account_id', 'doc_type', 'kind', 'project_doc_id', 'note_doc_id'])
+
 
         # 2018-04-15T16:30:00
         db.add_view(

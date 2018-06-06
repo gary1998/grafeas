@@ -77,11 +77,6 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: acceptHttp
-        - name: QRADAR_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: grafeas-configuration
-              key: qradarHost
         - name: GRAFEAS_CONFIGURE_SSL
           valueFrom:
             configMapKeyRef:

@@ -29,9 +29,9 @@ class CloudantStore(store.Store):
         doc = self.db.get_doc(project_full_name)
         return CloudantStore._clean_doc(doc)
 
-    def list_projects(self, subject_account_id, filter_, page_size, page_token):
+    def list_projects(self, subject_account_id, key_values, page_size, page_token):
         docs = self.db.find(
-            filter_={
+            key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Project'
             },
@@ -63,10 +63,10 @@ class CloudantStore(store.Store):
         doc = self.db.get_doc(note_full_name)
         return CloudantStore._clean_doc(doc)
 
-    def list_notes(self, subject_account_id, project_id, filter_, page_size, page_token):
+    def list_notes(self, subject_account_id, project_id, key_values, page_size, page_token):
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
         docs = self.db.find(
-            filter_={
+            key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Note',
                 'project_doc_id': project_full_name
@@ -105,10 +105,10 @@ class CloudantStore(store.Store):
         doc = self.db.get_doc(occurrence_full_name)
         return CloudantStore._clean_occurrence(doc)
 
-    def list_occurrences(self, subject_account_id, project_id, filter_, page_size, page_token):
+    def list_occurrences(self, subject_account_id, project_id, key_values, page_size, page_token):
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
         docs = self.db.find(
-            filter_={
+            key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name
@@ -116,11 +116,11 @@ class CloudantStore(store.Store):
             index="ALL_FIELDS")
         return [CloudantStore._clean_occurrence(doc) for doc in docs]
 
-    def list_note_occurrences(self, subject_account_id, project_id, note_id, filter_, page_size, page_token):
+    def list_note_occurrences(self, subject_account_id, project_id, note_id, key_values, page_size, page_token):
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
         note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
         docs = self.db.find(
-            filter_={
+            key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name,
@@ -138,7 +138,7 @@ class CloudantStore(store.Store):
 
         while True:
             docs = self.db.find(
-                filter_={
+                key_values={
                     'context.account_id': resource_account_id,
                     'doc_type': 'Occurrence'
                 },
@@ -243,7 +243,6 @@ class CloudantStore(store.Store):
         db.create_query_index(
             'RAI_DT_K_PDI_NDI',
             ['context.account_id', 'doc_type', 'kind', 'project_doc_id', 'note_doc_id'])
-
 
         # 2018-04-15T16:30:00
         db.add_view(

@@ -10,8 +10,36 @@ from util import exceptions
 logger = logging.getLogger("grafeas.cloudant_client")
 
 
+class SearchResult(object):
+    def __init__(self, docs, total_docs, bookmark):
+        self.docs = docs
+        self.total_docs = total_docs
+        self.bookmark = bookmark
+
 
 class CloudantDatabase(object):
+    LUCENE_ESCAPE_RULES = {
+        '+': r'\+',
+        '-': r'\-',
+        '&': r'\&',
+        '|': r'\|',
+        '!': r'\!',
+        '(': r'\(',
+        ')': r'\)',
+        '{': r'\{',
+        '}': r'\}',
+        '[': r'\[',
+        ']': r'\]',
+        '^': r'\^',
+        '~': r'\~',
+        '*': r'\*',
+        '?': r'\?',
+        ':': r'\:',
+        '"': r'\"',
+        ';': r'\;',
+        ' ': r'\ '
+    }
+
     def __init__(self, url, db_name, username, auth_token):
         self.url = url
         self.db_name = db_name
@@ -101,19 +129,24 @@ class CloudantDatabase(object):
             limit=limit)
         return view['rows']
 
-    def find(self, filter_: dict, index: str, fields: list = None, sort: list = None, skip: int=0, limit: int=0):
+    #
+    # FIND
+    #
+
+    def find(self, key_values: dict, index: str, fields: list=None, sort: list=None,
+             skip: int=0, limit: int=None):
         kwargs = {}
 
         if skip != 0:
             kwargs['skip'] = skip
 
-        if limit != 0:
+        if limit is not None:
             kwargs['limit'] = limit
 
         if sort is not None:
             kwargs['sort'] = sort
 
-        selector = CloudantDatabase._get_selector(filter_)
+        selector = CloudantDatabase._get_selector(key_values)
         result = self._get_query_result(selector, index, fields, **kwargs)
         return result['docs']
 
@@ -140,11 +173,98 @@ class CloudantDatabase(object):
                     **kwargs)
 
     @staticmethod
-    def _get_selector(filter_: dict):
+    def _get_selector(key_values: dict):
         selector = {}
-        for name, value in filter_.items():
-            if type(value) is list:
-                selector[name] = {"$in": value}
+        for key, value in key_values.items():
+            if isinstance(value, list):
+                selector[key] = {"$in": value}
             else:
-                selector[name] = {"$eq": value}
+                selector[key] = {"$eq": value}
         return selector
+
+    #
+    # SEARCH API
+    #
+
+    def search(self, key_values: dict, index: str, fields: list=None, sort: list=None,
+               bookmark: str=None, limit: int=None):
+        query = CloudantDatabase._get_lucene_query(key_values)
+        result = self._get_search_result(query, index, fields, sort, bookmark, limit)
+        return SearchResult(
+            [row['doc'] for row in result['rows']],
+            result['total_rows'],
+            result['bookmark'])
+
+    def _get_search_result(self, query: str, index: str, fields=None, sort: list=None,
+                           bookmark: str=None, limit: int=None):
+        ddoc_id, index = index.split('/')
+        try:
+            query_params = {}
+
+            if fields:
+                query_params['include_fields'] = fields
+
+            if sort:
+                query_params['sort'] = sort
+
+            if bookmark:
+                query_params['bookmark'] = bookmark
+
+            if limit:
+                query_params['limit'] = limit
+
+            return self.db.get_search_result(
+                '_design/' + ddoc_id,
+                index,
+                query=query,
+                include_docs=True,
+                **query_params)
+        except requests.exceptions.HTTPError as e:
+            logger.exception(
+                "An error was encountered while getting query result: url='%s', user='%s', request-body=%s",
+                self.client.url,
+                self.client.username,
+                e.request.body)
+            self._reconnect()
+            return self.db.get_search_result(
+                '_design/' + ddoc_id,
+                index,
+                query=query,
+                include_docs=True,
+                **query_params)
+
+    @staticmethod
+    def _get_lucene_query(key_values: dict):
+        query = []
+        for key, value in key_values.items():
+            if isinstance(value, list):
+                values = list()
+                values.append("(")
+                for elem in value:
+                    values.append(CloudantDatabase._escape_lucene_value(elem))
+                    values.append(" OR ")
+                values.pop() # remove last OR
+                values.append(")")
+                query.append("{}:{}".format(key, "".join(values)))
+            else:
+                query.append("{}:{}".format(key, CloudantDatabase._escape_lucene_value(value)))
+            query.append(" AND ")
+
+        query.pop() # remove last AND
+        return "".join(query)
+
+    @staticmethod
+    def _escape_lucene_value(value):
+        def get_next_char(s):
+            for c in s:
+                yield CloudantDatabase.LUCENE_ESCAPE_RULES.get(c, c)
+
+        if isinstance(value, str):
+            return "\"{}\"".format(value)
+            #value = value.replace('\\', r'\\')  # escape \ first
+            #return "\"{}\"".format("".join([c for c in get_next_char(value)]))
+
+        if isinstance(value, bool):
+            return "true" if value else "false"
+
+        return value

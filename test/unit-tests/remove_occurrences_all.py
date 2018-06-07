@@ -99,7 +99,7 @@ def delete_findings_of_notes(note_full_names):
     db = init_db()
 
     docs = db.find(
-        filter_={
+        key_values={
             'context.account_id': USER_ACCOUNT_ID,
             'doc_type': 'Occurrence',
             'kind': 'FINDING',

@@ -54,7 +54,7 @@ class Exporter(object):
             start_time = time.time()
             print("Exporting next {} docs (skip={})...".format(MAX_GET_DOC_COUNT, skip))
             docs = self.cloudant_db.find(
-                filter_={'doc_type': doc_type}, index="DT",
+                key_values={'doc_type': doc_type}, index="DT",
                 skip=skip, limit=MAX_GET_DOC_COUNT)
 
             n = 0

@@ -92,6 +92,36 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: sslCertPath
+        - name: AUTH_CLIENT_CLASS_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: grafeasAuthClassName
+        - name: IAM_TOKEN_VALIDATION_URL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: iamTokenValidationURL
+        - name: IAM_TOKEN_URL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: iamTokenURL
+        - name: IAM_PDP_URL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: iamPDPURL
+        - name: IAM_PAP_URL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: iamPAPURL
+        - name: IAM_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: grafeas-secret
+              key: iamConfig
 
         ports:
         - containerPort: 8080

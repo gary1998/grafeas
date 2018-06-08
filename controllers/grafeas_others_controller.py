@@ -23,4 +23,4 @@ def get_readiness():
 
 
 def get_liveness():
-    return {"ok":True}, http.HTTPStatus.OK
+    return {"ok": True}, http.HTTPStatus.OK

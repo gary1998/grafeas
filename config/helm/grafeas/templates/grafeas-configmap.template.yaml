@@ -15,3 +15,8 @@ data:
   sslCertPath: {{ .Values.global.sslCertPath | quote }}
   sslKeyPath: {{ .Values.global.sslKeyPath | quote }}
   grafeasConfigureSsl: {{ index .Values.global.grafeasConfigureSsl .Values.global.env }}
+  grafeasAuthClassName: {{ index .Values.global.grafeasAuthClassName | quote }}
+  iamTokenValidationURL: {{ index .Values.global.iamTokenValidationURL .Values.global.env | quote }}
+  iamTokenURL: {{ index .Values.global.iamTokenURL .Values.global.env | quote }}
+  iamPDPURL: {{ index .Values.global.iamPDPURL .Values.global.env | quote }}
+  iamPAPURL: {{ index .Values.global.iamPAPURL .Values.global.env | quote }}

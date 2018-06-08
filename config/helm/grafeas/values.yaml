@@ -9,6 +9,7 @@ global:
   certificateSecretMountPath : /etc/secrets
   sslCertPath: /etc/secrets/tls_cert
   sslKeyPath: /etc/secrets/tls_key
+  grafeasAuthClassName: controllers.sa_auth.SecurityAdvisorAuthClient
   imageName:
     development: grafeas
     stage:
@@ -66,6 +67,26 @@ global:
     production:
   grafeasUrl:
     development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
+    stage:
+    pre_production:
+    production:
+  iamTokenValidationURL:
+    development: https://iam.stage1.ng.bluemix.net
+    stage:
+    pre_production:
+    production:
+  iamTokenURL:
+    development: https://iam.stage1.ng.bluemix.net/identity/token
+    stage:
+    pre_production:
+    production:
+  iamPDPURL:
+    development: https://iam-api.stage1.ng.bluemix.net
+    stage:
+    pre_production:
+    production:
+  iamPAPURL:
+    development: https://iam.stage1.ng.bluemix.net
     stage:
     pre_production:
     production:

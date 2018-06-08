@@ -4,6 +4,9 @@ import json
 import os
 from controllers import auth
 
+TEST_ACCOUNT_ID = os.environ['TEST_ACCOUNT_ID']
+
+
 class BaseTestCase(TestCase):
     def create_app(self):
         app = connexion.App(__name__, specification_dir='../../swagger/')
@@ -17,7 +20,7 @@ class BaseTestCase(TestCase):
 
     def post_project(self, body):
         return self.client.open(
-            path='/v1alpha1/projects',
+            path='/v1alpha1/{}/projects'.format(TEST_ACCOUNT_ID),
             method='POST',
             data=json.dumps(body),
             headers={
@@ -28,7 +31,7 @@ class BaseTestCase(TestCase):
 
     def get_projects(self):
         return self.client.open(
-            path='/v1alpha1/projects',
+            path='/v1alpha1/{}/projects'.format(TEST_ACCOUNT_ID),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -37,7 +40,7 @@ class BaseTestCase(TestCase):
 
     def get_project(self, project_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}'.format(project_id),
+            path='/v1alpha1/{}/projects/{}'.format(TEST_ACCOUNT_ID, project_id),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -46,7 +49,7 @@ class BaseTestCase(TestCase):
 
     def delete_project(self, project_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}'.format(project_id),
+            path='/v1alpha1/{}/projects/{}'.format(TEST_ACCOUNT_ID, project_id),
             method='DELETE',
             headers={
                 "Accept": "application/json",
@@ -55,7 +58,7 @@ class BaseTestCase(TestCase):
 
     def post_note(self, project_id, body):
         return self.client.open(
-            path='/v1alpha1/projects/{}/notes'.format(project_id),
+            path='/v1alpha1/{}/projects/{}/notes'.format(TEST_ACCOUNT_ID, project_id),
             method='POST',
             data=json.dumps(body),
             headers={
@@ -66,7 +69,7 @@ class BaseTestCase(TestCase):
 
     def get_notes(self, project_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}/notes'.format(project_id),
+            path='/v1alpha1/{}/projects/{}/notes'.format(TEST_ACCOUNT_ID, project_id),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -75,7 +78,7 @@ class BaseTestCase(TestCase):
 
     def get_note(self, project_id, note_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}'.format(project_id, note_id),
+            path='/v1alpha1/{}/projects/{}/notes/{}'.format(TEST_ACCOUNT_ID, project_id, note_id),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -84,7 +87,7 @@ class BaseTestCase(TestCase):
 
     def get_occurrence_note(self, project_id, occurrence_id):
         return self.client.open(
-            path = '/v1alpha1/projects/{}/occurrences/{}/note'.format(project_id, occurrence_id),
+            path = '/v1alpha1/{}/projects/{}/occurrences/{}/note'.format(TEST_ACCOUNT_ID, project_id, occurrence_id),
             method = 'GET',
             headers = {
                 "Accept": "application/json",
@@ -93,7 +96,7 @@ class BaseTestCase(TestCase):
 
     def put_note(self, project_id, note_id, body):
         return self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}'.format(project_id, note_id),
+            path='/v1alpha1/{}/projects/{}/notes/{}'.format(TEST_ACCOUNT_ID, project_id, note_id),
             method='PUT',
             data=json.dumps(body),
             headers={
@@ -104,7 +107,7 @@ class BaseTestCase(TestCase):
 
     def delete_note(self, project_id, note_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}'.format(project_id, note_id),
+            path='/v1alpha1/{}/projects/{}/notes/{}'.format(TEST_ACCOUNT_ID, project_id, note_id),
             method='DELETE',
             headers={
                 "Content-Type": "application/json",
@@ -114,7 +117,7 @@ class BaseTestCase(TestCase):
 
     def post_occurrence(self, project_id, body):
         return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences'.format(project_id),
+            path='/v1alpha1/{}/projects/{}/occurrences'.format(TEST_ACCOUNT_ID, project_id),
             method='POST',
             data=json.dumps(body),
             headers={
@@ -125,7 +128,7 @@ class BaseTestCase(TestCase):
 
     def post_or_put_occurrence(self, project_id, body):
         return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences'.format(project_id),
+            path='/v1alpha1/{}/projects/{}/occurrences'.format(TEST_ACCOUNT_ID, project_id),
             method='POST',
             data=json.dumps(body),
             headers={
@@ -137,7 +140,7 @@ class BaseTestCase(TestCase):
 
     def get_occurrences(self, project_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences'.format(project_id),
+            path='/v1alpha1/{}/projects/{}/occurrences'.format(TEST_ACCOUNT_ID, project_id),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -146,7 +149,7 @@ class BaseTestCase(TestCase):
 
     def get_occurrence(self, project_id, occurrence_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
+            path='/v1alpha1/{}/projects/{}/occurrences/{}'.format(TEST_ACCOUNT_ID, project_id, occurrence_id),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -155,7 +158,7 @@ class BaseTestCase(TestCase):
 
     def get_note_occurrences(self, project_id, note_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}/notes/{}/occurrences'.format(project_id, note_id),
+            path='/v1alpha1/{}/projects/{}/notes/{}/occurrences'.format(TEST_ACCOUNT_ID, project_id, note_id),
             method='GET',
             headers={
                 "Accept": "application/json",
@@ -164,7 +167,7 @@ class BaseTestCase(TestCase):
 
     def put_occurrence(self, project_id, occurrence_id, body):
         return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
+            path='/v1alpha1/{}/projects/{}/occurrences/{}'.format(TEST_ACCOUNT_ID, project_id, occurrence_id),
             method='PUT',
             data=json.dumps(body),
             headers={
@@ -175,7 +178,7 @@ class BaseTestCase(TestCase):
 
     def delete_occurrence(self, project_id, occurrence_id):
         return self.client.open(
-            path='/v1alpha1/projects/{}/occurrences/{}'.format(project_id, occurrence_id),
+            path='/v1alpha1/{}/projects/{}/occurrences/{}'.format(TEST_ACCOUNT_ID, project_id, occurrence_id),
             method='DELETE',
             headers={
                 "Content-Type": "application/json",
@@ -185,7 +188,7 @@ class BaseTestCase(TestCase):
 
     def delete_account(self, account_id):
         return self.client.open(
-            path='/v1alpha1/accounts/{}'.format(account_id),
+            path='/v1alpha1/{}/accounts/{}'.format(TEST_ACCOUNT_ID, account_id),
             method='DELETE',
             headers={
                 "Content-Type": "application/json",

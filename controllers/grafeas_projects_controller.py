@@ -10,7 +10,7 @@ from util import exceptions
 logger = logging.getLogger("grafeas.projects")
 
 
-def create_project(body):
+def create_project(account_id, body):
     """
     Creates a new &#x60;Project&#x60;.
 
@@ -22,11 +22,10 @@ def create_project(body):
 
     try:
         auth_client = auth.get_auth_client()
-        subject = auth_client.get_subject(connexion.request)
-        auth_client.assert_can_write_projects(subject)
+        auth_client.assert_can_write_projects(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.create_project(subject.account_id, body)
+        doc = api_impl.create_project(account_id, body)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a project")
@@ -36,7 +35,7 @@ def create_project(body):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def list_projects(filter=None, page_size=None, page_token=None):
+def list_projects(account_id, filter=None, page_size=None, page_token=None):
     """
     Lists &#x60;Projects&#x60;
 
@@ -52,11 +51,10 @@ def list_projects(filter=None, page_size=None, page_token=None):
 
     try:
         auth_client = auth.get_auth_client()
-        subject = auth_client.get_subject(connexion.request)
-        auth_client.assert_can_read_projects(subject)
+        auth_client.assert_can_read_projects(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_projects(subject.account_id, filter, page_size, page_token)
+        docs = api_impl.list_projects(account_id, filter, page_size, page_token)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing projects")
@@ -66,7 +64,7 @@ def list_projects(filter=None, page_size=None, page_token=None):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def get_project(project_id):
+def get_project(account_id, project_id):
     """
     Returns the requested &#x60;Project&#x60;.
 
@@ -78,11 +76,10 @@ def get_project(project_id):
 
     try:
         auth_client = auth.get_auth_client()
-        subject = auth_client.get_subject(connexion.request)
-        auth_client.assert_can_read_projects(subject)
+        auth_client.assert_can_read_projects(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.get_project(subject.account_id, project_id)
+        doc = api_impl.get_project(account_id, project_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a project")
@@ -92,7 +89,7 @@ def get_project(project_id):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def delete_project(project_id):
+def delete_project(account_id, project_id):
     """
     Deletes the given &#x60;Project&#x60; from the system.
 
@@ -104,11 +101,10 @@ def delete_project(project_id):
 
     try:
         auth_client = auth.get_auth_client()
-        subject = auth_client.get_subject(connexion.request)
-        auth_client.assert_can_delete_projects(subject)
+        auth_client.assert_can_delete_projects(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.delete_project(subject.account_id, project_id)
+        doc = api_impl.delete_project(account_id, project_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting a project")

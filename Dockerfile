@@ -23,8 +23,14 @@ RUN python -m pip install --upgrade pip
 
 COPY requirements.txt /usr/src/app/
 
+
 ARG GHE_ACCESS_TOKEN
-RUN git clone https://${GHE_ACCESS_TOKEN}@github.ibm.com/jagkuma3/iam_manager_python.git iam_py
+
+RUN mkdir iam_py  \
+     && cd iam_py \
+     && git init \
+     && git pull https://${GHE_ACCESS_TOKEN}@github.ibm.com/jagkuma3/iam_manager_python.git
+
 RUN pip3 install --no-cache-dir -r requirements.txt \
   && pip3 install -e iam_py
 

@@ -15,13 +15,18 @@ RUN apk update \
   openssl-dev \
   make \
   musl-dev \
-  python3-dev
+  python3-dev \
+  git
 
 RUN pip3 install -U setuptools
 RUN python -m pip install --upgrade pip
 
 COPY requirements.txt /usr/src/app/
-RUN pip3 install --no-cache-dir -r requirements.txt
+
+ARG GHE_ACCESS_TOKEN
+RUN git clone https://${GHE_ACCESS_TOKEN}@github.ibm.com/jagkuma3/iam_manager_python.git iam_py
+RUN pip3 install --no-cache-dir -r requirements.txt \
+  && pip3 install -e iam_py
 
 COPY . /usr/src/app
 EXPOSE 8080

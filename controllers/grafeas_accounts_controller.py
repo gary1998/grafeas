@@ -10,7 +10,7 @@ from util import exceptions
 logger = logging.getLogger("grafeas.account_data")
 
 
-def delete_account(account_id):
+def delete_account_data(account_id):
     """
     Deletes all the subject's data
 
@@ -18,13 +18,7 @@ def delete_account(account_id):
     """
     try:
         auth_client = auth.get_auth_client()
-        subject = auth_client.get_subject(connexion.request)
-        auth_client.assert_can_delete_occurrences(subject)
-
-        if account_id != subject.account_id:
-            auth_client.assert_can_delete_occurrences_for_others(subject)
-        else:
-            auth_client.assert_can_delete_occurrences(subject)
+        auth_client.assert_can_delete_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
         api_impl.delete_account_occurrences(account_id)
@@ -39,7 +33,7 @@ def delete_account(account_id):
         }
 
         occurrence_id = account_deleted_occurrence['id']
-        api_impl.write_occurrence(subject.account_id, 'core', occurrence_id, account_deleted_occurrence)
+        api_impl.write_occurrence(account_id, 'core', occurrence_id, account_deleted_occurrence)
         logger.info("Data deleted for account: {}".format(account_id))
         return common.build_result(http.HTTPStatus.OK, {})
     except exceptions.JSONError as e:

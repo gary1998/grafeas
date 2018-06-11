@@ -46,10 +46,10 @@ paths:
       tags:
        - others
       x-swagger-router-controller: "controllers.grafeas_others_controller"
-  /v1alpha1/accounts/{account_id}:
+  /v1alpha1/{account_id}/data:
     delete:
       summary: Deletes the data of the given account from the system
-      operationId: delete_account
+      operationId: delete_account_data
       responses:
         '200':
           description: ''
@@ -57,7 +57,7 @@ paths:
             $ref: '#/definitions/apiEmpty'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
           required: true
           type: string
@@ -69,7 +69,7 @@ paths:
       tags:
         - GrafeasAccount
       x-swagger-router-controller: "controllers.grafeas_accounts_controller"
-  /v1alpha1/projects:
+  /v1alpha1/{account_id}/projects:
     post:
       summary: Creates a new `Project`.
       operationId: create_project
@@ -80,8 +80,18 @@ paths:
             $ref: '#/definitions/apiEmpty'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of project's owner"
           required: true
           type: string
         - name: body
@@ -102,8 +112,18 @@ paths:
             $ref: '#/definitions/apiListProjectsResponse'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of projects' owner"
           required: true
           type: string
         - name: filter
@@ -126,7 +146,7 @@ paths:
         - GrafeasProjects
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
 
-  /v1alpha1/projects/{project_id}:
+  /v1alpha1/{account_id}/projects/{project_id}:
     get:
       summary: Returns the requested `Project`.
       operationId: get_project
@@ -137,8 +157,18 @@ paths:
             $ref: '#/definitions/apiProject'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of project's owner"
           required: true
           type: string
         - name: project_id
@@ -159,8 +189,18 @@ paths:
             $ref: '#/definitions/apiEmpty'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of project's owner"
           required: true
           type: string
         - name: project_id
@@ -172,7 +212,7 @@ paths:
         - GrafeasProjects
       x-swagger-router-controller: "controllers.grafeas_projects_controller"
 
-  /v1alpha1/projects/{project_id}/notes:
+  /v1alpha1/{account_id}/projects/{project_id}/notes:
     post:
       summary: Creates a new `Note`.
       operationId: create_note
@@ -183,8 +223,18 @@ paths:
             $ref: '#/definitions/apiNote'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of note's owner"
           required: true
           type: string
         - name: project_id
@@ -210,8 +260,18 @@ paths:
             $ref: '#/definitions/apiListNotesResponse'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of notes' owner"
           required: true
           type: string
         - name: project_id
@@ -239,7 +299,7 @@ paths:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
-  /v1alpha1/projects/{project_id}/notes/{note_id}:
+  /v1alpha1/{account_id}/projects/{project_id}/notes/{note_id}:
     get:
       summary: Returns the requested `Note`.
       operationId: get_note
@@ -250,8 +310,18 @@ paths:
             $ref: '#/definitions/apiNote'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of note's owner"
           required: true
           type: string
         - name: project_id
@@ -277,8 +347,18 @@ paths:
             $ref: '#/definitions/apiNote'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of note's owner"
           required: true
           type: string
         - name: project_id
@@ -309,8 +389,18 @@ paths:
             $ref: '#/definitions/apiEmpty'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of note's owner"
           required: true
           type: string
         - name: project_id
@@ -327,7 +417,7 @@ paths:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
-  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}/note:
+  /v1alpha1/{account_id}/projects/{project_id}/occurrences/{occurrence_id}/note:
     get:
       summary: Gets the `Note` attached to the given `Occurrence`.
       operationId: get_occurrence_note
@@ -338,8 +428,18 @@ paths:
             $ref: '#/definitions/apiNote'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of occurrence's owner"
           required: true
           type: string
         - name: project_id
@@ -356,7 +456,7 @@ paths:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
-  /v1alpha1/projects/{project_id}/occurrences:
+  /v1alpha1/{account_id}/projects/{project_id}/occurrences:
     post:
       summary: |-
         Creates a new `Occurrence`. Use this method to create `Occurrences`
@@ -369,14 +469,24 @@ paths:
             $ref: '#/definitions/apiOccurrence'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
           required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
           type: string
         - name: Replace-If-Exists
           description: It allows replacing an existing occurrence when set to true.
           in: header
           type: boolean
+        - name: account_id
+          in: path
+          description: "Account ID of occurrence's owner"
+          required: true
+          type: string
         - name: project_id
           in: path
           description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
@@ -400,8 +510,18 @@ paths:
             $ref: '#/definitions/apiListOccurrencesResponse'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of occurrences' owner"
           required: true
           type: string
         - name: project_id
@@ -429,7 +549,7 @@ paths:
         - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
 
-  /v1alpha1/projects/{project_id}/occurrences/{occurrence_id}:
+  /v1alpha1/{account_id}/projects/{project_id}/occurrences/{occurrence_id}:
     get:
       summary: Returns the requested `Occurrence`.
       operationId: get_occurrence
@@ -440,8 +560,18 @@ paths:
             $ref: '#/definitions/apiOccurrence'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of occurrence's owner"
           required: true
           type: string
         - name: project_id
@@ -467,8 +597,18 @@ paths:
             $ref: '#/definitions/apiOccurrence'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of occurrence's owner"
           required: true
           type: string
         - name: project_id
@@ -499,8 +639,18 @@ paths:
             $ref: '#/definitions/apiEmpty'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of occurrence's owner"
           required: true
           type: string
         - name: project_id
@@ -517,7 +667,7 @@ paths:
         - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
 
-  /v1alpha1/projects/{project_id}/notes/{note_id}/occurrences:
+  /v1alpha1/{account_id}/projects/{project_id}/notes/{note_id}/occurrences:
     get:
       summary: |-
         Lists `Occurrences` referencing the specified `Note`. Use this method to
@@ -531,8 +681,18 @@ paths:
             $ref: '#/definitions/apiListNoteOccurrencesResponse'
       parameters:
         - name: Authorization
-          description: The Identity & Access Management (IAM) JSON web token.
+          description: The IAM token of user requesting the operation.
           in: header
+          required: true
+          type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: account_id
+          in: path
+          description: "Account ID of note's owner"
           required: true
           type: string
         - name: project_id

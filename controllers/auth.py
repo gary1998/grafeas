@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+import importlib
 import jwt
 import logging
 import os
@@ -26,7 +28,53 @@ QRADAR_CA_CERTS_FILE = "qr_cac"
 # PEP Client initialization and access
 #
 
-class GrafeasAuthClient(object):
+class AuthClient(ABC):
+    @abstractmethod
+    def close(self):
+        pass
+
+    @abstractmethod
+    def enable(self, value):
+        pass
+
+    @abstractmethod
+    def assert_can_write_projects(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_read_projects(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_delete_projects(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_write_notes(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_read_notes(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_delete_notes(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_write_occurrences(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_read_occurrences(self, request, account_id):
+        pass
+
+    @abstractmethod
+    def assert_can_delete_occurrences(self, request, account_id):
+        pass
+
+
+class GrafeasAuthClient(AuthClient):
     def __init__(self, enabled=True):
         logger.info("Initializing auth client ...")
         self.iam_base_url = os.environ['IAM_BASE_URL']
@@ -54,8 +102,60 @@ class GrafeasAuthClient(object):
     def enable(self, value):
         self.enabled = value
 
-    def get_subject(self, request):
-        if not GrafeasAuthClient.validate_proto(request):
+    def assert_can_write_projects(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.projects.write", account_id,
+            "Not allowed to write projects")
+
+
+    def assert_can_read_projects(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.projects.read", account_id,
+            "Not allowed to read projects")
+
+    def assert_can_delete_projects(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.projects.delete", account_id,
+            "Not allowed to delete projects")
+
+    def assert_can_write_notes(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.notes.write", account_id,
+            "Not allowed to write notes")
+
+    def assert_can_read_notes(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.notes.read", account_id,
+            "Not allowed to read notes")
+
+    def assert_can_delete_notes(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.notes.delete", account_id,
+            "Not allowed to delete notes")
+
+    def assert_can_write_occurrences(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.occurrences.write", account_id,
+            "Not allowed to write occurrences")
+
+    def assert_can_read_occurrences(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.occurrences.read", account_id,
+            "Not allowed to read occurrences")
+
+    def assert_can_delete_occurrences(self, request, account_id):
+        self._validate_token_and_action(
+            request, "grafeas.occurrences.delete", account_id,
+            "Not allowed to delete occurrences")
+
+    def _validate_token_and_action(self, request, action, account_id, message):
+        #TODO: Add X-UserToken handling here
+        subject = self._get_subject(request)
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("{}: {}".format(message, subject))
+
+    def _get_subject(self, request):
+        if not GrafeasAuthClient._validate_proto(request):
             raise exceptions.UnauthorizedError("Only HTTPS connections are allowed")
 
         try:
@@ -78,62 +178,7 @@ class GrafeasAuthClient(object):
                 self.qradar_client.log_request_auth_failed(request, iam_id)
             raise exceptions.UnauthorizedError(str(e))
 
-    def assert_can_write_projects(self, subject):
-        if not self.is_authorized(subject, "grafeas.projects.write"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to write projects: {}".format(subject))
-
-    def assert_can_read_projects(self, subject):
-        if not self.is_authorized(subject, "grafeas.projects.read"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to read projects: {}".format(subject))
-
-    def assert_can_delete_projects(self, subject):
-        if not self.is_authorized(subject, "grafeas.projects.delete"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to delete projects: {}".format(subject))
-
-    def assert_can_write_notes(self, subject):
-        if not self.is_authorized(subject, "grafeas.notes.write"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to write notes: {}".format(subject))
-
-    def assert_can_read_notes(self, subject):
-        if not self.is_authorized(subject, "grafeas.notes.read"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to read notes: {}".format(subject))
-
-    def assert_can_delete_notes(self, subject):
-        if not self.is_authorized(subject, "grafeas.notes.delete"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to delete notes: {}".format(subject))
-
-    def assert_can_write_occurrences(self, subject):
-        if not self.is_authorized(subject, "grafeas.occurrences.write"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to write occurrences: {}".format(subject))
-
-    def assert_can_read_occurrences(self, subject):
-        if not self.is_authorized(subject, "grafeas.occurrences.read"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to read occurrences: {}".format(subject))
-
-    def assert_can_delete_occurrences(self, subject):
-        if not self.is_authorized(subject, "grafeas.occurrences.delete"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to delete occurrences: {}".format(subject))
-
-    def assert_can_write_occurrences_for_others(self, subject):
-        if not self.is_authorized(subject, "grafeas.occurrences.write_for_others"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to write occurrences for others: {}".format(subject))
-
-    def assert_can_delete_occurrences_for_others(self, subject):
-        if not self.is_authorized(subject, "grafeas.occurrences.delete_for_others"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to delete occurrences for others: {}".format(subject))
-
-    def is_authorized(self, subject, action):
+    def _is_authorized(self, subject, action, account_id):
         if not self.enabled:
             logger.info("Subject is authorized: {}".format(subject))
             return True
@@ -155,11 +200,10 @@ class GrafeasAuthClient(object):
             "resource": {
                 "attributes": {
                     "serviceName": "grafeas",
-                    "accountId": subject.account_id
+                    "accountId": account_id
                 }
             }
         }
-
         try:
             result = self.pep_client.is_authz2(params, self.access_token)
         except pepclient.PDPError as e:
@@ -168,7 +212,8 @@ class GrafeasAuthClient(object):
             result = self.pep_client.is_authz2(params, self.access_token)
 
         allowed = result['allowed']
-        logger.info("Subject {} authorized: {}".format("is" if allowed else "is not", subject))
+        logger.info("Subject {} authorized: subject={}, account={}".format(
+            "is" if allowed else "is not", subject, account_id))
         return allowed
 
     @staticmethod
@@ -188,7 +233,7 @@ class GrafeasAuthClient(object):
             os.path.join(config_dir, QRADAR_CA_CERTS_FILE))
 
     @staticmethod
-    def validate_proto(request):
+    def _validate_proto(request):
         accept_http = os.environ.get('ACCEPT_HTTP', "false")
         if accept_http.lower() == 'true':
             return True
@@ -210,7 +255,15 @@ def get_auth_client():
     global __auth_client
     with __auth_client_lock:
         if __auth_client is None:
-            __auth_client = GrafeasAuthClient()
+            full_class_name = os.environ.get('AUTH_CLIENT_CLASS_NAME')
+            if full_class_name is None:
+                __auth_client = GrafeasAuthClient()
+            else:
+                module_name, class_name = full_class_name.rsplit('.', 1)
+                module = importlib.import_module(module_name)
+                clazz = getattr(module, class_name)
+                __auth_client = clazz()
+
         return __auth_client
 
 

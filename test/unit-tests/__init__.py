@@ -1,8 +1,8 @@
 # set environment variable
 import os
 import logging
-import requests
 import sys
+import jwt
 from util.auth_util import get_identity_token
 
 if not os.environ.get('ACCEPT_HTTP'):
@@ -27,4 +27,8 @@ if not os.environ.get('IAM_BEARER_TOKEN'):
         sys.exit(1)
     else:
         access_token = get_identity_token(iam_base_url, iam_api_key)
-        os.environ['IAM_BEARER_TOKEN'] = '{} {}'.format('Bearer',access_token)
+        os.environ['IAM_BEARER_TOKEN'] = '{} {}'.format('Bearer', access_token)
+
+if not os.environ.get('TEST_ACCOUNT_ID'):
+    decoded_auth_token = jwt.decode(os.environ['IAM_BEARER_TOKEN'][7:], verify=False)
+    os.environ['TEST_ACCOUNT_ID'] = decoded_auth_token['account']['bss']

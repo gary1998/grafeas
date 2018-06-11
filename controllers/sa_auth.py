@@ -32,40 +32,49 @@ class SecurityAdvisorAuthClient(AuthClient):
         pass
 
     def assert_can_write_notes(self, request, account_id):
-        if not self._is_authorized(request, account_id):
-            raise exceptions.ForbiddenError(
-                "Not allowed to write notes: {}".format(account_id))
+        if request.method == 'POST':
+            if not self._is_authorized(request, account_id, "security-advisor.metadata.write"):
+                raise exceptions.ForbiddenError(
+                    "Not allowed to write notes: {}".format(account_id))
+        elif request.method == 'PUT':
+            if not self._is_authorized(request, account_id, "security-advisor.metadata.update"):
+                raise exceptions.ForbiddenError(
+                    "Not allowed to update notes: {}".format(account_id))
 
     def assert_can_read_notes(self, request, account_id):
-        if not self._is_authorized(request, account_id):
+        if not self._is_authorized(request, account_id, "security-advisor.metadata.read"):
             raise exceptions.ForbiddenError(
                 "Not allowed to read notes: {}".format(account_id))
 
     def assert_can_delete_notes(self, request, account_id):
-        if not self._is_authorized(request, account_id):
+        if not self._is_authorized(request, account_id, "security-advisor.metadata.delete"):
             raise exceptions.ForbiddenError(
                 "Not allowed to delete notes: {}".format(account_id))
 
     def assert_can_write_occurrences(self, request, account_id):
-        if not self._is_authorized(request, account_id):
-            raise exceptions.ForbiddenError(
-                "Not allowed to write occurrences: {}".format(account_id))
+        if request.method == 'POST':
+            if not self._is_authorized(request, account_id, "security-advisor.findings.write"):
+                raise exceptions.ForbiddenError(
+                    "Not allowed to write occurrences: {}".format(account_id))
+        elif request.method == 'PUT':
+            if not self._is_authorized(request, account_id, "security-advisor.findings.update"):
+                raise exceptions.ForbiddenError(
+                    "Not allowed to update occurrences: {}".format(account_id))
 
     def assert_can_read_occurrences(self, request, account_id):
-        if not self._is_authorized(request, account_id):
+        if not self._is_authorized(request, account_id, "security-advisor.findings.read"):
             raise exceptions.ForbiddenError(
                 "Not allowed to read occurrences: {}".format(account_id))
 
     def assert_can_delete_occurrences(self, request, account_id):
-        if not self._is_authorized(request, account_id):
+        if not self._is_authorized(request, account_id, "security-advisor.findings.delete"):
             raise exceptions.ForbiddenError(
                 "Not allowed to delete occurrences: {}".format(account_id))
 
-    def _is_authorized(self, request, account_id):
+    def _is_authorized(self, request, account_id, action):
         try:
             user_token = request.headers['X-UserToken']
             internal_token = request.headers['Authorization']
-            action = request.headers['x-action']
 
             res_service = self.cloud_iam.authorize_internal_service(internal_token)
             if res_service:

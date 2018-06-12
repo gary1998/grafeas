@@ -4,7 +4,7 @@ metadata:
   name: grafeas-configuration
   namespace: {{ index .Values.global.clusterNamespace .Values.global.env }}
 data:
-  log_level: {{ index .Values.global.log_level .Values.global.env | quote }}
+  logLevel: {{ index .Values.global.logLevel .Values.global.env | quote }}
   iamBaseUrl: {{ index .Values.global.iamBaseUrl .Values.global.env | quote }}
   iamApiBaseUrl: {{ index .Values.global.iamApiBaseUrl .Values.global.env | quote }}
   qradarHost: {{ index .Values.global.qradarHost .Values.global.env | quote }}

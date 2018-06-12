@@ -25,11 +25,11 @@ global:
     stage:
     pre_production:
     production: registry.ng.bluemix.net
-  log_level:
-    development: debug
-    stage: info
-    pre_production: info
-    production: info
+  logLevel:
+    development: DEBUG
+    stage: INFO
+    pre_production: INFO
+    production: INFO
   clusterNamespace:
     development: securityadvisor-dev-dal10
     stage:

@@ -122,7 +122,11 @@ spec:
             secretKeyRef:
               name: grafeas-secret
               key: iamConfig
-
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: logLevel
         ports:
         - containerPort: 8080
           protocol: TCP

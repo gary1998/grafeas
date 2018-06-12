@@ -24,7 +24,7 @@ if log_level == "DEBUG":
        from http.client import HTTPConnection
     except ImportError:
        from httplib import HTTPConnection
-       HTTPConnection.debuglevel = 1
+    HTTPConnection.debuglevel = 1
 
 if __name__ == '__main__':
     app = connexion.App(__name__, specification_dir='./swagger/')

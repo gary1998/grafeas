@@ -6,6 +6,7 @@ import logging
 import sys
 import os
 
+
 # Emit Bluemix deployment event
 cf_deployment_tracker.track()
 
@@ -14,8 +15,16 @@ log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(me
 stream_handler.setFormatter(log_formatter)
 
 logger = logging.getLogger("grafeas")
-logger.setLevel(logging.INFO)
+log_level = os.environ.get('LOG_LEVEL', logging.INFO)
+logger.setLevel(log_level)
 logger.addHandler(stream_handler)
+
+if log_level == "DEBUG":
+    try:
+       from http.client import HTTPConnection
+    except ImportError:
+       from httplib import HTTPConnection
+       HTTPConnection.debuglevel = 1
 
 if __name__ == '__main__':
     app = connexion.App(__name__, specification_dir='./swagger/')

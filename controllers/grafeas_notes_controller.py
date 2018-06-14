@@ -88,8 +88,13 @@ def list_notes(account_id, project_id, filter=None, page_size=None, page_token=N
         auth_client.assert_can_read_notes(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_notes(account_id, project_id, filter, page_size, page_token)
-        return common.build_result(http.HTTPStatus.OK, docs)
+        result = api_impl.list_notes(account_id, project_id, filter, page_size, page_token)
+        return common.build_result(
+            http.HTTPStatus.OK,
+            {
+                "notes": result.docs,
+                "next_page_token": result.bookmark
+            })
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing notes")
         return e.to_error()

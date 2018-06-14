@@ -1,6 +1,6 @@
 import json
 import os
-import common_fvt
+from . import common_fvt
 
 
 OK = 200
@@ -39,8 +39,8 @@ class DynAppScan(common_fvt.CommonFVT):
     def test_list_projects(self):
         response = self.get_projects()
         self.assert_status(response, OK)
-        results = json.loads(response.content.decode('utf-8'))
-        self.assert_true(len(results) > 0, "An array of one or more projects was expected.")
+        result = json.loads(response.content.decode('utf-8'))
+        self.assert_true(len(result['projects']) > 0, "An array of one or more projects was expected.")
 
 
     #
@@ -82,8 +82,8 @@ class DynAppScan(common_fvt.CommonFVT):
     def test_list_notes(self):
         response = self.get_notes('project01')
         self.assert_status(response, OK)
-        results = json.loads(response.content.decode('utf-8'))
-        self.assert_true(len(results) > 0, "An array of one or more notes was expected.")
+        result = json.loads(response.content.decode('utf-8'))
+        self.assert_true(len(result['notes']) > 0, "An array of one or more notes was expected.")
 
     def test_update_note(self):
         body = {
@@ -169,14 +169,14 @@ class DynAppScan(common_fvt.CommonFVT):
     def test_list_occurrences(self):
         response = self.get_occurrences('project01')
         self.assert_status(response, OK)
-        results = json.loads(response.content.decode('utf-8'))
-        self.assert_true(len(results) > 0, "A array of one ore more occurrences was expected.")
+        result = json.loads(response.content.decode('utf-8'))
+        self.assert_true(len(result['occurrences']) > 0, "A array of one ore more occurrences was expected.")
 
     def test_list_note_occurrences(self):
         response = self.get_note_occurrences('project01', 'Note01')
         self.assert_status(response, OK)
-        results = json.loads(response.content.decode('utf-8'))
-        self.assert_true(len(results) > 0, "An array of one or more occurrences was expected.")
+        result = json.loads(response.content.decode('utf-8'))
+        self.assert_true(len(result['occurrences']) > 0, "An array of one or more occurrences was expected.")
 
 
     #

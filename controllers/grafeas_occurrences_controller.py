@@ -90,8 +90,13 @@ def list_occurrences(account_id, project_id, filter=None, page_size=None, page_t
         auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_occurrences(account_id, project_id, filter, page_size, page_token)
-        return common.build_result(http.HTTPStatus.OK, docs)
+        result = api_impl.list_occurrences(account_id, project_id, filter, page_size, page_token)
+        return common.build_result(
+            http.HTTPStatus.OK,
+            {
+                "occurrences": result.docs,
+                "next_page_token": result.bookmark
+            })
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing occurrences")
         return e.to_error()
@@ -124,8 +129,13 @@ def list_note_occurrences(account_id, project_id, note_id, filter=None, page_siz
         auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_note_occurrences(account_id, project_id, note_id, filter, page_size, page_token)
-        return common.build_result(http.HTTPStatus.OK, docs)
+        result = api_impl.list_note_occurrences(account_id, project_id, note_id, filter, page_size, page_token)
+        return common.build_result(
+            http.HTTPStatus.OK,
+            {
+                "occurrences": result.docs,
+                "next_page_token": result.bookmark
+            })
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing note occurrences")
         return e.to_error()

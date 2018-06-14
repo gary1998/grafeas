@@ -54,8 +54,13 @@ def list_projects(account_id, filter=None, page_size=None, page_token=None):
         auth_client.assert_can_read_projects(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.list_projects(account_id, filter, page_size, page_token)
-        return common.build_result(http.HTTPStatus.OK, docs)
+        result = api_impl.list_projects(account_id, filter, page_size, page_token)
+        return common.build_result(
+            http.HTTPStatus.OK,
+            {
+                "projects": result.docs,
+                "next_page_token": result.bookmark
+            })
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while listing projects")
         return e.to_error()

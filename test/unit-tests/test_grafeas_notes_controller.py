@@ -75,8 +75,8 @@ class TestGrafeasNotesController(BaseTestCase):
 
         response = self.get_notes('ProjectX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        results = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(len(results) > 0, "An array of one or more notes was expected.")
+        result = json.loads(response.data.decode('utf-8'))
+        self.assertTrue(len(result['notes']) > 0, "An array of one or more notes was expected.")
 
     def test_05_create_occurrence(self):
         """

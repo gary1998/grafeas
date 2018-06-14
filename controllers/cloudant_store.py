@@ -30,13 +30,16 @@ class CloudantStore(store.Store):
         return CloudantStore._clean_doc(doc)
 
     def list_projects(self, subject_account_id, key_values, page_size, page_token):
-        docs = self.db.find(
+        result = self.db.find(
             key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Project'
             },
-            index="ALL_FIELDS")
-        return [CloudantStore._clean_doc(doc) for doc in docs]
+            index="ALL_FIELDS",
+            limit=page_size,
+            bookmark=page_token)
+        result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
+        return result
 
     def delete_project(self, subject_account_id, project_id):
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
@@ -65,14 +68,17 @@ class CloudantStore(store.Store):
 
     def list_notes(self, subject_account_id, project_id, key_values, page_size, page_token):
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
-        docs = self.db.find(
+        result = self.db.find(
             key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Note',
                 'project_doc_id': project_full_name
             },
-            index="ALL_FIELDS")
-        return [CloudantStore._clean_doc(doc) for doc in docs]
+            index="ALL_FIELDS",
+            limit=page_size,
+            bookmark=page_token)
+        result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
+        return result
 
     def delete_note(self, subject_account_id, project_id, note_id):
         note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
@@ -107,27 +113,33 @@ class CloudantStore(store.Store):
 
     def list_occurrences(self, subject_account_id, project_id, key_values, page_size, page_token):
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
-        docs = self.db.find(
+        result = self.db.find(
             key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name
             },
-            index="ALL_FIELDS")
-        return [CloudantStore._clean_occurrence(doc) for doc in docs]
+            index="ALL_FIELDS",
+            limit=page_size,
+            bookmark=page_token)
+        result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
+        return result
 
     def list_note_occurrences(self, subject_account_id, project_id, note_id, key_values, page_size, page_token):
         project_full_name = common.build_project_full_name(subject_account_id, project_id)
         note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
-        docs = self.db.find(
+        result = self.db.find(
             key_values={
                 'account_id': subject_account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name,
                 'note_doc_id': note_full_name
             },
-            index="ALL_FIELDS")
-        return [CloudantStore._clean_occurrence(doc) for doc in docs]
+            index="ALL_FIELDS",
+            limit=page_size,
+            bookmark=page_token)
+        result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
+        return result
 
     def delete_occurrence(self, subject_account_id, project_id, occurrence_id):
         occurrence_full_name = common.build_occurrence_full_name(subject_account_id, project_id, occurrence_id)

@@ -150,8 +150,8 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         response = self.get_occurrences('ProjectX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        results = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(len(results) > 0, "An array of one ore more occurrences was expected.")
+        result = json.loads(response.data.decode('utf-8'))
+        self.assertTrue(len(result['occurrences']) > 0, "An array of one ore more occurrences was expected.")
 
     def test_08_list_note_occurrences(self):
         """
@@ -163,8 +163,8 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         response = self.get_note_occurrences('ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        results = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(len(results) > 0, "An array of one or more occurrences was expected.")
+        result = json.loads(response.data.decode('utf-8'))
+        self.assertTrue(len(result['occurrences']) > 0, "An array of one or more occurrences was expected.")
 
     def test_09_create_invalid_occurrence(self):
 
@@ -233,14 +233,14 @@ class TestGrafeasOccurrencesController(BaseTestCase):
     '''
     DANGEROUS - USE WITH EXTREME CARE!
     
-    def test_14_delete_account(self):
+    def test_14_delete_account_data(self):
         """
         Test case for delete_note
 
         Deletes the given `Note` from the system.
         """
 
-        response = self.delete_account( TEST_RESOURCE_ACCOUNT_ID)
+        response = self.delete_account_data( TEST_RESOURCE_ACCOUNT_ID)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
     '''
 

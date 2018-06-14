@@ -10,7 +10,7 @@ from util import exceptions
 logger = logging.getLogger("grafeas.cloudant_client")
 
 
-class SearchResult(object):
+class QueryResult(object):
     def __init__(self, docs, total_docs, bookmark):
         self.docs = docs
         self.total_docs = total_docs
@@ -134,21 +134,21 @@ class CloudantDatabase(object):
     #
 
     def find(self, key_values: dict, index: str, fields: list=None, sort: list=None,
-             skip: int=0, limit: int=None):
+             limit: int=None, bookmark: str=None):
         kwargs = {}
-
-        if skip != 0:
-            kwargs['skip'] = skip
-
-        if limit is not None:
-            kwargs['limit'] = limit
 
         if sort is not None:
             kwargs['sort'] = sort
 
+        if limit is not None:
+            kwargs['limit'] = limit
+
+        if bookmark != 0:
+            kwargs['bookmark'] = bookmark
+
         selector = CloudantDatabase._get_selector(key_values)
         result = self._get_query_result(selector, index, fields, **kwargs)
-        return result['docs']
+        return QueryResult(result['docs'], 0, result.get('bookmark'))
 
     def _get_query_result(self, selector: dict, index: str, fields=None, **kwargs):
             try:
@@ -187,17 +187,15 @@ class CloudantDatabase(object):
     #
 
     def search(self, key_values: dict, index: str, fields: list=None, sort: list=None,
-               bookmark: str=None, limit: int=None):
+               limit: int=None, bookmark: str=None):
         query = CloudantDatabase._get_lucene_query(key_values)
-        result = self._get_search_result(query, index, fields, sort, bookmark, limit)
-        return SearchResult(
-            [row['doc'] for row in result['rows']],
-            result['total_rows'],
-            result['bookmark'])
+        result = self._get_search_result(query, index, fields, sort, limit, bookmark)
+        return QueryResult([row['doc'] for row in result['rows']], result['total_rows'], result.get('bookmark'))
 
     def _get_search_result(self, query: str, index: str, fields=None, sort: list=None,
-                           bookmark: str=None, limit: int=None):
+                           limit: int=None, bookmark: str=None):
         ddoc_id, index = index.split('/')
+
         try:
             query_params = {}
 
@@ -207,11 +205,11 @@ class CloudantDatabase(object):
             if sort:
                 query_params['sort'] = sort
 
-            if bookmark:
-                query_params['bookmark'] = bookmark
-
             if limit:
                 query_params['limit'] = limit
+
+            if bookmark:
+                query_params['bookmark'] = bookmark
 
             return self.db.get_search_result(
                 '_design/' + ddoc_id,

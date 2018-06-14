@@ -186,7 +186,7 @@ class BaseTestCase(TestCase):
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def delete_account(self, account_id):
+    def delete_account_data(self, account_id):
         return self.client.open(
             path='/v1alpha1/{}/accounts/{}'.format(TEST_ACCOUNT_ID, account_id),
             method='DELETE',

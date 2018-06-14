@@ -137,13 +137,13 @@ class CloudantDatabase(object):
              limit: int=None, bookmark: str=None):
         kwargs = {}
 
-        if sort is not None:
+        if sort:
             kwargs['sort'] = sort
 
-        if limit is not None:
+        if limit:
             kwargs['limit'] = limit
 
-        if bookmark != 0:
+        if bookmark:
             kwargs['bookmark'] = bookmark
 
         selector = CloudantDatabase._get_selector(key_values)

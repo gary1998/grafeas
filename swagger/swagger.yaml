@@ -625,7 +625,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/apiNote'
+            $ref: '#/definitions/apiOccurrence'
       tags:
         - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"

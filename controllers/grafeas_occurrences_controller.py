@@ -24,13 +24,13 @@ def create_occurrence(account_id, project_id, body):
 
     try:
         auth_client = auth.get_auth_client()
-        auth_client.assert_can_write_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_write_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
         occurrence_id = body['id']
         replace_if_exists = connexion.request.headers.get('Replace-If-Exists', 'false').lower()
         mode = 'replace' if replace_if_exists == 'true' else 'create'
-        doc = api_impl.write_occurrence(account_id, project_id, occurrence_id, body, mode)
+        doc = api_impl.write_occurrence(subject.account_id, account_id, project_id, occurrence_id, body, mode)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating an occurrence")
@@ -56,10 +56,10 @@ def update_occurrence(account_id, project_id, occurrence_id, body):
 
     try:
         auth_client = auth.get_auth_client()
-        auth_client.assert_can_write_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_write_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.write_occurrence(account_id, project_id, occurrence_id, body, mode='update')
+        doc = api_impl.write_occurrence(subject.account_id, account_id, project_id, occurrence_id, body, mode='update')
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while updating an occurrence")
@@ -87,10 +87,10 @@ def list_occurrences(account_id, project_id, filter=None, page_size=None, page_t
 
     try:
         auth_client = auth.get_auth_client()
-        auth_client.assert_can_read_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        result = api_impl.list_occurrences(account_id, project_id, filter, page_size, page_token)
+        result = api_impl.list_occurrences(subject.account_id, account_id, project_id, filter, page_size, page_token)
         return common.build_result(
             http.HTTPStatus.OK,
             {
@@ -126,10 +126,11 @@ def list_note_occurrences(account_id, project_id, note_id, filter=None, page_siz
 
     try:
         auth_client = auth.get_auth_client()
-        auth_client.assert_can_read_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        result = api_impl.list_note_occurrences(account_id, project_id, note_id, filter, page_size, page_token)
+        result = api_impl.list_note_occurrences(subject.account_id, account_id, project_id, note_id,
+                                                filter, page_size, page_token)
         return common.build_result(
             http.HTTPStatus.OK,
             {
@@ -158,10 +159,10 @@ def get_occurrence(account_id, project_id, occurrence_id):
 
     try:
         auth_client = auth.get_auth_client()
-        auth_client.assert_can_read_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.get_occurrence(account_id, project_id, occurrence_id)
+        doc = api_impl.get_occurrence(subject.account_id, account_id, project_id, occurrence_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting an occurrence")
@@ -185,10 +186,10 @@ def delete_occurrence(account_id, project_id, occurrence_id):
 
     try:
         auth_client = auth.get_auth_client()
-        auth_client.assert_can_delete_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_delete_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.delete_occurrence(account_id, project_id, occurrence_id)
+        doc = api_impl.delete_occurrence(subject.account_id, account_id, project_id, occurrence_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting an occurrence")

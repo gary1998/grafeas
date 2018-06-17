@@ -18,10 +18,10 @@ def delete_account_data(account_id):
     """
     try:
         auth_client = auth.get_auth_client()
-        auth_client.assert_can_delete_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_delete_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        api_impl.delete_account_occurrences(account_id)
+        api_impl.delete_account_occurrences(subject.account_id, account_id)
 
         account_deleted_occurrence = {
             "id": "account-deleted-{}".format(account_id),

@@ -21,34 +21,35 @@ class ElasticsearchStore(store.Store):
     # Projects
     #
 
-    def create_project(self, subject_account_id, project_id, body):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def create_project(self, subject_account_id, account_id, project_id, body):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         doc = self.client.create_doc(GRAFEAS_INDEX, 'Project', project_full_name, body)
         return ElasticsearchStore._clean_doc(doc)
 
-    def get_project(self, subject_account_id, project_id):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def get_project(self, subject_account_id, account_id, project_id):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         doc = self.client.get_doc(GRAFEAS_INDEX, 'Project', project_full_name)
         return ElasticsearchStore._clean_doc(doc)
 
-    def list_projects(self, subject_account_id, filter_, page_size, page_token):
+    def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
         docs = self.client.find(
             GRAFEAS_INDEX, 'Project',
             {
-                'account_id': subject_account_id
+                'account_id': subject_account_id,
+                'context.account_id': account_id
             })
         return [ElasticsearchStore._clean_doc(doc) for doc in docs]
 
-    def delete_project(self, subject_account_id, project_id):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def delete_project(self, subject_account_id, account_id, project_id):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         self.client.delete_doc(GRAFEAS_INDEX, 'Project', project_full_name)
 
     #
     # Notes
     #
 
-    def write_note(self, subject_account_id, project_id, note_id, body, mode):
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def write_note(self, subject_account_id, account_id, project_id, note_id, body, mode):
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
 
         if mode == 'create':
             doc = self.client.create_doc(GRAFEAS_INDEX, 'Note', note_full_name, body)
@@ -59,31 +60,32 @@ class ElasticsearchStore(store.Store):
 
         return ElasticsearchStore._clean_doc(doc)
 
-    def get_note(self, subject_account_id, project_id, note_id):
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def get_note(self, subject_account_id, account_id, project_id, note_id):
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
         doc = self.client.get_doc(GRAFEAS_INDEX, 'Note', note_full_name)
         return ElasticsearchStore._clean_doc(doc)
 
-    def list_notes(self, subject_account_id, project_id, filter_, page_size, page_token):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def list_notes(self, subject_account_id, account_id, project_id, filter_, page_size, page_token):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         docs = self.client.find(
             GRAFEAS_INDEX, 'Note',
             {
                 'account_id': subject_account_id,
+                'context.account_id': account_id,
                 'project_doc_id': project_full_name
             })
         return [ElasticsearchStore._clean_doc(doc) for doc in docs]
 
-    def delete_note(self, subject_account_id, project_id, note_id):
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def delete_note(self, subject_account_id, account_id, project_id, note_id):
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
         self.client.delete_doc(GRAFEAS_INDEX, 'Note', note_full_name)
 
     #
     # Occurrences
     #
 
-    def write_occurrence(self, subject_account_id, project_id, occurrence_id, body, mode):
-        occurrence_full_name = common.build_occurrence_full_name(subject_account_id, project_id, occurrence_id)
+    def write_occurrence(self, subject_account_id, account_id, project_id, occurrence_id, body, mode):
+        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
         body = ElasticsearchStore._internalize_occurrence(body)
 
         if mode == 'create':
@@ -100,42 +102,45 @@ class ElasticsearchStore(store.Store):
 
         return ElasticsearchStore._clean_occurrence(doc)
 
-    def get_occurrence(self, subject_account_id, project_id, occurrence_id):
-        occurrence_full_name = common.build_occurrence_full_name(subject_account_id, project_id, occurrence_id)
+    def get_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
+        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
         doc = self.client.get_doc(GRAFEAS_INDEX, 'Occurrence', occurrence_full_name)
         return ElasticsearchStore._clean_occurrence(doc)
 
-    def list_occurrences(self, subject_account_id, project_id, filter_, page_size, page_token):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def list_occurrences(self, subject_account_id, account_id, project_id, filter_, page_size, page_token):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         docs = self.client.find(
             GRAFEAS_INDEX, 'Occurrence',
             {
                 'account_id': subject_account_id,
+                'context.account_id': account_id,
                 'project_doc_id': project_full_name
             })
         return [ElasticsearchStore._clean_occurrence(doc) for doc in docs]
 
-    def list_note_occurrences(self, subject_account_id, project_id, note_id, filter_, page_size, page_token):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def list_note_occurrences(self, subject_account_id, account_id, project_id, note_id, filter_, page_size, page_token):
+        project_full_name = common.build_project_full_name(account_id, project_id)
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
         docs = self.client.find(
             GRAFEAS_INDEX, 'Occurrence',
             {
                 'account_id': subject_account_id,
+                'context.account_id': account_id,
                 'project_doc_id': project_full_name,
                 'note_doc_id': note_full_name
             })
         return [ElasticsearchStore._clean_occurrence(doc) for doc in docs]
 
-    def delete_occurrence(self, subject_account_id, project_id, occurrence_id):
-        occurrence_full_name = common.build_occurrence_full_name(subject_account_id, project_id, occurrence_id)
+    def delete_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
+        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
         return self.client.delete_doc(GRAFEAS_INDEX, 'Occurrence', occurrence_full_name)
 
-    def delete_account_occurrences(self, resource_account_id):
+    def delete_account_occurrences(self, subject_account_id, account_id):
         docs = self.client.find(
             GRAFEAS_INDEX, 'Occurrence',
             {
-                'context.account_id': resource_account_id,
+                'context.account_id': account_id,
+                'doc_type': 'Occurrence'
             },
             fields=['account_id', 'name'])
 

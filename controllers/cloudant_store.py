@@ -32,7 +32,7 @@ class CloudantStore(store.Store):
     def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Project'
             },
@@ -71,7 +71,7 @@ class CloudantStore(store.Store):
         project_full_name = common.build_project_full_name(account_id, project_id)
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Note',
                 'project_doc_id': project_full_name
@@ -117,7 +117,7 @@ class CloudantStore(store.Store):
         project_full_name = common.build_project_full_name(account_id, project_id)
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name
@@ -133,7 +133,7 @@ class CloudantStore(store.Store):
         note_full_name = common.build_note_full_name(account_id, project_id, note_id)
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name,

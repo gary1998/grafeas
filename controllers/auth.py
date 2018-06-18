@@ -103,48 +103,48 @@ class GrafeasAuthClient(AuthClient):
         self.enabled = value
 
     def assert_can_write_projects(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.projects.write", account_id,
             "Not allowed to write projects")
 
 
     def assert_can_read_projects(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.projects.read", account_id,
             "Not allowed to read projects")
 
     def assert_can_delete_projects(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.projects.delete", account_id,
             "Not allowed to delete projects")
 
     def assert_can_write_notes(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.notes.write", account_id,
             "Not allowed to write notes")
 
     def assert_can_read_notes(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.notes.read", account_id,
             "Not allowed to read notes")
 
     def assert_can_delete_notes(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.notes.delete", account_id,
             "Not allowed to delete notes")
 
     def assert_can_write_occurrences(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.occurrences.write", account_id,
             "Not allowed to write occurrences")
 
     def assert_can_read_occurrences(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.occurrences.read", account_id,
             "Not allowed to read occurrences")
 
     def assert_can_delete_occurrences(self, request, account_id):
-        self._validate_token_and_action(
+        return self._validate_token_and_action(
             request, "grafeas.occurrences.delete", account_id,
             "Not allowed to delete occurrences")
 
@@ -153,6 +153,7 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
         if not self._is_authorized(subject, action, account_id):
             raise exceptions.ForbiddenError("{}: {}".format(message, subject))
+        return subject
 
     def _get_subject(self, request):
         if not GrafeasAuthClient._validate_proto(request):

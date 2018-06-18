@@ -19,20 +19,21 @@ class CloudantStore(store.Store):
     # Projects
     #
 
-    def create_project(self, subject_account_id, project_id, body):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def create_project(self, subject_account_id, account_id, project_id, body):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         doc = self.db.create_doc(project_full_name, body)
         return CloudantStore._clean_doc(doc)
 
-    def get_project(self, subject_account_id, project_id):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def get_project(self, subject_account_id, account_id, project_id):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         doc = self.db.get_doc(project_full_name)
         return CloudantStore._clean_doc(doc)
 
-    def list_projects(self, subject_account_id, key_values, page_size, page_token):
+    def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
+                'context.account_id': account_id,
                 'doc_type': 'Project'
             },
             index="ALL_FIELDS",
@@ -41,16 +42,16 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
         return result
 
-    def delete_project(self, subject_account_id, project_id):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def delete_project(self, subject_account_id, account_id, project_id):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         self.db.delete_doc(project_full_name)
 
     #
     # Notes
     #
 
-    def write_note(self, subject_account_id, project_id, note_id, body, mode):
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def write_note(self, subject_account_id, account_id, project_id, note_id, body, mode):
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
 
         if mode == 'create':
             doc = self.db.create_doc(note_full_name, body)
@@ -61,16 +62,17 @@ class CloudantStore(store.Store):
 
         return CloudantStore._clean_doc(doc)
 
-    def get_note(self, subject_account_id, project_id, note_id):
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def get_note(self, subject_account_id, account_id, project_id, note_id):
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
         doc = self.db.get_doc(note_full_name)
         return CloudantStore._clean_doc(doc)
 
-    def list_notes(self, subject_account_id, project_id, key_values, page_size, page_token):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def list_notes(self, subject_account_id, account_id, project_id, filter_, page_size, page_token):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
+                'context.account_id': account_id,
                 'doc_type': 'Note',
                 'project_doc_id': project_full_name
             },
@@ -80,16 +82,16 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
         return result
 
-    def delete_note(self, subject_account_id, project_id, note_id):
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def delete_note(self, subject_account_id, account_id, project_id, note_id):
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
         self.db.delete_doc(note_full_name)
 
     #
     # Occurrences
     #
 
-    def write_occurrence(self, subject_account_id, project_id, occurrence_id, body, mode):
-        occurrence_full_name = common.build_occurrence_full_name(subject_account_id, project_id, occurrence_id)
+    def write_occurrence(self, subject_account_id, account_id, project_id, occurrence_id, body, mode):
+        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
         body = CloudantStore._internalize_occurrence(body)
 
         if mode == 'create':
@@ -106,16 +108,17 @@ class CloudantStore(store.Store):
 
         return CloudantStore._clean_occurrence(doc)
 
-    def get_occurrence(self, subject_account_id, project_id, occurrence_id):
-        occurrence_full_name = common.build_occurrence_full_name(subject_account_id, project_id, occurrence_id)
+    def get_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
+        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
         doc = self.db.get_doc(occurrence_full_name)
         return CloudantStore._clean_occurrence(doc)
 
-    def list_occurrences(self, subject_account_id, project_id, key_values, page_size, page_token):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
+    def list_occurrences(self, subject_account_id, account_id, project_id, key_values, page_size, page_token):
+        project_full_name = common.build_project_full_name(account_id, project_id)
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
+                'context.account_id': account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name
             },
@@ -125,12 +128,13 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
         return result
 
-    def list_note_occurrences(self, subject_account_id, project_id, note_id, key_values, page_size, page_token):
-        project_full_name = common.build_project_full_name(subject_account_id, project_id)
-        note_full_name = common.build_note_full_name(subject_account_id, project_id, note_id)
+    def list_note_occurrences(self, subject_account_id, account_id, project_id, note_id, key_values, page_size, page_token):
+        project_full_name = common.build_project_full_name(account_id, project_id)
+        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
         result = self.db.find(
             key_values={
-                'account_id': subject_account_id,
+                #'account_id': subject_account_id,
+                'context.account_id': account_id,
                 'doc_type': 'Occurrence',
                 'project_doc_id': project_full_name,
                 'note_doc_id': note_full_name
@@ -141,17 +145,17 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
         return result
 
-    def delete_occurrence(self, subject_account_id, project_id, occurrence_id):
-        occurrence_full_name = common.build_occurrence_full_name(subject_account_id, project_id, occurrence_id)
+    def delete_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
+        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
         return self.db.delete_doc(occurrence_full_name)
 
-    def delete_account_occurrences(self, resource_account_id):
+    def delete_account_occurrences(self, subject_account_id, account_id):
         max_occurrence_count = 200 # cloudant limit when a text index is used
 
         while True:
             docs = self.db.find(
                 key_values={
-                    'context.account_id': resource_account_id,
+                    'context.account_id': account_id,
                     'doc_type': 'Occurrence'
                 },
                 index="ALL_FIELDS",

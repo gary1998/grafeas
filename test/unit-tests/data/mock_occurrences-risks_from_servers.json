@@ -4,7 +4,7 @@
       "kind": "FINDING",
       "project_id": "security-advisor",
       "id": "xbs1",
-      "note_name": "45257120495askjdfhasdkjf984/projects/security-advisor/notes/xforce-bot_server",
+      "note_name": "projects/security-advisor/notes/xforce-bot_server",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",

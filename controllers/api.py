@@ -99,7 +99,7 @@ class API(object):
         occurrence_doc = self.store.get_occurrence(subject_account_id, account_id, project_id, occurrence_id)
         note_name = occurrence_doc['note_name']
         note_account_id, note_project_id, note_id = common.parse_note_name(note_name, account_id)
-        return self.store.get_note(subject_account_id, note_account_id, account_id, note_project_id, note_id)
+        return self.store.get_note(subject_account_id, note_account_id, note_project_id, note_id)
 
     def delete_note(self, subject_account_id,  account_id, project_id, note_id):
         self.store.delete_note(subject_account_id, account_id, project_id, note_id)
@@ -241,7 +241,7 @@ def get_api_impl():
         if __api_impl is None:
             __api_impl = API(cloudant_store.CloudantStore())
             try:
-                __api_impl.write_note('system', 'core', 'card_configured', {
+                __api_impl.write_note('system', 'system', 'core', 'card_configured', {
                     "kind": "CARD_CONFIGURED",
                     "short_description": "Used to indicate a card was configured for the user account",
                     "long_description": "Used to indicate a card was configured for the user account"
@@ -250,7 +250,7 @@ def get_api_impl():
                 pass
 
             try:
-                __api_impl.write_note('system', 'core', 'account_deleted', {
+                __api_impl.write_note('system', 'system', 'core', 'account_deleted', {
                     "kind": "ACCOUNT_DELETED",
                     "short_description": "Used to indicate a user account was deleted",
                     "long_description": "Used to indicate a user account was deleted"

@@ -98,7 +98,7 @@ class API(object):
     def get_occurrence_note(self, subject_account_id,  account_id, project_id, occurrence_id):
         occurrence_doc = self.store.get_occurrence(subject_account_id, account_id, project_id, occurrence_id)
         note_name = occurrence_doc['note_name']
-        note_account_id, note_project_id, note_id = common.parse_note_name(note_name, subject_account_id)
+        note_account_id, note_project_id, note_id = common.parse_note_name(note_name, account_id)
         return self.store.get_note(subject_account_id, note_account_id, account_id, note_project_id, note_id)
 
     def delete_note(self, subject_account_id,  account_id, project_id, note_id):

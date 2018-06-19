@@ -1,6 +1,8 @@
 from controllers.auth import AuthClient
 import logging
+import jwt
 from util import exceptions
+from util import auth_util
 
 from iam_manager.iam.cloud_IAM import CloudIAM
 from iam_manager.iam.iam_utils import IamUtils
@@ -33,45 +35,60 @@ class SecurityAdvisorAuthClient(AuthClient):
 
     def assert_can_write_notes(self, request, account_id):
         if request.method == 'POST':
-            if not self._is_authorized(request, account_id, "security-advisor.metadata.write"):
-                raise exceptions.ForbiddenError(
-                    "Not allowed to write notes: {}".format(account_id))
+            return self._validate_token_and_action(
+                request, "security-advisor.metadata.write", account_id,
+                "Not allowed to write notes")
         elif request.method == 'PUT':
-            if not self._is_authorized(request, account_id, "security-advisor.metadata.update"):
-                raise exceptions.ForbiddenError(
-                    "Not allowed to update notes: {}".format(account_id))
+            return self._validate_token_and_action(
+                request, "security-advisor.metadata.update", account_id,
+                "Not allowed to update notes")
 
     def assert_can_read_notes(self, request, account_id):
-        if not self._is_authorized(request, account_id, "security-advisor.metadata.read"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to read notes: {}".format(account_id))
+        return self._validate_token_and_action(
+            request, "security-advisor.metadata.read", account_id,
+            "Not allowed to read notes")
 
     def assert_can_delete_notes(self, request, account_id):
-        if not self._is_authorized(request, account_id, "security-advisor.metadata.delete"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to delete notes: {}".format(account_id))
+        return self._validate_token_and_action(
+            request, "security-advisor.metadata.delete", account_id,
+            "Not allowed to delete notes")
 
     def assert_can_write_occurrences(self, request, account_id):
         if request.method == 'POST':
-            if not self._is_authorized(request, account_id, "security-advisor.findings.write"):
-                raise exceptions.ForbiddenError(
-                    "Not allowed to write occurrences: {}".format(account_id))
+            return self._validate_token_and_action(
+                request, "security-advisor.findings.write", account_id,
+                "Not allowed to write occurrences")
         elif request.method == 'PUT':
-            if not self._is_authorized(request, account_id, "security-advisor.findings.update"):
-                raise exceptions.ForbiddenError(
-                    "Not allowed to update occurrences: {}".format(account_id))
+            return self._validate_token_and_action(
+                request, "security-advisor.findings.update", account_id,
+                "Not allowed to update occurrences")
 
     def assert_can_read_occurrences(self, request, account_id):
-        if not self._is_authorized(request, account_id, "security-advisor.findings.read"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to read occurrences: {}".format(account_id))
+        return self._validate_token_and_action(
+            request, "security-advisor.findings.read", account_id,
+            "Not allowed to read occurrences")
 
     def assert_can_delete_occurrences(self, request, account_id):
-        if not self._is_authorized(request, account_id, "security-advisor.findings.delete"):
-            raise exceptions.ForbiddenError(
-                "Not allowed to delete occurrences: {}".format(account_id))
+        return self._validate_token_and_action(
+            request, "security-advisor.findings.delete", account_id,
+            "Not allowed to delete occurrences")
 
-    def _is_authorized(self, request, account_id, action):
+    def _validate_token_and_action(self, request, action, account_id, message):
+        subject = self._get_subject(request)
+        if not self._is_authorized(request, action, account_id):
+            raise exceptions.ForbiddenError("{}: {}".format(message, subject))
+        return subject
+
+    def _get_subject(self, request):
+        try:
+            auth_header = request.headers['Authorization']
+            decoded_auth_token = jwt.decode(auth_header[7:], verify=False)
+        except:
+            raise ValueError("Invalid JWT token: decode error")
+
+        return auth_util.get_subject(decoded_auth_token)
+
+    def _is_authorized(self, request, action, account_id):
         try:
             user_token = request.headers['X-UserToken']
             internal_token = request.headers['Authorization']

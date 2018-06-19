@@ -81,7 +81,7 @@ class SecurityAdvisorAuthClient(AuthClient):
 
     def _get_subject(self, request):
         try:
-            auth_header = request.headers['Authorization']
+            auth_header = request.headers['X-UserToken']
             decoded_auth_token = jwt.decode(auth_header[7:], verify=False)
         except:
             raise ValueError("Invalid JWT token: decode error")

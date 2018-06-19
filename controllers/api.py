@@ -26,7 +26,7 @@ class API(object):
         body['doc_type'] = 'Project'
         body['account_id'] = subject_account_id
         body['id'] = project_id
-        body['name'] = common.build_project_name(project_id)
+        body['name'] = common.build_project_name(account_id, project_id)
         common.set_context_account_id(body, account_id)
 
         if 'shared' not in body:
@@ -51,9 +51,6 @@ class API(object):
         common.validate_id(project_id)
         common.validate_id(note_id)
 
-        project_full_name = common.build_project_full_name(account_id, project_id)
-        note_name = common.build_note_name(project_id, note_id)
-
         kind = body['kind']
         API._validate_kind_field(kind, body, API._NOTE_KIND_FIELD_NAME_MAP)
 
@@ -61,8 +58,8 @@ class API(object):
         body['id'] = note_id
         body['account_id'] = subject_account_id
         body['project_id'] = project_id
-        body['project_doc_id'] = project_full_name
-        body['name'] = note_name
+        body['project_doc_id'] = common.build_project_name(account_id, project_id)
+        body['name'] = common.build_note_name(account_id, project_id, note_id)
         common.set_context_account_id(body, account_id)
 
         if 'create_time' in body:
@@ -128,9 +125,9 @@ class API(object):
         body['account_id'] = subject_account_id
         body['project_id'] = project_id
         body['id'] = occurrence_id
-        body['name'] = common.build_occurrence_name(project_id, occurrence_id)
-        body['project_doc_id'] = common.build_project_full_name(account_id, project_id)
-        body['note_doc_id'] = common.build_note_full_name(note_account_id, note_project_id, note_id)
+        body['name'] = common.build_occurrence_name(account_id, project_id, occurrence_id)
+        body['project_doc_id'] = common.build_project_name(account_id, project_id)
+        body['note_doc_id'] = common.build_note_name(note_account_id, note_project_id, note_id)
         common.set_context_account_id(body, account_id)
 
         if 'create_time' in body:

@@ -20,13 +20,13 @@ class CloudantStore(store.Store):
     #
 
     def create_project(self, subject_account_id, account_id, project_id, body):
-        project_full_name = common.build_project_full_name(account_id, project_id)
-        doc = self.db.create_doc(project_full_name, body)
+        project_name = common.build_project_name(account_id, project_id)
+        doc = self.db.create_doc(project_name, body)
         return CloudantStore._clean_doc(doc)
 
     def get_project(self, subject_account_id, account_id, project_id):
-        project_full_name = common.build_project_full_name(account_id, project_id)
-        doc = self.db.get_doc(project_full_name)
+        project_name = common.build_project_name(account_id, project_id)
+        doc = self.db.get_doc(project_name)
         return CloudantStore._clean_doc(doc)
 
     def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
@@ -43,38 +43,38 @@ class CloudantStore(store.Store):
         return result
 
     def delete_project(self, subject_account_id, account_id, project_id):
-        project_full_name = common.build_project_full_name(account_id, project_id)
-        self.db.delete_doc(project_full_name)
+        project_name = common.build_project_name(account_id, project_id)
+        self.db.delete_doc(project_name)
 
     #
     # Notes
     #
 
     def write_note(self, subject_account_id, account_id, project_id, note_id, body, mode):
-        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
+        note_name = common.build_note_name(account_id, project_id, note_id)
 
         if mode == 'create':
-            doc = self.db.create_doc(note_full_name, body)
+            doc = self.db.create_doc(note_name, body)
         elif mode == 'update':
-            doc = self.db.update_doc(note_full_name, body)
+            doc = self.db.update_doc(note_name, body)
         else:
             raise ValueError("Invalid write note mode: {}".format(mode))
 
         return CloudantStore._clean_doc(doc)
 
     def get_note(self, subject_account_id, account_id, project_id, note_id):
-        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
-        doc = self.db.get_doc(note_full_name)
+        note_name = common.build_note_name(account_id, project_id, note_id)
+        doc = self.db.get_doc(note_name)
         return CloudantStore._clean_doc(doc)
 
     def list_notes(self, subject_account_id, account_id, project_id, filter_, page_size, page_token):
-        project_full_name = common.build_project_full_name(account_id, project_id)
+        project_name = common.build_project_name(account_id, project_id)
         result = self.db.find(
             key_values={
                 #'account_id': subject_account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Note',
-                'project_doc_id': project_full_name
+                'project_doc_id': project_name
             },
             index="ALL_FIELDS",
             limit=page_size,
@@ -83,44 +83,44 @@ class CloudantStore(store.Store):
         return result
 
     def delete_note(self, subject_account_id, account_id, project_id, note_id):
-        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
-        self.db.delete_doc(note_full_name)
+        note_name = common.build_note_name(account_id, project_id, note_id)
+        self.db.delete_doc(note_name)
 
     #
     # Occurrences
     #
 
     def write_occurrence(self, subject_account_id, account_id, project_id, occurrence_id, body, mode):
-        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
+        occurrence_name = common.build_occurrence_name(account_id, project_id, occurrence_id)
         body = CloudantStore._internalize_occurrence(body)
 
         if mode == 'create':
-            doc = self.db.create_doc(occurrence_full_name, body)
+            doc = self.db.create_doc(occurrence_name, body)
         elif mode == 'update':
-            doc = self.db.update_doc(occurrence_full_name, body)
+            doc = self.db.update_doc(occurrence_name, body)
         elif mode == 'replace':
             try:
-                doc = self.db.create_doc(occurrence_full_name, body)
+                doc = self.db.create_doc(occurrence_name, body)
             except exceptions.AlreadyExistsError:
-                doc = self.db.update_doc(occurrence_full_name, body)
+                doc = self.db.update_doc(occurrence_name, body)
         else:
             raise ValueError("Invalid write occurrence mode: {}".format(mode))
 
         return CloudantStore._clean_occurrence(doc)
 
     def get_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
-        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
-        doc = self.db.get_doc(occurrence_full_name)
+        occurrence_name = common.build_occurrence_name(account_id, project_id, occurrence_id)
+        doc = self.db.get_doc(occurrence_name)
         return CloudantStore._clean_occurrence(doc)
 
     def list_occurrences(self, subject_account_id, account_id, project_id, key_values, page_size, page_token):
-        project_full_name = common.build_project_full_name(account_id, project_id)
+        project_name = common.build_project_name(account_id, project_id)
         result = self.db.find(
             key_values={
                 #'account_id': subject_account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
-                'project_doc_id': project_full_name
+                'project_doc_id': project_name
             },
             index="ALL_FIELDS",
             limit=page_size,
@@ -129,15 +129,13 @@ class CloudantStore(store.Store):
         return result
 
     def list_note_occurrences(self, subject_account_id, account_id, project_id, note_id, key_values, page_size, page_token):
-        project_full_name = common.build_project_full_name(account_id, project_id)
-        note_full_name = common.build_note_full_name(account_id, project_id, note_id)
+        note_name = common.build_note_name(account_id, project_id, note_id)
         result = self.db.find(
             key_values={
                 #'account_id': subject_account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
-                'project_doc_id': project_full_name,
-                'note_doc_id': note_full_name
+                'note_doc_id': note_name
             },
             index="ALL_FIELDS",
             limit=page_size,
@@ -146,8 +144,8 @@ class CloudantStore(store.Store):
         return result
 
     def delete_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
-        occurrence_full_name = common.build_occurrence_full_name(account_id, project_id, occurrence_id)
-        return self.db.delete_doc(occurrence_full_name)
+        occurrence_name = common.build_occurrence_name(account_id, project_id, occurrence_id)
+        return self.db.delete_doc(occurrence_name)
 
     def delete_account_occurrences(self, subject_account_id, account_id):
         max_occurrence_count = 200 # cloudant limit when a text index is used
@@ -164,8 +162,8 @@ class CloudantStore(store.Store):
             )
 
             for doc in docs:
-                occurrence_full_name = doc['_id']
-                self.db.delete_doc(occurrence_full_name)
+                occurrence_name = doc['_id']
+                self.db.delete_doc(occurrence_name)
 
             if len(docs) < max_occurrence_count:
                 break

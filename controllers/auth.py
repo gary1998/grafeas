@@ -112,7 +112,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to read projects: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to read projects: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_write_projects(self, request, account_id):
@@ -125,7 +126,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to write projects: {}".format( subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to write projects: subject={}, resource-account={}".format( subject, account_id))
         return subject
 
     def assert_can_delete_projects(self, request, account_id):
@@ -138,7 +140,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to delete projects: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to delete projects: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_read_notes(self, request, account_id):
@@ -151,7 +154,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to read notes: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to read notes: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_write_notes(self, request, account_id):
@@ -164,7 +168,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to write notes: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to write notes: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_delete_notes(self, request, account_id):
@@ -177,7 +182,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to delete notes: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to delete notes: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_read_occurrences(self, request, account_id):
@@ -190,7 +196,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to read occurrences: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to read occurrences: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_write_occurrences(self, request, account_id):
@@ -203,7 +210,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to write occurrences: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to write occurrences: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_delete_occurrences(self, request, account_id):
@@ -216,7 +224,8 @@ class GrafeasAuthClient(AuthClient):
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("Not allowed to delete occurrences: {}".format(subject))
+            raise exceptions.ForbiddenError(
+                "Not allowed to delete occurrences: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def _get_subject(self, request):

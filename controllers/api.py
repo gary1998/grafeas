@@ -95,7 +95,7 @@ class API(object):
     def get_occurrence_note(self, subject_account_id,  account_id, project_id, occurrence_id):
         occurrence_doc = self.store.get_occurrence(subject_account_id, account_id, project_id, occurrence_id)
         note_name = occurrence_doc['note_name']
-        note_account_id, note_project_id, note_id = common.parse_note_name(note_name, account_id)
+        note_account_id, note_project_id, note_id = common.parse_note_name(note_name)
         return self.store.get_note(subject_account_id, note_account_id, note_project_id, note_id)
 
     def delete_note(self, subject_account_id,  account_id, project_id, note_id):
@@ -111,7 +111,7 @@ class API(object):
 
         # verify note exists (a not-found exception will be raised if the note does not exist) and access is allowed
         note_name = body['note_name']
-        note_account_id, note_project_id, note_id = common.parse_note_name(note_name, account_id)
+        note_account_id, note_project_id, note_id = common.parse_note_name(note_name)
         note = self.store.get_note(subject_account_id, note_account_id, note_project_id, note_id)
         if note_account_id != account_id and not note['shared']:
             raise exceptions.JSONError.from_http_status(

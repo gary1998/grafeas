@@ -102,57 +102,121 @@ class GrafeasAuthClient(AuthClient):
     def enable(self, value):
         self.enabled = value
 
-    def assert_can_write_projects(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.projects.write", account_id,
-            "Not allowed to write projects")
-
-
     def assert_can_read_projects(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.projects.read", account_id,
-            "Not allowed to read projects")
+        subject = self._get_subject(request)
+
+        if subject.account_id == account_id:
+            action = "grafeas.projects.read"
+        else:
+            action = "grafeas.projects.read-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to read projects: {}".format(subject))
+        return subject
+
+    def assert_can_write_projects(self, request, account_id):
+        subject = self._get_subject(request)
+
+        if subject.account_id == account_id:
+            action = "grafeas.projects.write"
+        else:
+            action = "grafeas.projects.write-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to write projects: {}".format( subject))
+        return subject
 
     def assert_can_delete_projects(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.projects.delete", account_id,
-            "Not allowed to delete projects")
+        subject = self._get_subject(request)
 
-    def assert_can_write_notes(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.notes.write", account_id,
-            "Not allowed to write notes")
+        if subject.account_id == account_id:
+            action = "grafeas.projects.delete"
+        else:
+            action = "grafeas.projects.delete-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to delete projects: {}".format(subject))
+        return subject
 
     def assert_can_read_notes(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.notes.read", account_id,
-            "Not allowed to read notes")
+        subject = self._get_subject(request)
+
+        if subject.account_id == account_id:
+            action = "grafeas.notes.read"
+        else:
+            action = "grafeas.notes.read-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to read notes: {}".format(subject))
+        return subject
+
+    def assert_can_write_notes(self, request, account_id):
+        subject = self._get_subject(request)
+
+        if subject.account_id == account_id:
+            action = "grafeas.notes.write"
+        else:
+            action = "grafeas.notes.write-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to write notes: {}".format(subject))
+        return subject
 
     def assert_can_delete_notes(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.notes.delete", account_id,
-            "Not allowed to delete notes")
+        subject = self._get_subject(request)
 
-    def assert_can_write_occurrences(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.occurrences.write", account_id,
-            "Not allowed to write occurrences")
+        if subject.account_id == account_id:
+            action = "grafeas.notes.delete"
+        else:
+            action = "grafeas.notes.delete-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to delete notes: {}".format(subject))
+        return subject
 
     def assert_can_read_occurrences(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.occurrences.read", account_id,
-            "Not allowed to read occurrences")
+        subject = self._get_subject(request)
+
+        if subject.account_id == account_id:
+            action = "grafeas.occurrences.read"
+        else:
+            action = "grafeas.occurrences.read-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to read occurrences: {}".format(subject))
+        return subject
+
+    def assert_can_write_occurrences(self, request, account_id):
+        subject = self._get_subject(request)
+
+        if subject.account_id == account_id:
+            action = "grafeas.occurrences.write"
+        else:
+            action = "grafeas.occurrences.write-others"
+            account_id = subject.account_id
+
+        if not self._is_authorized(subject, action, account_id):
+            raise exceptions.ForbiddenError("Not allowed to write occurrences: {}".format(subject))
+        return subject
 
     def assert_can_delete_occurrences(self, request, account_id):
-        return self._validate_token_and_action(
-            request, "grafeas.occurrences.delete", account_id,
-            "Not allowed to delete occurrences")
-
-    def _validate_token_and_action(self, request, action, account_id, message):
-        #TODO: Add X-UserToken handling here
         subject = self._get_subject(request)
+
+        if subject.account_id == account_id:
+            action = "grafeas.occurrences.delete"
+        else:
+            action = "grafeas.occurrences.delete-others"
+            account_id = subject.account_id
+
         if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError("{}: {}".format(message, subject))
+            raise exceptions.ForbiddenError("Not allowed to delete occurrences: {}".format(subject))
         return subject
 
     def _get_subject(self, request):

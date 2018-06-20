@@ -994,9 +994,6 @@ definitions:
   Context:
     type: object
     properties:
-      account_id:
-        type: string
-        description: The unique ID for your IBM Cloud account
       region:
         type: string
         description: The IBM Cloud region
@@ -1032,8 +1029,7 @@ definitions:
       toolchain_id:
         type: string
         description: The id of the toolchain the occurrence applies to
-    required:
-      - account_id
+
 
   Reporter:
     type: object

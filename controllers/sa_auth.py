@@ -1,6 +1,8 @@
 from controllers.auth import AuthClient
 import logging
 import jwt
+import os
+import json
 from util import exceptions
 from util import auth_util
 
@@ -75,6 +77,13 @@ class SecurityAdvisorAuthClient(AuthClient):
 
     def _validate_token_and_action(self, request, action, account_id, message):
         subject = self._get_subject(request)
+        whitelisted_entity = os.environ.get('WHITELISTED_ENTITY')
+        if whitelisted_entity:
+            whitelisted_entity = json.loads(whitelisted_entity)
+            for whitelist in whitelisted_entity:
+                if subject.account_id == whitelist['account']:
+                    if subject.id == whitelist['id']:
+                        return subject
         if not self._is_authorized(request, action, account_id):
             raise exceptions.ForbiddenError("{}: {}".format(message, subject))
         return subject

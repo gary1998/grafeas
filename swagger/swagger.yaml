@@ -1030,7 +1030,6 @@ definitions:
         type: string
         description: The id of the toolchain the occurrence applies to
 
-
   Reporter:
     type: object
     description: The entity reporting a note

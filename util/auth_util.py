@@ -13,7 +13,7 @@ class Subject(object):
         self.account_id = account_id
 
     def __str__(self):
-        return "type={}, id={}, account={}".format(self.type, self.id, self.account_id)
+        return "{{type:{}, id:{}, account:{}}}".format(self.type, self.id, self.account_id)
 
 
 def get_subject(decoded_auth_token):

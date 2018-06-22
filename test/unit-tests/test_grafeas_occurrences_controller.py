@@ -1,6 +1,6 @@
 from flask import json
 from http import HTTPStatus
-from .common_ut import BaseTestCase
+from .common_ut import BaseTestCase, TEST_ACCOUNT_ID
 
 
 TEST_RESOURCE_ACCOUNT_ID = "0209df6649c995e076657f797cb8b6fb"
@@ -31,7 +31,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_note('ProjectX', body)
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_02_create_duplicate_note(self):
@@ -56,7 +56,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_note('ProjectX', body)
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
     def test_03_create_occurrence(self):
@@ -68,7 +68,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
             "short_description": "The short description of Occurrence02",
             "long_description": "The long description of Occurrence02",
             "kind": "FINDING",
@@ -76,11 +76,11 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "MEDIUM"
             },
             "context": {
-                "account_id": "0209df6649c995e076657f797cb8b6fb"
+                "resource_name": "Resource02"
             }
         }
 
-        response = self.post_occurrence('ProjectX', body)
+        response = self.post_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_04_create_duplicate_occurrence(self):
@@ -92,7 +92,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
             "short_description": "The short description of Occurrence02",
             "long_description": "The long description of Occurrence02",
             "kind": "FINDING",
@@ -100,11 +100,11 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "HIGH"
             },
             "context": {
-                "account_id": TEST_RESOURCE_ACCOUNT_ID
+                "resource_name": "Resource02"
             }
         }
 
-        response = self.post_occurrence('ProjectX', body)
+        response = self.post_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
     def test_05_create_or_update_occurrence(self):
@@ -116,7 +116,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "note_name": "projects/{}/notes/{}".format('ProjectX', 'Note02'),
+            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
             "short_description": "Updated short description of Occurrence02",
             "long_description": "Updated long description of Occurrence02",
             "kind": "FINDING",
@@ -124,11 +124,11 @@ class TestGrafeasOccurrencesController(BaseTestCase):
                 "certainty": "HIGH"
             },
             "context": {
-                "account_id": TEST_RESOURCE_ACCOUNT_ID
+                "resource_name": "Resource02"
             }
         }
 
-        response = self.post_or_put_occurrence('ProjectX', body)
+        response = self.post_or_put_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_06_get_occurrence(self):
@@ -138,7 +138,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Returns the requested `Note`.
         """
 
-        response = self.get_occurrence('ProjectX', 'Occurrence02')
+        response = self.get_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_07_list_occurrences(self):
@@ -148,12 +148,36 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Lists active `Occurrences` for a given project matching the filters.
         """
 
-        response = self.get_occurrences('ProjectX')
+        response = self.get_occurrences(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         result = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(result['occurrences']) > 0, "An array of one ore more occurrences was expected.")
 
-    def test_08_list_note_occurrences(self):
+    def test_08_create_occurrence(self):
+        """
+        Test case for create_occurrence
+
+        Creates a new `Occurrence`. Use this method to create `Occurrences` for a resource.
+        """
+
+        body = {
+            "id": "Occurrence03",
+            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
+            "short_description": "The short description of Occurrence02",
+            "long_description": "The long description of Occurrence02",
+            "kind": "FINDING",
+            "finding": {
+                "certainty": "MEDIUM"
+            },
+            "context": {
+                "resource_name": "Resource03"
+            }
+        }
+
+        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProjectX', body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_09_list_note_occurrences(self):
         """
         Test case for list_note_occurrences
 
@@ -161,17 +185,16 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Use this method to get all occurrences referencing your `Note` across all your customer projects.
         """
 
-        response = self.get_note_occurrences('ProjectX', 'Note02')
+        response = self.get_note_occurrences(TEST_ACCOUNT_ID, 'ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         result = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(result['occurrences']) > 0, "An array of one or more occurrences was expected.")
 
-    def test_09_create_invalid_occurrence(self):
+    def test_10_create_invalid_occurrence(self):
 
         body = {
             "context":{
                 "region":"dal10",
-                "account_id": "697e84fcca45c9439aae525d31ef1a27",
                 "resource_name": "N1",
                 "resource_type": "Pod",
                 "service_crn":"39438df3496a49e8aa39eb556ab15b0e",
@@ -187,47 +210,57 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence('ProjectX', body)
+        response = self.post_occurrence("697e84fcca45c9439aae525d31ef1a27", 'ProjectX', body)
         self.assertStatus(response, HTTPStatus.BAD_REQUEST, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_10_delete_occurrence(self):
+    def test_11_delete_occurrence(self):
         """
         Test case for delete_occurrence
 
         Deletes the given `Occurrence` from the system.
         """
 
-        response = self.delete_occurrence('ProjectX', 'Occurrence02')
+        response = self.delete_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_11_delete_missing_occurrence(self):
+    def test_12_delete_occurrence(self):
         """
         Test case for delete_occurrence
 
         Deletes the given `Occurrence` from the system.
         """
 
-        response = self.delete_occurrence('ProjectX', 'Occurrence02')
+        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProjectX', 'Occurrence03')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_13_delete_missing_occurrence(self):
+        """
+        Test case for delete_occurrence
+
+        Deletes the given `Occurrence` from the system.
+        """
+
+        response = self.delete_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_12_delete_note(self):
+    def test_14_delete_note(self):
         """
         Test case for delete_note
 
         Deletes the given `Note` from the system.
         """
 
-        response = self.delete_note('ProjectX', 'Note02')
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_13_delete_missing_note(self):
+    def test_15_delete_missing_note(self):
         """
         Test case for delete_note
 
         Deletes the given `Note` from the system.
         """
 
-        response = self.delete_note('ProjectX', 'Note02')
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note02')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
     '''
@@ -240,7 +273,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Deletes the given `Note` from the system.
         """
 
-        response = self.delete_account_data( TEST_RESOURCE_ACCOUNT_ID)
+        response = self.delete_account_data(TEST_RESOURCE_ACCOUNT_ID)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
     '''
 

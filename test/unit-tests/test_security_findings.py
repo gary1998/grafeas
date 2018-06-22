@@ -1,7 +1,10 @@
 from flask import json
 from http import HTTPStatus
-from .common_ut import BaseTestCase
+from .common_ut import BaseTestCase, TEST_ACCOUNT_ID
 
+import unittest
+
+import os
 
 XFORCE_PROJECT = {
     "id": "security-advisor"
@@ -44,10 +47,9 @@ ALERT_NOTE_1 = {
 ALERT_OCCURRENCE_1_1 = {
     "kind": "FINDING",
     "id": "xforce-11",
-    "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
+    "note_name": "{}/projects/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
-        "account_id": "Account01",
         "resource_crn": "Pod01",
         "service_crn": "Cluster01"
     },
@@ -82,10 +84,9 @@ ALERT_OCCURRENCE_1_1 = {
 ALERT_OCCURRENCE_1_2 = {
     "kind": "FINDING",
     "id": "xforce-12",
-    "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
+    "note_name": "{}/projects/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
-        "account_id": "Account01",
         "resource_crn": "Pod02",
         "service_crn": "Cluster01"
     },
@@ -109,10 +110,9 @@ ALERT_OCCURRENCE_1_2 = {
 ALERT_OCCURRENCE_1_3 = {
     "kind": "FINDING",
     "id": "xforce-13",
-    "note_name": "projects/security-advisor/notes/xforce-SuspiciousServerCommunication",
+    "note_name": "{}/projects/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
-        "account_id": "Account01",
         "resource_crn": "Pod03",
         "service_crn": "Cluster02"
     },
@@ -152,10 +152,9 @@ KPI_NOTE_2 = {
 KPI_OCCURRENCE_2_1 = {
     "kind": "KPI",
     "id": "xforce-21",
-    "note_name": "projects/security-advisor/notes/xforce-NumClients",
+    "note_name": "{}/projects/security-advisor/notes/xforce-NumClients".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
-        "account_id": "account_guid",
         "resource_crn": "name of pod",
         "service_crn": "cluster CRN"
     },
@@ -205,10 +204,9 @@ ALERT_NOTE_3 = {
 ALERT_OCCURRENCE_3_1 = {
     "kind": "FINDING",
     "id": "31",
-    "note_name": "projects/outlier/notes/EgressDeviation",
+    "note_name": "{}/projects/outlier/notes/EgressDeviation".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
-        "account_id": "account_guid",
         "resource_crn": "name of pod",
         "service_crn": "cluster CRN"
     },
@@ -244,10 +242,9 @@ ALERT_OCCURRENCE_3_1 = {
 MODIFIED_ALERT_OCCURRENCE_3_1 = {
     "kind": "FINDING",
     "id": "31",
-    "note_name": "projects/outlier/notes/EgressDeviation",
+    "note_name": "{}/projects/outlier/notes/EgressDeviation".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
-        "account_id": "account_guid",
         "resource_crn": "name of pod",
         "service_crn": "cluster CRN"
     },
@@ -283,59 +280,91 @@ MODIFIED_ALERT_OCCURRENCE_3_1 = {
 
 class TestSecurityFindings(BaseTestCase):
 
+    @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
+                     "Skipping for security advisor as project creation is not exposed")
     def test_01_create_project(self):
-        response = self.post_project(XFORCE_PROJECT)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_project(TEST_ACCOUNT_ID, XFORCE_PROJECT)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
 
     def test_02_create_note(self):
-        response = self.post_note(XFORCE_PROJECT['id'], ALERT_NOTE_1)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_note(
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_NOTE_1)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
 
     def test_03_create_occurrence(self):
-        response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        self.delete_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1['id'])
+        response = self.post_occurrence(
+            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(
+            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1['id'])
 
     def test_04_create_occurrence(self):
-        response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        self.delete_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2['id'])
+        response = self.post_occurrence(
+            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(
+            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2['id'])
 
     def test_05_create_occurrence(self):
-        response = self.post_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        self.delete_occurrence(XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3['id'])
-        self.delete_note(XFORCE_PROJECT['id'], ALERT_NOTE_1['id'])
+        response = self.post_occurrence(
+            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(
+            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3['id'])
+        self.delete_note(
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_NOTE_1['id'])
 
     def test_06_create_note(self):
-        response = self.post_note(XFORCE_PROJECT['id'], KPI_NOTE_2)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_note(
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], KPI_NOTE_2)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
 
     def test_07_create_occurrence(self):
-        response = self.post_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        self.delete_occurrence(XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'])
-        self.delete_note(XFORCE_PROJECT['id'], KPI_NOTE_2['id'])
-        self.delete_project(XFORCE_PROJECT['id'])
+        response = self.post_occurrence(
+            'Account02', XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(
+            'Account02', XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'])
+        self.delete_note(
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], KPI_NOTE_2['id'])
+        self.delete_project(TEST_ACCOUNT_ID, XFORCE_PROJECT['id'])
 
+    @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
+                     "Skipping for security advisor as project creation is not exposed")
     def test_08_create_project(self):
-        response = self.post_project(OUTLIER_PROJECT)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_project(TEST_ACCOUNT_ID, OUTLIER_PROJECT)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
 
     def test_09_create_note(self):
-        response = self.post_note(OUTLIER_PROJECT['id'], ALERT_NOTE_3)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_note(
+            TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], ALERT_NOTE_3)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
 
     def test_10_create_occurrence(self):
-        response = self.post_occurrence(OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_occurrence(
+            'Account02', OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
 
     def test_11_create_occurrence(self):
-        response = self.post_or_put_occurrence(OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1)
-        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
-        self.delete_occurrence(OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'])
-        self.delete_note(OUTLIER_PROJECT['id'], ALERT_NOTE_3['id'])
-        self.delete_project(OUTLIER_PROJECT['id'])
+        response = self.post_or_put_occurrence(
+            'Account02', OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1)
+        self.assertStatus(response, HTTPStatus.OK,
+                          "Response body is : " + response.data.decode('utf-8'))
+        self.delete_occurrence(
+            'Account02', OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'])
+        self.delete_note(
+            TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], ALERT_NOTE_3['id'])
+        self.delete_project(TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'])
 
 
 if __name__ == '__main__':

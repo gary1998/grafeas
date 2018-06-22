@@ -10,40 +10,25 @@ logger = logging.getLogger("grafeas.common")
 #   DOC ID -> FULL NAME
 #
 
-
-def build_project_name(project_id):
-    return "projects/{}".format(project_id)
-
-
-def build_project_full_name(account_id, project_id):
+def build_project_name(account_id, project_id):
     return "{}/projects/{}".format(account_id, project_id)
 
 
-def build_note_name(project_id, note_id):
-    return "projects/{}/notes/{}".format(project_id, note_id)
-
-
-def build_note_full_name(account_id, project_id, note_id):
+def build_note_name(account_id, project_id, note_id):
     return "{}/projects/{}/notes/{}".format(account_id, project_id, note_id)
 
 
-def build_occurrence_name(project_id, occurrence_id):
-    return "projects/{}/occurrences/{}".format(project_id, occurrence_id)
-
-
-def build_occurrence_full_name(account_id, project_id, occurrence_id):
+def build_occurrence_name(account_id, project_id, occurrence_id):
     return "{}/projects/{}/occurrences/{}".format(account_id, project_id, occurrence_id)
 
 
-def parse_note_name(note_name, account_id):
+def parse_note_name(note_name):
     try:
-        note_name_parts = note_name.split('/')
-        if note_name_parts[0] == "projects":
-            # relative name
-            return account_id, note_name_parts[1], note_name_parts[3]
-        else:
-            # absolute name
-            return note_name_parts[0], note_name_parts[2], note_name_parts[4]
+        note_name_components = note_name.split('/')
+        if len(note_name_components) != 5:
+            raise exceptions.BadRequestError("Invalid note name: {}".format(note_name))
+
+        return note_name_components[0], note_name_components[2], note_name_components[4]
     except IndexError:
         raise exceptions.BadRequestError("Invalid note name: {}".format(note_name))
 

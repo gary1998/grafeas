@@ -7,8 +7,8 @@ metadata:
    namespace: {{ index .Values.global.clusterNamespace .Values.global.env }}
 spec:
    ports:
-   - port: 8080
-     targetPort: 8080
+   - port: 443
+     targetPort: 443
      protocol: TCP
      name: http
    selector:

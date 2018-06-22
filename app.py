@@ -42,7 +42,7 @@ if __name__ == '__main__':
             sys.exit(1)
 
         context = (cert_path, cert_key)
-        app.run(port=8080, threaded=True, ssl_context=context)
+        app.run(port=443, threaded=True, ssl_context=context)
     else:
-        app.run(port=8080, threaded=True)
+        app.run(port=443, threaded=True)
 

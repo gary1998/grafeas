@@ -12,34 +12,20 @@ global:
   grafeasAuthClassName: controllers.sa_auth.SecurityAdvisorAuthClient
   imageName:
     development: grafeas
-    stage:
-    pre_production:
-    production:
-  registryNamespace:
-    development: secadvisor_dev
-    stage:
-    pre_production:
-    production:
+    pre_production: grafeas
+    production: grafeas
   registryHostName:
     development: registry.ng.bluemix.net
-    stage:
-    pre_production:
+    pre_production: registry.ng.bluemix.net
     production: registry.ng.bluemix.net
   logLevel:
     development: DEBUG
-    stage: INFO
-    pre_production: INFO
+    pre_production: DEBUG
     production: INFO
-  clusterNamespace:
-    development: securityadvisor-dev-dal10
-    stage:
-    pre_production:
-    production:
   grafeasDB:
     development: grafeas
-    stage:
-    pre_production:
-    production:
+    pre_production: grafeaspreprod
+    production: grafeas
   iamBaseUrl:
     development: https://iam.ng.bluemix.net
     stage:
@@ -67,26 +53,6 @@ global:
     production:
   grafeasUrl:
     development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    stage:
-    pre_production:
+    pre_production: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
     production:
-  iamTokenValidationURL:
-    development: https://iam.stage1.ng.bluemix.net
-    stage:
-    pre_production:
-    production:
-  iamTokenURL:
-    development: https://iam.stage1.ng.bluemix.net/identity/token
-    stage:
-    pre_production:
-    production:
-  iamPDPURL:
-    development: https://iam-api.stage1.ng.bluemix.net
-    stage:
-    pre_production:
-    production:
-  iamPAPURL:
-    development: https://iam.stage1.ng.bluemix.net
-    stage:
-    pre_production:
-    production:
+    

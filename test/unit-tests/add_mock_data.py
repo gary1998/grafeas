@@ -16,39 +16,19 @@ FILE_NAMES = [
 
 
 class TestMockData(BaseTestCase):
-    def test_01_create_projects(self):
-        for file_name in FILE_NAMES:
-            with open("test/unit-tests/data/{}".format(file_name)) as f:
-                data = json.load(f)
-                for project in data.get('projects', []):
-                    self._add_project(project)
-
-    def test_02_create_notes(self):
+    def test_01_create_notes(self):
         for file_name in FILE_NAMES:
             with open("test/unit-tests/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for note in data.get('notes', []):
                     self._add_note(note['project_id'], note)
 
-    def test_03_create_occurrences(self):
+    def test_02_create_occurrences(self):
         for file_name in FILE_NAMES:
             with open("test/unit-tests/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for occurrence in data.get('occurrences', []):
                     self._add_occurrence(occurrence['project_id'], occurrence)
-
-    def _add_project(self, body):
-        response = self.client.open(
-            path='/v1alpha1/projects',
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
-            })
-        self.assertTrue(response.status_code in [HTTPStatus.OK, HTTPStatus.CONFLICT],
-                        "Response body is : " + response.data.decode('utf-8'))
 
     def _add_note(self, project_id, body):
         response = self._create_or_replace(

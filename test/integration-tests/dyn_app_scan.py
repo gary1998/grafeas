@@ -16,26 +16,6 @@ class DynAppScan(common_fvt.CommonFVT):
     #   Projects
     #
 
-    def test_create_project(self):
-        body = {
-            "id": "project01"
-        }
-
-        response = self.post_project(body)
-        self.assert_status(response, OK)
-
-    def test_create_duplicate_project(self):
-        body = {
-            "id": "Project01"
-        }
-
-        response = self.post_project(body)
-        self.assert_status(response, CONFLICT)
-
-    def test_get_project(self):
-        response = self.get_project("project01")
-        self.assert_status(response, OK)
-
     def test_list_projects(self):
         response = self.get_projects()
         self.assert_status(response, OK)
@@ -199,21 +179,9 @@ class DynAppScan(common_fvt.CommonFVT):
         response = self.delete_note('project01', 'Note01')
         self.assert_status(response, NOT_FOUND)
 
-    def test_delete_project(self):
-        response = self.delete_project("project01")
-        self.assert_status(response, OK)
-
-    def test_delete_missing_project(self):
-        response = self.delete_project("project01")
-        self.assert_status(response, NOT_FOUND)
-
 
 if __name__ == '__main__':
     test = DynAppScan(api_base_url="https://grafeas.ng.bluemix.net")
-    test.test_create_project()
-    test.test_create_duplicate_project()
-    test.test_get_project()
-    test.test_list_projects()
     test.test_create_note()
     test.test_create_duplicate_note()
     test.test_get_note()
@@ -226,10 +194,8 @@ if __name__ == '__main__':
     test.test_get_occurrence_note()
     test.test_list_occurrences()
     test.test_list_note_occurrences()
+    test.test_list_projects()
     test.test_delete_occurrence()
     test.test_delete_missing_occurrence()
     test.test_delete_note()
     test.test_delete_missing_note()
-    test.test_delete_project()
-    test.test_delete_missing_project()
-

@@ -19,29 +19,8 @@ class API(object):
     #  Projects
     #
 
-    def create_project(self, subject_account_id, account_id, body):
-        project_id = body['id']
-        common.validate_id(project_id)
-
-        body['doc_type'] = 'Project'
-        body['account_id'] = subject_account_id
-        body['id'] = project_id
-        body['name'] = common.build_project_name(account_id, project_id)
-        common.set_context_account_id(body, account_id)
-
-        if 'shared' not in body:
-            body['shared'] = True
-
-        return self.store.create_project(subject_account_id, account_id, project_id, body)
-
     def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
         return self.store.list_projects(subject_account_id,  account_id, filter_, page_size, page_token)
-
-    def get_project(self, subject_account_id,  account_id, project_id):
-        return self.store.get_project(subject_account_id,  account_id, project_id)
-
-    def delete_project(self, subject_account_id,  account_id, project_id):
-        self.store.delete_project(subject_account_id,  account_id, project_id)
 
     #
     #  Notes

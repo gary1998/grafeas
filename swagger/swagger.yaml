@@ -24,6 +24,7 @@ paths:
       tags:
        - others
       x-swagger-router-controller: "controllers.grafeas_others_controller"
+
   /healthz:
     get:
       summary: Return the liveness
@@ -35,6 +36,7 @@ paths:
       tags:
        - others
       x-swagger-router-controller: "controllers.grafeas_others_controller"
+
   /ready:
     get:
       summary: Return the readiness
@@ -46,6 +48,7 @@ paths:
       tags:
        - others
       x-swagger-router-controller: "controllers.grafeas_others_controller"
+
   /v1alpha1/{account_id}/data:
     delete:
       summary: Deletes the data of the given account from the system
@@ -69,39 +72,8 @@ paths:
       tags:
         - GrafeasAccount
       x-swagger-router-controller: "controllers.grafeas_accounts_controller"
+
   /v1alpha1/{account_id}/projects:
-    post:
-      summary: Creates a new `Project`.
-      operationId: create_project
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/apiEmpty'
-      parameters:
-        - name: Authorization
-          description: The IAM token of user requesting the operation.
-          in: header
-          required: true
-          type: string
-        - name: X-UserToken
-          description: The IAM token of the user on whose behalf the operation is executed.
-          in: header
-          required: false
-          type: string
-        - name: account_id
-          in: path
-          description: "Account ID of project's owner"
-          required: true
-          type: string
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/apiProject'
-      tags:
-        - GrafeasProjects
-      x-swagger-router-controller: "controllers.grafeas_projects_controller"
     get:
       summary: Lists `Projects`
       operationId: list_projects
@@ -141,72 +113,6 @@ paths:
           description: Token to provide to skip to a particular spot in the list.
           in: query
           required: false
-          type: string
-      tags:
-        - GrafeasProjects
-      x-swagger-router-controller: "controllers.grafeas_projects_controller"
-
-  /v1alpha1/{account_id}/projects/{project_id}:
-    get:
-      summary: Returns the requested `Project`.
-      operationId: get_project
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/apiProject'
-      parameters:
-        - name: Authorization
-          description: The IAM token of user requesting the operation.
-          in: header
-          required: true
-          type: string
-        - name: X-UserToken
-          description: The IAM token of the user on whose behalf the operation is executed.
-          in: header
-          required: false
-          type: string
-        - name: account_id
-          in: path
-          description: "Account ID of project's owner"
-          required: true
-          type: string
-        - name: project_id
-          in: path
-          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
-          required: true
-          type: string
-      tags:
-        - GrafeasProjects
-      x-swagger-router-controller: "controllers.grafeas_projects_controller"
-    delete:
-      summary: Deletes the given `Project` from the system.
-      operationId: delete_project
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/apiEmpty'
-      parameters:
-        - name: Authorization
-          description: The IAM token of user requesting the operation.
-          in: header
-          required: true
-          type: string
-        - name: X-UserToken
-          description: The IAM token of the user on whose behalf the operation is executed.
-          in: header
-          required: false
-          type: string
-        - name: account_id
-          in: path
-          description: "Account ID of project's owner"
-          required: true
-          type: string
-        - name: project_id
-          in: path
-          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
-          required: true
           type: string
       tags:
         - GrafeasProjects
@@ -974,10 +880,6 @@ definitions:
       id:
         type: string
         title: The id of the project
-      shared:
-        type: boolean
-        description: True if this `Project` can be shared by multiple accounts.
-        default: true
 
   Certainty:
     type: string

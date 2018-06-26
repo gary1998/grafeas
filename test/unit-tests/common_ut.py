@@ -25,39 +25,10 @@ class BaseTestCase(TestCase):
             kwargs["headers"]["X-UserToken"] = os.environ['X-UserToken']
         return self.client.open(**kwargs)
 
-    def post_project(self, account_id, body):
-        return self.rest(
-            path='/v1alpha1/{}/projects'.format(account_id),
-            method='POST',
-            data=json.dumps(body),
-            headers={
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
-            })
-
     def get_projects(self, account_id):
         return self.rest(
             path='/v1alpha1/{}/projects'.format(account_id),
             method='GET',
-            headers={
-                "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
-            })
-
-    def get_project(self, account_id, project_id):
-        return self.rest(
-            path='/v1alpha1/{}/projects/{}'.format(account_id, project_id),
-            method='GET',
-            headers={
-                "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
-            })
-
-    def delete_project(self, account_id, project_id):
-        return self.rest(
-            path='/v1alpha1/{}/projects/{}'.format(account_id, project_id),
-            method='DELETE',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']

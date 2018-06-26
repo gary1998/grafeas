@@ -58,26 +58,10 @@ class CommonFVT(object):
             print(e)
             return None
 
-    def post_project(self, body):
-        return self.post(
-            url='{}/v1alpha1/projects'.format(self.api_base_url),
-            data=json.dumps(body),
-            headers={"Content-Type": "application/json"})
-
     def get_projects(self):
         return self.get(
             url='{}/v1alpha1/projects'.format(
                 self.api_base_url))
-
-    def get_project(self, project_id):
-        return self.get(
-            url='{}/v1alpha1/projects/{}'.format(
-                self.api_base_url, project_id))
-
-    def delete_project(self, project_id):
-        return self.delete(
-            url='{}/v1alpha1/projects/{}'.format(
-                self.api_base_url, project_id))
 
     def post_note(self, project_id, body):
         return self.post(

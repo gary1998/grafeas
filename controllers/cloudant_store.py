@@ -19,32 +19,19 @@ class CloudantStore(store.Store):
     # Projects
     #
 
-    def create_project(self, subject_account_id, account_id, project_id, body):
-        project_name = common.build_project_name(account_id, project_id)
-        doc = self.db.create_doc(project_name, body)
-        return CloudantStore._clean_doc(doc)
-
-    def get_project(self, subject_account_id, account_id, project_id):
-        project_name = common.build_project_name(account_id, project_id)
-        doc = self.db.get_doc(project_name)
-        return CloudantStore._clean_doc(doc)
-
     def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
-        result = self.db.find(
-            key_values={
-                #'account_id': subject_account_id,
-                'context.account_id': account_id,
-                'doc_type': 'Project'
-            },
-            index="ALL_FIELDS",
-            limit=page_size,
-            bookmark=page_token)
-        result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
-        return result
+        view = self.db.get_view('doc_counts', "doc_count_by_project")
+        start_key = [account_id]
+        end_key = [account_id, "\ufff0"]
+        projects = []
+        for row in view(startkey=start_key, endkey=end_key, group=True, group_level=2)['rows']:
+            project_id = row['key'][1]
+            projects.append({
+                'id': project_id,
+                'name': common.build_project_name(account_id, project_id)
+            })
 
-    def delete_project(self, subject_account_id, account_id, project_id):
-        project_name = common.build_project_name(account_id, project_id)
-        self.db.delete_doc(project_name)
+        return cloudant_client.QueryResult(projects, None, None)
 
     #
     # Notes
@@ -258,9 +245,21 @@ class CloudantStore(store.Store):
             'RAI_DT_K_PDI_NDI',
             ['context.account_id', 'doc_type', 'kind', 'project_doc_id', 'note_doc_id'])
 
+        db.add_view(
+            'doc_counts',
+            'doc_count_by_project',
+            """
+            function(doc) {{
+                if (doc.project_id) {{
+                    emit([doc.context.account_id, doc.project_id], 1);
+                }}
+            }}
+            """,
+            '_sum')
+
         # 2018-04-15T16:30:00
         db.add_view(
-            'occurrences',
+            'doc_counts',
             'occurrence_count_by_date_time',
             """
             function(doc) {{
@@ -280,7 +279,7 @@ class CloudantStore(store.Store):
 
         # 2018-W04-2
         db.add_view(
-            'occurrences',
+            'doc_counts',
             'occurrence_count_by_week_date',
             """
             function(doc) {{

@@ -279,21 +279,13 @@ MODIFIED_ALERT_OCCURRENCE_3_1 = {
 
 
 class TestSecurityFindings(BaseTestCase):
-
-    @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
-                     "Skipping for security advisor as project creation is not exposed")
-    def test_01_create_project(self):
-        response = self.post_project(TEST_ACCOUNT_ID, XFORCE_PROJECT)
-        self.assertStatus(response, HTTPStatus.OK,
-                          "Response body is : " + response.data.decode('utf-8'))
-
-    def test_02_create_note(self):
+    def test_01_create_note(self):
         response = self.post_note(
             TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_NOTE_1)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
 
-    def test_03_create_occurrence(self):
+    def test_02_create_occurrence(self):
         response = self.post_occurrence(
             'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
         self.assertStatus(response, HTTPStatus.OK,
@@ -301,7 +293,7 @@ class TestSecurityFindings(BaseTestCase):
         self.delete_occurrence(
             'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1['id'])
 
-    def test_04_create_occurrence(self):
+    def test_03_create_occurrence(self):
         response = self.post_occurrence(
             'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
         self.assertStatus(response, HTTPStatus.OK,
@@ -309,7 +301,7 @@ class TestSecurityFindings(BaseTestCase):
         self.delete_occurrence(
             'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2['id'])
 
-    def test_05_create_occurrence(self):
+    def test_04_create_occurrence(self):
         response = self.post_occurrence(
             'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
         self.assertStatus(response, HTTPStatus.OK,
@@ -319,13 +311,13 @@ class TestSecurityFindings(BaseTestCase):
         self.delete_note(
             TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_NOTE_1['id'])
 
-    def test_06_create_note(self):
+    def test_05_create_note(self):
         response = self.post_note(
             TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], KPI_NOTE_2)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
 
-    def test_07_create_occurrence(self):
+    def test_06_create_occurrence(self):
         response = self.post_occurrence(
             'Account02', XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
         self.assertStatus(response, HTTPStatus.OK,
@@ -334,28 +326,20 @@ class TestSecurityFindings(BaseTestCase):
             'Account02', XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'])
         self.delete_note(
             TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], KPI_NOTE_2['id'])
-        self.delete_project(TEST_ACCOUNT_ID, XFORCE_PROJECT['id'])
 
-    @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
-                     "Skipping for security advisor as project creation is not exposed")
-    def test_08_create_project(self):
-        response = self.post_project(TEST_ACCOUNT_ID, OUTLIER_PROJECT)
-        self.assertStatus(response, HTTPStatus.OK,
-                          "Response body is : " + response.data.decode('utf-8'))
-
-    def test_09_create_note(self):
+    def test_07_create_note(self):
         response = self.post_note(
             TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], ALERT_NOTE_3)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
 
-    def test_10_create_occurrence(self):
+    def test_08_create_occurrence(self):
         response = self.post_occurrence(
             'Account02', OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
 
-    def test_11_create_occurrence(self):
+    def test_09_create_occurrence(self):
         response = self.post_or_put_occurrence(
             'Account02', OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1)
         self.assertStatus(response, HTTPStatus.OK,
@@ -364,7 +348,6 @@ class TestSecurityFindings(BaseTestCase):
             'Account02', OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'])
         self.delete_note(
             TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], ALERT_NOTE_3['id'])
-        self.delete_project(TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'])
 
 
 if __name__ == '__main__':

@@ -26,13 +26,7 @@ class SecurityAdvisorAuthClient(AuthClient):
     def enable(self, value):
         pass
 
-    def assert_can_write_projects(self, request, account_id):
-        pass
-
     def assert_can_read_projects(self, request, account_id):
-        pass
-
-    def assert_can_delete_projects(self, request, account_id):
         pass
 
     def assert_can_write_notes(self, request, account_id):

@@ -38,15 +38,7 @@ class AuthClient(ABC):
         pass
 
     @abstractmethod
-    def assert_can_write_projects(self, request, account_id):
-        pass
-
-    @abstractmethod
     def assert_can_read_projects(self, request, account_id):
-        pass
-
-    @abstractmethod
-    def assert_can_delete_projects(self, request, account_id):
         pass
 
     @abstractmethod
@@ -114,34 +106,6 @@ class GrafeasAuthClient(AuthClient):
         if not self._is_authorized(subject, action, account_id):
             raise exceptions.ForbiddenError(
                 "Not allowed to read projects: subject={}, resource-account={}".format(subject, account_id))
-        return subject
-
-    def assert_can_write_projects(self, request, account_id):
-        subject = self._get_subject(request)
-
-        if subject.account_id == account_id:
-            action = "grafeas.projects.write"
-        else:
-            action = "grafeas.projects.write-others"
-            account_id = subject.account_id
-
-        if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError(
-                "Not allowed to write projects: subject={}, resource-account={}".format( subject, account_id))
-        return subject
-
-    def assert_can_delete_projects(self, request, account_id):
-        subject = self._get_subject(request)
-
-        if subject.account_id == account_id:
-            action = "grafeas.projects.delete"
-        else:
-            action = "grafeas.projects.delete-others"
-            account_id = subject.account_id
-
-        if not self._is_authorized(subject, action, account_id):
-            raise exceptions.ForbiddenError(
-                "Not allowed to delete projects: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_read_notes(self, request, account_id):

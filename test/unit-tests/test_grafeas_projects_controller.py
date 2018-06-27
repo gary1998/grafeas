@@ -12,54 +12,60 @@ class TestGrafeasProjectsController(BaseTestCase):
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
-    def test_01_create_project(self):
+    def test_01_create_note(self):
         """
-        Test case for create_project
+        Test case for create_note
 
-        Creates a new `Project`.
-        """
-
-        body = {
-            "id": "ProjectX"
-        }
-
-        response = self.post_project(TEST_ACCOUNT_ID, body)
-        self.assertStatus(response, HTTPStatus.OK,
-                          "Response body is : " + response.data.decode('utf-8'))
-
-    @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
-                     "Skipping for security advisor")
-    def test_02_create_duplicate_project(self):
-        """
-        Test case for create_project
-
-        Creates a new `Project`.
+        Creates a new `Note`.
         """
 
         body = {
-            "id": "ProjectX"
+            "id": "Note03",
+            "short_description": "The short description of Note03",
+            "long_description": "The long description of Note03",
+            "kind": "FINDING",
+            "finding": {
+                "severity": "HIGH"
+            },
+            "reported_by": {
+                "id": "The reporter ID",
+                "title": "The reporter title",
+                "url": "The reporter URL"
+            }
         }
 
-        response = self.post_project(TEST_ACCOUNT_ID, body)
-        self.assertStatus(response, HTTPStatus.CONFLICT,
-                          "Response body is : " + response.data.decode('utf-8'))
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
-    def test_03_get_project(self):
+    def test_02_create_occurrence(self):
         """
-        Test case for get_project
+        Test case for create_occurrence
 
-        Returns the requested `Project`.
+        Creates a new `Occurrence`. Use this method to create `Occurrences` for a resource.
         """
 
-        response = self.get_project(TEST_ACCOUNT_ID, "ProjectX")
-        self.assertStatus(response, HTTPStatus.OK,
-                          "Response body is : " + response.data.decode('utf-8'))
+        body = {
+            "id": "Occurrence04",
+            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note03'),
+            "short_description": "The short description of Occurrence04",
+            "long_description": "The long description of Occurrence04",
+            "kind": "FINDING",
+            "finding": {
+                "certainty": "MEDIUM"
+            },
+            "context": {
+                "resource_name": "Resource04"
+            }
+        }
+
+        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProjectX', body)
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
-    def test_04_list_projects(self):
+    def test_03_list_projects(self):
         """
         Test case for list_projects
 
@@ -75,29 +81,27 @@ class TestGrafeasProjectsController(BaseTestCase):
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
-    def test_05_delete_project(self):
+    def test_04_delete_occurrence(self):
         """
-        Test case for delete_project
+        Test case for delete_occurrence
 
-        Deletes the given `Project` from the system.
+        Deletes the given `Occurrence` from the system.
         """
 
-        response = self.delete_project(TEST_ACCOUNT_ID, "ProjectX")
-        self.assertStatus(response, HTTPStatus.OK,
-                          "Response body is : " + response.data.decode('utf-8'))
+        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProjectX', 'Occurrence04')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
-    def test_06_delete_missing_project(self):
+    def test_05_delete_note(self):
         """
-        Test case for delete_project
+        Test case for delete_note
 
-        Deletes the given `Project` from the system.
+        Deletes the given `Note` from the system.
         """
 
-        response = self.delete_project(TEST_ACCOUNT_ID, "ProjectX")
-        self.assertStatus(response, HTTPStatus.NOT_FOUND,
-                          "Response body is : " + response.data.decode('utf-8'))
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note03')
+        self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
 
 if __name__ == '__main__':

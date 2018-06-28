@@ -69,6 +69,7 @@ class AuthClient(ABC):
 class GrafeasAuthClient(AuthClient):
     def __init__(self, enabled=True):
         logger.info("Initializing auth client ...")
+        self.service_name = os.environ.get('IAM_SERVICE_NAME', "grafeas")
         self.iam_base_url = os.environ['IAM_BASE_URL']
         self.iam_api_base_url = os.environ['IAM_API_BASE_URL']
         self.api_key = os.environ['IAM_API_KEY']
@@ -98,9 +99,9 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
-            action = "grafeas.projects.read"
+            action = "{}.occurrences.read".format(self.service_name)
         else:
-            action = "grafeas.projects.read-others"
+            action = "{}.occurrences.read-for-others".format(self.service_name)
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
@@ -112,9 +113,9 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
-            action = "grafeas.notes.read"
+            action = "{}.notes.read".format(self.service_name)
         else:
-            action = "grafeas.notes.read-others"
+            action = "{}.notes.read-for-others".format(self.service_name)
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
@@ -126,9 +127,9 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
-            action = "grafeas.notes.write"
+            action = "{}.notes.write".format(self.service_name)
         else:
-            action = "grafeas.notes.write-others"
+            action = "{}.notes.write-for-others".format(self.service_name)
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
@@ -140,9 +141,9 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
-            action = "grafeas.notes.delete"
+            action = "{}.notes.delete".format(self.service_name)
         else:
-            action = "grafeas.notes.delete-others"
+            action = "{}.notes.delete-for-others".format(self.service_name)
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
@@ -154,9 +155,9 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
-            action = "grafeas.occurrences.read"
+            action = "{}.occurrences.read".format(self.service_name)
         else:
-            action = "grafeas.occurrences.read-others"
+            action = "{}.occurrences.read-for-others".format(self.service_name)
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
@@ -168,9 +169,9 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
-            action = "grafeas.occurrences.write"
+            action = "{}.occurrences.write".format(self.service_name)
         else:
-            action = "grafeas.occurrences.write-others"
+            action = "{}.occurrences.write-for-others".format(self.service_name)
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):
@@ -182,9 +183,9 @@ class GrafeasAuthClient(AuthClient):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
-            action = "grafeas.occurrences.delete"
+            action = "{}.occurrences.delete".format(self.service_name)
         else:
-            action = "grafeas.occurrences.delete-others"
+            action = "{}.occurrences.delete-for-others".format(self.service_name)
             account_id = subject.account_id
 
         if not self._is_authorized(subject, action, account_id):

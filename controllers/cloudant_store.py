@@ -165,8 +165,9 @@ class CloudantStore(store.Store):
 
             bookmark = result.bookmark
             total_deleted_count += len(deleted_docs)
-            logger.info("%d occurrences deleted for account '%s': requester account='%s'",
-                        total_deleted_count, account_id, subject_account_id)
+
+        logger.info("%d occurrences deleted for account '%s': requester account='%s'",
+                    total_deleted_count, account_id, subject_account_id)
 
     @staticmethod
     def _clean_doc(doc):

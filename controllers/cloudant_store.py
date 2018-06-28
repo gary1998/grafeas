@@ -135,25 +135,38 @@ class CloudantStore(store.Store):
         return self.db.delete_doc(occurrence_name)
 
     def delete_account_occurrences(self, subject_account_id, account_id):
-        max_occurrence_count = 200 # cloudant limit when a text index is used
+        bookmark = None
+        limit = 200
+        total_deleted_count = 0
 
         while True:
-            docs = self.db.find(
+            deleted_docs = []
+            result = self.db.find(
                 key_values={
                     'context.account_id': account_id,
                     'doc_type': 'Occurrence'
                 },
-                index="ALL_FIELDS",
-                fields=['_id'],
-                limit=max_occurrence_count
-            )
+                index='ALL_FIELDS',
+                fields=['_id', '_rev', 'update_time'],
+                limit=limit, bookmark=bookmark)
+            for doc in result.docs:
+                deleted_doc = {
+                    '_deleted': True,
+                    '_id': doc['_id'],
+                    '_rev': doc['_rev']
+                }
+                deleted_docs.append(deleted_doc)
 
-            for doc in docs:
-                occurrence_name = doc['_id']
-                self.db.delete_doc(occurrence_name)
+            if deleted_docs:
+                self.db.db.bulk_docs(deleted_docs)
 
-            if len(docs) < max_occurrence_count:
+            if len(result.docs) < limit:
                 break
+
+            bookmark = result.bookmark
+            total_deleted_count += len(deleted_docs)
+            logger.info("%d occurrences deleted for account '%s': requester account='%s'",
+                        total_deleted_count, account_id, subject_account_id)
 
     @staticmethod
     def _clean_doc(doc):

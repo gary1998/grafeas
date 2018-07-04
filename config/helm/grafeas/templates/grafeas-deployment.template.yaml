@@ -52,11 +52,11 @@ spec:
             secretKeyRef:
               name: grafeas-secret
               key: iamApiKey
-        - name: GRAFEAS_URL
+        - name: CLOUDANT_URL
           valueFrom:
-            configMapKeyRef:
-              name: grafeas-configuration
-              key: grafeasUrl
+            secretKeyRef:
+              name: cloudant-credentials
+              key: cloudant_url_no_creds
         - name: GRAFEAS_DB_NAME
           valueFrom:
             configMapKeyRef:

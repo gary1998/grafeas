@@ -5,10 +5,10 @@ from util import cloudant_client
 
 def init_db():
     db = cloudant_client.CloudantDatabase(
-        os.environ['GRAFEAS_URL'],
+        os.environ['CLOUDANT_URL'],
         os.environ.get('GRAFEAS_DB_NAME', "grafeas"),
-        os.environ['GRAFEAS_USERNAME'],
-        os.environ['GRAFEAS_PASSWORD'])
+        os.environ['CLOUDANT_USERNAME'],
+        os.environ['CLOUDANT_PASSWORD'])
     print("DB initialized.")
     return db
 

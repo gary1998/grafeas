@@ -11,6 +11,8 @@ pycrypto==2.6.1
 pyjwt==1.5.3
 flask_testing==0.6.1
 coverage>=4.0.3
+inflection==0.3.1
+
 
 #will move the repo to oneibmcloud
 #-e git+git@github.ibm.com:jagkuma3/iam_manager_python.git#egg=iam_manager_python

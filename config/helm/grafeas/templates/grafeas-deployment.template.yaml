@@ -62,16 +62,16 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: grafeasDB
-        - name: GRAFEAS_USERNAME
+        - name: CLOUDANT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: grafeas-secret
-              key: grafeasUsername
-        - name: GRAFEAS_PASSWORD
+              name: cloudant-credentials
+              key: cloudant_username
+        - name: CLOUDANT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: grafeas-secret
-              key: grafeasPassword
+              name: cloudant-credentials
+              key: cloudant_password
         - name: ACCEPT_HTTP
           valueFrom:
             configMapKeyRef:

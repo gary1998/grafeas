@@ -233,10 +233,10 @@ class CloudantStore(store.Store):
     @staticmethod
     def _init_db():
         db = cloudant_client.CloudantDatabase(
-            os.environ['GRAFEAS_URL'],
+            os.environ['CLOUDANT_URL'],
             os.environ['GRAFEAS_DB_NAME'],
-            os.environ['GRAFEAS_USERNAME'],
-            os.environ['GRAFEAS_PASSWORD'])
+            os.environ['CLOUDANT_USERNAME'],
+            os.environ['CLOUDANT_PASSWORD'])
 
         db.create_query_index(
             'ALL_FIELDS',

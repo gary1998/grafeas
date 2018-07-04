@@ -23,7 +23,6 @@ def constant_case(secrets):
         for k, v in vault_key_pair_value.items():
             # if key in vault is cloudant_url make it CLOUDANT_URL , iamConfig becomes IAM_CONFIG
             constant_case_env_var = inflection.underscore(k).upper()
-            logging.warn(constant_case_env_var, v)
             os.environ[inflection.underscore(
                 k).upper()] = base64.b64decode(v).decode('utf-8')
 
@@ -36,9 +35,6 @@ else:
 
 if os.environ.get("CLOUDANT_URL_NO_CREDS"):
     os.environ["CLOUDANT_URL"] = os.environ["CLOUDANT_URL_NO_CREDS"]
-
-
-logging.warn(os.environ)
 
 if not os.environ.get('ACCEPT_HTTP'):
     logging.warn("ACCEPT_HTTP is not set, setting it to true")
@@ -71,7 +67,6 @@ if not os.environ.get('IAM_BEARER_TOKEN'):
             'IAM_BEARER_TOKEN must be specified, else GRAFEAS_TEST_IAM_API_KEY should be provided. Default value of IAM_BASE_URL is https://iam.stage1.ng.bluemix.net')
         sys.exit(1)
     else:
-        logging.warn(test_iam_api_key, iam_base_url)
         access_token = get_identity_token(iam_base_url, test_iam_api_key)
         os.environ['IAM_BEARER_TOKEN'] = '{} {}'.format(
             'Bearer', access_token)

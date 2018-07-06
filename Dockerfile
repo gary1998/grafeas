@@ -18,21 +18,14 @@ RUN apk update \
     python3-dev \
     git
 
+ARG PIP_INDEX_URL
+
 RUN pip3 install -U setuptools
 RUN python -m pip install --upgrade pip
 
 COPY requirements.txt /usr/src/app/
 
-
-ARG GHE_ACCESS_TOKEN
-
-RUN mkdir iam_py  \
-    && cd iam_py \
-    && git init \
-    && git pull https://${GHE_ACCESS_TOKEN}@github.ibm.com/oneibmcloud/iam_manager_python.git
-
-RUN pip3 install --no-cache-dir -r requirements.txt \
-    && pip3 install -e iam_py
+RUN pip3 install --no-cache-dir -r requirements.txt --index-url=${PIP_INDEX_URL}
 
 COPY . /usr/src/app
 EXPOSE 443

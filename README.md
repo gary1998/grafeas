@@ -9,6 +9,8 @@ This example uses the [Connexion](https://github.com/zalando/connexion) library 
 
 ## Requirements
 Python 3.5.2+
+Ask a current team member for their copy of the pip.conf to pull modules from artifactory
+https://na.artifactory.swg-devops.com/artifactory/webapp/
 
 ## Usage
 To run the server, please execute the following from the root directory:

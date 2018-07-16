@@ -47,11 +47,6 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: iamApiBaseUrl
-        - name: IAM_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: grafeas-secret
-              key: iamApiKey
         - name: CLOUDANT_URL
           valueFrom:
             secretKeyRef:

@@ -2,7 +2,7 @@
   "notes": [
     {
       "kind": "SECTION",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "network-section",
       "short_description": "Dashboard network section metadata",
       "long_description": "Dashboard network section metadata",
@@ -19,7 +19,7 @@
 
     {
       "kind": "SECTION",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "compute-section",
       "short_description": "Dashboard compute section metadata",
       "long_description": "Dashboard compute section metadata",

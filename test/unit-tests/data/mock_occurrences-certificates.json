@@ -2,9 +2,9 @@
   "occurrences": [
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "cec1",
-      "note_name": "projects/security-advisor/notes/certmgr-expired_cert",
+      "note_name": "providers/security-advisor/notes/certmgr-expired_cert",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -18,9 +18,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce1dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_1day_cert",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -34,9 +34,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce10dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_10day_cert",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -50,9 +50,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce30dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_30day_cert",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -66,9 +66,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce60dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_60day_cert",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -82,9 +82,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce90dc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_90day_cert",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -99,9 +99,9 @@
 
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "cecc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expired_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -114,9 +114,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "cecc2",
-      "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expired_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -129,9 +129,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "cecc3",
-      "note_name": "projects/security-advisor/notes/certmgr-expired_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expired_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -144,9 +144,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce1dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_1day_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -159,9 +159,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce10dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_10day_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -174,9 +174,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce30dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_30day_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -189,9 +189,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce60dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_60day_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -204,9 +204,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "ce90dcc1",
-      "note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert_count",
+      "note_name": "providers/security-advisor/notes/certmgr-expiring_90day_cert_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",

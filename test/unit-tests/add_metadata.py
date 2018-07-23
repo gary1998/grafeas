@@ -19,11 +19,11 @@ class AddMetadaData(BaseTestCase):
             with open("metadata/{}".format(file_name)) as f:
                 data = json.load(f)
                 for note in data.get('notes', []):
-                    self._add_note(note['project_id'], note)
+                    self._add_note(note['provider_id'], note)
 
-    def _add_note(self, project_id, body):
+    def _add_note(self, provider_id, body):
         response = self._create_or_replace(
-            '/v1alpha1/projects/{}/notes'.format(project_id),
+            '/v1alpha1/providers/{}/notes'.format(provider_id),
             body)
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 

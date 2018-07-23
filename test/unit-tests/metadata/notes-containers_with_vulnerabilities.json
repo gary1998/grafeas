@@ -2,7 +2,7 @@
   "notes": [
     {
       "kind": "CARD",
-      "project_id": "va",
+      "provider_id": "va",
       "id": "containers_with_vulnerabilities",
       "short_description": "A type of card showing containers with vulnerabilities",
       "long_description": "A type of card showing containers with vulnerabilities and configuration issues",
@@ -15,8 +15,8 @@
         "section": "Compute",
         "title": "Containers with vulnerabilities",
         "finding_note_names": [
-          "projects/va/notes/container_with_vulnerabilities",
-          "projects/va/notes/container_with_config_issues"
+          "providers/va/notes/container_with_vulnerabilities",
+          "providers/va/notes/container_with_config_issues"
         ],
         "elements": [
           {
@@ -24,7 +24,7 @@
             "text": "Containers with vulnerabilities",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/container_with_vulnerabilities_count"
+              "kpi_note_name": "providers/va/notes/container_with_vulnerabilities_count"
             }
           },
           {
@@ -32,7 +32,7 @@
             "text": "Containers with config issues",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/va/notes/container_with_config_issues_count"
+              "kpi_note_name": "providers/va/notes/container_with_config_issues_count"
             }
           },
           {
@@ -44,14 +44,14 @@
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/va/notes/container_with_vulnerabilities"
+                  "providers/va/notes/container_with_vulnerabilities"
                 ],
                 "text": "Vulnerabilities"
               },
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/va/notes/container_with_config_issues"
+                  "providers/va/notes/container_with_config_issues"
                 ],
                 "text": "Config Issues"
               }
@@ -65,7 +65,7 @@
 
     {
       "kind": "FINDING",
-      "project_id": "va",
+      "provider_id": "va",
       "id": "container_with_vulnerabilities",
       "short_description": "Container with vulnerabilities",
       "long_description": "Container with vulnerabilities",
@@ -85,7 +85,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "va",
+      "provider_id": "va",
       "id": "container_with_config_issues",
       "short_description": "Container with configuration issues",
       "long_description": "Container with configuration issues",
@@ -105,7 +105,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "va",
+      "provider_id": "va",
       "id": "container_with_vulnerabilities_count",
       "short_description": "Number of containers with vulnerabilities",
       "long_description": "Number of containers running containers with vulnerabilities",
@@ -121,7 +121,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "va",
+      "provider_id": "va",
       "id": "container_with_config_issues_count",
       "short_description": "Number of containers with configuration issues",
       "long_description": "Number of containers running containers with vulnerabilities",

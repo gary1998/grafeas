@@ -2,7 +2,7 @@
   "notes": [
     {
       "kind": "CARD",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "va-images_with_vulnerabilities",
       "short_description": "A type of card showing images with vulnerabilities",
       "long_description": "A type of card showing images with vulnerabilities and configuration issues",
@@ -15,8 +15,8 @@
         "section": "Compute",
         "title": "Images with vulnerabilities",
         "finding_note_names": [
-          "projects/security-advisor/notes/va-image_with_vulnerabilities",
-          "projects/security-advisor/notes/va-image_with_config_issues"
+          "providers/security-advisor/notes/va-image_with_vulnerabilities",
+          "providers/security-advisor/notes/va-image_with_config_issues"
         ],
         "elements": [
           {
@@ -24,7 +24,7 @@
             "text": "Images with vulnerabilities",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities_count"
+              "kpi_note_name": "providers/security-advisor/notes/va-image_with_vulnerabilities_count"
             }
           },
           {
@@ -32,7 +32,7 @@
             "text": "Images with config issues",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/va-image_with_config_issues_count"
+              "kpi_note_name": "providers/security-advisor/notes/va-image_with_config_issues_count"
             }
           },
           {
@@ -44,14 +44,14 @@
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/security-advisor/notes/va-image_with_vulnerabilities"
+                  "providers/security-advisor/notes/va-image_with_vulnerabilities"
                 ],
                 "text": "Vulnerabilities"
               },
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/security-advisor/notes/va-image_with_config_issues"
+                  "providers/security-advisor/notes/va-image_with_config_issues"
                 ],
                 "text": "Config Issues"
               }
@@ -64,7 +64,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "va-image_with_vulnerabilities",
       "short_description": "Image with vulnerabilities",
       "long_description": "Image with vulnerabilities",
@@ -84,7 +84,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "va-image_with_config_issues",
       "short_description": "Image with configuration issues",
       "long_description": "Image with configuration issues",
@@ -104,7 +104,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "va-image_with_vulnerabilities_count",
       "short_description": "Number of images with vulnerabilities",
       "long_description": "Number of images running images with vulnerabilities",
@@ -120,7 +120,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "va-image_with_config_issues_count",
       "short_description": "Number of images with configuration issues",
       "long_description": "Number of images running images with vulnerabilities",

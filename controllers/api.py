@@ -16,18 +16,18 @@ class API(object):
         self.store = store
 
     #
-    #  Projects
+    #  Providers
     #
 
-    def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
-        return self.store.list_projects(subject_account_id,  account_id, filter_, page_size, page_token)
+    def list_providers(self, author_id, account_id, filter_, page_size, page_token):
+        return self.store.list_providers(author_id,  account_id, filter_, page_size, page_token)
 
     #
     #  Notes
     #
 
-    def write_note(self, subject_account_id, account_id, project_id, note_id, body, mode='create'):
-        common.validate_id(project_id)
+    def write_note(self, author_id, account_id, provider_id, note_id, body, mode='create'):
+        common.validate_id(provider_id)
         common.validate_id(note_id)
 
         kind = body['kind']
@@ -35,10 +35,10 @@ class API(object):
 
         body['doc_type'] = 'Note'
         body['id'] = note_id
-        body['account_id'] = subject_account_id
-        body['project_id'] = project_id
-        body['project_doc_id'] = common.build_project_name(account_id, project_id)
-        body['name'] = common.build_note_name(account_id, project_id, note_id)
+        body['author_id'] = author_id
+        body['provider_id'] = provider_id
+        body['provider_name'] = common.build_provider_name(account_id, provider_id)
+        body['name'] = common.build_note_name(account_id, provider_id, note_id)
         common.set_context_account_id(body, account_id)
 
         if 'create_time' in body:
@@ -63,35 +63,35 @@ class API(object):
         if 'shared' not in body:
             body['shared'] = True
 
-        return self.store.write_note(subject_account_id, account_id, project_id, note_id, body, mode)
+        return self.store.write_note(author_id, account_id, provider_id, note_id, body, mode)
 
-    def list_notes(self, subject_account_id,  account_id, project_id, filter_, page_size, page_token):
-        return self.store.list_notes(subject_account_id, account_id, project_id, filter_, page_size, page_token)
+    def list_notes(self, author_id,  account_id, provider_id, filter_, page_size, page_token):
+        return self.store.list_notes(author_id, account_id, provider_id, filter_, page_size, page_token)
 
-    def get_note(self, subject_account_id,  account_id, project_id, note_id):
-        return self.store.get_note(subject_account_id, account_id, project_id, note_id)
+    def get_note(self, author_id,  account_id, provider_id, note_id):
+        return self.store.get_note(author_id, account_id, provider_id, note_id)
 
-    def get_occurrence_note(self, subject_account_id,  account_id, project_id, occurrence_id):
-        occurrence_doc = self.store.get_occurrence(subject_account_id, account_id, project_id, occurrence_id)
+    def get_occurrence_note(self, author_id,  account_id, provider_id, occurrence_id):
+        occurrence_doc = self.store.get_occurrence(author_id, account_id, provider_id, occurrence_id)
         note_name = occurrence_doc['note_name']
-        note_account_id, note_project_id, note_id = common.parse_note_name(note_name)
-        return self.store.get_note(subject_account_id, note_account_id, note_project_id, note_id)
+        note_account_id, note_provider_id, note_id = common.parse_note_name(note_name)
+        return self.store.get_note(author_id, note_account_id, note_provider_id, note_id)
 
-    def delete_note(self, subject_account_id,  account_id, project_id, note_id):
-        self.store.delete_note(subject_account_id, account_id, project_id, note_id)
+    def delete_note(self, author_id,  account_id, provider_id, note_id):
+        self.store.delete_note(author_id, account_id, provider_id, note_id)
 
     #
     #  Occurrences
     #
 
-    def write_occurrence(self, subject_account_id, account_id, project_id, occurrence_id, body, mode='create'):
-        common.validate_id(project_id)
+    def write_occurrence(self, author_id, account_id, provider_id, occurrence_id, body, mode='create'):
+        common.validate_id(provider_id)
         common.validate_id(occurrence_id)
 
         # verify note exists (a not-found exception will be raised if the note does not exist) and access is allowed
         note_name = body['note_name']
-        note_account_id, note_project_id, note_id = common.parse_note_name(note_name)
-        note = self.store.get_note(subject_account_id, note_account_id, note_project_id, note_id)
+        note_account_id, note_provider_id, note_id = common.parse_note_name(note_name)
+        note = self.store.get_note(author_id, note_account_id, note_provider_id, note_id)
         if note_account_id != account_id and not note['shared']:
             raise exceptions.JSONError.from_http_status(
                 http.HTTPStatus.FORBIDDEN,
@@ -101,12 +101,12 @@ class API(object):
         self._validate_kind_field(kind, body, API._OCCURRENCE_KIND_FIELD_NAME_MAP)
 
         body['doc_type'] = 'Occurrence'
-        body['account_id'] = subject_account_id
-        body['project_id'] = project_id
+        body['author_id'] = author_id
+        body['provider_id'] = provider_id
         body['id'] = occurrence_id
-        body['name'] = common.build_occurrence_name(account_id, project_id, occurrence_id)
-        body['project_doc_id'] = common.build_project_name(account_id, project_id)
-        body['note_doc_id'] = common.build_note_name(note_account_id, note_project_id, note_id)
+        body['name'] = common.build_occurrence_name(account_id, provider_id, occurrence_id)
+        body['provider_name'] = common.build_provider_name(account_id, provider_id)
+        body['note_name'] = common.build_note_name(note_account_id, note_provider_id, note_id)
         common.set_context_account_id(body, account_id)
 
         if 'create_time' in body:
@@ -129,22 +129,22 @@ class API(object):
         body['update_week_date'] = self._week_date_iso_format(update_datetime.isocalendar())
 
         self._set_occurrence_defaults(body, note)
-        return self.store.write_occurrence(subject_account_id, account_id, project_id, occurrence_id, body, mode)
+        return self.store.write_occurrence(author_id, account_id, provider_id, occurrence_id, body, mode)
 
-    def list_occurrences(self, subject_account_id, account_id, project_id, filter_, page_size, page_token):
-        return self.store.list_occurrences(subject_account_id, account_id, project_id, filter_, page_size, page_token)
+    def list_occurrences(self, author_id, account_id, provider_id, filter_, page_size, page_token):
+        return self.store.list_occurrences(author_id, account_id, provider_id, filter_, page_size, page_token)
 
-    def list_note_occurrences(self, subject_account_id, account_id, project_id, note_id, filter_, page_size, page_token):
-        return self.store.list_note_occurrences(subject_account_id, account_id, project_id, note_id, filter_, page_size, page_token)
+    def list_note_occurrences(self, author_id, account_id, provider_id, note_id, filter_, page_size, page_token):
+        return self.store.list_note_occurrences(author_id, account_id, provider_id, note_id, filter_, page_size, page_token)
 
-    def get_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
-        return self.store.get_occurrence(subject_account_id, account_id, project_id, occurrence_id)
+    def get_occurrence(self, author_id, account_id, provider_id, occurrence_id):
+        return self.store.get_occurrence(author_id, account_id, provider_id, occurrence_id)
 
-    def delete_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
-        self.store.delete_occurrence(subject_account_id, account_id, project_id, occurrence_id)
+    def delete_occurrence(self, author_id, account_id, provider_id, occurrence_id):
+        self.store.delete_occurrence(author_id, account_id, provider_id, occurrence_id)
 
-    def delete_account_occurrences(self, subject_account_id, account_id):
-        self.store.delete_account_occurrences(subject_account_id, account_id)
+    def delete_account_occurrences(self, author_id, account_id):
+        self.store.delete_account_occurrences(author_id, account_id)
 
     @staticmethod
     def _week_date_iso_format(iso_calendar):

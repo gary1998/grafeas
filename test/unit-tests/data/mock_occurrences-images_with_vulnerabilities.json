@@ -2,9 +2,9 @@
   "occurrences": [
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwv1",
-      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
+      "note_name": "providers/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -18,9 +18,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwv2",
-      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
+      "note_name": "providers/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -34,9 +34,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwv3",
-      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
+      "note_name": "providers/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -50,9 +50,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwv4",
-      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities",
+      "note_name": "providers/security-advisor/notes/va-image_with_vulnerabilities",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -66,9 +66,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwci1",
-      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
+      "note_name": "providers/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -82,9 +82,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwci2",
-      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
+      "note_name": "providers/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -98,9 +98,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwci3",
-      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
+      "note_name": "providers/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -114,9 +114,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwci4",
-      "note_name": "projects/security-advisor/notes/va-image_with_config_issues",
+      "note_name": "providers/security-advisor/notes/va-image_with_config_issues",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -131,9 +131,9 @@
 
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwvc1",
-      "note_name": "projects/security-advisor/notes/va-image_with_vulnerabilities_count",
+      "note_name": "providers/security-advisor/notes/va-image_with_vulnerabilities_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -146,9 +146,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "iwcic1",
-      "note_name": "projects/security-advisor/notes/va-image_with_config_issues_count",
+      "note_name": "providers/security-advisor/notes/va-image_with_config_issues_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",

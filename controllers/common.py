@@ -10,16 +10,16 @@ logger = logging.getLogger("grafeas.common")
 #   DOC ID -> FULL NAME
 #
 
-def build_project_name(account_id, project_id):
-    return "{}/projects/{}".format(account_id, project_id)
+def build_provider_name(account_id, provider_id):
+    return "{}/providers/{}".format(account_id, provider_id)
 
 
-def build_note_name(account_id, project_id, note_id):
-    return "{}/projects/{}/notes/{}".format(account_id, project_id, note_id)
+def build_note_name(account_id, provider_id, note_id):
+    return "{}/providers/{}/notes/{}".format(account_id, provider_id, note_id)
 
 
-def build_occurrence_name(account_id, project_id, occurrence_id):
-    return "{}/projects/{}/occurrences/{}".format(account_id, project_id, occurrence_id)
+def build_occurrence_name(account_id, provider_id, occurrence_id):
+    return "{}/providers/{}/occurrences/{}".format(account_id, provider_id, occurrence_id)
 
 
 def parse_note_name(note_name):

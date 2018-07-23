@@ -25,19 +25,19 @@ class BaseTestCase(TestCase):
             kwargs["headers"]["X-UserToken"] = os.environ['X-UserToken']
         return self.client.open(**kwargs)
 
-    def get_projects(self, account_id):
+    def get_providers(self, account_id):
         return self.rest(
-            path='/v1alpha1/{}/projects'.format(account_id),
+            path='/v1alpha1/{}/providers'.format(account_id),
             method='GET',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def post_note(self, account_id, project_id, body):
+    def post_note(self, account_id, provider_id, body):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/notes'.format(
-                account_id, project_id),
+            path='/v1alpha1/{}/providers/{}/notes'.format(
+                account_id, provider_id),
             method='POST',
             data=json.dumps(body),
             headers={
@@ -46,40 +46,40 @@ class BaseTestCase(TestCase):
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def get_notes(self, account_id, project_id):
+    def get_notes(self, account_id, provider_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/notes'.format(
-                account_id, project_id),
+            path='/v1alpha1/{}/providers/{}/notes'.format(
+                account_id, provider_id),
             method='GET',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def get_note(self, account_id, project_id, note_id):
+    def get_note(self, account_id, provider_id, note_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/notes/{}'.format(
-                account_id, project_id, note_id),
+            path='/v1alpha1/{}/providers/{}/notes/{}'.format(
+                account_id, provider_id, note_id),
             method='GET',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def get_occurrence_note(self, account_id, project_id, occurrence_id):
+    def get_occurrence_note(self, account_id, provider_id, occurrence_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/occurrences/{}/note'.format(
-                account_id, project_id, occurrence_id),
+            path='/v1alpha1/{}/providers/{}/occurrences/{}/note'.format(
+                account_id, provider_id, occurrence_id),
             method='GET',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def put_note(self, account_id, project_id, note_id, body):
+    def put_note(self, account_id, provider_id, note_id, body):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/notes/{}'.format(
-                account_id, project_id, note_id),
+            path='/v1alpha1/{}/providers/{}/notes/{}'.format(
+                account_id, provider_id, note_id),
             method='PUT',
             data=json.dumps(body),
             headers={
@@ -88,10 +88,10 @@ class BaseTestCase(TestCase):
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def delete_note(self, account_id, project_id, note_id):
+    def delete_note(self, account_id, provider_id, note_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/notes/{}'.format(
-                account_id, project_id, note_id),
+            path='/v1alpha1/{}/providers/{}/notes/{}'.format(
+                account_id, provider_id, note_id),
             method='DELETE',
             headers={
                 "Content-Type": "application/json",
@@ -99,10 +99,10 @@ class BaseTestCase(TestCase):
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def post_occurrence(self, account_id, project_id, body):
+    def post_occurrence(self, account_id, provider_id, body):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/occurrences'.format(
-                account_id, project_id),
+            path='/v1alpha1/{}/providers/{}/occurrences'.format(
+                account_id, provider_id),
             method='POST',
             data=json.dumps(body),
             headers={
@@ -111,10 +111,10 @@ class BaseTestCase(TestCase):
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def post_or_put_occurrence(self, account_id, project_id, body):
+    def post_or_put_occurrence(self, account_id, provider_id, body):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/occurrences'.format(
-                account_id, project_id),
+            path='/v1alpha1/{}/providers/{}/occurrences'.format(
+                account_id, provider_id),
             method='POST',
             data=json.dumps(body),
             headers={
@@ -124,40 +124,40 @@ class BaseTestCase(TestCase):
                 "Replace-If-Exists": "true"
             })
 
-    def get_occurrences(self, account_id, project_id):
+    def get_occurrences(self, account_id, provider_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/occurrences'.format(
-                account_id, project_id),
+            path='/v1alpha1/{}/providers/{}/occurrences'.format(
+                account_id, provider_id),
             method='GET',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def get_occurrence(self, account_id, project_id, occurrence_id):
+    def get_occurrence(self, account_id, provider_id, occurrence_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/occurrences/{}'.format(
-                account_id, project_id, occurrence_id),
+            path='/v1alpha1/{}/providers/{}/occurrences/{}'.format(
+                account_id, provider_id, occurrence_id),
             method='GET',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def get_note_occurrences(self, account_id, project_id, note_id):
+    def get_note_occurrences(self, account_id, provider_id, note_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/notes/{}/occurrences'.format(
-                account_id, project_id, note_id),
+            path='/v1alpha1/{}/providers/{}/notes/{}/occurrences'.format(
+                account_id, provider_id, note_id),
             method='GET',
             headers={
                 "Accept": "application/json",
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def put_occurrence(self, account_id, project_id, occurrence_id, body):
+    def put_occurrence(self, account_id, provider_id, occurrence_id, body):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/occurrences/{}'.format(
-                account_id, project_id, occurrence_id),
+            path='/v1alpha1/{}/providers/{}/occurrences/{}'.format(
+                account_id, provider_id, occurrence_id),
             method='PUT',
             data=json.dumps(body),
             headers={
@@ -166,10 +166,10 @@ class BaseTestCase(TestCase):
                 "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
 
-    def delete_occurrence(self, account_id, project_id, occurrence_id):
+    def delete_occurrence(self, account_id, provider_id, occurrence_id):
         return self.rest(
-            path='/v1alpha1/{}/projects/{}/occurrences/{}'.format(
-                account_id, project_id, occurrence_id),
+            path='/v1alpha1/{}/providers/{}/occurrences/{}'.format(
+                account_id, provider_id, occurrence_id),
             method='DELETE',
             headers={
                 "Content-Type": "application/json",

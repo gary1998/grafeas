@@ -21,22 +21,22 @@ class RemoveMockData(BaseTestCase):
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for note in data.get('notes', []):
-                    self._remove_note(note['project_id'], note)
+                    self._remove_note(note['provider_id'], note)
 
     def test_02_remove_occurrences(self):
         for file_name in FILE_NAMES:
             with open("test/data/{}".format(file_name)) as f:
                 data = json.load(f)
                 for occurrence in data.get('occurrences', []):
-                    self._remove_occurrence(occurrence['project_id'], occurrence)
+                    self._remove_occurrence(occurrence['provider_id'], occurrence)
 
-    def _remove_note(self, project_id, body):
-        response = self._delete('/v1alpha1/projects/{}/notes/{}'.format(project_id, body['id']))
+    def _remove_note(self, provider_id, body):
+        response = self._delete('/v1alpha1/providers/{}/notes/{}'.format(provider_id, body['id']))
         self.assertTrue(response.status_code in [HTTPStatus.OK, HTTPStatus.NOT_FOUND],
                         "Response body is : " + response.data.decode('utf-8'))
 
-    def _remove_occurrence(self, project_id, body):
-        response = self._delete('/v1alpha1/projects/{}/occurrences/{}'.format(project_id, body['id']))
+    def _remove_occurrence(self, provider_id, body):
+        response = self._delete('/v1alpha1/providers/{}/occurrences/{}'.format(provider_id, body['id']))
         self.assertTrue(response.status_code in [HTTPStatus.OK, HTTPStatus.NOT_FOUND],
                         "Response body is : " + response.data.decode('utf-8'))
 

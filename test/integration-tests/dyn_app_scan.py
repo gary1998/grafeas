@@ -13,14 +13,14 @@ class DynAppScan(common_fvt.CommonFVT):
         super().__init__(api_base_url)
 
     #
-    #   Projects
+    #   Providers
     #
 
-    def test_list_projects(self):
-        response = self.get_projects()
+    def test_list_providers(self):
+        response = self.get_providers()
         self.assert_status(response, OK)
         result = json.loads(response.content.decode('utf-8'))
-        self.assert_true(len(result['projects']) > 0, "An array of one or more projects was expected.")
+        self.assert_true(len(result['providers']) > 0, "An array of one or more providers was expected.")
 
 
     #
@@ -38,7 +38,7 @@ class DynAppScan(common_fvt.CommonFVT):
             }
         }
 
-        response = self.post_note('project01', body)
+        response = self.post_note('provider01', body)
         self.assert_status(response, OK)
 
     def test_create_duplicate_note(self):
@@ -52,15 +52,15 @@ class DynAppScan(common_fvt.CommonFVT):
             }
         }
 
-        response = self.post_note('project01', body)
+        response = self.post_note('provider01', body)
         self.assert_status(response, CONFLICT)
 
     def test_get_note(self):
-        response = self.get_note('project01', 'Note01')
+        response = self.get_note('provider01', 'Note01')
         self.assert_status(response, OK)
 
     def test_list_notes(self):
-        response = self.get_notes('project01')
+        response = self.get_notes('provider01')
         self.assert_status(response, OK)
         result = json.loads(response.content.decode('utf-8'))
         self.assert_true(len(result['notes']) > 0, "An array of one or more notes was expected.")
@@ -76,7 +76,7 @@ class DynAppScan(common_fvt.CommonFVT):
             }
         }
 
-        response = self.put_note('project01', 'Note01', body)
+        response = self.put_note('provider01', 'Note01', body)
         self.assert_status(response, OK)
 
 
@@ -87,7 +87,7 @@ class DynAppScan(common_fvt.CommonFVT):
     def test_create_occurrence(self):
         body = {
             "id": "Occurrence01",
-            "note_name": "projects/project01/notes/Note01",
+            "note_name": "providers/provider01/notes/Note01",
             "short_description": "The short description of Occurrence01",
             "long_description": "The long description of Occurrence01",
             "kind": "FINDING",
@@ -99,13 +99,13 @@ class DynAppScan(common_fvt.CommonFVT):
             }
         }
 
-        response = self.post_occurrence('project01', body)
+        response = self.post_occurrence('provider01', body)
         self.assert_status(response, OK)
 
     def test_create_duplicate_occurrence(self):
         body = {
             "id": "Occurrence01",
-            "note_name": "projects/project01/notes/Note01",
+            "note_name": "providers/provider01/notes/Note01",
             "short_description": "A different short description of Occurrence01",
             "long_description": "A different long description of Occurrence01",
             "kind": "FINDING",
@@ -117,13 +117,13 @@ class DynAppScan(common_fvt.CommonFVT):
             }
         }
 
-        response = self.post_occurrence('project01', body)
+        response = self.post_occurrence('provider01', body)
         self.assert_status(response, CONFLICT)
 
     def test_create_or_update_occurrence(self):
         body = {
             "id": "Occurrence01",
-            "note_name": "projects/project01/notes/Note01",
+            "note_name": "providers/provider01/notes/Note01",
             "short_description": "Updated short description of Occurrence01",
             "long_description": "Updated long description of Occurrence01",
             "kind": "FINDING",
@@ -135,25 +135,25 @@ class DynAppScan(common_fvt.CommonFVT):
             }
         }
 
-        response = self.post_or_put_occurrence('project01', body)
+        response = self.post_or_put_occurrence('provider01', body)
         self.assert_status(response, OK)
 
     def test_get_occurrence(self):
-        response = self.get_occurrence('project01', 'Occurrence01')
+        response = self.get_occurrence('provider01', 'Occurrence01')
         self.assert_status(response, OK)
 
     def test_get_occurrence_note(self):
-        response = self.get_occurrence_note('project01', 'Occurrence01')
+        response = self.get_occurrence_note('provider01', 'Occurrence01')
         self.assert_status(response, OK)
 
     def test_list_occurrences(self):
-        response = self.get_occurrences('project01')
+        response = self.get_occurrences('provider01')
         self.assert_status(response, OK)
         result = json.loads(response.content.decode('utf-8'))
         self.assert_true(len(result['occurrences']) > 0, "A array of one ore more occurrences was expected.")
 
     def test_list_note_occurrences(self):
-        response = self.get_note_occurrences('project01', 'Note01')
+        response = self.get_note_occurrences('provider01', 'Note01')
         self.assert_status(response, OK)
         result = json.loads(response.content.decode('utf-8'))
         self.assert_true(len(result['occurrences']) > 0, "An array of one or more occurrences was expected.")
@@ -164,19 +164,19 @@ class DynAppScan(common_fvt.CommonFVT):
     #
 
     def test_delete_occurrence(self):
-        response = self.delete_occurrence('project01', 'Occurrence01')
+        response = self.delete_occurrence('provider01', 'Occurrence01')
         self.assert_status(response, OK)
 
     def test_delete_missing_occurrence(self):
-        response = self.delete_occurrence('project01', 'Occurrence01')
+        response = self.delete_occurrence('provider01', 'Occurrence01')
         self.assert_status(response, NOT_FOUND)
 
     def test_delete_note(self):
-        response = self.delete_note('project01', 'Note01')
+        response = self.delete_note('provider01', 'Note01')
         self.assert_status(response, OK)
 
     def test_delete_missing_note(self):
-        response = self.delete_note('project01', 'Note01')
+        response = self.delete_note('provider01', 'Note01')
         self.assert_status(response, NOT_FOUND)
 
 
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     test.test_get_occurrence_note()
     test.test_list_occurrences()
     test.test_list_note_occurrences()
-    test.test_list_projects()
+    test.test_list_providers()
     test.test_delete_occurrence()
     test.test_delete_missing_occurrence()
     test.test_delete_note()

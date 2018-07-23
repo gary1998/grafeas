@@ -25,7 +25,7 @@ def delete_account_data(account_id):
 
         account_deleted_occurrence = {
             "id": "account-deleted-{}".format(account_id),
-            "note_name": "system/projects/core/notes/account_deleted",
+            "note_name": "system/providers/core/notes/account_deleted",
             "kind": "ACCOUNT_DELETED",
             "context": {
                 "account_id": account_id

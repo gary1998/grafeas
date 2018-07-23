@@ -498,7 +498,7 @@ class ComposeElasticsearchClient(ElasticsearchClient):
             'http_auth': (username, password),
             'use_ssl': True,
             'verify_certs': True
-            #'ca_certs': '/Users/agiammar/Documents/Projects/DevOps Insights/Certificates/compose-es-dev.cert'
+            #'ca_certs': '/Users/agiammar/Documents/Providers/DevOps Insights/Certificates/compose-es-dev.cert'
         }
         super(ComposeElasticsearchClient, self).__init__(es_conf)
         logger.info("Compose elasticsearch client initialized.")

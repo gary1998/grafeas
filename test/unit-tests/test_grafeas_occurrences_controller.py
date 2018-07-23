@@ -31,7 +31,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_02_create_duplicate_note(self):
@@ -56,7 +56,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
     def test_03_create_occurrence(self):
@@ -68,7 +68,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
+            "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note02'),
             "short_description": "The short description of Occurrence02",
             "long_description": "The long description of Occurrence02",
             "kind": "FINDING",
@@ -80,7 +80,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_04_create_duplicate_occurrence(self):
@@ -92,7 +92,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
+            "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note02'),
             "short_description": "The short description of Occurrence02",
             "long_description": "The long description of Occurrence02",
             "kind": "FINDING",
@@ -104,7 +104,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
     def test_05_create_or_update_occurrence(self):
@@ -116,7 +116,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence02",
-            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
+            "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note02'),
             "short_description": "Updated short description of Occurrence02",
             "long_description": "Updated long description of Occurrence02",
             "kind": "FINDING",
@@ -128,7 +128,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_or_put_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_or_put_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_06_get_occurrence(self):
@@ -138,17 +138,17 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Returns the requested `Note`.
         """
 
-        response = self.get_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', 'Occurrence02')
+        response = self.get_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProviderX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_07_list_occurrences(self):
         """
         Test case for list_occurrences
 
-        Lists active `Occurrences` for a given project matching the filters.
+        Lists active `Occurrences` for a given provider matching the filters.
         """
 
-        response = self.get_occurrences(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX')
+        response = self.get_occurrences(TEST_RESOURCE_ACCOUNT_ID, 'ProviderX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         result = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(result['occurrences']) > 0, "An array of one ore more occurrences was expected.")
@@ -162,7 +162,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
 
         body = {
             "id": "Occurrence03",
-            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note02'),
+            "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note02'),
             "short_description": "The short description of Occurrence02",
             "long_description": "The long description of Occurrence02",
             "kind": "FINDING",
@@ -174,7 +174,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_09_list_note_occurrences(self):
@@ -182,10 +182,10 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Test case for list_note_occurrences
 
         Lists `Occurrences` referencing the specified `Note`.
-        Use this method to get all occurrences referencing your `Note` across all your customer projects.
+        Use this method to get all occurrences referencing your `Note` across all your customer providers.
         """
 
-        response = self.get_note_occurrences(TEST_ACCOUNT_ID, 'ProjectX', 'Note02')
+        response = self.get_note_occurrences(TEST_ACCOUNT_ID, 'ProviderX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         result = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(result['occurrences']) > 0, "An array of one or more occurrences was expected.")
@@ -210,7 +210,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence("697e84fcca45c9439aae525d31ef1a27", 'ProjectX', body)
+        response = self.post_occurrence("697e84fcca45c9439aae525d31ef1a27", 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.BAD_REQUEST, "Response body is : " + response.data.decode('utf-8'))
 
     def test_11_delete_occurrence(self):
@@ -220,7 +220,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Deletes the given `Occurrence` from the system.
         """
 
-        response = self.delete_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', 'Occurrence02')
+        response = self.delete_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProviderX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_12_delete_occurrence(self):
@@ -230,7 +230,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Deletes the given `Occurrence` from the system.
         """
 
-        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProjectX', 'Occurrence03')
+        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProviderX', 'Occurrence03')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_13_delete_missing_occurrence(self):
@@ -240,7 +240,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Deletes the given `Occurrence` from the system.
         """
 
-        response = self.delete_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProjectX', 'Occurrence02')
+        response = self.delete_occurrence(TEST_RESOURCE_ACCOUNT_ID, 'ProviderX', 'Occurrence02')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
     def test_14_delete_note(self):
@@ -250,7 +250,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Deletes the given `Note` from the system.
         """
 
-        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note02')
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProviderX', 'Note02')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_15_delete_missing_note(self):
@@ -260,7 +260,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         Deletes the given `Note` from the system.
         """
 
-        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note02')
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProviderX', 'Note02')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
     '''

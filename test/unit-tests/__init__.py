@@ -6,10 +6,7 @@ import jwt
 from util.auth_util import get_identity_token
 
 import json
-import inflection
 import base64
-import pyvault
-
 
 os.environ["vault_url"] = "https://vserv-us.sos.ibm.com:8200"
 os.environ["vault_path"] = "v1/generic/crn/v1/dev/public/security-advisor/us-south/YS1/-/-/-"
@@ -17,17 +14,18 @@ os.environ["vault_path"] = "v1/generic/crn/v1/dev/public/security-advisor/us-sou
 # os.environ["vault_role_id"] = ""
 # os.environ["vault_secret_id"] = ""
 
-
-def constant_case(secrets):
-    for vault_key, vault_key_pair_value in secrets.items():
-        for k, v in vault_key_pair_value.items():
-            # if key in vault is cloudant_url make it CLOUDANT_URL , iamConfig becomes IAM_CONFIG
-            constant_case_env_var = inflection.underscore(k).upper()
-            os.environ[inflection.underscore(
-                k).upper()] = base64.b64decode(v).decode('utf-8')
-
-
 if os.environ.get('vault_role_id') and os.environ.get('vault_secret_id'):
+    import inflection
+    import pyvault
+
+    def constant_case(secrets):
+        for vault_key, vault_key_pair_value in secrets.items():
+            for k, v in vault_key_pair_value.items():
+                # if key in vault is cloudant_url make it CLOUDANT_URL , iamConfig becomes IAM_CONFIG
+                constant_case_env_var = inflection.underscore(k).upper()
+                os.environ[inflection.underscore(
+                    k).upper()] = base64.b64decode(v).decode('utf-8')
+
     pyvault.load_vault_secrets_in_environment(
         keys=["cloudant-credentials", "grafeas-secret"], env_loader_func=constant_case)
 else:

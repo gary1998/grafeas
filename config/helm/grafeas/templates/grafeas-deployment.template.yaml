@@ -115,7 +115,7 @@ spec:
         - name: IAM_CONFIG
           valueFrom:
             secretKeyRef:
-              name: grafeas-secret
+              name: sa-iam-secrets
               key: iamConfig
         - name: LOG_LEVEL
           valueFrom:

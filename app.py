@@ -44,5 +44,9 @@ if __name__ == '__main__':
         context = (cert_path, cert_key)
         app.run(port=443, threaded=True, ssl_context=context)
     else:
-        app.run(port=443, threaded=True)
+        accept_http = os.environ.get('ACCEPT_HTTP', "false")
+        if accept_http.lower() == "true":
+            app.run(port=8080, threaded=True)
+        else:
+            app.run(port=443, threaded=True)
 

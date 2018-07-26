@@ -7,7 +7,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-         app: grafeas
+         microservice: grafeas
   ingress:
   - from:
     - podSelector:

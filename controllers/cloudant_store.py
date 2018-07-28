@@ -19,7 +19,7 @@ class CloudantStore(store.Store):
     # Providers
     #
 
-    def list_providers(self, author_id, account_id, filter_, page_size, page_token):
+    def list_providers(self, author, account_id, filter_, page_size, page_token):
         view = self.db.get_view('doc_counts', "doc_count_by_provider")
         start_key = [account_id]
         end_key = [account_id, "\ufff0"]
@@ -37,7 +37,7 @@ class CloudantStore(store.Store):
     # Notes
     #
 
-    def write_note(self, author_id, account_id, provider_id, note_id, body, mode):
+    def write_note(self, author, account_id, provider_id, note_id, body, mode):
         note_name = common.build_note_name(account_id, provider_id, note_id)
 
         if mode == 'create':
@@ -49,16 +49,16 @@ class CloudantStore(store.Store):
 
         return CloudantStore._clean_doc(doc)
 
-    def get_note(self, author_id, account_id, provider_id, note_id):
+    def get_note(self, author, account_id, provider_id, note_id):
         note_name = common.build_note_name(account_id, provider_id, note_id)
         doc = self.db.get_doc(note_name)
         return CloudantStore._clean_doc(doc)
 
-    def list_notes(self, author_id, account_id, provider_id, filter_, page_size, page_token):
+    def list_notes(self, author, account_id, provider_id, filter_, page_size, page_token):
         provider_name = common.build_provider_name(account_id, provider_id)
         result = self.db.find(
             key_values={
-                #'author_id': author_id,
+                #'author.account_id': author.account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Note',
                 'provider_name': provider_name
@@ -69,7 +69,7 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
         return result
 
-    def delete_note(self, author_id, account_id, provider_id, note_id):
+    def delete_note(self, author, account_id, provider_id, note_id):
         note_name = common.build_note_name(account_id, provider_id, note_id)
         self.db.delete_doc(note_name)
 
@@ -77,7 +77,7 @@ class CloudantStore(store.Store):
     # Occurrences
     #
 
-    def write_occurrence(self, author_id, account_id, provider_id, occurrence_id, body, mode):
+    def write_occurrence(self, author, account_id, provider_id, occurrence_id, body, mode):
         occurrence_name = common.build_occurrence_name(account_id, provider_id, occurrence_id)
         body = CloudantStore._internalize_occurrence(body)
 
@@ -95,16 +95,16 @@ class CloudantStore(store.Store):
 
         return CloudantStore._clean_occurrence(doc)
 
-    def get_occurrence(self, author_id, account_id, provider_id, occurrence_id):
+    def get_occurrence(self, author, account_id, provider_id, occurrence_id):
         occurrence_name = common.build_occurrence_name(account_id, provider_id, occurrence_id)
         doc = self.db.get_doc(occurrence_name)
         return CloudantStore._clean_occurrence(doc)
 
-    def list_occurrences(self, author_id, account_id, provider_id, key_values, page_size, page_token):
+    def list_occurrences(self, author, account_id, provider_id, key_values, page_size, page_token):
         provider_name = common.build_provider_name(account_id, provider_id)
         result = self.db.find(
             key_values={
-                #'author_id': author_id,
+                #'author.account_id': author.account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
                 'provider_name': provider_name
@@ -115,11 +115,11 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
         return result
 
-    def list_note_occurrences(self, author_id, account_id, provider_id, note_id, key_values, page_size, page_token):
+    def list_note_occurrences(self, author, account_id, provider_id, note_id, key_values, page_size, page_token):
         note_name = common.build_note_name(account_id, provider_id, note_id)
         result = self.db.find(
             key_values={
-                #'author_id': author_id,
+                #'author.account_id': author.account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
                 'note_name': note_name
@@ -130,11 +130,11 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
         return result
 
-    def delete_occurrence(self, author_id, account_id, provider_id, occurrence_id):
+    def delete_occurrence(self, author, account_id, provider_id, occurrence_id):
         occurrence_name = common.build_occurrence_name(account_id, provider_id, occurrence_id)
         return self.db.delete_doc(occurrence_name)
 
-    def delete_account_occurrences(self, author_id, account_id):
+    def delete_account_occurrences(self, author, account_id):
         bookmark = None
         limit = 200
         total_deleted_count = 0
@@ -167,7 +167,7 @@ class CloudantStore(store.Store):
             total_deleted_count += len(deleted_docs)
 
         logger.info("%d occurrences deleted for account '%s': author account='%s'",
-                    total_deleted_count, account_id, author_id)
+                    total_deleted_count, account_id, author.account_id)
 
     @staticmethod
     def _clean_doc(doc):

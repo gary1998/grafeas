@@ -4,6 +4,7 @@ import isodate
 import logging
 import threading
 from controllers import common
+from util import auth_util
 from util import exceptions
 from util import dict_util
 
@@ -19,14 +20,14 @@ class API(object):
     #  Providers
     #
 
-    def list_providers(self, author_id, account_id, filter_, page_size, page_token):
-        return self.store.list_providers(author_id,  account_id, filter_, page_size, page_token)
+    def list_providers(self, author, account_id, filter_, page_size, page_token):
+        return self.store.list_providers(author,  account_id, filter_, page_size, page_token)
 
     #
     #  Notes
     #
 
-    def write_note(self, author_id, account_id, provider_id, note_id, body, mode='create'):
+    def write_note(self, author, account_id, provider_id, note_id, body, mode='create'):
         common.validate_id(provider_id)
         common.validate_id(note_id)
 
@@ -35,7 +36,7 @@ class API(object):
 
         body['doc_type'] = 'Note'
         body['id'] = note_id
-        body['author_id'] = author_id
+        body['author'] = author.to_dict()
         body['provider_id'] = provider_id
         body['provider_name'] = common.build_provider_name(account_id, provider_id)
         body['name'] = common.build_note_name(account_id, provider_id, note_id)
@@ -63,35 +64,35 @@ class API(object):
         if 'shared' not in body:
             body['shared'] = True
 
-        return self.store.write_note(author_id, account_id, provider_id, note_id, body, mode)
+        return self.store.write_note(author, account_id, provider_id, note_id, body, mode)
 
-    def list_notes(self, author_id,  account_id, provider_id, filter_, page_size, page_token):
-        return self.store.list_notes(author_id, account_id, provider_id, filter_, page_size, page_token)
+    def list_notes(self, author,  account_id, provider_id, filter_, page_size, page_token):
+        return self.store.list_notes(author, account_id, provider_id, filter_, page_size, page_token)
 
-    def get_note(self, author_id,  account_id, provider_id, note_id):
-        return self.store.get_note(author_id, account_id, provider_id, note_id)
+    def get_note(self, author,  account_id, provider_id, note_id):
+        return self.store.get_note(author, account_id, provider_id, note_id)
 
-    def get_occurrence_note(self, author_id,  account_id, provider_id, occurrence_id):
-        occurrence_doc = self.store.get_occurrence(author_id, account_id, provider_id, occurrence_id)
+    def get_occurrence_note(self, author,  account_id, provider_id, occurrence_id):
+        occurrence_doc = self.store.get_occurrence(author, account_id, provider_id, occurrence_id)
         note_name = occurrence_doc['note_name']
         note_account_id, note_provider_id, note_id = common.parse_note_name(note_name)
-        return self.store.get_note(author_id, note_account_id, note_provider_id, note_id)
+        return self.store.get_note(author, note_account_id, note_provider_id, note_id)
 
-    def delete_note(self, author_id,  account_id, provider_id, note_id):
-        self.store.delete_note(author_id, account_id, provider_id, note_id)
+    def delete_note(self, author,  account_id, provider_id, note_id):
+        self.store.delete_note(author, account_id, provider_id, note_id)
 
     #
     #  Occurrences
     #
 
-    def write_occurrence(self, author_id, account_id, provider_id, occurrence_id, body, mode='create'):
+    def write_occurrence(self, author, account_id, provider_id, occurrence_id, body, mode='create'):
         common.validate_id(provider_id)
         common.validate_id(occurrence_id)
 
         # verify note exists (a not-found exception will be raised if the note does not exist) and access is allowed
         note_name = body['note_name']
         note_account_id, note_provider_id, note_id = common.parse_note_name(note_name)
-        note = self.store.get_note(author_id, note_account_id, note_provider_id, note_id)
+        note = self.store.get_note(author, note_account_id, note_provider_id, note_id)
         if note_account_id != account_id and not note['shared']:
             raise exceptions.JSONError.from_http_status(
                 http.HTTPStatus.FORBIDDEN,
@@ -101,7 +102,7 @@ class API(object):
         self._validate_kind_field(kind, body, API._OCCURRENCE_KIND_FIELD_NAME_MAP)
 
         body['doc_type'] = 'Occurrence'
-        body['author_id'] = author_id
+        body['author'] = author.to_dict()
         body['provider_id'] = provider_id
         body['id'] = occurrence_id
         body['name'] = common.build_occurrence_name(account_id, provider_id, occurrence_id)
@@ -129,22 +130,22 @@ class API(object):
         body['update_week_date'] = self._week_date_iso_format(update_datetime.isocalendar())
 
         self._set_occurrence_defaults(body, note)
-        return self.store.write_occurrence(author_id, account_id, provider_id, occurrence_id, body, mode)
+        return self.store.write_occurrence(author, account_id, provider_id, occurrence_id, body, mode)
 
-    def list_occurrences(self, author_id, account_id, provider_id, filter_, page_size, page_token):
-        return self.store.list_occurrences(author_id, account_id, provider_id, filter_, page_size, page_token)
+    def list_occurrences(self, author, account_id, provider_id, filter_, page_size, page_token):
+        return self.store.list_occurrences(author, account_id, provider_id, filter_, page_size, page_token)
 
-    def list_note_occurrences(self, author_id, account_id, provider_id, note_id, filter_, page_size, page_token):
-        return self.store.list_note_occurrences(author_id, account_id, provider_id, note_id, filter_, page_size, page_token)
+    def list_note_occurrences(self, author, account_id, provider_id, note_id, filter_, page_size, page_token):
+        return self.store.list_note_occurrences(author, account_id, provider_id, note_id, filter_, page_size, page_token)
 
-    def get_occurrence(self, author_id, account_id, provider_id, occurrence_id):
-        return self.store.get_occurrence(author_id, account_id, provider_id, occurrence_id)
+    def get_occurrence(self, author, account_id, provider_id, occurrence_id):
+        return self.store.get_occurrence(author, account_id, provider_id, occurrence_id)
 
-    def delete_occurrence(self, author_id, account_id, provider_id, occurrence_id):
-        self.store.delete_occurrence(author_id, account_id, provider_id, occurrence_id)
+    def delete_occurrence(self, author, account_id, provider_id, occurrence_id):
+        self.store.delete_occurrence(author, account_id, provider_id, occurrence_id)
 
-    def delete_account_occurrences(self, author_id, account_id):
-        self.store.delete_account_occurrences(author_id, account_id)
+    def delete_account_occurrences(self, author, account_id):
+        self.store.delete_account_occurrences(author, account_id)
 
     @staticmethod
     def _week_date_iso_format(iso_calendar):
@@ -205,6 +206,9 @@ class API(object):
     }
 
 
+SYSTEM_AUTHOR = auth_util.Subject('service-id', '$SYSTEM-ID', '$SYSTEM-EMAIL', '$SYSTEM-ACCOUNT-ID')
+
+
 __api_impl = None
 __api_impl_lock = threading.Lock()
 
@@ -217,7 +221,7 @@ def get_api_impl():
         if __api_impl is None:
             __api_impl = API(cloudant_store.CloudantStore())
             try:
-                __api_impl.write_note('system', 'system', 'core', 'card_configured', {
+                __api_impl.write_note(SYSTEM_AUTHOR, 'system', 'core', 'card_configured', {
                     "kind": "CARD_CONFIGURED",
                     "short_description": "Used to indicate a card was configured for the user account",
                     "long_description": "Used to indicate a card was configured for the user account"
@@ -226,7 +230,7 @@ def get_api_impl():
                 pass
 
             try:
-                __api_impl.write_note('system', 'system', 'core', 'account_deleted', {
+                __api_impl.write_note(SYSTEM_AUTHOR, 'system', 'core', 'account_deleted', {
                     "kind": "ACCOUNT_DELETED",
                     "short_description": "Used to indicate a user account was deleted",
                     "long_description": "Used to indicate a user account was deleted"

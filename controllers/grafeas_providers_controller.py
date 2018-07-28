@@ -29,7 +29,7 @@ def list_providers(account_id, filter=None, page_size=None, page_token=None):
         subject = auth_client.assert_can_read_providers(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        result = api_impl.list_providers(subject.account_id, account_id, filter, page_size, page_token)
+        result = api_impl.list_providers(subject, account_id, filter, page_size, page_token)
         return common.build_result(
             http.HTTPStatus.OK,
             {

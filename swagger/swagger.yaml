@@ -745,15 +745,15 @@ definitions:
       # IBM extensions
       #
 
+      author:
+        $ref: '#/definitions/Subject'
+        description: The author of the note
       provider_id:
         type: string
         title: The provider id of the note
       id:
         type: string
         title: The id of the note
-      author_id:
-        type: string
-        title: The id of the note's author
       shared:
         type: boolean
         description: True if this `Note` can be shared by multiple accounts.
@@ -847,15 +847,15 @@ definitions:
       # IBM extensions
       #
 
+      author:
+        $ref: '#/definitions/Subject'
+        description: The author of the occurrence
       provider_id:
         type: string
         title: The provider id of the occurrence
       id:
         type: string
         title: The id of the occurrence
-      author_id:
-        type: string
-        title: The id of the occurrence's author
       context:
         $ref: '#/definitions/Context'
         description: Details about the context of this `Occurrence`
@@ -966,6 +966,23 @@ definitions:
       - LOW&#58; Low Impact
       - MEDIUM&#58; Medium Impact
       - HIGH&#58; High Impact
+
+  Subject:
+    type: object
+    description: The subject executing an operation
+    properties:
+      kind:
+        type: string
+        description: the kind of this subject
+      id:
+        type: string
+        description: the id of this subject
+      email:
+        type: string
+        description: the email address of this subject
+      account_id:
+        type: string
+        description: the account id of this subject
 
 #
 # Finding note and occurrence definitions

@@ -308,4 +308,17 @@ class CloudantStore(store.Store):
             """,
             '_sum')
 
+        db.add_view(
+            'doc_counts',
+            'occurrence_count_by_utc',
+            """
+            function(doc) {{
+                if (doc.doc_type == "Occurrence") {{
+                    emit([doc.context.account_id, doc.create_timestamp],null);
+                }}
+            }}
+            """,
+            '_count')
+
+
         return db

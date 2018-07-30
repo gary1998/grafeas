@@ -7,18 +7,18 @@ logger = logging.getLogger("grafeas.auth_util")
 
 
 class Subject(object):
-    def __init__(self, type_, id, email, account_id):
-        self.type = type_
+    def __init__(self, kind, id, email, account_id):
+        self.kind = kind
         self.id = id
         self.email = email
         self.account_id = account_id
 
     def __str__(self):
-        return "{{type:{}, id:{}, email:{}, account:{}}}".format(self.type, self.id, self.email, self.account_id)
+        return "{{kind:{}, id:{}, email:{}, account:{}}}".format(self.kind, self.id, self.email, self.account_id)
 
     def to_dict(self):
         return {
-            'type': self.type,
+            'kind': self.kind,
             'id': self.id,
             'email': self.email,
             'account_id': self.account_id

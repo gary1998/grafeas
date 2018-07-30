@@ -222,12 +222,12 @@ class GrafeasAuthClient(AuthClient):
             logger.info("Subject is authorized: {}".format(subject))
             return True
 
-        if subject.type == 'user':
+        if subject.kind == 'user':
             subject_field_name = "userId"
-        elif subject.type == 'service-id':
+        elif subject.kind == 'service-id':
             subject_field_name = "serviceId"
         else:
-            raise ValueError("Unsupported subject type: {}".format(subject.type))
+            raise ValueError("Unsupported subject kind: {}".format(subject.kind))
 
         params = {
             "subject": {

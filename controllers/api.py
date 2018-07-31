@@ -206,7 +206,7 @@ class API(object):
     }
 
 
-SYSTEM_AUTHOR = auth_util.Subject('service-id', '$SYSTEM-ID', '$SYSTEM-EMAIL', '$SYSTEM-ACCOUNT-ID')
+SYSTEM_AUTHOR = auth_util.Subject('service-id', '$SYSTEM-ID', '$SYSTEM-ACCOUNT-ID')
 
 
 __api_impl = None

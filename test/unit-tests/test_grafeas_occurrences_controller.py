@@ -3,7 +3,7 @@ from http import HTTPStatus
 from .common_ut import BaseTestCase, TEST_ACCOUNT_ID
 
 
-TEST_RESOURCE_ACCOUNT_ID = "0209df6649c995e076657f797cb8b6fb"
+TEST_RESOURCE_ACCOUNT_ID = "d0c8a917589e40076961f56b23056d16"
 
 
 class TestGrafeasOccurrencesController(BaseTestCase):
@@ -163,8 +163,8 @@ class TestGrafeasOccurrencesController(BaseTestCase):
         body = {
             "id": "Occurrence03",
             "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note02'),
-            "short_description": "The short description of Occurrence02",
-            "long_description": "The long description of Occurrence02",
+            "short_description": "The short description of Occurrence03",
+            "long_description": "The long description of Occurrence03",
             "kind": "FINDING",
             "finding": {
                 "certainty": "MEDIUM"

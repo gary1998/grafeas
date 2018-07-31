@@ -2,9 +2,9 @@
   "occurrences": [
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xbs1",
-      "note_name": "projects/security-advisor/notes/xforce-bot_server",
+      "note_name": "providers/security-advisor/notes/xforce-bot_server",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -18,9 +18,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xms1",
-      "note_name": "projects/security-advisor/notes/xforce-malware_server",
+      "note_name": "providers/security-advisor/notes/xforce-malware_server",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -34,9 +34,9 @@
     },
     {
       "kind": "FINDING",
-        "project_id": "security-advisor",
+        "provider_id": "security-advisor",
       "id": "xms2",
-      "note_name": "projects/security-advisor/notes/xforce-malware_server",
+      "note_name": "providers/security-advisor/notes/xforce-malware_server",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -50,9 +50,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xss1",
-      "note_name": "projects/security-advisor/notes/xforce-scanner_server",
+      "note_name": "providers/security-advisor/notes/xforce-scanner_server",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -66,9 +66,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xmsic",
-      "note_name": "projects/security-advisor/notes/xforce-malicious_server_ip_count",
+      "note_name": "providers/security-advisor/notes/xforce-malicious_server_ip_count",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",

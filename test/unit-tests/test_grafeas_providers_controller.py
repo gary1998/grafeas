@@ -7,8 +7,8 @@ import os
 import unittest
 
 
-class TestGrafeasProjectsController(BaseTestCase):
-    """ GrafeasProjectsController integration test stubs """
+class TestGrafeasProvidersController(BaseTestCase):
+    """ GrafeasProvidersController integration test stubs """
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
@@ -34,7 +34,7 @@ class TestGrafeasProjectsController(BaseTestCase):
             }
         }
 
-        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
@@ -48,7 +48,7 @@ class TestGrafeasProjectsController(BaseTestCase):
 
         body = {
             "id": "Occurrence04",
-            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note03'),
+            "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note03'),
             "short_description": "The short description of Occurrence04",
             "long_description": "The long description of Occurrence04",
             "kind": "FINDING",
@@ -60,24 +60,24 @@ class TestGrafeasProjectsController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
-    def test_03_list_projects(self):
+    def test_03_list_providers(self):
         """
-        Test case for list_projects
+        Test case for list_providers
 
-        Lists `Projects`
+        Lists `Providers`
         """
 
-        response = self.get_projects(TEST_ACCOUNT_ID)
+        response = self.get_providers(TEST_ACCOUNT_ID)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
         result = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(len(result['projects']) > 0,
-                        "An array of one or more projects was expected.")
+        self.assertTrue(len(result['providers']) > 0,
+                        "An array of one or more providers was expected.")
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")
@@ -88,7 +88,7 @@ class TestGrafeasProjectsController(BaseTestCase):
         Deletes the given `Occurrence` from the system.
         """
 
-        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProjectX', 'Occurrence04')
+        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProviderX', 'Occurrence04')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
@@ -100,7 +100,7 @@ class TestGrafeasProjectsController(BaseTestCase):
         Deletes the given `Note` from the system.
         """
 
-        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note03')
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProviderX', 'Note03')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
 

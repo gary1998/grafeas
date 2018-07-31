@@ -26,14 +26,14 @@ class Exporter(object):
 
     @timeit
     def export_all(self):
-        self.export_projects()
+        self.export_providers()
         self.export_notes()
         self.export_occurrences()
 
     @timeit
-    def export_projects(self):
-        writer = self.es_client.get_bulk_writer('grafeas', 'Project', MAX_POST_DATA_LEN)
-        self._export_docs(writer, 'Project')
+    def export_providers(self):
+        writer = self.es_client.get_bulk_writer('grafeas', 'Provider', MAX_POST_DATA_LEN)
+        self._export_docs(writer, 'Provider')
         writer.close()
 
     @timeit
@@ -60,8 +60,8 @@ class Exporter(object):
             n = 0
             for doc in docs:
                 if doc_type in ['Note', 'Occurrence']:
-                    if not self.is_id_valid(doc['project_id']):
-                        print("INVALID ID: {}".format(doc['project_id']))
+                    if not self.is_id_valid(doc['provider_id']):
+                        print("INVALID ID: {}".format(doc['provider_id']))
                         continue
 
                 if not self.is_id_valid(doc['id']):

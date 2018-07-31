@@ -58,85 +58,85 @@ class CommonFVT(object):
             print(e)
             return None
 
-    def get_projects(self):
+    def get_providers(self):
         return self.get(
-            url='{}/v1alpha1/projects'.format(
+            url='{}/v1alpha1/providers'.format(
                 self.api_base_url))
 
-    def post_note(self, project_id, body):
+    def post_note(self, provider_id, body):
         return self.post(
-            url='{}/v1alpha1/projects/{}/notes'.format(
-                self.api_base_url, project_id),
+            url='{}/v1alpha1/providers/{}/notes'.format(
+                self.api_base_url, provider_id),
             data=json.dumps(body),
             headers={"Content-Type": "application/json"})
 
-    def get_notes(self, project_id):
+    def get_notes(self, provider_id):
         return self.get(
-            url='{}/v1alpha1/projects/{}/notes'.format(
-                self.api_base_url, project_id))
+            url='{}/v1alpha1/providers/{}/notes'.format(
+                self.api_base_url, provider_id))
 
-    def get_note(self, project_id, note_id):
+    def get_note(self, provider_id, note_id):
         return self.get(
-            url='{}/v1alpha1/projects/{}/notes/{}'.format(
-                self.api_base_url, project_id, note_id))
+            url='{}/v1alpha1/providers/{}/notes/{}'.format(
+                self.api_base_url, provider_id, note_id))
 
-    def get_occurrence_note(self, project_id, occurrence_id):
+    def get_occurrence_note(self, provider_id, occurrence_id):
         return self.get(
-            url = '{}/v1alpha1/projects/{}/occurrences/{}/note'.format(
-                self.api_base_url, project_id, occurrence_id))
+            url = '{}/v1alpha1/providers/{}/occurrences/{}/note'.format(
+                self.api_base_url, provider_id, occurrence_id))
 
-    def put_note(self, project_id, note_id, body):
+    def put_note(self, provider_id, note_id, body):
         return self.put(
-            url='{}/v1alpha1/projects/{}/notes/{}'.format(
-                self.api_base_url, project_id, note_id),
+            url='{}/v1alpha1/providers/{}/notes/{}'.format(
+                self.api_base_url, provider_id, note_id),
             data=json.dumps(body),
             headers={"Content-Type": "application/json"})
 
-    def delete_note(self, project_id, note_id):
+    def delete_note(self, provider_id, note_id):
         return self.delete(
-            url='{}/v1alpha1/projects/{}/notes/{}'.format(
-                self.api_base_url, project_id, note_id))
+            url='{}/v1alpha1/providers/{}/notes/{}'.format(
+                self.api_base_url, provider_id, note_id))
 
-    def post_occurrence(self, project_id, body):
+    def post_occurrence(self, provider_id, body):
         return self.post(
-            url='{}/v1alpha1/projects/{}/occurrences'.format(
-                self.api_base_url, project_id),
+            url='{}/v1alpha1/providers/{}/occurrences'.format(
+                self.api_base_url, provider_id),
             data=json.dumps(body),
             headers={"Content-Type": "application/json"})
 
-    def post_or_put_occurrence(self, project_id, body):
+    def post_or_put_occurrence(self, provider_id, body):
         return self.post(
-            url='{}/v1alpha1/projects/{}/occurrences'.format(
-                self.api_base_url, project_id),
+            url='{}/v1alpha1/providers/{}/occurrences'.format(
+                self.api_base_url, provider_id),
             data=json.dumps(body),
             headers={
                 "Content-Type": "application/json",
                 "Replace-If-Exists": "true"
             })
 
-    def get_occurrences(self, project_id):
+    def get_occurrences(self, provider_id):
         return self.get(
-            url='{}/v1alpha1/projects/{}/occurrences'.format(
-                self.api_base_url, project_id))
+            url='{}/v1alpha1/providers/{}/occurrences'.format(
+                self.api_base_url, provider_id))
 
-    def get_occurrence(self, project_id, occurrence_id):
+    def get_occurrence(self, provider_id, occurrence_id):
         return self.client.get(
-            url='{}/v1alpha1/projects/{}/occurrences/{}'.format(
-                self.api_base_url, project_id, occurrence_id))
+            url='{}/v1alpha1/providers/{}/occurrences/{}'.format(
+                self.api_base_url, provider_id, occurrence_id))
 
-    def get_note_occurrences(self, project_id, note_id):
+    def get_note_occurrences(self, provider_id, note_id):
         return self.get(
-            url='{}/v1alpha1/projects/{}/notes/{}/occurrences'.format(
-                self.api_base_url, project_id, note_id))
+            url='{}/v1alpha1/providers/{}/notes/{}/occurrences'.format(
+                self.api_base_url, provider_id, note_id))
 
-    def put_occurrence(self, project_id, occurrence_id, body):
+    def put_occurrence(self, provider_id, occurrence_id, body):
         return self.put(
-            url='{}/v1alpha1/projects/{}/occurrences/{}'.format(
-                self.api_base_url, project_id, occurrence_id),
+            url='{}/v1alpha1/providers/{}/occurrences/{}'.format(
+                self.api_base_url, provider_id, occurrence_id),
             data=json.dumps(body),
             headers={"Content-Type": "application/json"})
 
-    def delete_occurrence(self, project_id, occurrence_id):
+    def delete_occurrence(self, provider_id, occurrence_id):
         return self.delete(
-            url='{}/v1alpha1/projects/{}/occurrences/{}'.format(
-                self.api_base_url, project_id, occurrence_id))
+            url='{}/v1alpha1/providers/{}/occurrences/{}'.format(
+                self.api_base_url, provider_id, occurrence_id))

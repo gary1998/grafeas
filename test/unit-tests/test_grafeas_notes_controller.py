@@ -28,7 +28,7 @@ class TestGrafeasNotesController(BaseTestCase):
             }
         }
 
-        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_02_create_duplicate_note(self):
@@ -53,7 +53,7 @@ class TestGrafeasNotesController(BaseTestCase):
             }
         }
 
-        response = self.post_note(TEST_ACCOUNT_ID, 'ProjectX', body)
+        response = self.post_note(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
     def test_03_get_note(self):
@@ -63,17 +63,17 @@ class TestGrafeasNotesController(BaseTestCase):
         Returns the requested `Note`.
         """
 
-        response = self.get_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note01')
+        response = self.get_note(TEST_ACCOUNT_ID, 'ProviderX', 'Note01')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_04_list_notes(self):
         """
         Test case for list_notes
 
-        Lists all `Notes` for a given project.
+        Lists all `Notes` for a given provider.
         """
 
-        response = self.get_notes(TEST_ACCOUNT_ID, 'ProjectX')
+        response = self.get_notes(TEST_ACCOUNT_ID, 'ProviderX')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
         result = json.loads(response.data.decode('utf-8'))
         self.assertTrue(len(result['notes']) > 0, "An array of one or more notes was expected.")
@@ -87,7 +87,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         body = {
             "id": "Occurrence01",
-            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note01'),
+            "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note01'),
             "short_description": "The short description of Occurrence01",
             "long_description": "The long description of Occurrence01",
             "kind": "FINDING",
@@ -99,7 +99,7 @@ class TestGrafeasNotesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence("AccountY", 'ProjectX', body)
+        response = self.post_occurrence("AccountY", 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_06_create_duplicate_occurrence(self):
@@ -111,7 +111,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         body = {
             "id": "Occurrence01",
-            "note_name": "{}/projects/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProjectX', 'Note01'),
+            "note_name": "{}/providers/{}/notes/{}".format(TEST_ACCOUNT_ID, 'ProviderX', 'Note01'),
             "short_description": "The short description of Occurrence01",
             "long_description": "The long description of Occurrence01",
             "kind": "FINDING",
@@ -123,7 +123,7 @@ class TestGrafeasNotesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence("AccountY", 'ProjectX', body)
+        response = self.post_occurrence("AccountY", 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
     def test_07_get_occurrence_note(self):
@@ -132,7 +132,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Gets the `Note` attached to the given `Occurrence`.
         """
-        response = self.get_occurrence_note("AccountY", 'ProjectX', 'Occurrence01')
+        response = self.get_occurrence_note("AccountY", 'ProviderX', 'Occurrence01')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_08_update_note(self):
@@ -158,7 +158,7 @@ class TestGrafeasNotesController(BaseTestCase):
             }
         }
 
-        response = self.put_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note01', body)
+        response = self.put_note(TEST_ACCOUNT_ID, 'ProviderX', 'Note01', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_09_delete_note(self):
@@ -167,7 +167,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Deletes the given `Note` from the system.
         """
-        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note01')
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProviderX', 'Note01')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_10_delete_missing_note(self):
@@ -176,7 +176,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Deletes the given `Note` from the system.
         """
-        response = self.delete_note(TEST_ACCOUNT_ID, 'ProjectX', 'Note01')
+        response = self.delete_note(TEST_ACCOUNT_ID, 'ProviderX', 'Note01')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
     def test_11_delete_occurrence(self):
@@ -185,7 +185,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Deletes the given `Occurrence` from the system.
         """
-        response = self.delete_occurrence("AccountY", 'ProjectX', 'Occurrence01')
+        response = self.delete_occurrence("AccountY", 'ProviderX', 'Occurrence01')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_12_delete_missing_occurrence(self):
@@ -194,7 +194,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Deletes the given `Occurrence` from the system.
         """
-        response = self.delete_occurrence("AccountY", 'ProjectX', 'Occurrence01')
+        response = self.delete_occurrence("AccountY", 'ProviderX', 'Occurrence01')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
 

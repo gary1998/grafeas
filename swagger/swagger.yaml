@@ -73,15 +73,15 @@ paths:
         - GrafeasAccount
       x-swagger-router-controller: "controllers.grafeas_accounts_controller"
 
-  /v1alpha1/{account_id}/projects:
+  /v1alpha1/{account_id}/providers:
     get:
-      summary: Lists `Projects`
-      operationId: list_projects
+      summary: Lists `Providers`
+      operationId: list_providers
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/apiListProjectsResponse'
+            $ref: '#/definitions/apiListProvidersResponse'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
@@ -95,7 +95,7 @@ paths:
           type: string
         - name: account_id
           in: path
-          description: "Account ID of projects' owner"
+          description: "Account ID of providers' owner"
           required: true
           type: string
         - name: filter
@@ -104,7 +104,7 @@ paths:
           required: false
           type: string
         - name: page_size
-          description: Number of projects to return in the list.
+          description: Number of providers to return in the list.
           in: query
           required: false
           type: integer
@@ -115,10 +115,10 @@ paths:
           required: false
           type: string
       tags:
-        - GrafeasProjects
-      x-swagger-router-controller: "controllers.grafeas_projects_controller"
+        - GrafeasProviders
+      x-swagger-router-controller: "controllers.grafeas_providers_controller"
 
-  /v1alpha1/{account_id}/projects/{project_id}/notes:
+  /v1alpha1/{account_id}/providers/{provider_id}/notes:
     post:
       summary: Creates a new `Note`.
       operationId: create_note
@@ -143,9 +143,9 @@ paths:
           description: "Account ID of note's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
+          description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
           required: true
           type: string
         - name: body
@@ -157,7 +157,7 @@ paths:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
     get:
-      summary: Lists all `Notes` for a given project.
+      summary: Lists all `Notes` for a given provider.
       operationId: list_notes
       responses:
         '200':
@@ -180,9 +180,9 @@ paths:
           description: "Account ID of notes' owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "Part of `parent`. This field contains the project_id for example: projects/{project_id}"
+          description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
           required: true
           type: string
         - name: filter
@@ -205,7 +205,7 @@ paths:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
-  /v1alpha1/{account_id}/projects/{project_id}/notes/{note_id}:
+  /v1alpha1/{account_id}/providers/{provider_id}/notes/{note_id}:
     get:
       summary: Returns the requested `Note`.
       operationId: get_note
@@ -230,14 +230,14 @@ paths:
           description: "Account ID of note's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
         - name: note_id
           in: path
-          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
       tags:
@@ -267,14 +267,14 @@ paths:
           description: "Account ID of note's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
         - name: note_id
           in: path
-          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
         - name: body
@@ -309,21 +309,21 @@ paths:
           description: "Account ID of note's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
         - name: note_id
           in: path
-          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
       tags:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
-  /v1alpha1/{account_id}/projects/{project_id}/occurrences/{occurrence_id}/note:
+  /v1alpha1/{account_id}/providers/{provider_id}/occurrences/{occurrence_id}/note:
     get:
       summary: Gets the `Note` attached to the given `Occurrence`.
       operationId: get_occurrence_note
@@ -348,21 +348,21 @@ paths:
           description: "Account ID of occurrence's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          description: "First part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
           type: string
         - name: occurrence_id
           in: path
-          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          description: "Second part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
           type: "string"
       tags:
         - GrafeasNotes
       x-swagger-router-controller: "controllers.grafeas_notes_controller"
 
-  /v1alpha1/{account_id}/projects/{project_id}/occurrences:
+  /v1alpha1/{account_id}/providers/{provider_id}/occurrences:
     post:
       summary: |-
         Creates a new `Occurrence`. Use this method to create `Occurrences`
@@ -393,9 +393,9 @@ paths:
           description: "Account ID of occurrence's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
+          description: "Part of `parent`. This contains the provider_id for example: providers/{provider_id}"
           required: true
           type: string
         - name: body
@@ -407,7 +407,7 @@ paths:
         - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
     get:
-      summary: Lists active `Occurrences` for a given project matching the filters.
+      summary: Lists active `Occurrences` for a given provider matching the filters.
       operationId: list_occurrences
       responses:
         '200':
@@ -430,9 +430,9 @@ paths:
           description: "Account ID of occurrences' owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "Part of `parent`. This contains the project_id for example: projects/{project_id}"
+          description: "Part of `parent`. This contains the provider_id for example: providers/{provider_id}"
           required: true
           type: string
         - name: filter
@@ -455,7 +455,7 @@ paths:
         - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
 
-  /v1alpha1/{account_id}/projects/{project_id}/occurrences/{occurrence_id}:
+  /v1alpha1/{account_id}/providers/{provider_id}/occurrences/{occurrence_id}:
     get:
       summary: Returns the requested `Occurrence`.
       operationId: get_occurrence
@@ -480,14 +480,14 @@ paths:
           description: "Account ID of occurrence's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          description: "First part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
           type: string
         - name: occurrence_id
           in: path
-          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          description: "Second part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
           type: string
       tags:
@@ -517,14 +517,14 @@ paths:
           description: "Account ID of occurrence's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          description: "First part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
           type: string
         - name: occurrence_id
           in: path
-          description: "Second part of occurrence `name`: projects/{project_id}/occurrences/{occurrence_id}"
+          description: "Second part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
           type: string
         - name: body
@@ -559,26 +559,26 @@ paths:
           description: "Account ID of occurrence's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          description: "First part of occurrence `name`: providers/{provider_id}/notes/{occurrence_id}"
           required: true
           type: string
         - name: occurrence_id
           in: path
-          description: "Second part of occurrence `name`: projects/{project_id}/notes/{occurrence_id}"
+          description: "Second part of occurrence `name`: providers/{provider_id}/notes/{occurrence_id}"
           required: true
           type: string
       tags:
         - GrafeasOccurrences
       x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
 
-  /v1alpha1/{account_id}/projects/{project_id}/notes/{note_id}/occurrences:
+  /v1alpha1/{account_id}/providers/{provider_id}/notes/{note_id}/occurrences:
     get:
       summary: |-
         Lists `Occurrences` referencing the specified `Note`. Use this method to
         get all occurrences referencing your `Note` across all your customer
-        projects.
+        providers.
       operationId: list_note_occurrences
       responses:
         '200':
@@ -601,14 +601,14 @@ paths:
           description: "Account ID of note's owner"
           required: true
           type: string
-        - name: project_id
+        - name: provider_id
           in: path
-          description: "First part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
         - name: note_id
           in: path
-          description: "Second part of note `name`: projects/{project_id}/notes/{note_id}"
+          description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
           type: string
         - name: filter
@@ -684,15 +684,15 @@ definitions:
           `page_token` for the following request. An empty value means no more
           results.
 
-  apiListProjectsResponse:
+  apiListProvidersResponse:
     type: object
-    description: Response including listed projects
+    description: Response including listed providers
     properties:
-      projects:
+      providers:
         type: array
         items:
-          $ref: '#/definitions/apiProject'
-        description: The projects requested.
+          $ref: '#/definitions/apiProvider'
+        description: The providers requested.
       next_page_token:
         type: string
         description: |-
@@ -707,7 +707,7 @@ definitions:
       name:
         type: string
         title: |-
-          The name of the note in the form "projects/{project_id}/notes/{note_id}"
+          The name of the note in the form "providers/{provider_id}/notes/{note_id}"
       short_description:
         type: string
         description: A one sentence description of this `Note`.
@@ -745,9 +745,12 @@ definitions:
       # IBM extensions
       #
 
-      project_id:
+      author:
+        $ref: '#/definitions/Subject'
+        description: The author of the note
+      provider_id:
         type: string
-        title: The project id of the note
+        title: The provider id of the note
       id:
         type: string
         title: The id of the note
@@ -811,17 +814,17 @@ definitions:
       name:
         type: string
         description: |-
-          Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{occuurence_id}"
+          Output only. The name of the `Occurrence` in the form "providers/{provider_id}/occurrences/{occuurence_id}"
       resource_url:
         type: string
         description: |-
           The unique URL of the resource, image or the container, for which the `Occurrence` applies.
-          For example, https://gcr.io/project/image@sha256:foo.
+          For example, https://gcr.io/provider/image@sha256:foo.
           This field can be used as a filter in list requests.
       note_name:
         type: string
         description: |-
-          An analysis note associated with this image, in the form "projects/{project_id}/notes/{note_id}"
+          An analysis note associated with this image, in the form "providers/{provider_id}/notes/{note_id}"
           This field can be used as a filter in list requests.
       kind:
         $ref: '#/definitions/apiNoteKind'
@@ -844,9 +847,12 @@ definitions:
       # IBM extensions
       #
 
-      project_id:
+      author:
+        $ref: '#/definitions/Subject'
+        description: The author of the occurrence
+      provider_id:
         type: string
-        title: The project id of the occurrence
+        title: The provider id of the occurrence
       id:
         type: string
         title: The id of the occurrence
@@ -865,13 +871,13 @@ definitions:
       - kind
       - context
 
-  apiProject:
+  apiProvider:
     type: object
-    description: Provides detailed description of a `Project`.
+    description: Provides detailed description of a `Provider`.
     properties:
       name:
         type: string
-        title: The name of the project of the form "projects/{project_id}"
+        title: The name of the provider of the form "providers/{provider_id}"
 
       #
       # IBM extensions
@@ -879,7 +885,7 @@ definitions:
 
       id:
         type: string
-        title: The id of the project
+        title: The id of the provider
 
   Certainty:
     type: string
@@ -960,6 +966,23 @@ definitions:
       - LOW&#58; Low Impact
       - MEDIUM&#58; Medium Impact
       - HIGH&#58; High Impact
+
+  Subject:
+    type: object
+    description: The subject executing an operation
+    properties:
+      kind:
+        type: string
+        description: the kind of this subject
+      id:
+        type: string
+        description: the id of this subject
+      email:
+        type: string
+        description: the email address of this subject
+      account_id:
+        type: string
+        description: the account id of this subject
 
 #
 # Finding note and occurrence definitions

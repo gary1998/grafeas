@@ -7,20 +7,25 @@ logger = logging.getLogger("grafeas.auth_util")
 
 
 class Subject(object):
-    def __init__(self, id, type_, account_id):
+    def __init__(self, kind, id, email, account_id):
+        self.kind = kind
         self.id = id
-        self.type = type_
+        self.email = email
         self.account_id = account_id
 
     def __str__(self):
-        return "{{type:{}, id:{}, account:{}}}".format(self.type, self.id, self.account_id)
+        return "{{kind:{}, id:{}, email:{}, account:{}}}".format(self.kind, self.id, self.email, self.account_id)
+
+    def to_dict(self):
+        return {
+            'kind': self.kind,
+            'id': self.id,
+            'email': self.email,
+            'account_id': self.account_id
+        }
 
 
 def get_subject(decoded_auth_token):
-    iam_id = decoded_auth_token.get('iam_id')
-    if iam_id is None:
-        raise ValueError("Invalid IAM token: missing 'iam_id' field")
-
     if 'sub_type' not in decoded_auth_token:
         type_ = 'user'
     else:
@@ -30,6 +35,14 @@ def get_subject(decoded_auth_token):
         else:
             raise ValueError("Invalid IAM token: unsupported '{}' subject type".format(sub_type))
 
+    iam_id = decoded_auth_token.get('iam_id')
+    if iam_id is None:
+        raise ValueError("Invalid IAM token: missing 'iam_id' field")
+
+    email = decoded_auth_token.get('email')
+    if email is None:
+        raise ValueError("Invalid IAM token: missing 'email' field")
+
     account = decoded_auth_token.get('account')
     if not account:
         raise ValueError("Invalid IAM token: missing 'account' field")
@@ -38,7 +51,7 @@ def get_subject(decoded_auth_token):
     if not account_id:
         raise ValueError("Invalid IAM token: missing 'account.bss' field")
 
-    return Subject(iam_id, type_, account_id)
+    return Subject(type_, iam_id, email, account_id)
 
 
 def get_identity_token(iam_base_url, api_key):

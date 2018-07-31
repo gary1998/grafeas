@@ -1,31 +1,31 @@
 [
   {
     "method": "POST",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers",
     "headers": {
       "Content-Type": "application/json"
     },
     "data": {
-      "id": "Project01"
+      "id": "Provider01"
     },
     "expected_response_status_code": 200
   },
   
   {
     "method": "GET",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01",
     "expected_response_status_code": 200
   },
   
   {
     "method": "GET",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers",
     "expected_response_status_code": 200
   },
   
   {
     "method": "POST",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/notes",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/notes",
     "headers": {
       "Content-Type": "application/json"
     },
@@ -43,19 +43,19 @@
   
   {
     "method": "GET",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/notes/Note01",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/notes/Note01",
     "expected_response_status_code": 200
   },
   
   {
     "method": "GET",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/notes",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/notes",
     "expected_response_status_code": 200
   },
   
   {
     "method": "PUT",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/notes/Note01",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/notes/Note01",
     "headers": {
       "Content-Type": "application/json"
     },
@@ -73,13 +73,13 @@
   
   {
     "method": "POST",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/occurrences",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/occurrences",
     "headers": {
       "Content-Type": "application/json"
     },
     "data": {
       "id": "Occurrence01", 
-      "note_name": "projects/Project01/notes/Note01", 
+      "note_name": "providers/Provider01/notes/Note01",
       "short_description": "The short description of Occurrence01", 
       "long_description": "The long description of Occurrence01", 
       "kind": "FINDING", 
@@ -95,14 +95,14 @@
   
   {
     "method": "POST",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/occurrences",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/occurrences",
     "headers": {
       "Content-Type": "application/json",
       "Replace-If-Exists": "true"
     },
     "data": {
       "id": "Occurrence01", 
-      "note_name": "projects/Project01/notes/Note01", 
+      "note_name": "providers/Provider01/notes/Note01",
       "short_description": "Updated short description of Occurrence01", 
       "long_description": "Updated long description of Occurrence01", 
       "kind": "FINDING", 
@@ -118,37 +118,37 @@
   
   {
     "method": "GET",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/occurrences/Occurrence01/notes",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/occurrences/Occurrence01/notes",
     "expected_response_status_code": 200
   },
   
   {
     "method": "GET",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/occurrences",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/occurrences",
     "expected_response_status_code": 200
   },
   
   {
     "method": "GET",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/notes/Note01/occurrences",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/notes/Note01/occurrences",
     "expected_response_status_code": 200
   },
   
   {
     "method": "DELETE",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/occurrences/Occurrence01",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/occurrences/Occurrence01",
     "expected_response_status_code": 200
   },
   
   {
     "method": "DELETE",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01/notes/Note01",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01/notes/Note01",
     "expected_response_status_code": 200
   },
   
   {
     "method": "DELETE",
-    "url": "https://grafeas.ng.bluemix.net/v1alpha1/projects/Project01",
+    "url": "https://grafeas.ng.bluemix.net/v1alpha1/providers/Provider01",
     "expected_response_status_code": 200
   }
 ]

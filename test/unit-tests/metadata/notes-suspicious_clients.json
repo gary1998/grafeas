@@ -2,7 +2,7 @@
   "notes": [
     {
       "kind": "CARD",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xforce-risks_from_clients",
       "short_description": "Suspicious Clients",
       "long_description": "Suspicious Clients Card",
@@ -15,10 +15,10 @@
         "section": "Network",
         "title": "Suspicious Clients",
         "finding_note_names": [
-          "projects/security-advisor/notes/xforce-anonym_client",
-          "projects/security-advisor/notes/xforce-bot_client",
-          "projects/security-advisor/notes/xforce-malware_client",
-          "projects/security-advisor/notes/xforce-scanner_client"
+          "providers/security-advisor/notes/xforce-anonym_client",
+          "providers/security-advisor/notes/xforce-bot_client",
+          "providers/security-advisor/notes/xforce-malware_client",
+          "providers/security-advisor/notes/xforce-scanner_client"
         ],
         "requires_configuration": true,
         "elements": [
@@ -29,10 +29,10 @@
             "value_type": {
               "kind": "FINDING_COUNT",
               "finding_note_names": [
-                "projects/security-advisor/notes/xforce-anonym_client",
-                "projects/security-advisor/notes/xforce-bot_client",
-                "projects/security-advisor/notes/xforce-malware_client",
-                "projects/security-advisor/notes/xforce-scanner_client"
+                "providers/security-advisor/notes/xforce-anonym_client",
+                "providers/security-advisor/notes/xforce-bot_client",
+                "providers/security-advisor/notes/xforce-malware_client",
+                "providers/security-advisor/notes/xforce-scanner_client"
               ]
             }
           },
@@ -45,27 +45,27 @@
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-malware_client"
+                  "providers/security-advisor/notes/xforce-malware_client"
                 ],
                 "text": "Malware distributers"
               },
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-bot_client"
+                  "providers/security-advisor/notes/xforce-bot_client"
                 ],
                 "text": "Bots"
               },
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-scanner_client"
+                  "providers/security-advisor/notes/xforce-scanner_client"
                 ],
                 "text": "Scanners"
               },{
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/security-advisor/notes/xforce-anonym_client"
+                  "providers/security-advisor/notes/xforce-anonym_client"
                 ],
                 "text": "Anonymous"
               }
@@ -79,7 +79,7 @@
 
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xforce-anonym_client",
       "short_description": "Anonymous client IP address",
       "long_description": "Anonymous client IP address",
@@ -103,7 +103,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xforce-bot_client",
       "short_description": "Bot client IP address",
       "long_description": "Bot client IP address",
@@ -127,7 +127,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xforce-malware_client",
       "short_description": "Malware client IP address",
       "long_description": "Malware client IP address",
@@ -151,7 +151,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "xforce-scanner_client",
       "short_description": "Scanner client IP address",
       "long_description": "Scanner client IP address",

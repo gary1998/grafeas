@@ -16,29 +16,29 @@ class CloudantStore(store.Store):
         logger.info("DB client initialized.")
 
     #
-    # Projects
+    # Providers
     #
 
-    def list_projects(self, subject_account_id, account_id, filter_, page_size, page_token):
-        view = self.db.get_view('doc_counts', "doc_count_by_project")
+    def list_providers(self, author, account_id, filter_, page_size, page_token):
+        view = self.db.get_view('doc_counts', "doc_count_by_provider")
         start_key = [account_id]
         end_key = [account_id, "\ufff0"]
-        projects = []
+        providers = []
         for row in view(startkey=start_key, endkey=end_key, group=True, group_level=2)['rows']:
-            project_id = row['key'][1]
-            projects.append({
-                'id': project_id,
-                'name': common.build_project_name(account_id, project_id)
+            provider_id = row['key'][1]
+            providers.append({
+                'id': provider_id,
+                'name': common.build_provider_name(account_id, provider_id)
             })
 
-        return cloudant_client.QueryResult(projects, None, None)
+        return cloudant_client.QueryResult(providers, None, None)
 
     #
     # Notes
     #
 
-    def write_note(self, subject_account_id, account_id, project_id, note_id, body, mode):
-        note_name = common.build_note_name(account_id, project_id, note_id)
+    def write_note(self, author, account_id, provider_id, note_id, body, mode):
+        note_name = common.build_note_name(account_id, provider_id, note_id)
 
         if mode == 'create':
             doc = self.db.create_doc(note_name, body)
@@ -49,19 +49,19 @@ class CloudantStore(store.Store):
 
         return CloudantStore._clean_doc(doc)
 
-    def get_note(self, subject_account_id, account_id, project_id, note_id):
-        note_name = common.build_note_name(account_id, project_id, note_id)
+    def get_note(self, author, account_id, provider_id, note_id):
+        note_name = common.build_note_name(account_id, provider_id, note_id)
         doc = self.db.get_doc(note_name)
         return CloudantStore._clean_doc(doc)
 
-    def list_notes(self, subject_account_id, account_id, project_id, filter_, page_size, page_token):
-        project_name = common.build_project_name(account_id, project_id)
+    def list_notes(self, author, account_id, provider_id, filter_, page_size, page_token):
+        provider_name = common.build_provider_name(account_id, provider_id)
         result = self.db.find(
             key_values={
-                #'account_id': subject_account_id,
+                #'author.account_id': author.account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Note',
-                'project_doc_id': project_name
+                'provider_name': provider_name
             },
             index="ALL_FIELDS",
             limit=page_size,
@@ -69,16 +69,16 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
         return result
 
-    def delete_note(self, subject_account_id, account_id, project_id, note_id):
-        note_name = common.build_note_name(account_id, project_id, note_id)
+    def delete_note(self, author, account_id, provider_id, note_id):
+        note_name = common.build_note_name(account_id, provider_id, note_id)
         self.db.delete_doc(note_name)
 
     #
     # Occurrences
     #
 
-    def write_occurrence(self, subject_account_id, account_id, project_id, occurrence_id, body, mode):
-        occurrence_name = common.build_occurrence_name(account_id, project_id, occurrence_id)
+    def write_occurrence(self, author, account_id, provider_id, occurrence_id, body, mode):
+        occurrence_name = common.build_occurrence_name(account_id, provider_id, occurrence_id)
         body = CloudantStore._internalize_occurrence(body)
 
         if mode == 'create':
@@ -95,19 +95,19 @@ class CloudantStore(store.Store):
 
         return CloudantStore._clean_occurrence(doc)
 
-    def get_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
-        occurrence_name = common.build_occurrence_name(account_id, project_id, occurrence_id)
+    def get_occurrence(self, author, account_id, provider_id, occurrence_id):
+        occurrence_name = common.build_occurrence_name(account_id, provider_id, occurrence_id)
         doc = self.db.get_doc(occurrence_name)
         return CloudantStore._clean_occurrence(doc)
 
-    def list_occurrences(self, subject_account_id, account_id, project_id, key_values, page_size, page_token):
-        project_name = common.build_project_name(account_id, project_id)
+    def list_occurrences(self, author, account_id, provider_id, key_values, page_size, page_token):
+        provider_name = common.build_provider_name(account_id, provider_id)
         result = self.db.find(
             key_values={
-                #'account_id': subject_account_id,
+                #'author.account_id': author.account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
-                'project_doc_id': project_name
+                'provider_name': provider_name
             },
             index="ALL_FIELDS",
             limit=page_size,
@@ -115,14 +115,14 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
         return result
 
-    def list_note_occurrences(self, subject_account_id, account_id, project_id, note_id, key_values, page_size, page_token):
-        note_name = common.build_note_name(account_id, project_id, note_id)
+    def list_note_occurrences(self, author, account_id, provider_id, note_id, key_values, page_size, page_token):
+        note_name = common.build_note_name(account_id, provider_id, note_id)
         result = self.db.find(
             key_values={
-                #'account_id': subject_account_id,
+                #'author.account_id': author.account_id,
                 'context.account_id': account_id,
                 'doc_type': 'Occurrence',
-                'note_doc_id': note_name
+                'note_name': note_name
             },
             index="ALL_FIELDS",
             limit=page_size,
@@ -130,11 +130,11 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_occurrence(doc) for doc in result.docs]
         return result
 
-    def delete_occurrence(self, subject_account_id, account_id, project_id, occurrence_id):
-        occurrence_name = common.build_occurrence_name(account_id, project_id, occurrence_id)
+    def delete_occurrence(self, author, account_id, provider_id, occurrence_id):
+        occurrence_name = common.build_occurrence_name(account_id, provider_id, occurrence_id)
         return self.db.delete_doc(occurrence_name)
 
-    def delete_account_occurrences(self, subject_account_id, account_id):
+    def delete_account_occurrences(self, author, account_id):
         bookmark = None
         limit = 200
         total_deleted_count = 0
@@ -166,8 +166,8 @@ class CloudantStore(store.Store):
             bookmark = result.bookmark
             total_deleted_count += len(deleted_docs)
 
-        logger.info("%d occurrences deleted for account '%s': requester account='%s'",
-                    total_deleted_count, account_id, subject_account_id)
+        logger.info("%d occurrences deleted for account '%s': author account='%s'",
+                    total_deleted_count, account_id, author.account_id)
 
     @staticmethod
     def _clean_doc(doc):
@@ -249,23 +249,23 @@ class CloudantStore(store.Store):
         # required by Legato's Card.findingCount
         db.create_query_index(
             'RAI_DT_K_NDI',
-            ['context.account_id', 'doc_type', 'kind', 'note_doc_id'])
+            ['context.account_id', 'doc_type', 'kind', 'note_name'])
         # required by Legato's Card.get_configured_card_occurrences
         db.create_query_index(
             'RAI_DT_K_PDI',
-            ['context.account_id', 'doc_type', 'kind', 'project_doc_id'])
+            ['context.account_id', 'doc_type', 'kind', 'provider_name'])
         # required by Legato's Card.findingCount
         db.create_query_index(
             'RAI_DT_K_PDI_NDI',
-            ['context.account_id', 'doc_type', 'kind', 'project_doc_id', 'note_doc_id'])
+            ['context.account_id', 'doc_type', 'kind', 'provider_name', 'note_name'])
 
         db.add_view(
             'doc_counts',
-            'doc_count_by_project',
+            'doc_count_by_provider',
             """
             function(doc) {{
-                if (doc.project_id) {{
-                    emit([doc.context.account_id, doc.project_id], 1);
+                if (doc.provider_id) {{
+                    emit([doc.context.account_id, doc.provider_id], 1);
                 }}
             }}
             """,
@@ -278,7 +278,7 @@ class CloudantStore(store.Store):
             """
             function(doc) {{
                 if (doc.doc_type == "Occurrence") {{
-                    emit([doc.context.account_id, doc.kind, doc.note_doc_id,
+                    emit([doc.context.account_id, doc.kind, doc.note_name,
                         parseInt(doc.update_time.substring(0, 4), 10),
                         parseInt(doc.update_time.substring(5, 7), 10),
                         parseInt(doc.update_time.substring(8, 10), 10),
@@ -298,7 +298,7 @@ class CloudantStore(store.Store):
             """
             function(doc) {{
                 if (doc.doc_type == "Occurrence") {{
-                    emit([doc.context.account_id, doc.kind, doc.note_doc_id,
+                    emit([doc.context.account_id, doc.kind, doc.note_name,
                         parseInt(doc.update_week_date.substring(0, 4), 10),
                         parseInt(doc.update_week_date.substring(6, 8), 10),
                         parseInt(doc.update_week_date.substring(9, 10), 10)],

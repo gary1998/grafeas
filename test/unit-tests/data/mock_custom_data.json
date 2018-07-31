@@ -2,7 +2,7 @@
   "notes": [
     {
       "kind": "CARD",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "my-custom-card",
       "short_description": "My first custom card",
       "long_description": "My first custom card",
@@ -11,8 +11,8 @@
         "section": "Compute",
         "title": "My First Custom Card",
         "finding_note_names": [
-          "projects/my-project/notes/my-finding-1",
-          "projects/my-project/notes/my-finding-2"
+          "providers/my-provider/notes/my-finding-1",
+          "providers/my-provider/notes/my-finding-2"
         ],
         "elements": [
           {
@@ -20,7 +20,7 @@
             "text": "My KPI 1",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/my-project/notes/my-kpi-1"
+              "kpi_note_name": "providers/my-provider/notes/my-kpi-1"
             }
           },
           {
@@ -28,7 +28,7 @@
             "text": "My KPI 2",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/my-project/notes/my-kpi-2"
+              "kpi_note_name": "providers/my-provider/notes/my-kpi-2"
             }
           },
           {
@@ -40,14 +40,14 @@
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/my-project/notes/my-finding-1"
+                  "providers/my-provider/notes/my-finding-1"
                 ],
                 "text": "Finding-1"
               },
               {
                 "kind": "FINDING_COUNT",
                 "finding_note_names": [
-                  "projects/my-project/notes/my-finding-2"
+                  "providers/my-provider/notes/my-finding-2"
                 ],
                 "text": "Finding-2"
               }
@@ -59,12 +59,12 @@
 
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "my-finding-1",
       "short_description": "My finding 1",
       "long_description": "My finding 1",
       "reported_by": {
-        "id": "my-project",
+        "id": "my-provider",
         "title": "My custom data provider",
         "url": "https://www.ibm.com"
       },
@@ -79,12 +79,12 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "my-finding-2",
       "short_description": "My finding 2",
       "long_description": "My finding 2",
       "reported_by": {
-        "id": "my-project",
+        "id": "my-provider",
         "title": "My custom data provider",
         "url": "https://www.ibm.com"
       },
@@ -99,12 +99,12 @@
     },
     {
       "kind": "KPI",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "my-kpi-1",
       "short_description": "My KPI 1",
       "long_description": "My KPI 1",
       "reported_by": {
-        "id": "my-project",
+        "id": "my-provider",
         "title": "My custom data provider",
         "url": "https://www.ibm.com"
       },
@@ -115,12 +115,12 @@
     },
     {
       "kind": "KPI",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "my-kpi-2",
       "short_description": "My KPI 2",
       "long_description": "My KPI 2",
       "reported_by": {
-        "id": "my-project",
+        "id": "my-provider",
         "title": "My custom data provider",
         "url": "https://www.ibm.com"
       },
@@ -133,9 +133,9 @@
   "occurrences": [
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c1",
-      "note_name": "projects/my-project/notes/my-finding-1",
+      "note_name": "providers/my-provider/notes/my-finding-1",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -149,9 +149,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c2",
-      "note_name": "projects/my-project/notes/my-finding-1",
+      "note_name": "providers/my-provider/notes/my-finding-1",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -165,9 +165,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c3",
-      "note_name": "projects/my-project/notes/my-finding-1",
+      "note_name": "providers/my-provider/notes/my-finding-1",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -181,9 +181,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c4",
-      "note_name": "projects/my-project/notes/my-finding-1",
+      "note_name": "providers/my-provider/notes/my-finding-1",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -197,9 +197,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c5",
-      "note_name": "projects/my-project/notes/my-finding-2",
+      "note_name": "providers/my-provider/notes/my-finding-2",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -213,9 +213,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c6",
-      "note_name": "projects/my-project/notes/my-finding-2",
+      "note_name": "providers/my-provider/notes/my-finding-2",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -229,9 +229,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c7",
-      "note_name": "projects/my-project/notes/my-finding-2",
+      "note_name": "providers/my-provider/notes/my-finding-2",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -245,9 +245,9 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c8",
-      "note_name": "projects/my-project/notes/my-finding-2",
+      "note_name": "providers/my-provider/notes/my-finding-2",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -262,9 +262,9 @@
 
     {
       "kind": "KPI",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c9",
-      "note_name": "projects/my-project/notes/my-kpi-1",
+      "note_name": "providers/my-provider/notes/my-kpi-1",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",
@@ -277,9 +277,9 @@
     },
     {
       "kind": "KPI",
-      "project_id": "my-project",
+      "provider_id": "my-provider",
       "id": "c10",
-      "note_name": "projects/my-project/notes/my-kpi-2",
+      "note_name": "providers/my-provider/notes/my-kpi-2",
       "context": {
         "region": "US-South",
         "account_id": "07bf95a005e78385d9238fb552a789ba",

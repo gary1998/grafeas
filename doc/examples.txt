@@ -1,15 +1,15 @@
 {
    "kind": "CARD",
-    "project_id": "security-advisor",
+    "provider_id": "security-advisor",
     "id": "xforce-risks_from_clients",
     "description": "Suspicious Clients Card",
     "card": {
         "section": "Network",
         "title": "Suspicious Clients",
         "finding_note_names": [
-            "projects/security-advisor/notes/xforce-bot_client",
-            "projects/security-advisor/notes/xforce-malware_client",
-            "projects/security-advisor/notes/xforce-scanner_client"
+            "providers/security-advisor/notes/xforce-bot_client",
+            "providers/security-advisor/notes/xforce-malware_client",
+            "providers/security-advisor/notes/xforce-scanner_client"
         ],
         "elements": [
             {
@@ -19,9 +19,9 @@
                 "value_type": {
                     "kind": "FINDING_COUNT",
                     "finding_note_names": [
-                        "projects/security-advisor/notes/xforce-bot_client",
-                        "projects/security-advisor/notes/xforce-malware_client",
-                        "projects/security-advisor/notes/xforce-scanner_client"
+                        "providers/security-advisor/notes/xforce-bot_client",
+                        "providers/security-advisor/notes/xforce-malware_client",
+                        "providers/security-advisor/notes/xforce-scanner_client"
                     ]
                 }
             },
@@ -34,21 +34,21 @@
                     {
                         "kind": "FINDING_COUNT",
                         "finding_note_names": [
-                            "projects/security-advisor/notes/xforce-malware_client"
+                            "providers/security-advisor/notes/xforce-malware_client"
                         ],
                          "text": "Malware distributers"
                     },
                     {
                         "kind": "FINDING_COUNT",
                         "finding_note_names": [
-                            "projects/security-advisor/notes/xforce-bot_client"
+                            "providers/security-advisor/notes/xforce-bot_client"
                         ],
                         "text": "Bots"
                     },
                     {
                         "kind": "FINDING_COUNT",
                         "finding_note_names": [
-                            "projects/security-advisor/notes/xforce-scanner_client"
+                            "providers/security-advisor/notes/xforce-scanner_client"
                         ],
                         "text": "Scanners"
                     }
@@ -61,8 +61,8 @@
 
 {
     "kind": "FINDING",
-    "name": "projects/security-advisor/occurrences/xforce-1520863475194",
-    "note_name": "projects/security-advisor/notes/xforce-scanner_client",
+    "name": "providers/security-advisor/occurrences/xforce-1520863475194",
+    "note_name": "providers/security-advisor/notes/xforce-scanner_client",
     "create_time": "2018-03-12T14:04:35.330302Z",
     "update_time": "2018-03-12T14:04:35.330302Z",
      "finding": {

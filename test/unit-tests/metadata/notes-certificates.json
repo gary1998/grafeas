@@ -2,7 +2,7 @@
   "notes": [
     {
       "kind": "CARD",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-certificates",
       "short_description": "A type of card showing expired and about to expire certificates",
       "long_description": "A type of card showing expired and about to expire certificates",
@@ -15,12 +15,12 @@
         "section": "Network",
         "title": "Certificates",
         "finding_note_names": [
-          "projects/security-advisor/notes/certmgr-expired_cert",
-          "projects/security-advisor/notes/certmgr-expiring_1day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_10day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_30day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_60day_cert",
-          "projects/security-advisor/notes/certmgr-expiring_90day_cert"
+          "providers/security-advisor/notes/certmgr-expired_cert",
+          "providers/security-advisor/notes/certmgr-expiring_1day_cert",
+          "providers/security-advisor/notes/certmgr-expiring_10day_cert",
+          "providers/security-advisor/notes/certmgr-expiring_30day_cert",
+          "providers/security-advisor/notes/certmgr-expiring_60day_cert",
+          "providers/security-advisor/notes/certmgr-expiring_90day_cert"
         ],
         "elements": [
           {
@@ -28,7 +28,7 @@
             "text": "certificates already expired",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/certmgr-expired_cert_count"
+              "kpi_note_name": "providers/security-advisor/notes/certmgr-expired_cert_count"
             }
           },
           {
@@ -36,7 +36,7 @@
             "text": "certificates will expire in the next 30 days",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count"
+              "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_30day_cert_count"
             }
           },
           {
@@ -46,27 +46,27 @@
             "value_types": [
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_1day_cert_count",
+                "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_1day_cert_count",
                 "text": "1 day"
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_10day_cert_count",
+                "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_10day_cert_count",
                 "text": "2-10 days"
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_30day_cert_count",
+                "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_30day_cert_count",
                 "text": "11-30 days"
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_60day_cert_count",
+                "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_60day_cert_count",
                 "text": "31-60 days"
               },
               {
                 "kind": "KPI",
-                "kpi_note_name": "projects/security-advisor/notes/certmgr-expiring_90day_cert_count",
+                "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_90day_cert_count",
                 "text": "61-90 days"
               }
             ]
@@ -79,7 +79,7 @@
 
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expired_cert",
       "short_description": "Expired certificate",
       "long_description": "Certificate that already expired",
@@ -111,7 +111,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_1day_cert",
       "short_description": "Certificate expiring in 1 day",
       "long_description": "Certificate expiring in 1 day",
@@ -143,7 +143,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_10day_cert",
       "short_description": "Certificate expiring in 10 days",
       "long_description": "Certificate expiring in 10 days",
@@ -175,7 +175,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_30day_cert",
       "short_description": "Certificate expiring in 30 days",
       "long_description": "Certificate expiring in 30 days",
@@ -207,7 +207,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_60day_cert",
       "short_description": "Certificate expiring in 60 days",
       "long_description": "Certificate expiring in 60 days",
@@ -239,7 +239,7 @@
     },
     {
       "kind": "FINDING",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_90day_cert",
       "short_description": "Certificate expiring in 90 days",
       "long_description": "Certificate expiring in 90 days",
@@ -272,7 +272,7 @@
 
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expired_cert_count",
       "short_description": "Number of expired certificates",
       "long_description": "Number of expired certificates",
@@ -288,7 +288,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_1day_cert_count",
       "short_description": "Number of certificates expiring in 1 day",
       "long_description": "Number of certificates expiring in 1 day",
@@ -304,7 +304,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_10day_cert_count",
       "short_description": "Number of certificates expiring in 10 days",
       "long_description": "Number of certificates expiring in 10 days",
@@ -320,7 +320,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_30day_cert_count",
       "short_description": "Number of certificates expiring in 30 days",
       "long_description": "Number of certificates expiring in 30 days",
@@ -336,7 +336,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_60day_cert_count",
       "short_description": "Number of certificates expiring in 60 days",
       "long_description": "Number of certificates expiring in 60 days",
@@ -352,7 +352,7 @@
     },
     {
       "kind": "KPI",
-      "project_id": "security-advisor",
+      "provider_id": "security-advisor",
       "id": "certmgr-expiring_90day_cert_count",
       "short_description": "Number of certificates expiring in 90 days",
       "long_description": "Number of certificates expiring in 90 days",

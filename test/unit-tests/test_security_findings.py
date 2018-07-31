@@ -47,7 +47,7 @@ ALERT_NOTE_1 = {
 ALERT_OCCURRENCE_1_1 = {
     "kind": "FINDING",
     "id": "xforce-11",
-    "note_name": "{}/projects/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
+    "note_name": "{}/providers/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
         "resource_crn": "Pod01",
@@ -84,7 +84,7 @@ ALERT_OCCURRENCE_1_1 = {
 ALERT_OCCURRENCE_1_2 = {
     "kind": "FINDING",
     "id": "xforce-12",
-    "note_name": "{}/projects/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
+    "note_name": "{}/providers/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
         "resource_crn": "Pod02",
@@ -110,7 +110,7 @@ ALERT_OCCURRENCE_1_2 = {
 ALERT_OCCURRENCE_1_3 = {
     "kind": "FINDING",
     "id": "xforce-13",
-    "note_name": "{}/projects/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
+    "note_name": "{}/providers/security-advisor/notes/xforce-SuspiciousServerCommunication".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
         "resource_crn": "Pod03",
@@ -152,7 +152,7 @@ KPI_NOTE_2 = {
 KPI_OCCURRENCE_2_1 = {
     "kind": "KPI",
     "id": "xforce-21",
-    "note_name": "{}/projects/security-advisor/notes/xforce-NumClients".format(TEST_ACCOUNT_ID),
+    "note_name": "{}/providers/security-advisor/notes/xforce-NumClients".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
         "resource_crn": "name of pod",
@@ -204,7 +204,7 @@ ALERT_NOTE_3 = {
 ALERT_OCCURRENCE_3_1 = {
     "kind": "FINDING",
     "id": "31",
-    "note_name": "{}/projects/outlier/notes/EgressDeviation".format(TEST_ACCOUNT_ID),
+    "note_name": "{}/providers/outlier/notes/EgressDeviation".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
         "resource_crn": "name of pod",
@@ -242,7 +242,7 @@ ALERT_OCCURRENCE_3_1 = {
 MODIFIED_ALERT_OCCURRENCE_3_1 = {
     "kind": "FINDING",
     "id": "31",
-    "note_name": "{}/projects/outlier/notes/EgressDeviation".format(TEST_ACCOUNT_ID),
+    "note_name": "{}/providers/outlier/notes/EgressDeviation".format(TEST_ACCOUNT_ID),
     "context": {
         "region": "US-South",
         "resource_crn": "name of pod",

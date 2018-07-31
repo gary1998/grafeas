@@ -38,7 +38,7 @@ class AuthClient(ABC):
         pass
 
     @abstractmethod
-    def assert_can_read_projects(self, request, account_id):
+    def assert_can_read_providers(self, request, account_id):
         pass
 
     @abstractmethod
@@ -95,7 +95,7 @@ class GrafeasAuthClient(AuthClient):
     def enable(self, value):
         self.enabled = value
 
-    def assert_can_read_projects(self, request, account_id):
+    def assert_can_read_providers(self, request, account_id):
         subject = self._get_subject(request)
 
         if subject.account_id == account_id:
@@ -106,7 +106,7 @@ class GrafeasAuthClient(AuthClient):
 
         if not self._is_authorized(subject, action, account_id):
             raise exceptions.ForbiddenError(
-                "Not allowed to read projects: subject={}, resource-account={}".format(subject, account_id))
+                "Not allowed to read providers: subject={}, resource-account={}".format(subject, account_id))
         return subject
 
     def assert_can_read_notes(self, request, account_id):
@@ -222,12 +222,12 @@ class GrafeasAuthClient(AuthClient):
             logger.info("Subject is authorized: {}".format(subject))
             return True
 
-        if subject.type == 'user':
+        if subject.kind == 'user':
             subject_field_name = "userId"
-        elif subject.type == 'service-id':
+        elif subject.kind == 'service-id':
             subject_field_name = "serviceId"
         else:
-            raise ValueError("Unsupported subject type: {}".format(subject.type))
+            raise ValueError("Unsupported subject kind: {}".format(subject.kind))
 
         params = {
             "subject": {

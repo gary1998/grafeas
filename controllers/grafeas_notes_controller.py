@@ -10,12 +10,12 @@ from util import exceptions
 logger = logging.getLogger("grafeas.notes")
 
 
-def create_note(account_id, project_id, body):
+def create_note(account_id, provider_id, body):
     """
     Creates a new &#x60;Note&#x60;.
 
-    :param project_id: Part of &#x60;parent&#x60;. This field contains the project_id for example: projects/{project_id}
-    :type project_id: str
+    :param provider_id: Part of &#x60;parent&#x60;. This field contains the provider_id for example: providers/{provider_id}
+    :type provider_id: str
     :param body:
     :type body: dict | bytes
 
@@ -28,7 +28,7 @@ def create_note(account_id, project_id, body):
 
         api_impl = api.get_api_impl()
         note_id = body['id']
-        doc = api_impl.write_note(subject.account_id, account_id, project_id, note_id, body, mode='create')
+        doc = api_impl.write_note(subject, account_id, provider_id, note_id, body, mode='create')
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a note")
@@ -38,13 +38,13 @@ def create_note(account_id, project_id, body):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def update_note(account_id, project_id, note_id, body):
+def update_note(account_id, provider_id, note_id, body):
     """
     Updates an existing &#x60;Note&#x60;.
 
-    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
-    :type project_id: str
-    :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
+    :param provider_id: First part of note &#x60;name&#x60;: providers/{provider_id}/notes/{note_id}
+    :type provider_id: str
+    :param note_id: Second part of note &#x60;name&#x60;: providers/{provider_id}/notes/{note_id}
     :type note_id: str
     :param body:
     :type body: dict | bytes
@@ -57,7 +57,7 @@ def update_note(account_id, project_id, note_id, body):
         subject = auth_client.assert_can_write_notes(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.write_note(subject.account_id, account_id, project_id, note_id, body, mode='update')
+        doc = api_impl.write_note(subject, account_id, provider_id, note_id, body, mode='update')
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while updating a note")
@@ -67,12 +67,12 @@ def update_note(account_id, project_id, note_id, body):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def list_notes(account_id, project_id, filter=None, page_size=None, page_token=None):
+def list_notes(account_id, provider_id, filter=None, page_size=None, page_token=None):
     """
-    Lists all &#x60;Notes&#x60; for a given project.
+    Lists all &#x60;Notes&#x60; for a given provider.
 
-    :param project_id: Part of &#x60;parent&#x60;. This field contains the project_id for example: projects/{project_id}
-    :type project_id: str
+    :param provider_id: Part of &#x60;parent&#x60;. This field contains the provider_id for example: providers/{provider_id}
+    :type provider_id: str
     :param filter: The filter expression.
     :type filter: str
     :param page_size: Number of notes to return in the list.
@@ -88,7 +88,7 @@ def list_notes(account_id, project_id, filter=None, page_size=None, page_token=N
         subject = auth_client.assert_can_read_notes(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        result = api_impl.list_notes(subject.account_id, account_id, project_id, filter, page_size, page_token)
+        result = api_impl.list_notes(subject, account_id, provider_id, filter, page_size, page_token)
         return common.build_result(
             http.HTTPStatus.OK,
             {
@@ -103,13 +103,13 @@ def list_notes(account_id, project_id, filter=None, page_size=None, page_token=N
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def get_occurrence_note(account_id, project_id, occurrence_id):
+def get_occurrence_note(account_id, provider_id, occurrence_id):
     """
     Gets the &#x60;Note&#x60; attached to the given &#x60;Occurrence&#x60;.
 
-    :param project_id: First part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
-    :type project_id: str
-    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: projects/{project_id}/occurrences/{occurrence_id}
+    :param provider_id: First part of occurrence &#x60;name&#x60;: providers/{provider_id}/occurrences/{occurrence_id}
+    :type provider_id: str
+    :param occurrence_id: Second part of occurrence &#x60;name&#x60;: providers/{provider_id}/occurrences/{occurrence_id}
     :type occurrence_id: str
 
     :rtype: ApiNote
@@ -120,7 +120,7 @@ def get_occurrence_note(account_id, project_id, occurrence_id):
         subject = auth_client.assert_can_read_notes(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.get_occurrence_note(subject.account_id, account_id, project_id, occurrence_id)
+        docs = api_impl.get_occurrence_note(subject, account_id, provider_id, occurrence_id)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting an occurrence's note")
@@ -130,13 +130,13 @@ def get_occurrence_note(account_id, project_id, occurrence_id):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def get_note(account_id, project_id, note_id):
+def get_note(account_id, provider_id, note_id):
     """
     Returns the requested &#x60;Note&#x60;.
 
-    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
-    :type project_id: str
-    :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
+    :param provider_id: First part of note &#x60;name&#x60;: providers/{provider_id}/notes/{note_id}
+    :type provider_id: str
+    :param note_id: Second part of note &#x60;name&#x60;: providers/{provider_id}/notes/{note_id}
     :type note_id: str
 
     :rtype: ApiNote
@@ -147,7 +147,7 @@ def get_note(account_id, project_id, note_id):
         subject = auth_client.assert_can_read_notes(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.get_note(subject.account_id, account_id, project_id, note_id)
+        doc = api_impl.get_note(subject, account_id, provider_id, note_id)
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while getting a note")
@@ -157,13 +157,13 @@ def get_note(account_id, project_id, note_id):
         return exceptions.InternalServerError(str(e)).to_error()
 
 
-def delete_note(account_id, project_id, note_id):
+def delete_note(account_id, provider_id, note_id):
     """
     Deletes the given &#x60;Note&#x60; from the system.
 
-    :param project_id: First part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
-    :type project_id: str
-    :param note_id: Second part of note &#x60;name&#x60;: projects/{project_id}/notes/{note_id}
+    :param provider_id: First part of note &#x60;name&#x60;: providers/{provider_id}/notes/{note_id}
+    :type provider_id: str
+    :param note_id: Second part of note &#x60;name&#x60;: providers/{provider_id}/notes/{note_id}
     :type note_id: str
 
     :rtype: ApiEmpty
@@ -174,7 +174,7 @@ def delete_note(account_id, project_id, note_id):
         subject = auth_client.assert_can_delete_notes(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        api_impl.delete_note(subject.account_id, account_id, project_id, note_id)
+        api_impl.delete_note(subject, account_id, provider_id, note_id)
         return common.build_result(http.HTTPStatus.OK, {})
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting a note")

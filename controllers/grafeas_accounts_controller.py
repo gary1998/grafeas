@@ -21,11 +21,11 @@ def delete_account_data(account_id):
         subject = auth_client.assert_can_delete_occurrences(connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        api_impl.delete_account_occurrences(subject.account_id, account_id)
+        api_impl.delete_account_occurrences(subject, account_id)
 
         account_deleted_occurrence = {
             "id": "account-deleted-{}".format(account_id),
-            "note_name": "system/projects/core/notes/account_deleted",
+            "note_name": "system/providers/core/notes/account_deleted",
             "kind": "ACCOUNT_DELETED",
             "context": {
                 "account_id": account_id
@@ -33,7 +33,7 @@ def delete_account_data(account_id):
         }
 
         occurrence_id = account_deleted_occurrence['id']
-        api_impl.write_occurrence(account_id, 'core', occurrence_id, account_deleted_occurrence)
+        api_impl.write_occurrence(subject, account_id, 'core', occurrence_id, account_deleted_occurrence)
         logger.info("Data deleted for account: {}".format(account_id))
         return common.build_result(http.HTTPStatus.OK, {})
     except exceptions.JSONError as e:

@@ -977,12 +977,16 @@ definitions:
       id:
         type: string
         description: the id of this subject
-      email:
-        type: string
-        description: the email address of this subject
       account_id:
         type: string
         description: the account id of this subject
+      email:
+        type: string
+        description: the email address of this subject
+    required:
+      - kind
+      - id
+      - account_id
 
 #
 # Finding note and occurrence definitions

@@ -12,8 +12,8 @@
     {
       "kind": "CARD_CONFIGURED",
       "provider_id": "core",
-      "id": "card-configured&security-advisor&xforce-risks_from_clients-697e84fcca45c9439aae525d31ef1a27",
-      "note_name": "providers/core/notes/card_configured",
+      "id": "card-configured&security-advisor&xforce-risks_from_clients",
+      "note_name": "system/providers/core/notes/card_configured",
       "context": {
           "account_id": "697e84fcca45c9439aae525d31ef1a27"
       },
@@ -24,8 +24,8 @@
     {
       "kind": "CARD_CONFIGURED",
       "provider_id": "core",
-      "id": "card-configured&security-advisor&xforce-risks_from_servers-697e84fcca45c9439aae525d31ef1a27",
-      "note_name": "providers/core/notes/card_configured",
+      "id": "card-configured&security-advisor&xforce-risks_from_servers",
+      "note_name": "system/providers/core/notes/card_configured",
       "context": {
           "account_id": "697e84fcca45c9439aae525d31ef1a27"
       },

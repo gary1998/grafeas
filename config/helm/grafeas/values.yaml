@@ -14,45 +14,79 @@ global:
     development: grafeas
     pre_production: grafeas
     production: grafeas
+    production_dal10: grafeas
+    production_dal12: grafeas
+    production_dal13: grafeas
+
   registryHostName:
     development: registry.ng.bluemix.net
     pre_production: registry.ng.bluemix.net
     production: registry.ng.bluemix.net
+    production_dal10: registry.ng.bluemix.net
+    production_dal12: registry.ng.bluemix.net
+    production_dal13: registry.ng.bluemix.net
+
   logLevel:
     development: DEBUG
     pre_production: DEBUG
     production: INFO
+    production_dal10: INFO
+    production_dal12: INFO
+    production_dal13: INFO
   grafeasDB:
     development: grafeas
     pre_production: grafeaspreprod
     production: grafeas
+    production_dal10: grafeas
+    production_dal12: grafeas
+    production_dal13: grafeas
   iamBaseUrl:
     development: https://iam.ng.bluemix.net
     stage:
     pre_production:
     production:
+    production_dal10: 
+    production_dal12: 
+    production_dal13: 
   iamApiBaseUrl:
     development: https://iam-api.ng.bluemix.net
     stage:
     pre_production:
     production:
+    production_dal10: 
+    production_dal12: 
+    production_dal13:
   acceptHttp:
     development: '"true"'
     stage: '"false"'
     pre_production: '"false"'
     production: '"false"'
+    production_dal10: '"false"'
+    production_dal12: '"false"'
+    production_dal13: '"false"'
   grafeasConfigureSsl:
     development: '"true"'
     stage: '"true"'
     pre_production: '"true"'
     production: '"true"'
+    production_dal10: '"true"'
+    production_dal12: '"true"'
+    production_dal13: '"true"'
   qradarHost:
     development:
     stage:
     pre_production:
     production:
+    production_dal10: 
+    production_dal12: 
+    production_dal13:
+
   grafeasUrl:
     development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
     pre_production: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
     production:
+    production_dal10: 
+    production_dal12: 
+    production_dal13:
+
     

@@ -48,7 +48,7 @@ class CloudantDatabase(object):
         self._connect()
 
     def _connect(self):
-        self.client = cloudant.Cloudant(self.username, self.auth_token, url=self.url, connect=True)
+        self.client = cloudant.Cloudant(self.username, self.auth_token, url=self.url, connect=True, auto_renew=True)
         self.db = self.client.get(self.db_name, remote=True)
         logger.debug("Cloudant client connected: url='%s', user='%s'", self.url, self.username)
 

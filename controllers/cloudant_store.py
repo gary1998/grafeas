@@ -162,8 +162,8 @@ class CloudantStore(store.Store):
                 records_to_delete = rows
             deleted_docs = list(map(lambda x: {'_deleted': True, '_id': x['id'], '_rev': x['value']}, records_to_delete))
             if deleted_docs:
-                self.db.bulk_docs(deleted_docs)
-            if(len(rows)) > page_size:
+                self.db.db.bulk_docs(deleted_docs)
+            if len(rows) > page_size:
                 options["startkey"] = rows[page_size]["key"]
             else:
                 break

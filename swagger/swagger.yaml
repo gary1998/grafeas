@@ -69,6 +69,21 @@ paths:
           description: "Account ID"
           required: true
           type: string
+        - name: X-UserToken
+          description: The IAM token of the user on whose behalf the operation is executed.
+          in: header
+          required: false
+          type: string
+        - name: start_time
+          description: Starting time in UTC (milliseconds). All data after this time will be deleted
+          in: header
+          required: false
+          type: number
+        - name: end_time
+          description: End time in UTC (milliseconds). All data before this time will be deleted
+          in: header
+          required: false
+          type: number
       tags:
         - GrafeasAccount
       x-swagger-router-controller: "controllers.grafeas_accounts_controller"

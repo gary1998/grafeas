@@ -20,3 +20,6 @@ spec:
     - podSelector:
        matchLabels:
          microservice: opsmgr
+    - podSelector:
+       matchLabels:
+         microservice: findingscleaner

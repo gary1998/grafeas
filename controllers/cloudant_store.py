@@ -180,10 +180,8 @@ class CloudantStore(store.Store):
                     break
                 if remaining_count < limit:
                     options["limit"] = remaining_count + 1
-                    options["startkey"] = rows[limit]["key"]
-                    continue
             if len(rows) > limit - 1:
-                options["startkey"] = rows[limit]["key"]
+                options["startkey"] = rows[limit - 1]["key"]
             else:
                 break
         logger.debug("%d occurrences deleted for account '%s': author account='%s'",

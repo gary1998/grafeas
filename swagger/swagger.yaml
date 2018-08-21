@@ -76,17 +76,17 @@ paths:
           type: string
         - name: start_time
           description: Starting time in UTC (milliseconds). All data after this time will be deleted
-          in: header
+          in: query
           required: false
           type: number
         - name: end_time
           description: End time in UTC (milliseconds). All data before this time will be deleted
-          in: header
+          in: query
           required: false
           type: number
         - name: count
           description: Number of records to delete. If not provided all the records satisyfing other conditions are deleted.
-          in: header
+          in: query
           required: false
           type: integer
       tags:

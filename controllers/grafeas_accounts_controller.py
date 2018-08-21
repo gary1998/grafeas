@@ -23,18 +23,21 @@ def delete_account_data(account_id, start_time=None, end_time=None, count=None):
         api_impl = api.get_api_impl()
         api_impl.delete_account_occurrences(subject, account_id, start_time, end_time, count)
 
-        account_deleted_occurrence = {
-            "id": "account-deleted-{}".format(account_id),
-            "note_name": "system/providers/core/notes/account_deleted",
-            "kind": "ACCOUNT_DELETED",
-            "context": {
-                "account_id": account_id
+        # All account data will be deleted if there are no restrictions on time and count
+        # Only in that case create this occurrence
+        if start_time is None and end_time is None and count is None:
+            account_deleted_occurrence = {
+                "id": "account-deleted-{}".format(account_id),
+                "note_name": "system/providers/core/notes/account_deleted",
+                "kind": "ACCOUNT_DELETED",
+                "context": {
+                    "account_id": account_id
+                }
             }
-        }
 
-        occurrence_id = account_deleted_occurrence['id']
-        api_impl.write_occurrence(subject, account_id, 'core', occurrence_id, account_deleted_occurrence)
-        logger.debug("Data deleted for account: {} in time range start {} end {}".format(account_id, start_time, end_time))
+            occurrence_id = account_deleted_occurrence['id']
+            api_impl.write_occurrence(subject, account_id, 'core', occurrence_id, account_deleted_occurrence)
+        logger.debug("Data deleted for account: {} in time range start {} end {} and count {}".format(account_id, start_time, end_time, count))
         return common.build_result(http.HTTPStatus.OK, {})
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while deleting account data")

@@ -72,6 +72,11 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: acceptHttp
+        - name: DELETE_OCCURRENCES_PAGE_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: grafeas-configuration
+              key: deleteOccurrencesPageSize
         - name: GRAFEAS_CONFIGURE_SSL
           valueFrom:
             configMapKeyRef:

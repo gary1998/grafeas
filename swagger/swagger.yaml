@@ -84,6 +84,11 @@ paths:
           in: header
           required: false
           type: number
+        - name: count
+          description: Number of records to delete. If not provided all the records satisyfing other conditions are deleted.
+          in: header
+          required: false
+          type: integer
       tags:
         - GrafeasAccount
       x-swagger-router-controller: "controllers.grafeas_accounts_controller"

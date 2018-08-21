@@ -5,7 +5,7 @@ from controllers import store
 from util import cloudant_client
 from util import exceptions
 import time
-
+import math
 
 logger = logging.getLogger("grafeas.cloundant_store")
 
@@ -140,14 +140,21 @@ class CloudantStore(store.Store):
             account_id, provider_id, occurrence_id)
         return self.db.delete_doc(occurrence_name)
 
-    def delete_account_occurrences(self, author, account_id, start_time, end_time):
-        page_size = 200
+    def delete_account_occurrences(self, author, account_id, start_time, end_time, count):
+        page_size = int(os.environ.get('DELETE_OCCURRENCES_PAGE_SIZE', '200'))
+        if count is not None:
+            if count <= 0:
+                return
+            if count <= page_size:
+                page_size = count
         total_deleted_count = 0
         view = self.db.get_view('doc_counts', "occurrence_count_by_utc")
         if start_time is None:
              start_time = -1
         if end_time is None:
             end_time = int(time.time() * 1000)
+        # Set limit 1 greater than number of records to proccess in each batch
+        # to know if more records are there and proccess them in next batch
         options = {
             "reduce": False,
             "limit": page_size + 1,
@@ -155,20 +162,30 @@ class CloudantStore(store.Store):
             "endkey": [account_id, end_time],
         }
         while True:
+            limit = options["limit"]
             rows = view(**options)['rows']
-            if len(rows) == page_size + 1:
-                records_to_delete = rows[:page_size]
+            if len(rows) == limit:
+                records_to_delete = rows[:limit - 1]
             else:
                 records_to_delete = rows
+            if len(records_to_delete) == 0:
+                break
             deleted_docs = list(map(lambda x: {'_deleted': True, '_id': x['id'], '_rev': x['value']}, records_to_delete))
             if deleted_docs:
                 self.db.db.bulk_docs(deleted_docs)
-            if len(rows) > page_size:
-                options["startkey"] = rows[page_size]["key"]
+            total_deleted_count += len(deleted_docs)
+            if count is not None:
+                remaining_count = count - total_deleted_count
+                if remaining_count == 0:
+                    break
+                if remaining_count < limit:
+                    options["limit"] = remaining_count + 1
+                    options["startkey"] = rows[limit]["key"]
+                    continue
+            if len(rows) > limit - 1:
+                options["startkey"] = rows[limit]["key"]
             else:
                 break
-            total_deleted_count += len(deleted_docs)
-
         logger.debug("%d occurrences deleted for account '%s': author account='%s'",
                     total_deleted_count, account_id, author.account_id)
 

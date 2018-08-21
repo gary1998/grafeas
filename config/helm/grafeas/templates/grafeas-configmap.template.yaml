@@ -14,6 +14,7 @@ data:
   certificateSecretMountPath: {{ .Values.global.certificateSecretMountPath | quote }}
   sslCertPath: {{ .Values.global.sslCertPath | quote }}
   sslKeyPath: {{ .Values.global.sslKeyPath | quote }}
+  deleteOccurrencesPageSize: {{ .Values.global.deleteOccurrencesPageSize | quote }}
   grafeasConfigureSsl: {{ index .Values.global.grafeasConfigureSsl .Values.global.env }}
   grafeasAuthClassName: {{ index .Values.global.grafeasAuthClassName | quote }}
 

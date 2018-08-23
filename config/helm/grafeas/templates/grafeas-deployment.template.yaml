@@ -30,15 +30,6 @@ spec:
                 operator: In
                 values:
                 - security-advisor
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: microservice
-                operator: In
-                values:
-                - {{ .Values.global.name }}
-            topologyKey: "kubernetes.io/hostname"
       imagePullSecrets:
       - name: bluemix-{{ index .Values.global.clusterNamespace .Values.global.env }}-secret
       containers:

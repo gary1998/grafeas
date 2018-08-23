@@ -9,7 +9,7 @@ global:
   certificateSecretMountPath : /etc/secrets
   sslCertPath: /etc/secrets/tls_cert
   sslKeyPath: /etc/secrets/tls_key
-  deleteOccurrencesPageSize: 200
+  deleteOccurrencesPageSize: 500
   grafeasAuthClassName: controllers.sa_auth.SecurityAdvisorAuthClient
   imageName:
     development: grafeas

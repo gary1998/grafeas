@@ -33,10 +33,10 @@
           },
           {
             "kind": "NUMERIC",
-            "text": "certificates will expire in the next 30 days",
+            "text": "certificates will expire tomorrow",
             "value_type": {
               "kind": "KPI",
-              "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_30day_cert_count"
+              "kpi_note_name": "providers/security-advisor/notes/certmgr-expiring_1day_cert_count"
             }
           },
           {

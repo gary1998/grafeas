@@ -17,7 +17,6 @@ import jwt
 import logging
 from time import time
 from base64 import b64decode
-from Crypto.Util.number import bytes_to_long
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicNumbers
 from pepclient.crn import create, parse
@@ -189,8 +188,8 @@ class TokenClient(object):
                 raise RuntimeError('Invalid token {} returned from {}'.
                                    format(key_set, url))
 
-            number = RSAPublicNumbers(bytes_to_long(b64decode(key_set['e'])),
-                                      bytes_to_long(b64decode(key_set['n'])))
+            number = RSAPublicNumbers(int.from_bytes(b64decode(key_set['e']),byteorder='big'),
+                                      int.from_bytes(b64decode(key_set['n']),byteorder='big'))
             public_key = number.public_key(default_backend())
             keys.update({
                 key_set['kid']: {

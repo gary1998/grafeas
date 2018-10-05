@@ -57,7 +57,7 @@ def delete_account_data(account_id, start_time=None, end_time=None, count=None):
                 subject, account_id, 'core', occurrence_id, account_deleted_occurrence)
         logger.debug("Data deleted for account: {} in time range start {} end {} and count {}".format(
             account_id, start_time, end_time, count))
-        return common.build_result(http.HTTPStatus.OK, {deleted_count: deleted_count})
+        return common.build_result(http.HTTPStatus.OK, {'deleted_count': deleted_count})
     except exceptions.JSONError as e:
         logger.exception(
             "An error was encountered while deleting account data")

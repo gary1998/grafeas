@@ -160,7 +160,7 @@ class API(object):
         self.store.delete_occurrence(author, account_id, provider_id, occurrence_id)
 
     def delete_account_occurrences(self, author, account_id, start_time, end_time, count):
-        self.store.delete_account_occurrences(author, account_id, start_time, end_time, count)
+        return self.store.delete_account_occurrences(author, account_id, start_time, end_time, count)
 
     @staticmethod
     def _week_date_iso_format(iso_calendar):

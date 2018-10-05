@@ -33,10 +33,12 @@ def delete_account_data(account_id, start_time=None, end_time=None, count=None):
     """
     try:
         auth_client = auth.get_auth_client()
-        subject = auth_client.assert_can_delete_occurrences(connexion.request, account_id)
+        subject = auth_client.assert_can_delete_occurrences(
+            connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        api_impl.delete_account_occurrences(subject, account_id, start_time, end_time, count)
+        deleted_count = api_impl.delete_account_occurrences(
+            subject, account_id, start_time, end_time, count)
 
         # All account data will be deleted if there are no restrictions on time and count
         # Only in that case create this occurrence
@@ -51,12 +53,16 @@ def delete_account_data(account_id, start_time=None, end_time=None, count=None):
             }
 
             occurrence_id = account_deleted_occurrence['id']
-            api_impl.write_occurrence(subject, account_id, 'core', occurrence_id, account_deleted_occurrence)
-        logger.debug("Data deleted for account: {} in time range start {} end {} and count {}".format(account_id, start_time, end_time, count))
-        return common.build_result(http.HTTPStatus.OK, {})
+            api_impl.write_occurrence(
+                subject, account_id, 'core', occurrence_id, account_deleted_occurrence)
+        logger.debug("Data deleted for account: {} in time range start {} end {} and count {}".format(
+            account_id, start_time, end_time, count))
+        return common.build_result(http.HTTPStatus.OK, {deleted_count: deleted_count})
     except exceptions.JSONError as e:
-        logger.exception("An error was encountered while deleting account data")
+        logger.exception(
+            "An error was encountered while deleting account data")
         return e.to_error()
     except:
-        logger.exception("An unexpected error was encountered while deleting account data")
+        logger.exception(
+            "An unexpected error was encountered while deleting account data")
         raise

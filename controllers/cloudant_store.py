@@ -165,7 +165,7 @@ class CloudantStore(store.Store):
         total_deleted_count = 0
         view = self.db.get_view('doc_counts', "occurrence_count_by_utc")
         if start_time is None:
-             start_time = -1
+            start_time = -1
         if end_time is None:
             end_time = int(time.time() * 1000)
         # Set limit 1 greater than number of records to proccess in each batch
@@ -185,7 +185,8 @@ class CloudantStore(store.Store):
                 records_to_delete = rows
             if len(records_to_delete) == 0:
                 break
-            deleted_docs = list(map(lambda x: {'_deleted': True, '_id': x['id'], '_rev': x['value']}, records_to_delete))
+            deleted_docs = list(map(lambda x: {
+                                '_deleted': True, '_id': x['id'], '_rev': x['value']}, records_to_delete))
             if deleted_docs:
                 self.db.db.bulk_docs(deleted_docs)
             total_deleted_count += len(deleted_docs)
@@ -200,7 +201,8 @@ class CloudantStore(store.Store):
             else:
                 break
         logger.debug("%d occurrences deleted for account '%s': author account='%s'",
-                    total_deleted_count, account_id, author.account_id)
+                     total_deleted_count, account_id, author.account_id)
+        return total_deleted_count
 
     @staticmethod
     def _clean_doc(doc):

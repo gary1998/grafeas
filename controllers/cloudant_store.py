@@ -349,7 +349,7 @@ class CloudantStore(store.Store):
             """
             function(doc) {{
                 if (doc.doc_type == "Occurrence") {{
-                    emit([doc.context.account_id, doc.create_timestamp],null);
+                    emit([doc.context.account_id, doc.create_timestamp],doc._rev);
                 }}
             }}
             """,

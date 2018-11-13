@@ -355,4 +355,16 @@ class CloudantStore(store.Store):
             """,
             '_count')
 
+        db.add_view(
+            'doc_counts',
+            'occurrence_count_by_insertion_utc',
+            """
+            function(doc) {{
+                if (doc.doc_type == "Occurrence" && doc.kind != "CARD_CONFIGURED") {{
+                    emit([doc.context.account_id, doc.insertion_timestamp],doc._rev);
+                }}
+            }}
+            """,
+            '_count')
+
         return db

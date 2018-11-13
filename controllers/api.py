@@ -65,6 +65,7 @@ class API(object):
             create_timestamp = create_datetime.timestamp()
             body['create_time'] = create_datetime.isoformat() + 'Z'
         body['create_timestamp'] = int(round(create_timestamp * 1000))
+        body['insertion_timestamp'] = int(round(datetime.datetime.utcnow().timestamp() * 1000))
 
         if 'update_time' in body:
             update_datetime = isodate.parse_datetime(body['update_time'])
@@ -133,6 +134,7 @@ class API(object):
             create_timestamp = create_datetime.timestamp()
             body['create_time'] = create_datetime.isoformat() + 'Z'
         body['create_timestamp'] = int(round(create_timestamp * 1000))
+        body['insertion_timestamp'] = int(round(datetime.datetime.utcnow().timestamp() * 1000))
 
         if 'update_time' in body:
             update_datetime = isodate.parse_datetime(body['update_time'])

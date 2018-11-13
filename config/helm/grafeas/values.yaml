@@ -18,6 +18,9 @@ global:
     production_dal10: grafeas
     production_dal12: grafeas
     production_dal13: grafeas
+    production_lon02: grafeas
+    production_lon04: grafeas
+    production_lon05: grafeas
 
   registryHostName:
     development: registry.ng.bluemix.net
@@ -26,6 +29,9 @@ global:
     production_dal10: registry.ng.bluemix.net
     production_dal12: registry.ng.bluemix.net
     production_dal13: registry.ng.bluemix.net
+    production_lon02: registry.ng.bluemix.net
+    production_lon04: registry.ng.bluemix.net
+    production_lon05: registry.ng.bluemix.net    
 
   logLevel:
     development: DEBUG
@@ -34,6 +40,10 @@ global:
     production_dal10: INFO
     production_dal12: INFO
     production_dal13: INFO
+    production_lon02: INFO
+    production_lon04: INFO
+    production_lon05: INFO
+
   grafeasDB:
     development: grafeas
     pre_production: grafeaspreprod
@@ -41,6 +51,10 @@ global:
     production_dal10: grafeas
     production_dal12: grafeas
     production_dal13: grafeas
+    production_lon02: grafeas
+    production_lon04: grafeas
+    production_lon05: grafeas
+
   iamBaseUrl:
     development: https://iam.ng.bluemix.net
     stage:
@@ -49,6 +63,10 @@ global:
     production_dal10: 
     production_dal12: 
     production_dal13: 
+    production_lon02: 
+    production_lon04: 
+    production_lon05: 
+
   iamApiBaseUrl:
     development: https://iam-api.ng.bluemix.net
     stage:
@@ -57,6 +75,10 @@ global:
     production_dal10: 
     production_dal12: 
     production_dal13:
+    production_lon02: 
+    production_lon04: 
+    production_lon05: 
+
   acceptHttp:
     development: '"true"'
     stage: '"false"'
@@ -65,6 +87,10 @@ global:
     production_dal10: '"false"'
     production_dal12: '"false"'
     production_dal13: '"false"'
+    production_lon02: '"false"'
+    production_lon04: '"false"'
+    production_lon05: '"false"'
+
   grafeasConfigureSsl:
     development: '"true"'
     stage: '"true"'
@@ -73,6 +99,10 @@ global:
     production_dal10: '"true"'
     production_dal12: '"true"'
     production_dal13: '"true"'
+    production_lon02: '"true"'
+    production_lon04: '"true"'
+    production_lon05: '"true"'
+
   qradarHost:
     development:
     stage:
@@ -80,7 +110,10 @@ global:
     production:
     production_dal10: 
     production_dal12: 
-    production_dal13:
+    production_dal13: 
+    production_lon02:
+    production_lon04: 
+    production_lon05:     
 
   grafeasUrl:
     development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
@@ -89,5 +122,8 @@ global:
     production_dal10: 
     production_dal12: 
     production_dal13:
+    production_lon02: 
+    production_lon04: 
+    production_lon05: 
 
     

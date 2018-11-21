@@ -20,10 +20,16 @@ from .common_ut import BaseTestCase, TEST_ACCOUNT_ID
 import os
 
 import unittest
+import threading
 
 
 class TestGrafeasProvidersController(BaseTestCase):
     """ GrafeasProvidersController integration test stubs """
+
+    def tearDown(self):
+        for thread in threading.enumerate():
+            if thread.name == "warm-cache":
+                thread.cancel()
 
     @unittest.skipIf(os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient',
                      "Skipping for security advisor")

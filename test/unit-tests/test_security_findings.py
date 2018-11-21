@@ -18,6 +18,7 @@ from http import HTTPStatus
 from .common_ut import BaseTestCase, TEST_ACCOUNT_ID
 
 import unittest
+import threading
 
 import os
 
@@ -294,6 +295,12 @@ MODIFIED_ALERT_OCCURRENCE_3_1 = {
 
 
 class TestSecurityFindings(BaseTestCase):
+    
+    def tearDown(self):
+        for thread in threading.enumerate():
+            if thread.name == "warm-cache":
+                thread.cancel()
+
     def test_01_create_note(self):
         response = self.post_note(
             TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_NOTE_1)

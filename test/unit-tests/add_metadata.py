@@ -17,6 +17,7 @@ from flask import json
 from http import HTTPStatus
 import os
 from .common_ut import BaseTestCase
+import threading
 
 
 FILE_NAMES = [
@@ -29,6 +30,12 @@ FILE_NAMES = [
 
 
 class AddMetadaData(BaseTestCase):
+    
+    def tearDown(self):
+        for thread in threading.enumerate():
+            if thread.name == "warm-cache":
+                thread.cancel()
+                
     def test_01_create_notes(self):
         for file_name in FILE_NAMES:
             with open("metadata/{}".format(file_name)) as f:

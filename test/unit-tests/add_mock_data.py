@@ -31,6 +31,12 @@ FILE_NAMES = [
 
 
 class TestMockData(BaseTestCase):
+
+    def tearDown(self):
+        for thread in threading.enumerate():
+            if thread.name == "warm-cache":
+                thread.cancel()
+
     def test_01_create_notes(self):
         for file_name in FILE_NAMES:
             with open("test/unit-tests/data/{}".format(file_name)) as f:

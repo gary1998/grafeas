@@ -16,6 +16,7 @@
 import json
 import os
 from . import common_fvt
+import threading
 
 
 OK = 200
@@ -31,6 +32,11 @@ class DynAppScan(common_fvt.CommonFVT):
     #   Providers
     #
 
+    def tearDown(self):
+         for thread in threading.enumerate():
+            if thread.name == "warm-cache":
+                thread.cancel()
+         
     def test_list_providers(self):
         response = self.get_providers()
         self.assert_status(response, OK)

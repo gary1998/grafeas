@@ -16,6 +16,7 @@
 from flask import json
 from http import HTTPStatus
 from .common_ut import BaseTestCase, TEST_ACCOUNT_ID
+import threading
 
 
 TEST_RESOURCE_ACCOUNT_ID = "d0c8a917589e40076961f56b23056d16"
@@ -23,6 +24,12 @@ TEST_RESOURCE_ACCOUNT_ID = "d0c8a917589e40076961f56b23056d16"
 
 class TestGrafeasOccurrencesController(BaseTestCase):
     """ GrafeasOccurrencesController integration test stubs """
+
+    def tearDown(self):
+        for thread in threading.enumerate():
+            if thread.name == "warm-cache":
+                thread.cancel()
+                
 
     def test_01_create_note(self):
         """

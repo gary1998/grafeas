@@ -16,11 +16,17 @@
 from flask import json
 from http import HTTPStatus
 from .common_ut import BaseTestCase, TEST_ACCOUNT_ID
+import threading
 
 
 class TestGrafeasNotesController(BaseTestCase):
     """ GrafeasNotesController integration test stubs """
 
+    def tearDown(self):
+        for thread in threading.enumerate():
+            if thread.name == "warm-cache":
+                thread.cancel()
+                
     def test_01_create_note(self):
         """
         Test case for create_note

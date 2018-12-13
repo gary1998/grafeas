@@ -133,14 +133,14 @@ spec:
               name: grafeas-secret
               key: whitelistedEntity
         ports:
-        - containerPort: 443
+        - containerPort: 8080
           protocol: TCP
 
         readinessProbe:
           httpGet:
             scheme: HTTPS
             path: /ready
-            port: 443
+            port: 8080
           initialDelaySeconds: 10
           periodSeconds: 30
 
@@ -148,7 +148,7 @@ spec:
           httpGet:
             scheme: HTTPS
             path: /healthz
-            port: 443
+            port: 8080
           initialDelaySeconds: 30
           timeoutSeconds: 10
           periodSeconds: 30

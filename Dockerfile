@@ -28,7 +28,15 @@ COPY requirements.txt /usr/src/app/
 RUN pip3 install --no-cache-dir -r requirements.txt --index-url=${PIP_INDEX_URL}
 
 COPY . /usr/src/app
-EXPOSE 443
+
+EXPOSE 8080
+
+# # Run as non-root
+RUN chmod -R 775 /usr/src
+RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser -G appuser
+RUN chown -R appuser:appuser /usr/src/app
+USER appuser
+
 ENTRYPOINT ["python3"]
 
 CMD ["/usr/src/app/app.py"]

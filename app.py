@@ -33,7 +33,7 @@ logger = logging.getLogger("grafeas")
 log_level = os.environ.get('LOG_LEVEL', logging.INFO)
 logger.setLevel(log_level)
 logger.addHandler(stream_handler)
-port = os.environ.get("PORT", 8080)
+port = int(os.environ.get("PORT", 8080))
 
 if log_level == "DEBUG":
     try:

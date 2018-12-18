@@ -29,6 +29,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt --index-url=${PIP_INDEX_URL}
 
 COPY . /usr/src/app
 
+ENV PORT 8080
 EXPOSE 8080
 
 # # Run as non-root

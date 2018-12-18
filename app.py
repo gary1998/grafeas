@@ -33,6 +33,7 @@ logger = logging.getLogger("grafeas")
 log_level = os.environ.get('LOG_LEVEL', logging.INFO)
 logger.setLevel(log_level)
 logger.addHandler(stream_handler)
+port = os.environ.get("PORT", 8080)
 
 if log_level == "DEBUG":
     try:
@@ -57,11 +58,6 @@ if __name__ == '__main__':
             sys.exit(1)
 
         context = (cert_path, cert_key)
-        app.run(port=443, threaded=True, ssl_context=context)
+        app.run(port=port, threaded=True, ssl_context=context)
     else:
-        accept_http = os.environ.get('ACCEPT_HTTP', "false")
-        if accept_http.lower() == "true":
-            app.run(port=8080, threaded=True)
-        else:
-            app.run(port=443, threaded=True)
-
+        app.run(port=port, threaded=True)

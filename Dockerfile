@@ -15,8 +15,7 @@ RUN apk update \
     openssl-dev \
     make \
     musl-dev \
-    python3-dev \
-    git
+    python3-dev
 
 ARG PIP_INDEX_URL
 

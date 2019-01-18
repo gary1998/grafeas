@@ -14,6 +14,12 @@ global:
   imageName:
     development: grafeas
     pre_production: grafeas
+    pre_production_dal10: grafeas
+    pre_production_dal12: grafeas
+    pre_production_dal13: grafeas
+    pre_production_lon02: grafeas
+    pre_production_lon04: grafeas
+    pre_production_lon05: grafeas
     production: grafeas
     production_dal10: grafeas
     production_dal12: grafeas
@@ -25,6 +31,12 @@ global:
   registryHostName:
     development: registry.ng.bluemix.net
     pre_production: registry.ng.bluemix.net
+    pre_production_dal10: registry.ng.bluemix.net
+    pre_production_dal12: registry.ng.bluemix.net
+    pre_production_dal13: registry.ng.bluemix.net
+    pre_production_lon02: registry.ng.bluemix.net
+    pre_production_lon04: registry.ng.bluemix.net
+    pre_production_lon05: registry.ng.bluemix.net    
     production: registry.ng.bluemix.net
     production_dal10: registry.ng.bluemix.net
     production_dal12: registry.ng.bluemix.net
@@ -36,6 +48,12 @@ global:
   logLevel:
     development: DEBUG
     pre_production: DEBUG
+    pre_production_dal10: DEBUG
+    pre_production_dal12: DEBUG
+    pre_production_dal13: DEBUG
+    pre_production_lon02: DEBUG
+    pre_production_lon04: DEBUG
+    pre_production_lon05: DEBUG    
     production: INFO
     production_dal10: INFO
     production_dal12: INFO
@@ -47,6 +65,12 @@ global:
   grafeasDB:
     development: grafeas
     pre_production: grafeaspreprod
+    pre_production_dal10: grafeaspreprod
+    pre_production_dal12: grafeaspreprod
+    pre_production_dal13: grafeaspreprod
+    pre_production_lon02: grafeaspreprod
+    pre_production_lon04: grafeaspreprod
+    pre_production_lon05: grafeaspreprod        
     production: grafeas
     production_dal10: grafeas
     production_dal12: grafeas
@@ -59,6 +83,12 @@ global:
     development: https://iam.ng.bluemix.net
     stage:
     pre_production:
+    pre_production_dal10: 
+    pre_production_dal12: 
+    pre_production_dal13: 
+    pre_production_lon02: 
+    pre_production_lon04: 
+    pre_production_lon05:        
     production:
     production_dal10: 
     production_dal12: 
@@ -71,6 +101,12 @@ global:
     development: https://iam-api.ng.bluemix.net
     stage:
     pre_production:
+    pre_production_dal10: 
+    pre_production_dal12: 
+    pre_production_dal13: 
+    pre_production_lon02: 
+    pre_production_lon04: 
+    pre_production_lon05:        
     production:
     production_dal10: 
     production_dal12: 
@@ -83,6 +119,12 @@ global:
     development: '"true"'
     stage: '"false"'
     pre_production: '"false"'
+    pre_production_dal10: '"false"'
+    pre_production_dal12: '"false"'
+    pre_production_dal13: '"false"'
+    pre_production_lon02: '"false"'
+    pre_production_lon04: '"false"'
+    pre_production_lon05:  '"false"'      
     production: '"false"'
     production_dal10: '"false"'
     production_dal12: '"false"'
@@ -95,6 +137,12 @@ global:
     development: '"true"'
     stage: '"true"'
     pre_production: '"true"'
+    pre_production_dal10: '"true"'
+    pre_production_dal12: '"true"'
+    pre_production_dal13: '"true"'
+    pre_production_lon02: '"true"'
+    pre_production_lon04: '"true"'
+    pre_production_lon05: '"true"'
     production: '"true"'
     production_dal10: '"true"'
     production_dal12: '"true"'
@@ -107,6 +155,12 @@ global:
     development:
     stage:
     pre_production:
+    pre_production_dal10: 
+    pre_production_dal12: 
+    pre_production_dal13: 
+    pre_production_lon02: 
+    pre_production_lon04: 
+    pre_production_lon05:   
     production:
     production_dal10: 
     production_dal12: 
@@ -118,6 +172,12 @@ global:
   grafeasUrl:
     development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
     pre_production: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
+    pre_production_dal10: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
+    pre_production_dal12: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
+    pre_production_dal13: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
+    pre_production_lon02: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
+    pre_production_lon04: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
+    pre_production_lon05: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
     production:
     production_dal10: 
     production_dal12: 

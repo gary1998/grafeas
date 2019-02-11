@@ -2,7 +2,8 @@ cachetools==2.0.1
 certifi==2017.7.27.1
 cf-deployment-tracker==1.0.4
 cloudant==2.9.0
-connexion==1.1.16
+connexion==2.2.0
+connexion[swagger-ui]
 cryptography==2.1.4
 flask==0.12.2
 isodate==0.6.0

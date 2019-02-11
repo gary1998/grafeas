@@ -1,29 +1,20 @@
 ---
-swagger: '2.0'
+openapi: '3.0.0'
 info:
   title: v1alpha1/proto/grafeas.proto
   version: version not set
-schemes:
-  - http
-  - https
-consumes:
-  - application/json
-produces:
-  - application/json
 paths:
   /:
     get:
       summary: Return the home page html file content
       operationId: get_home_page
-      produces:
-      - "text/html"
       parameters: []
       responses:
         200:
           description: ''
       tags:
        - others
-      x-swagger-router-controller: "controllers.grafeas_others_controller"
+      x-openapi-router-controller: "controllers.grafeas_others_controller"
 
   /healthz:
     get:
@@ -35,7 +26,7 @@ paths:
           description: 'Liveness check passed'
       tags:
        - others
-      x-swagger-router-controller: "controllers.grafeas_others_controller"
+      x-openapi-router-controller: "controllers.grafeas_others_controller"
 
   /ready:
     get:
@@ -47,7 +38,7 @@ paths:
           description: 'Ready check passed'
       tags:
        - others
-      x-swagger-router-controller: "controllers.grafeas_others_controller"
+      x-openapi-router-controller: "controllers.grafeas_others_controller"
 
   /v1alpha1/{account_id}/data:
     delete:
@@ -56,42 +47,50 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiEmpty'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiEmpty'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID"
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: start_time
           description: Starting time in UTC (milliseconds). All data after this time will be deleted
           in: query
           required: false
-          type: number
+          schema:
+            type: number
         - name: end_time
           description: End time in UTC (milliseconds). All data before this time will be deleted
           in: query
           required: false
-          type: number
+          schema:
+            type: number
         - name: count
           description: Number of records to delete. If not provided all the records satisyfing other conditions are deleted.
           in: query
           required: false
-          type: integer
+          schema:
+            type: integer
       tags:
         - GrafeasAccount
-      x-swagger-router-controller: "controllers.grafeas_accounts_controller"
+      x-openapi-router-controller: "controllers.grafeas_accounts_controller"
 
   /v1alpha1/{account_id}/providers:
     get:
@@ -100,43 +99,51 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiListProvidersResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiListProvidersResponse'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of providers' owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: filter
           description: The filter expression.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
         - name: page_size
           description: Number of providers to return in the list.
           in: query
           required: false
-          type: integer
-          format: int32
+          schema:
+            type: integer
+            format: int32
         - name: page_token
           description: Token to provide to skip to a particular spot in the list.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasProviders
-      x-swagger-router-controller: "controllers.grafeas_providers_controller"
+      x-openapi-router-controller: "controllers.grafeas_providers_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/notes:
     post:
@@ -145,85 +152,101 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiNote'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiNote'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apiNote'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of note's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
           required: true
-          type: string
-        - name: body
-          in: body
-          required: true
           schema:
-            $ref: '#/definitions/apiNote'
+            type: string
+
       tags:
         - GrafeasNotes
-      x-swagger-router-controller: "controllers.grafeas_notes_controller"
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
     get:
       summary: Lists all `Notes` for a given provider.
       operationId: list_notes
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiListNotesResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiListNotesResponse'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of notes' owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: filter
           description: The filter expression.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
         - name: page_size
           description: Number of notes to return in the list.
           in: query
           required: false
-          type: integer
-          format: int32
+          schema:
+            type: integer
+            format: int32
         - name: page_token
           description: Token to provide to skip to a particular spot in the list.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasNotes
-      x-swagger-router-controller: "controllers.grafeas_notes_controller"
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/notes/{note_id}:
     get:
@@ -232,116 +255,137 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiNote'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiNote'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of note's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: note_id
           in: path
           description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasNotes
-      x-swagger-router-controller: "controllers.grafeas_notes_controller"
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
     put:
       summary: Updates an existing `Note`.
       operationId: update_note
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiNote'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiNote'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apiNote'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of note's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: note_id
           in: path
           description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
-        - name: body
-          in: body
-          required: true
           schema:
-            $ref: '#/definitions/apiNote'
+            type: string
       tags:
         - GrafeasNotes
-      x-swagger-router-controller: "controllers.grafeas_notes_controller"
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
     delete:
       summary: Deletes the given `Note` from the system.
       operationId: delete_note
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiEmpty'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiEmpty'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of note's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: note_id
           in: path
           description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasNotes
-      x-swagger-router-controller: "controllers.grafeas_notes_controller"
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/occurrences/{occurrence_id}/note:
     get:
@@ -350,37 +394,44 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiNote'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiNote'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of occurrence's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: occurrence_id
           in: path
           description: "Second part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
-          type: "string"
+          schema:
+            type: string
       tags:
         - GrafeasNotes
-      x-swagger-router-controller: "controllers.grafeas_notes_controller"
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/occurrences:
     post:
@@ -391,89 +442,105 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiOccurrence'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiOccurrence'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apiOccurrence'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: Replace-If-Exists
           description: It allows replacing an existing occurrence when set to true.
           in: header
-          type: boolean
+          schema:
+            type: boolean
         - name: account_id
           in: path
           description: "Account ID of occurrence's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "Part of `parent`. This contains the provider_id for example: providers/{provider_id}"
           required: true
-          type: string
-        - name: body
-          in: body
-          required: true
           schema:
-            $ref: '#/definitions/apiOccurrence'
+            type: string
       tags:
         - GrafeasOccurrences
-      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+      x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
     get:
       summary: Lists active `Occurrences` for a given provider matching the filters.
       operationId: list_occurrences
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiListOccurrencesResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiListOccurrencesResponse'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of occurrences' owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "Part of `parent`. This contains the provider_id for example: providers/{provider_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: filter
           description: The filter expression.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
         - name: page_size
           description: Number of occurrences to return in the list.
           in: query
           required: false
-          type: integer
-          format: int32
+          schema:
+            type: integer
+            format: int32
         - name: page_token
           description: Token to provide to skip to a particular spot in the list.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasOccurrences
-      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+      x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/occurrences/{occurrence_id}:
     get:
@@ -482,116 +549,137 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiOccurrence'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiOccurrence'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of occurrence's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: occurrence_id
           in: path
           description: "Second part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasOccurrences
-      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+      x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
     put:
       summary: Updates an existing `Occurrence`.
       operationId: update_occurrence
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiOccurrence'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiOccurrence'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apiOccurrence'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of occurrence's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: occurrence_id
           in: path
           description: "Second part of occurrence `name`: providers/{provider_id}/occurrences/{occurrence_id}"
           required: true
-          type: string
-        - name: body
-          in: body
-          required: true
           schema:
-            $ref: '#/definitions/apiOccurrence'
+            type: string
       tags:
         - GrafeasOccurrences
-      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+      x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
     delete:
       summary: Deletes the given `Occurrence` from the system.
       operationId: delete_occurrence
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiEmpty'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiEmpty'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of occurrence's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of occurrence `name`: providers/{provider_id}/notes/{occurrence_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: occurrence_id
           in: path
           description: "Second part of occurrence `name`: providers/{provider_id}/notes/{occurrence_id}"
           required: true
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasOccurrences
-      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+      x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/notes/{note_id}/occurrences:
     get:
@@ -603,721 +691,756 @@ paths:
       responses:
         '200':
           description: ''
-          schema:
-            $ref: '#/definitions/apiListNoteOccurrencesResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiListNoteOccurrencesResponse'
       parameters:
         - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
-          type: string
+          schema:
+            type: string
         - name: X-UserToken
           description: The IAM token of the user on whose behalf the operation is executed.
           in: header
           required: false
-          type: string
+          schema:
+            type: string
         - name: account_id
           in: path
           description: "Account ID of note's owner"
           required: true
-          type: string
+          schema:
+            type: string
         - name: provider_id
           in: path
           description: "First part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: note_id
           in: path
           description: "Second part of note `name`: providers/{provider_id}/notes/{note_id}"
           required: true
-          type: string
+          schema:
+            type: string
         - name: filter
           description: The filter expression.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
         - name: page_size
           description: Number of notes to return in the list.
           in: query
           required: false
-          type: integer
-          format: int32
+          schema:
+            type: integer
+            format: int32
         - name: page_token
           description: Token to provide to skip to a particular spot in the list.
           in: query
           required: false
-          type: string
+          schema:
+            type: string
       tags:
         - GrafeasOccurrences
-      x-swagger-router-controller: "controllers.grafeas_occurrences_controller"
+      x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
 
-definitions:
-  apiEmpty:
-    type: object
-    description: |-
-      A generic empty message that you can re-use to avoid defining duplicated
-      empty messages in your APIs. A typical example is to use it as the request
-      or the response type of an API method.
-      The JSON representation for `Empty` is empty JSON object `{}`.
+components:
+  schemas:
+    apiEmpty:
+      type: object
+      description: |-
+        A generic empty message that you can re-use to avoid defining duplicated
+        empty messages in your APIs. A typical example is to use it as the request
+        or the response type of an API method.
+        The JSON representation for `Empty` is empty JSON object `{}`.
 
-  apiListNoteOccurrencesResponse:
-    description: Response including listed occurrences for a note.
-    type: object
-    properties:
-      occurrences:
-        type: array
-        items:
-          $ref: '#/definitions/apiOccurrence'
-        description: The occurrences attached to the specified note.
-      next_page_token:
-        type: string
-        description: Token to receive the next page of notes.
-
-  apiListNotesResponse:
-    type: object
-    description: Response including listed notes.
-    properties:
-      notes:
-        type: array
-        items:
-          $ref: '#/definitions/apiNote'
-        title: The occurrences requested
-      next_page_token:
-        type: string
-        description: |-
-          The next pagination token in the list response. It should be used as
-          page_token for the following request. An empty value means no more result.
-
-  apiListOccurrencesResponse:
-    type: object
-    description: Response including listed active occurrences.
-    properties:
-      occurrences:
-        type: array
-        items:
-          $ref: '#/definitions/apiOccurrence'
-        description: The occurrences requested.
-      next_page_token:
-        type: string
-        description: |-
-          The next pagination token in the list response. It should be used as
-          `page_token` for the following request. An empty value means no more
-          results.
-
-  apiListProvidersResponse:
-    type: object
-    description: Response including listed providers
-    properties:
-      providers:
-        type: array
-        items:
-          $ref: '#/definitions/apiProvider'
-        description: The providers requested.
-      next_page_token:
-        type: string
-        description: |-
-          The next pagination token in the list response. It should be used as
-          `page_token` for the following request. An empty value means no more
-          results.
-
-  apiNote:
-    type: object
-    description: Provides a detailed description of a `Note`.
-    properties:
-      name:
-        type: string
-        title: |-
-          The name of the note in the form "providers/{provider_id}/notes/{note_id}"
-      short_description:
-        type: string
-        description: A one sentence description of this `Note`.
-      long_description:
-        type: string
-        description: A detailed description of this `Note`.
-      kind:
-        $ref: '#/definitions/apiNoteKind'
-        description: |-
-          Output only. This explicitly denotes which kind of note is specified. This
-          field can be used as a filter in list requests.
-      related_url:
-        type: array
-        items:
-          $ref: '#/definitions/apiNoteRelatedUrl'
-        title: URLs associated with this note
-      expiration_time:
-        type: string
-        format: date-time
-        description: 'Time of expiration for this note, null if note does not expire.'
-      create_time:
-        type: string
-        format: date-time
-        description: |-
-          Output only. The time this note was created.
-          This field can be used as a filter in list requests.
-      update_time:
-        type: string
-        format: date-time
-        description: |-
-          Output only. The time this note was last updated.
-          This field can be used as a filter in list requests.
-
-      #
-      # IBM extensions
-      #
-
-      author:
-        $ref: '#/definitions/Subject'
-        description: The author of the note
-      provider_id:
-        type: string
-        title: The provider id of the note
-      id:
-        type: string
-        title: The id of the note
-      shared:
-        type: boolean
-        description: True if this `Note` can be shared by multiple accounts.
-        default: true
-      reported_by:
-        $ref: '#/definitions/Reporter'
-        description: Details about the reporter of this `Note`.
-      finding:
-        $ref: '#/definitions/FindingType'
-        description: The finding details of the note.
-      kpi:
-        $ref: '#/definitions/KpiType'
-        description: The KPI details of the note.
-      card:
-        $ref: '#/definitions/Card'
-        description: The card details of the note.
-      section:
-        $ref: '#/definitions/Section'
-        description: The section details of the note.
-    required:
-      - id
-      - short_description
-      - long_description
-      - kind
-      - reported_by
-
-  apiNoteKind:
-    type: string
-    enum:
-      - FINDING
-      - KPI
-      - CARD
-      - CARD_CONFIGURED
-      - SECTION
-    description: |-
-      This must be 1&#58;1 with members of our oneofs, it can be used for filtering Note and Occurrence on their kind.
-       - FINDING&#58; The note and occurrence represent a finding.
-       - KPI&#58; The note and occurrence represent a KPI value.
-       - CARD&#58; The note represents a card showing findings and related metric values.
-       - CARD_CONFIGURED&#58; The note represents a card configured for a user account.
-       - SECTION&#58; The note represents a section in a dashboard.
-
-  apiNoteRelatedUrl:
-    type: object
-    description: Metadata for any related URL information
-    properties:
-      label:
-        type: string
-        title: Label to describe usage of the URL
-      url:
-        type: string
-        title: Specific URL to associate with the note
-
-  apiOccurrence:
-    type: object
-    description: '`Occurrence` includes information about analysis occurrences for an image.'
-    properties:
-      name:
-        type: string
-        description: |-
-          Output only. The name of the `Occurrence` in the form "providers/{provider_id}/occurrences/{occuurence_id}"
-      resource_url:
-        type: string
-        description: |-
-          The unique URL of the resource, image or the container, for which the `Occurrence` applies.
-          For example, https://gcr.io/provider/image@sha256:foo.
-          This field can be used as a filter in list requests.
-      note_name:
-        type: string
-        description: |-
-          An analysis note associated with this image, in the form "providers/{provider_id}/notes/{note_id}"
-          This field can be used as a filter in list requests.
-      kind:
-        $ref: '#/definitions/apiNoteKind'
-        description: |-
-          Output only. This explicitly denotes which of the `Occurrence` details are specified.
-          This field can be used as a filter in list requests.
-      remediation:
-        type: string
-        title: A description of actions that can be taken to remedy the `Note`
-      create_time:
-        type: string
-        format: date-time
-        description: Output only. The time this `Occurrence` was created.
-      update_time:
-        type: string
-        format: date-time
-        description: Output only. The time this `Occurrence` was last updated.
-
-      #
-      # IBM extensions
-      #
-
-      author:
-        $ref: '#/definitions/Subject'
-        description: The author of the occurrence
-      provider_id:
-        type: string
-        title: The provider id of the occurrence
-      id:
-        type: string
-        title: The id of the occurrence
-      context:
-        $ref: '#/definitions/Context'
-        description: Details about the context of this `Occurrence`
-      finding:
-        $ref: '#/definitions/Finding'
-        description: Details of the occurrence of a finding.
-      kpi:
-        $ref: '#/definitions/Kpi'
-        description: Details of the occurrence of a KPI.
-    required:
-      - id
-      - note_name
-      - kind
-      - context
-
-  apiProvider:
-    type: object
-    description: Provides detailed description of a `Provider`.
-    properties:
-      name:
-        type: string
-        title: The name of the provider of the form "providers/{provider_id}"
-
-      #
-      # IBM extensions
-      #
-
-      id:
-        type: string
-        title: The id of the provider
-
-  Certainty:
-    type: string
-    enum:
-      - LOW
-      - MEDIUM
-      - HIGH
-    description: |-
-      Note provider-assigned confidence on the validity of an occurrence
-      - LOW&#58; Low Certainty
-      - MEDIUM&#58; Medium Certainty
-      - HIGH&#58; High Certainty
-
-  Context:
-    type: object
-    properties:
-      region:
-        type: string
-        description: The IBM Cloud region
-      resource_crn:
-        type: string
-        description: The resource CRN (e.g. certificate CRN, image CRN)
-      resource_id:
-        type: string
-        description: The resource ID, in case the CRN is not available
-      resource_name:
-        type: string
-        description: The user-friendly resource name
-      resource_type:
-        type: string
-        description: The resource type name (e.g. Pod, Cluster, Certificate, Image)
-      service_crn:
-        type: string
-        description: The service CRN (e.g. CertMgr Instance CRN)
-      service_name:
-        type: string
-        description: The service name (e.g. CertMgr)
-
-      #
-      # Used  by DevOps Insights
-      #
-
-      environment_name:
-        type: string
-        description: The name of the environment the occurrence applies to
-      component_name:
-        type: string
-        description: The name of the component the occurrence applies to
-      toolchain_id:
-        type: string
-        description: The id of the toolchain the occurrence applies to
-
-  Reporter:
-    type: object
-    description: The entity reporting a note
-    properties:
-      id:
-        type: string
-        description: The id of this reporter
-      title:
-        type: string
-        description: The title of this reporter
-      url:
-        type: string
-        description: The url of this reporter
-    required:
-      - id
-      - title
-
-  Severity:
-    type: string
-    enum:
-      - LOW
-      - MEDIUM
-      - HIGH
-    description: |-
-      Note provider-assigned severity/impact ranking
-      - LOW&#58; Low Impact
-      - MEDIUM&#58; Medium Impact
-      - HIGH&#58; High Impact
-
-  Subject:
-    type: object
-    description: The subject executing an operation
-    properties:
-      kind:
-        type: string
-        description: the kind of this subject
-      id:
-        type: string
-        description: the id of this subject
-      account_id:
-        type: string
-        description: the account id of this subject
-      email:
-        type: string
-        description: the email address of this subject
-    required:
-      - kind
-      - id
-      - account_id
-
-#
-# Finding note and occurrence definitions
-#
-
-  FindingType:
-    type: object
-    description: FindingType provides details about a finding note.
-    properties:
-      severity:
-        $ref: '#/definitions/Severity'
-        default: MEDIUM
-        description: The default severity of the findings related to this `Note`
-      next_steps:
-        type: array
-        items:
-          $ref: '#/definitions/RemediationStep'
-        description: Common remediation steps for the finding of this type
-    required:
-      - severity
-
-  Finding:
-    type: object
-    description: Finding provides details about a finding occurrence.
-    properties:
-      severity:
-        $ref: '#/definitions/Severity'
-        description: The common severity of this `Occurrence`
-      certainty:
-        $ref: '#/definitions/Certainty'
-        default: HIGH
-        description: The confidence level on this `Occurrence`
-      next_steps:
-        type: array
-        items:
-          $ref: '#/definitions/RemediationStep'
-        description: Remediation steps for the issues reported in this finding. They override the note's next steps.
-      network_connection:
-        $ref: '#/definitions/NetworkConnection'
-        description: Network connection details of this finding
-      data_transferred:
-        $ref: '#/definitions/DataTransferred'
-        description: Data transferred details of this finding
-
-  RemediationStep:
-    type: object
-    description: A remediation step description and associated URL
-    properties:
-      title:
-        type: string
-        description: Title of this next step
-      url:
-        type: string
-        description: The URL associated to this next steps
-
-  NetworkConnection:
-    type: object
-    description: It provides details about a network connection
-    properties:
-      direction:
-        type: string
-        description: The direction of this network connection
-      protocol:
-        type: string
-        description: The protocol of this network connection
-      client:
-        $ref: '#/definitions/SocketAddress'
-        description: The client socket address of this network connection
-      server:
-        $ref: '#/definitions/SocketAddress'
-        description: The server socket address of this network connection
-
-  SocketAddress:
-    type: object
-    description: It provides details about a socket address
-    properties:
-      address:
-        type: string
-        description: he IP address of this socket address
-      port:
-        type: integer
-        description: he port number of this socket address
-    required:
-      - address
-
-  DataTransferred:
-    type: object
-    description: It provides details about data transferred between clients and servers
-    properties:
-      client_bytes:
-        type: integer
-        description: The number of client bytes transferred
-      server_bytes:
-        type: integer
-        description: The number of server bytes transferred
-      client_packets:
-        type: integer
-        description: The number of client packets transferred
-      server_packets:
-        type: integer
-        description: The number of server packets transferred
-
-#
-# KPI note and occurrence definitions
-#
-
-  KpiType:
-    type: object
-    description: KpiType provides details about a KPI note.
-    properties:
-      aggregation_type:
-        type: string
-        enum:
-          - SUM
-        description: |-
-          The aggregation type of the KPI values.
-          - SUM&#58; A single-value metrics aggregation type that sums up numeric values
-            that are extracted from KPI occurrences.
-        default: SUM
-    required:
-      - aggregation_type
-
-  Kpi:
-    type: object
-    description: Kpi provides details about a KPI occurrence.
-    properties:
-      value:
-        type: number
-        description: The value of this KPI
-      total:
-        type: number
-        description: The total value of this KPI
-    required:
-      - value
-
-#
-# Section note details
-#
-
-  Section:
-    type: object
-    description: Card provides details about a card kind of note
-    properties:
-      title:
-        type: string
-        description: The title of this section
-      image:
-        type: string
-        description: The image of this section
-    required:
-      - title
-      - image
-
-#
-# Card note details
-#
-
-  Card:
-    type: object
-    description: Card provides details about a card kind of note
-    properties:
-      section:
-        type: string
-        description: The section this card belongs to
-      title:
-        type: string
-        description: The title of this card
-      finding_note_names:
-        type: array
-        items:
-          type: string
-        description: The finding note names associated to this card
-      requires_configuration:
-        type: boolean
-        default: false
-      badge_text:
-        type: string
-        description: The text associated to the card's badge
-      badge_image:
-        type: string
-        description: The base64 content of the image associated to the card's badge
-      elements:
-        type: array
-        items:
-          $ref: '#/definitions/CardElement'
-        description: The elements of this card
-    required:
-      - section
-      - title
-      - elements
-
-  CardElement:
-    type: object
-    description: CardElement provides details about the elements of a Card
-    discriminator: kind
-    properties:
-      kind:
-        type: string
-        enum:
-          - NUMERIC
-          - BREAKDOWN
-          - TIME_SERIES
-        description: |-
-          Kind of element
-          - NUMERIC&#58; Single numeric value
-          - BREAKDOWN&#58; Breakdown of numeric values
-          - TIME_SERIES&#58; Time-series of numeric values
-      text:
-        type: string
-        description: The text of this card element
-      default_time_range:
-        type: string
-        description: The default time range of this card element
-        default: "7d"
-    required:
-      - kind
-      - text
-
-  NumericCardElement:
-    description: A card element with a single numeric value
-    allOf:
-    - $ref: '#/definitions/CardElement'
-    - type: object
+    apiProvider:
+      type: object
+      description: Provides detailed description of a `Provider`.
       properties:
-        value_type:
+        name:
           type: string
-          description: the value type associated to this card element
-      required:
-      - value_type
+          title: The name of the provider of the form "providers/{provider_id}"
 
-  BreakdownCardElement:
-    description: A card element with a breakdown of values
-    allOf:
-    - $ref: '#/definitions/CardElement'
-    - type: object
+        #
+        # IBM extensions
+        #
+
+        id:
+          type: string
+          title: The id of the provider
+
+    apiListProvidersResponse:
+      type: object
+      description: Response including listed providers
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/apiProvider'
+          description: The providers requested.
+        next_page_token:
+          type: string
+          description: |-
+            The next pagination token in the list response. It should be used as
+            `page_token` for the following request. An empty value means no more
+            results.
+
+    apiNote:
+      type: object
+      description: Provides a detailed description of a `Note`.
+      properties:
+        name:
+          type: string
+          title: |-
+            The name of the note in the form "providers/{provider_id}/notes/{note_id}"
+        short_description:
+          type: string
+          description: A one sentence description of this `Note`.
+        long_description:
+          type: string
+          description: A detailed description of this `Note`.
+        kind:
+          $ref: '#/components/schemas/apiNoteKind'
+          description: |-
+            Output only. This explicitly denotes which kind of note is specified. This
+            field can be used as a filter in list requests.
+        related_url:
+          type: array
+          items:
+            $ref: '#/components/schemas/apiNoteRelatedUrl'
+          title: URLs associated with this note
+        expiration_time:
+          type: string
+          format: date-time
+          description: 'Time of expiration for this note, null if note does not expire.'
+        create_time:
+          type: string
+          format: date-time
+          description: |-
+            Output only. The time this note was created.
+            This field can be used as a filter in list requests.
+        update_time:
+          type: string
+          format: date-time
+          description: |-
+            Output only. The time this note was last updated.
+            This field can be used as a filter in list requests.
+
+        #
+        # IBM extensions
+        #
+
+        author:
+          $ref: '#/components/schemas/Subject'
+          description: The author of the note
+        provider_id:
+          type: string
+          title: The provider id of the note
+        id:
+          type: string
+          title: The id of the note
+        shared:
+          type: boolean
+          description: True if this `Note` can be shared by multiple accounts.
+          default: true
+        reported_by:
+          $ref: '#/components/schemas/Reporter'
+          description: Details about the reporter of this `Note`.
+        finding:
+          $ref: '#/components/schemas/FindingType'
+          description: The finding details of the note.
+        kpi:
+          $ref: '#/components/schemas/KpiType'
+          description: The KPI details of the note.
+        card:
+          $ref: '#/components/schemas/Card'
+          description: The card details of the note.
+        section:
+          $ref: '#/components/schemas/Section'
+          description: The section details of the note.
+      required:
+        - id
+        - short_description
+        - long_description
+        - kind
+        - reported_by
+
+    apiListNoteOccurrencesResponse:
+      description: Response including listed occurrences for a note.
+      type: object
+      properties:
+        occurrences:
+          type: array
+          items:
+            $ref: '#/components/schemas/apiOccurrence'
+          description: The occurrences attached to the specified note.
+        next_page_token:
+          type: string
+          description: Token to receive the next page of notes.
+
+    apiListNotesResponse:
+      type: object
+      description: Response including listed notes.
+      properties:
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/apiNote'
+          title: The occurrences requested
+        next_page_token:
+          type: string
+          description: |-
+            The next pagination token in the list response. It should be used as
+            page_token for the following request. An empty value means no more result.
+
+    apiListOccurrencesResponse:
+      type: object
+      description: Response including listed active occurrences.
+      properties:
+        occurrences:
+          type: array
+          items:
+            $ref: '#/components/schemas/apiOccurrence'
+          description: The occurrences requested.
+        next_page_token:
+          type: string
+          description: |-
+            The next pagination token in the list response. It should be used as
+            `page_token` for the following request. An empty value means no more
+            results.
+
+    apiOccurrence:
+      type: object
+      description: '`Occurrence` includes information about analysis occurrences for an image.'
+      properties:
+        name:
+          type: string
+          description: |-
+            Output only. The name of the `Occurrence` in the form "providers/{provider_id}/occurrences/{occuurence_id}"
+        resource_url:
+          type: string
+          description: |-
+            The unique URL of the resource, image or the container, for which the `Occurrence` applies.
+            For example, https://gcr.io/provider/image@sha256:foo.
+            This field can be used as a filter in list requests.
+        note_name:
+          type: string
+          description: |-
+            An analysis note associated with this image, in the form "providers/{provider_id}/notes/{note_id}"
+            This field can be used as a filter in list requests.
+        kind:
+          $ref: '#/components/schemas/apiNoteKind'
+          description: |-
+            Output only. This explicitly denotes which of the `Occurrence` details are specified.
+            This field can be used as a filter in list requests.
+        remediation:
+          type: string
+          title: A description of actions that can be taken to remedy the `Note`
+        create_time:
+          type: string
+          format: date-time
+          description: Output only. The time this `Occurrence` was created.
+        update_time:
+          type: string
+          format: date-time
+          description: Output only. The time this `Occurrence` was last updated.
+
+        #
+        # IBM extensions
+        #
+
+        author:
+          $ref: '#/components/schemas/Subject'
+          description: The author of the occurrence
+        provider_id:
+          type: string
+          title: The provider id of the occurrence
+        id:
+          type: string
+          title: The id of the occurrence
+        context:
+          $ref: '#/components/schemas/Context'
+          description: Details about the context of this `Occurrence`
+        finding:
+          $ref: '#/components/schemas/Finding'
+          description: Details of the occurrence of a finding.
+        kpi:
+          $ref: '#/components/schemas/Kpi'
+          description: Details of the occurrence of a KPI.
+      required:
+        - id
+        - note_name
+        - kind
+        - context
+
+    apiNoteKind:
+      type: string
+      enum:
+        - FINDING
+        - KPI
+        - CARD
+        - CARD_CONFIGURED
+        - SECTION
+      description: |-
+        This must be 1&#58;1 with members of our oneofs, it can be used for filtering Note and Occurrence on their kind.
+         - FINDING&#58; The note and occurrence represent a finding.
+         - KPI&#58; The note and occurrence represent a KPI value.
+         - CARD&#58; The note represents a card showing findings and related metric values.
+         - CARD_CONFIGURED&#58; The note represents a card configured for a user account.
+         - SECTION&#58; The note represents a section in a dashboard.
+
+    apiNoteRelatedUrl:
+      type: object
+      description: Metadata for any related URL information
+      properties:
+        label:
+          type: string
+          title: Label to describe usage of the URL
+        url:
+          type: string
+          title: Specific URL to associate with the note
+
+    Certainty:
+      type: string
+      enum:
+        - LOW
+        - MEDIUM
+        - HIGH
+      description: |-
+        Note provider-assigned confidence on the validity of an occurrence
+        - LOW&#58; Low Certainty
+        - MEDIUM&#58; Medium Certainty
+        - HIGH&#58; High Certainty
+
+    Context:
+      type: object
+      properties:
+        region:
+          type: string
+          description: The IBM Cloud region
+        resource_crn:
+          type: string
+          description: The resource CRN (e.g. certificate CRN, image CRN)
+        resource_id:
+          type: string
+          description: The resource ID, in case the CRN is not available
+        resource_name:
+          type: string
+          description: The user-friendly resource name
+        resource_type:
+          type: string
+          description: The resource type name (e.g. Pod, Cluster, Certificate, Image)
+        service_crn:
+          type: string
+          description: The service CRN (e.g. CertMgr Instance CRN)
+        service_name:
+          type: string
+          description: The service name (e.g. CertMgr)
+
+        #
+        # Used  by DevOps Insights
+        #
+
+        environment_name:
+          type: string
+          description: The name of the environment the occurrence applies to
+        component_name:
+          type: string
+          description: The name of the component the occurrence applies to
+        toolchain_id:
+          type: string
+          description: The id of the toolchain the occurrence applies to
+
+    Reporter:
+      type: object
+      description: The entity reporting a note
+      properties:
+        id:
+          type: string
+          description: The id of this reporter
+        title:
+          type: string
+          description: The title of this reporter
+        url:
+          type: string
+          description: The url of this reporter
+      required:
+        - id
+        - title
+
+    Severity:
+      type: string
+      enum:
+        - LOW
+        - MEDIUM
+        - HIGH
+      description: |-
+        Note provider-assigned severity/impact ranking
+        - LOW&#58; Low Impact
+        - MEDIUM&#58; Medium Impact
+        - HIGH&#58; High Impact
+
+    Subject:
+      type: object
+      description: The subject executing an operation
+      properties:
+        kind:
+          type: string
+          description: the kind of this subject
+        id:
+          type: string
+          description: the id of this subject
+        account_id:
+          type: string
+          description: the account id of this subject
+        email:
+          type: string
+          description: the email address of this subject
+      required:
+        - kind
+        - id
+        - account_id
+
+  #
+  # Finding note and occurrence #components
+  #
+
+    RemediationStep:
+      type: object
+      description: A remediation step description and associated URL
+      properties:
+        title:
+          type: string
+          description: Title of this next step
+        url:
+          type: string
+          description: The URL associated to this next steps
+
+    NetworkConnection:
+      type: object
+      description: It provides details about a network connection
       properties:
         direction:
           type: string
-          description: The direction of this breakdown card element
-        value_types:
+          description: The direction of this network connection
+        protocol:
+          type: string
+          description: The protocol of this network connection
+        client:
+          $ref: '#/components/schemas/SocketAddress'
+          description: The client socket address of this network connection
+        server:
+          $ref: '#/components/schemas/SocketAddress'
+          description: The server socket address of this network connection
+
+    SocketAddress:
+      type: object
+      description: It provides details about a socket address
+      properties:
+        address:
+          type: string
+          description: he IP address of this socket address
+        port:
+          type: integer
+          description: he port number of this socket address
+      required:
+        - address
+
+    DataTransferred:
+      type: object
+      description: It provides details about data transferred between clients and servers
+      properties:
+        client_bytes:
+          type: integer
+          description: The number of client bytes transferred
+        server_bytes:
+          type: integer
+          description: The number of server bytes transferred
+        client_packets:
+          type: integer
+          description: The number of client packets transferred
+        server_packets:
+          type: integer
+          description: The number of server packets transferred
+
+    FindingType:
+      type: object
+      description: FindingType provides details about a finding note.
+      properties:
+        severity:
+          $ref: '#/components/schemas/Severity'
+          default: MEDIUM
+          description: The default severity of the findings related to this `Note`
+        next_steps:
           type: array
           items:
-            $ref: '#/definitions/ValueType'
-          description: the value types associated to this card element
+            $ref: '#/components/schemas/RemediationStep'
+          description: Common remediation steps for the finding of this type
       required:
-      - value_types
+        - severity
 
-  TimeSeriesCardElement:
-    description: A card element with a time series chart
-    allOf:
-    - $ref: '#/definitions/CardElement'
-    - type: object
+    Finding:
+      type: object
+      description: Finding provides details about a finding occurrence.
       properties:
-        default_interval:
-          type: string
-          description: The default interval of the time series
-          default: "d"
-        value_types:
+        severity:
+          $ref: '#/components/schemas/Severity'
+          description: The common severity of this `Occurrence`
+        certainty:
+          $ref: '#/components/schemas/Certainty'
+          default: HIGH
+          description: The confidence level on this `Occurrence`
+        next_steps:
           type: array
           items:
-            $ref: '#/definitions/ValueType'
-          description: the value types associated to this card element
-      required:
-      - value_types
+            $ref: '#/components/schemas/RemediationStep'
+          description: Remediation steps for the issues reported in this finding. They override the note's next steps.
+        network_connection:
+          $ref: '#/components/schemas/NetworkConnection'
+          description: Network connection details of this finding
+        data_transferred:
+          $ref: '#/components/schemas/DataTransferred'
+          description: Data transferred details of this finding
 
-  ValueType:
-    type: object
-    description: the value type of a card element
-    discriminator: kind
-    properties:
-      kind:
-        type: string
-        enum:
-          - KPI
-          - FINDING
-        description: |-
-          Kind of element
-          - KPI&#58; Kind of value derived from a KPI occurrence
-          - FINDING_COUNT&#58; Kind of value derived from a count of finding occurrences
-      text:
-        type: string
-        description: The text of this element type
-        default: ""
-    required:
-      - kind
-      - text
+  #
+  # KPI note and occurrence #components
+  #
 
-  KpiValueType:
-    type: object
-    allOf:
-    - $ref: '#/definitions/ValueType'
-    - type: object
+    KpiType:
+      type: object
+      description: KpiType provides details about a KPI note.
       properties:
-        kpi_note_name:
+        aggregation_type:
           type: string
+          enum:
+            - SUM
           description: |-
-            The name of the kpi note associated to the occurrence with the value for this card element value type
+            The aggregation type of the KPI values.
+            - SUM&#58; A single-value metrics aggregation type that sums up numeric values
+              that are extracted from KPI occurrences.
+          default: SUM
+        severity:
+          $ref: '#/components/schemas/Severity'
+          default: MEDIUM
+          description: The default severity of the kpi related to this `Note`
       required:
-        - kpi_note_name
+        - aggregation_type
 
-  FindingCountValueType:
-    type: object
-    allOf:
-    - $ref: '#/definitions/ValueType'
-    - type: object
+    Kpi:
+      type: object
+      description: Kpi provides details about a KPI occurrence.
       properties:
+        value:
+          type: number
+          description: The value of this KPI
+        total:
+          type: number
+          description: The total value of this KPI
+      required:
+        - value
+
+  #
+  # Section note details
+  #
+
+    Section:
+      type: object
+      description: Card provides details about a card kind of note
+      properties:
+        title:
+          type: string
+          description: The title of this section
+        image:
+          type: string
+          description: The image of this section
+      required:
+        - title
+        - image
+
+  #
+  # Card note details
+  #
+
+    CardElement:
+      type: object
+      description: CardElement provides details about the elements of a Card
+      properties:
+        text:
+          type: string
+          description: The text of this card element
+        default_time_range:
+          type: string
+          description: The default time range of this card element
+          default: "7d"
+      required:
+        - text
+
+    Card:
+      type: object
+      description: Card provides details about a card kind of note
+      properties:
+        section:
+          type: string
+          description: The section this card belongs to
+        title:
+          type: string
+          description: The title of this card
         finding_note_names:
           type: array
           items:
             type: string
-          description: |-
-            the names of the finding note associated that act as filters for counting the occurrences
+          description: The finding note names associated to this card
+        requires_configuration:
+          type: boolean
+          default: false
+        badge_text:
+          type: string
+          description: The text associated to the card's badge
+        badge_image:
+          type: string
+          description: The base64 content of the image associated to the card's badge
+        elements:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/NumericCardElement'
+              - $ref: '#/components/schemas/BreakdownCardElement'
+              - $ref: '#/components/schemas/TimeSeriesCardElement'
+          description: The elements of this card
       required:
-        - finding_note_names
+        - section
+        - title
+        - elements
+
+    ValueType:
+      type: object
+      description: the value type of a card element
+      properties:
+        text:
+          type: string
+          description: The text of this element type
+          default: "label"
+
+    NumericCardElement:
+      description: A card element with a single numeric value
+      allOf:
+      - $ref: '#/components/schemas/CardElement'
+      - type: object
+        properties:
+          kind:
+            type: string
+            enum: [NUMERIC]
+            description: |-
+              Kind of element
+              - NUMERIC&#58; Single numeric value
+          value_type:
+            type: object
+            anyOf:
+              - $ref: '#/components/schemas/KpiValueType'
+              - $ref: '#/components/schemas/FindingCountValueType'
+            description: the value type associated to this card element
+        required:
+        - kind
+        - value_type
+
+    BreakdownCardElement:
+      description: A card element with a breakdown of values
+      allOf:
+      - $ref: '#/components/schemas/CardElement'
+      - type: object
+        properties:
+          kind:
+            type: string
+            enum: [BREAKDOWN]
+            description: |-
+              Kind of element
+              - BREAKDOWN&#58; Breakdown of numeric values
+          direction:
+            type: string
+            description: The direction of this breakdown card element
+          value_types:
+            type: array
+            items:
+              anyOf:
+                - $ref: '#/components/schemas/KpiValueType'
+                - $ref: '#/components/schemas/FindingCountValueType'
+            description: the value types associated to this card element
+        required:
+        - kind
+        - value_types
+
+    TimeSeriesCardElement:
+      description: A card element with a time series chart
+      allOf:
+      - $ref: '#/components/schemas/CardElement'
+      - type: object
+        properties:
+          kind:
+            type: string
+            enum: [TIME_SERIES]
+            description: |-
+              Kind of element
+              - TIME_SERIES&#58; Time-series of numeric values
+          default_interval:
+            type: string
+            description: The default interval of the time series
+            default: "d"
+          value_types:
+            type: array
+            items:
+              anyOf:
+                - $ref: '#/components/schemas/KpiValueType'
+                - $ref: '#/components/schemas/FindingCountValueType'
+            description: the value types associated to this card element
+        required:
+        - kind
+        - value_types
+
+    KpiValueType:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ValueType'
+      - type: object
+        properties:
+          kind:
+            type: string
+            enum: [KPI]
+            description: |-
+              Kind of element
+              - KPI&#58; Kind of value derived from a KPI occurrence
+          kpi_note_name:
+            type: string
+            description: |-
+              The name of the kpi note associated to the occurrence with the value for this card element value type
+        required:
+          - kind
+          - kpi_note_name
+
+    FindingCountValueType:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ValueType'
+      - type: object
+        properties:
+          kind:
+            type: string
+            enum: [FINDING_COUNT]
+            description: |-
+              Kind of element
+              - FINDING_COUNT&#58; Kind of value derived from a count of finding occurrences
+          finding_note_names:
+            type: array
+            items:
+              type: string
+            description: |-
+              the names of the finding note associated that act as filters for counting the occurrences
+        required:
+          - kind
+          - finding_note_names
+

@@ -1271,15 +1271,10 @@ components:
       type: object
       description: CardElement provides details about the elements of a Card
       properties:
-        text:
-          type: string
-          description: The text of this card element
         default_time_range:
           type: string
           description: The default time range of this card element
           default: "7d"
-      required:
-        - text
 
     Card:
       type: object
@@ -1287,10 +1282,16 @@ components:
       properties:
         section:
           type: string
+          maxLength: 25
           description: The section this card belongs to
         title:
           type: string
+          maxLength: 28
           description: The title of this card
+        subtitle:
+          type: string
+          maxLength: 30
+          description: The subtitle of this card
         finding_note_names:
           type: array
           items:
@@ -1312,10 +1313,13 @@ components:
               - $ref: '#/components/schemas/NumericCardElement'
               - $ref: '#/components/schemas/BreakdownCardElement'
               - $ref: '#/components/schemas/TimeSeriesCardElement'
+          minItems: 3
+          maxItems: 3
           description: The elements of this card
       required:
         - section
         - title
+        - subtitle
         - elements
 
     ValueType:
@@ -1326,6 +1330,7 @@ components:
           type: string
           description: The text of this element type
           default: "label"
+          maxLength: 22
 
     NumericCardElement:
       description: A card element with a single numeric value
@@ -1339,6 +1344,10 @@ components:
             description: |-
               Kind of element
               - NUMERIC&#58; Single numeric value
+          text:
+            type: string
+            maxLength: 60
+            description: The text of this card element
           value_type:
             type: object
             anyOf:
@@ -1347,6 +1356,7 @@ components:
             description: the value type associated to this card element
         required:
         - kind
+        - text
         - value_type
 
     BreakdownCardElement:
@@ -1361,6 +1371,10 @@ components:
             description: |-
               Kind of element
               - BREAKDOWN&#58; Breakdown of numeric values
+          text:
+            type: string
+            maxLength: 65
+            description: The text of this card element
           direction:
             type: string
             description: The direction of this breakdown card element
@@ -1373,6 +1387,7 @@ components:
             description: the value types associated to this card element
         required:
         - kind
+        - text
         - value_types
 
     TimeSeriesCardElement:
@@ -1387,6 +1402,10 @@ components:
             description: |-
               Kind of element
               - TIME_SERIES&#58; Time-series of numeric values
+          text:
+            type: string
+            maxLength: 65
+            description: The text of this card element
           default_interval:
             type: string
             description: The default interval of the time series
@@ -1397,9 +1416,11 @@ components:
               anyOf:
                 - $ref: '#/components/schemas/KpiValueType'
                 - $ref: '#/components/schemas/FindingCountValueType'
+            maxItems: 3
             description: the value types associated to this card element
         required:
         - kind
+        - text
         - value_types
 
     KpiValueType:

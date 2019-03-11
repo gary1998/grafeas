@@ -1274,7 +1274,7 @@ components:
         default_time_range:
           type: string
           description: The default time range of this card element
-          enum: [4d]
+          enum: [1d, 2d, 3d, 4d]
           default: "4d"
 
     Card:

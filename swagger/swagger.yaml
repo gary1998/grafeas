@@ -1274,7 +1274,8 @@ components:
         default_time_range:
           type: string
           description: The default time range of this card element
-          default: "7d"
+          enum: [4d]
+          default: "4d"
 
     Card:
       type: object
@@ -1313,8 +1314,6 @@ components:
               - $ref: '#/components/schemas/NumericCardElement'
               - $ref: '#/components/schemas/BreakdownCardElement'
               - $ref: '#/components/schemas/TimeSeriesCardElement'
-          minItems: 3
-          maxItems: 3
           description: The elements of this card
       required:
         - section
@@ -1416,7 +1415,6 @@ components:
               anyOf:
                 - $ref: '#/components/schemas/KpiValueType'
                 - $ref: '#/components/schemas/FindingCountValueType'
-            maxItems: 3
             description: the value types associated to this card element
         required:
         - kind

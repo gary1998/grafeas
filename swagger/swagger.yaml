@@ -1415,6 +1415,7 @@ components:
               anyOf:
                 - $ref: '#/components/schemas/KpiValueType'
                 - $ref: '#/components/schemas/FindingCountValueType'
+            maxItems: 3
             description: the value types associated to this card element
         required:
         - kind

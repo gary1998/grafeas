@@ -49,6 +49,9 @@ class API(object):
         kind = body['kind']
         API._validate_kind_field(kind, body, API._NOTE_KIND_FIELD_NAME_MAP)
 
+        if kind == "CARD":
+            API._validate_card_elements(body['card']['elements'])
+
         body['doc_type'] = 'Note'
         body['id'] = note_id
         body['author'] = author.to_dict()
@@ -169,6 +172,28 @@ class API(object):
         return "{:04d}-W{:02d}-{}".format(iso_calendar[0], iso_calendar[1], iso_calendar[2])
 
     @staticmethod
+    def _validate_card_elements(elements):
+        kri_count = 0
+        chart_count = 0
+        for element in elements:
+            if element['kind'] == 'NUMERIC':
+                kri_count = kri_count + 1
+            else:
+                chart_count = chart_count + 1
+
+        if chart_count == 0 and kri_count > API.MAX_KRI_ELEMENTS:
+            raise exceptions.BadRequestError(
+                "Invalid number of NUMERIC elements: Max {} NUMERIC elements are allowed".format(API.MAX_KRI_ELEMENTS))
+
+        if chart_count == 1 and kri_count > int(API.MAX_KRI_ELEMENTS / 2):
+            raise exceptions.BadRequestError(
+                "Invalid number of NUMERIC elements: Max {} NUMERIC elements are allowed along with a graph".format(int(API.MAX_KRI_ELEMENTS / 2)))
+
+        if chart_count > API.MAX_CHART_ELEMENTS:
+            raise exceptions.BadRequestError(
+                "Invalid number of TIME_SERIES/BREAKDOWN elements: Max allowed is {}".format(API.MAX_CHART_ELEMENTS))
+
+    @staticmethod
     def _validate_kind_field(kind, body, map_):
         field_name = map_.get(kind)
 
@@ -221,6 +246,9 @@ class API(object):
         'CARD_CONFIGURED': 'card_configured',
         'ACCOUNT_DELETED': FIELD_NOT_REQUIRED
     }
+
+    MAX_KRI_ELEMENTS = 4
+    MAX_CHART_ELEMENTS = 1
 
 
 SYSTEM_AUTHOR = auth_util.Subject('service-id', '$SYSTEM-ID', '$SYSTEM-ACCOUNT-ID')

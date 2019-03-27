@@ -136,6 +136,14 @@ class UnauthorizedError(JSONError):
             instance)
 
 
+class UnprocessableEntity(JSONError):
+    def __init__(self, detail: str, instance: str=None):
+        super().__init__(
+            detail,
+            HTTPStatus.UNPROCESSABLE_ENTITY.value, HTTPStatus.UNPROCESSABLE_ENTITY.phrase,
+            instance)
+
+
 HTTP_STATUS_CODE_HTTP_STATUS_MAP = {
     100: HTTPStatus.CONTINUE,
     101: HTTPStatus.SWITCHING_PROTOCOLS,

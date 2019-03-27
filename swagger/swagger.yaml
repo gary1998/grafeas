@@ -1145,10 +1145,10 @@ components:
       properties:
         address:
           type: string
-          description: he IP address of this socket address
+          description: The IP address of this socket address
         port:
           type: integer
-          description: he port number of this socket address
+          description: The port number of this socket address
       required:
         - address
 
@@ -1283,7 +1283,7 @@ components:
       properties:
         section:
           type: string
-          maxLength: 25
+          maxLength: 30
           description: The section this card belongs to
         title:
           type: string
@@ -1293,6 +1293,10 @@ components:
           type: string
           maxLength: 30
           description: The subtitle of this card
+        order:
+          type: integer
+          description: The order of the card in which it will appear on SA dashboard in the mentioned section
+          enum: [1, 2, 3, 4, 5, 6]
         finding_note_names:
           type: array
           items:

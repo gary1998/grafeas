@@ -178,22 +178,5 @@ global:
     production_lon04: 
     production_lon05:     
 
-  grafeasUrl:
-    development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    development_lon06: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com    
-    pre_production: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_dal10: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_dal12: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_dal13: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_lon02: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_lon04: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_lon05: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    production:
-    production_dal10: 
-    production_dal12: 
-    production_dal13:
-    production_lon02: 
-    production_lon04: 
-    production_lon05: 
 
     

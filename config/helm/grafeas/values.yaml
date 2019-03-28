@@ -13,6 +13,7 @@ global:
   grafeasAuthClassName: controllers.sa_auth.SecurityAdvisorAuthClient
   imageName:
     development: grafeas
+    development_lon06: grafeas
     pre_production: grafeas
     pre_production_dal10: grafeas
     pre_production_dal12: grafeas
@@ -30,6 +31,7 @@ global:
 
   registryHostName:
     development: registry.ng.bluemix.net
+    development_lon06: registry.ng.bluemix.net    
     pre_production: registry.ng.bluemix.net
     pre_production_dal10: registry.ng.bluemix.net
     pre_production_dal12: registry.ng.bluemix.net
@@ -47,6 +49,7 @@ global:
 
   logLevel:
     development: DEBUG
+    development_lon06: DEBUG    
     pre_production: DEBUG
     pre_production_dal10: DEBUG
     pre_production_dal12: DEBUG
@@ -64,6 +67,7 @@ global:
 
   grafeasDB:
     development: grafeas
+    development_lon06: grafeas    
     pre_production: grafeaspreprod
     pre_production_dal10: grafeaspreprod
     pre_production_dal12: grafeaspreprod
@@ -81,6 +85,7 @@ global:
 
   iamBaseUrl:
     development: https://iam.ng.bluemix.net
+    development_lon06: https://iam.ng.bluemix.net    
     stage:
     pre_production:
     pre_production_dal10: 
@@ -99,6 +104,7 @@ global:
 
   iamApiBaseUrl:
     development: https://iam-api.ng.bluemix.net
+    development_lon06: https://iam-api.ng.bluemix.net    
     stage:
     pre_production:
     pre_production_dal10: 
@@ -117,6 +123,7 @@ global:
 
   acceptHttp:
     development: '"true"'
+    development_lon06: '"true"'    
     stage: '"false"'
     pre_production: '"false"'
     pre_production_dal10: '"false"'
@@ -135,6 +142,7 @@ global:
 
   grafeasConfigureSsl:
     development: '"true"'
+    development_lon06: '"true"'    
     stage: '"true"'
     pre_production: '"true"'
     pre_production_dal10: '"true"'
@@ -153,6 +161,7 @@ global:
 
   qradarHost:
     development:
+    development_lon06:    
     stage:
     pre_production:
     pre_production_dal10: 
@@ -169,21 +178,5 @@ global:
     production_lon04: 
     production_lon05:     
 
-  grafeasUrl:
-    development: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_dal10: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_dal12: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_dal13: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_lon02: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_lon04: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    pre_production_lon05: https://25d6ed07-0aa0-4e8a-ab16-15c36aabe5f8-bluemix.cloudant.com
-    production:
-    production_dal10: 
-    production_dal12: 
-    production_dal13:
-    production_lon02: 
-    production_lon04: 
-    production_lon05: 
 
     

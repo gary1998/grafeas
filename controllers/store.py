@@ -34,6 +34,10 @@ class Store(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def list_section_card(self, author, account_id, provider_id, section):
+        pass
+
+    @abc.abstractmethod
     def delete_note(self, author, account_id, provider_id, note_id):
         pass
 

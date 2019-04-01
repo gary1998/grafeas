@@ -50,6 +50,10 @@ class API(object):
         API._validate_kind_field(kind, body, API._NOTE_KIND_FIELD_NAME_MAP)
 
         if kind == "CARD":
+            section = body['card']['section']
+            order = body['card']['order'] if 'order' in body['card'] else None
+            result = self.store.list_section_card(author, account_id, provider_id, section)
+            API._validate_card_order(result.docs, section, order)
             API._validate_card_elements(body['card']['elements'])
 
         body['doc_type'] = 'Note'
@@ -172,6 +176,42 @@ class API(object):
         return "{:04d}-W{:02d}-{}".format(iso_calendar[0], iso_calendar[1], iso_calendar[2])
 
     @staticmethod
+    def _validate_card_order(custom_section_cards, section, order):
+        existing_sections = []
+        count_section_cards = 0
+        for section_card in custom_section_cards:
+            existing_sections.append(section_card['card']['section'])
+
+        if section not in existing_sections:
+            if len(existing_sections) >= API.MAX_ALLOWED_CUSTOM_SECTION and "Partner Integrations" not in existing_sections:
+                raise exceptions.UnprocessableEntity(
+                    "Max number of allowed sections per account are {}".format(
+                        API.MAX_ALLOWED_CUSTOM_SECTION))
+            if len(existing_sections) >= (API.MAX_ALLOWED_CUSTOM_SECTION + 1) and "Partner Integrations" in existing_sections:
+                raise exceptions.UnprocessableEntity(
+                    "Max number of allowed sections per account are {}".format(
+                        API.MAX_ALLOWED_CUSTOM_SECTION))
+        else:
+            for section_card in custom_section_cards:
+                if section == section_card['card']['section']:
+                    if order and 'order' in section_card['card'] and order == section_card['card']['order']:
+                        raise exceptions.AlreadyExistsError(
+                            "Given order is already taken by other card in {} section".format(
+                                section))
+
+                    count_section_cards += 1
+
+        if count_section_cards >= API.MAX_ALLOWED_CARDS_IN_CUSTOM_SECTION:
+            raise exceptions.UnprocessableEntity(
+                "Max number of allowed cards in a section are {}".format(
+                        API.MAX_ALLOWED_CARDS_IN_CUSTOM_SECTION))
+
+        if order > (count_section_cards + 1):
+            raise exceptions.UnprocessableEntity(
+                "Order of the card cannot be more than existing number of cards plus one ({}) in a section".format(
+                    count_section_cards + 1))
+
+    @staticmethod
     def _validate_card_elements(elements):
         kri_count = 0
         chart_count = 0
@@ -182,15 +222,15 @@ class API(object):
                 chart_count = chart_count + 1
 
         if chart_count == 0 and kri_count > API.MAX_KRI_ELEMENTS:
-            raise exceptions.BadRequestError(
+            raise exceptions.UnprocessableEntity(
                 "Invalid number of NUMERIC elements: Max {} NUMERIC elements are allowed".format(API.MAX_KRI_ELEMENTS))
 
         if chart_count == 1 and kri_count > int(API.MAX_KRI_ELEMENTS / 2):
-            raise exceptions.BadRequestError(
+            raise exceptions.UnprocessableEntity(
                 "Invalid number of NUMERIC elements: Max {} NUMERIC elements are allowed along with a graph".format(int(API.MAX_KRI_ELEMENTS / 2)))
 
         if chart_count > API.MAX_CHART_ELEMENTS:
-            raise exceptions.BadRequestError(
+            raise exceptions.UnprocessableEntity(
                 "Invalid number of TIME_SERIES/BREAKDOWN elements: Max allowed is {}".format(API.MAX_CHART_ELEMENTS))
 
     @staticmethod
@@ -249,6 +289,8 @@ class API(object):
 
     MAX_KRI_ELEMENTS = 4
     MAX_CHART_ELEMENTS = 1
+    MAX_ALLOWED_CUSTOM_SECTION = 3
+    MAX_ALLOWED_CARDS_IN_CUSTOM_SECTION = 6
 
 
 SYSTEM_AUTHOR = auth_util.Subject('service-id', '$SYSTEM-ID', '$SYSTEM-ACCOUNT-ID')

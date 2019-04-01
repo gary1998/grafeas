@@ -85,6 +85,18 @@ class CloudantStore(store.Store):
         result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
         return result
 
+    def list_section_card(self, author, account_id, provider_id, section):
+        result = self.db.find(
+            key_values={
+                'context.account_id': account_id,
+                'doc_type': 'Note',
+                'kind': 'CARD',
+            },
+            index="ALL_FIELDS"
+            )
+        result.docs = [CloudantStore._clean_doc(doc) for doc in result.docs]
+        return result
+
     def delete_note(self, author, account_id, provider_id, note_id):
         note_name = common.build_note_name(account_id, provider_id, note_id)
         self.db.delete_doc(note_name)

@@ -206,7 +206,7 @@ class API(object):
                 "Max number of allowed cards in a section are {}".format(
                         API.MAX_ALLOWED_CARDS_IN_CUSTOM_SECTION))
 
-        if order > (count_section_cards + 1):
+        if order and order > (count_section_cards + 1):
             raise exceptions.UnprocessableEntity(
                 "Order of the card cannot be more than existing number of cards plus one ({}) in a section".format(
                     count_section_cards + 1))

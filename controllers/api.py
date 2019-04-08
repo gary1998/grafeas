@@ -177,10 +177,10 @@ class API(object):
 
     @staticmethod
     def _validate_card_order(custom_section_cards, section, order):
-        existing_sections = []
+        existing_sections = set()
         count_section_cards = 0
-        for section_card in custom_section_cards:
-            existing_sections.append(section_card['card']['section'])
+        for c in custom_section_cards:
+            existing_sections.add(c['card']['section'])
 
         if section not in existing_sections:
             if len(existing_sections) >= API.MAX_ALLOWED_CUSTOM_SECTION and "Partner Integrations" not in existing_sections:

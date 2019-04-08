@@ -89,8 +89,10 @@ class CloudantStore(store.Store):
         result = self.db.find(
             key_values={
                 'context.account_id': account_id,
+                'provider_id': provider_id,
                 'doc_type': 'Note',
                 'kind': 'CARD',
+                'card.section': section
             },
             index="ALL_FIELDS"
             )

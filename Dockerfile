@@ -15,7 +15,9 @@ RUN apk update \
     openssl-dev \
     make \
     musl-dev \
-    python3-dev
+    python3-dev \
+    sqlite-libs>=3.25.3-r0 \
+    krb5-libs>=1.15.4-r0
 
 ARG PIP_INDEX_URL
 

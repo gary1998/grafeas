@@ -16,5 +16,6 @@ data:
   deleteOccurrencesPageSize: {{ .Values.global.deleteOccurrencesPageSize | quote }}
   grafeasConfigureSsl: {{ index .Values.global.grafeasConfigureSsl .Values.global.env }}
   grafeasAuthClassName: {{ index .Values.global.grafeasAuthClassName | quote }}
+  globalScopeServices: {{ index .Values.global.globalScopeServices .Values.global.env | quote }}
 
   {{ include "common-configuration" . | indent 2 }}

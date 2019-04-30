@@ -309,27 +309,27 @@ class TestSecurityFindings(BaseTestCase):
 
     def test_02_create_occurrence(self):
         response = self.post_occurrence(
-            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
         self.delete_occurrence(
-            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1['id'])
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_1['id'])
 
     def test_03_create_occurrence(self):
         response = self.post_occurrence(
-            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
         self.delete_occurrence(
-            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2['id'])
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_2['id'])
 
     def test_04_create_occurrence(self):
         response = self.post_occurrence(
-            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
         self.delete_occurrence(
-            'Account01', XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3['id'])
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_OCCURRENCE_1_3['id'])
         self.delete_note(
             TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], ALERT_NOTE_1['id'])
 
@@ -341,11 +341,11 @@ class TestSecurityFindings(BaseTestCase):
 
     def test_06_create_occurrence(self):
         response = self.post_occurrence(
-            'Account02', XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
         self.delete_occurrence(
-            'Account02', XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'])
+            TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], KPI_OCCURRENCE_2_1['id'])
         self.delete_note(
             TEST_ACCOUNT_ID, XFORCE_PROJECT['id'], KPI_NOTE_2['id'])
 
@@ -357,17 +357,17 @@ class TestSecurityFindings(BaseTestCase):
 
     def test_08_create_occurrence(self):
         response = self.post_occurrence(
-            'Account02', OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
+            TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], ALERT_OCCURRENCE_3_1)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
 
     def test_09_create_occurrence(self):
         response = self.post_or_put_occurrence(
-            'Account02', OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1)
+            TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1)
         self.assertStatus(response, HTTPStatus.OK,
                           "Response body is : " + response.data.decode('utf-8'))
         self.delete_occurrence(
-            'Account02', OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'])
+            TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], MODIFIED_ALERT_OCCURRENCE_3_1['id'])
         self.delete_note(
             TEST_ACCOUNT_ID, OUTLIER_PROJECT['id'], ALERT_NOTE_3['id'])
 

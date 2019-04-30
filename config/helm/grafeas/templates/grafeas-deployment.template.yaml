@@ -127,11 +127,11 @@ spec:
             configMapKeyRef:
               name: grafeas-configuration
               key: logLevel
-        - name: WHITELISTED_ENTITY
+        - name: GLOBAL_SCOPE_SERVICES
           valueFrom:
             secretKeyRef:
-              name: grafeas-secret
-              key: whitelistedEntity
+              name: grafeas-configuration
+              key: globalScopeServices
         ports:
         - containerPort: 8080
           protocol: TCP

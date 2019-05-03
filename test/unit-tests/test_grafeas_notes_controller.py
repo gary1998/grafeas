@@ -120,7 +120,7 @@ class TestGrafeasNotesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence("AccountY", 'ProviderX', body)
+        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_06_create_duplicate_occurrence(self):
@@ -144,7 +144,7 @@ class TestGrafeasNotesController(BaseTestCase):
             }
         }
 
-        response = self.post_occurrence("AccountY", 'ProviderX', body)
+        response = self.post_occurrence(TEST_ACCOUNT_ID, 'ProviderX', body)
         self.assertStatus(response, HTTPStatus.CONFLICT, "Response body is : " + response.data.decode('utf-8'))
 
     def test_07_get_occurrence_note(self):
@@ -153,7 +153,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Gets the `Note` attached to the given `Occurrence`.
         """
-        response = self.get_occurrence_note("AccountY", 'ProviderX', 'Occurrence01')
+        response = self.get_occurrence_note(TEST_ACCOUNT_ID, 'ProviderX', 'Occurrence01')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_08_update_note(self):
@@ -206,7 +206,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Deletes the given `Occurrence` from the system.
         """
-        response = self.delete_occurrence("AccountY", 'ProviderX', 'Occurrence01')
+        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProviderX', 'Occurrence01')
         self.assertStatus(response, HTTPStatus.OK, "Response body is : " + response.data.decode('utf-8'))
 
     def test_12_delete_missing_occurrence(self):
@@ -215,7 +215,7 @@ class TestGrafeasNotesController(BaseTestCase):
 
         Deletes the given `Occurrence` from the system.
         """
-        response = self.delete_occurrence("AccountY", 'ProviderX', 'Occurrence01')
+        response = self.delete_occurrence(TEST_ACCOUNT_ID, 'ProviderX', 'Occurrence01')
         self.assertStatus(response, HTTPStatus.NOT_FOUND, "Response body is : " + response.data.decode('utf-8'))
 
 

@@ -129,7 +129,7 @@ spec:
               key: logLevel
         - name: GLOBAL_SCOPE_SERVICES
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               name: grafeas-configuration
               key: globalScopeServices
         ports:

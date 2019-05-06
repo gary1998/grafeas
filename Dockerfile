@@ -1,4 +1,4 @@
-FROM python:3.7.1-alpine
+FROM wcp-security-advisor-docker-local.artifactory.swg-devops.com/secadvpython:3.7.1
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -14,10 +14,7 @@ RUN apk update \
     libffi-dev \
     openssl-dev \
     make \
-    musl-dev \
-    python3-dev \
-    sqlite-libs>=3.25.3-r0 \
-    krb5-libs>=1.15.4-r0
+    musl-dev
 
 ARG PIP_INDEX_URL
 

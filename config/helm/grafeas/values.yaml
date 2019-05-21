@@ -30,22 +30,22 @@ global:
     production_lon05: grafeas
 
   registryHostName:
-    development: registry.ng.bluemix.net
-    development_lon06: registry.ng.bluemix.net    
-    pre_production: registry.ng.bluemix.net
-    pre_production_dal10: registry.ng.bluemix.net
-    pre_production_dal12: registry.ng.bluemix.net
-    pre_production_dal13: registry.ng.bluemix.net
-    pre_production_lon02: registry.ng.bluemix.net
-    pre_production_lon04: registry.ng.bluemix.net
-    pre_production_lon05: registry.ng.bluemix.net    
-    production: registry.ng.bluemix.net
-    production_dal10: registry.ng.bluemix.net
-    production_dal12: registry.ng.bluemix.net
-    production_dal13: registry.ng.bluemix.net
-    production_lon02: registry.ng.bluemix.net
-    production_lon04: registry.ng.bluemix.net
-    production_lon05: registry.ng.bluemix.net    
+    development: us.icr.io
+    development_lon06: us.icr.io    
+    pre_production: us.icr.io
+    pre_production_dal10: us.icr.io
+    pre_production_dal12: us.icr.io
+    pre_production_dal13: us.icr.io
+    pre_production_lon02: us.icr.io
+    pre_production_lon04: us.icr.io
+    pre_production_lon05: us.icr.io    
+    production: us.icr.io
+    production_dal10: us.icr.io
+    production_dal12: us.icr.io
+    production_dal13: us.icr.io
+    production_lon02: us.icr.io
+    production_lon04: us.icr.io
+    production_lon05: us.icr.io    
 
   logLevel:
     development: DEBUG

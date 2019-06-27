@@ -16,7 +16,6 @@
 import connexion
 import http
 import logging
-import urllib.parse
 from controllers import api
 from controllers import auth
 from controllers import common
@@ -39,7 +38,6 @@ def create_occurrence(account_id, provider_id, body):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id, safe='')
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_write_occurrences(connexion.request, account_id)
 
@@ -72,8 +70,6 @@ def update_occurrence(account_id, provider_id, occurrence_id, body):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id, safe='')
-        occurrence_id = urllib.parse.quote(occurrence_id, safe='')
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_write_occurrences(connexion.request, account_id)
 
@@ -105,7 +101,6 @@ def list_occurrences(account_id, provider_id, filter=None, page_size=None, page_
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id, safe='')
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
@@ -145,8 +140,6 @@ def list_note_occurrences(account_id, provider_id, note_id, filter=None, page_si
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id, safe='')
-        note_id = urllib.parse.quote(note_id,safe='')
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
@@ -180,8 +173,6 @@ def get_occurrence(account_id, provider_id, occurrence_id):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id, safe='')
-        occurrence_id = urllib.parse.quote(occurrence_id, safe='')
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_read_occurrences(connexion.request, account_id)
 
@@ -209,8 +200,6 @@ def delete_occurrence(account_id, provider_id, occurrence_id):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id, safe='')
-        occurrence_id = urllib.parse.quote(occurrence_id, safe='')
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_delete_occurrences(connexion.request, account_id)
 

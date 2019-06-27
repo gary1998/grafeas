@@ -16,6 +16,7 @@
 import connexion
 import http
 import logging
+import urllib.parse
 from controllers import api
 from controllers import auth
 from controllers import common
@@ -38,6 +39,7 @@ def create_note(account_id, provider_id, body):
     """
 
     try:
+        provider_id = urllib.parse.quote(provider_id)
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_write_notes(connexion.request, account_id)
 
@@ -68,6 +70,8 @@ def update_note(account_id, provider_id, note_id, body):
     """
 
     try:
+        provider_id = urllib.parse.quote(provider_id)
+        note_id = urllib.parse.quote(note_id)
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_write_notes(connexion.request, account_id)
 
@@ -99,6 +103,7 @@ def list_notes(account_id, provider_id, filter=None, page_size=None, page_token=
     """
 
     try:
+        provider_id = urllib.parse.quote(provider_id)
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_read_notes(connexion.request, account_id)
 
@@ -131,6 +136,8 @@ def get_occurrence_note(account_id, provider_id, occurrence_id):
     """
 
     try:
+        provider_id = urllib.parse.quote(provider_id)
+        occurrence_id = urllib.parse.quote(occurrence_id)
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_read_notes(connexion.request, account_id)
 
@@ -158,6 +165,8 @@ def get_note(account_id, provider_id, note_id):
     """
 
     try:
+        provider_id = urllib.parse.quote(provider_id)
+        note_id = urllib.parse.quote(note_id)
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_read_notes(connexion.request, account_id)
 
@@ -185,6 +194,8 @@ def delete_note(account_id, provider_id, note_id):
     """
 
     try:
+        provider_id = urllib.parse.quote(provider_id)
+        note_id = urllib.parse.quote(note_id)
         auth_client = auth.get_auth_client()
         subject = auth_client.assert_can_delete_notes(connexion.request, account_id)
 

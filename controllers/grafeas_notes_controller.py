@@ -39,19 +39,22 @@ def create_note(account_id, provider_id, body):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id)
+        provider_id = urllib.parse.quote(provider_id, safe='')
         auth_client = auth.get_auth_client()
-        subject = auth_client.assert_can_write_notes(connexion.request, account_id)
+        subject = auth_client.assert_can_write_notes(
+            connexion.request, account_id)
 
         api_impl = api.get_api_impl()
         note_id = body['id']
-        doc = api_impl.write_note(subject, account_id, provider_id, note_id, body, mode='create')
+        doc = api_impl.write_note(
+            subject, account_id, provider_id, note_id, body, mode='create')
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while creating a note")
         return e.to_error()
     except Exception as e:
-        logger.exception("An unexpected error was encountered while creating a note")
+        logger.exception(
+            "An unexpected error was encountered while creating a note")
         return exceptions.InternalServerError(str(e)).to_error()
 
 
@@ -70,19 +73,22 @@ def update_note(account_id, provider_id, note_id, body):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id)
-        note_id = urllib.parse.quote(note_id)
+        provider_id = urllib.parse.quote(provider_id, safe='')
+        note_id = urllib.parse.quote(note_id, safe='')
         auth_client = auth.get_auth_client()
-        subject = auth_client.assert_can_write_notes(connexion.request, account_id)
+        subject = auth_client.assert_can_write_notes(
+            connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        doc = api_impl.write_note(subject, account_id, provider_id, note_id, body, mode='update')
+        doc = api_impl.write_note(
+            subject, account_id, provider_id, note_id, body, mode='update')
         return common.build_result(http.HTTPStatus.OK, doc)
     except exceptions.JSONError as e:
         logger.exception("An error was encountered while updating a note")
         return e.to_error()
     except Exception as e:
-        logger.exception("An unexpected error was encountered while updating a note")
+        logger.exception(
+            "An unexpected error was encountered while updating a note")
         return exceptions.InternalServerError(str(e)).to_error()
 
 
@@ -103,12 +109,14 @@ def list_notes(account_id, provider_id, filter=None, page_size=None, page_token=
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id)
+        provider_id = urllib.parse.quote(provider_id, safe='')
         auth_client = auth.get_auth_client()
-        subject = auth_client.assert_can_read_notes(connexion.request, account_id)
+        subject = auth_client.assert_can_read_notes(
+            connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        result = api_impl.list_notes(subject, account_id, provider_id, filter, page_size, page_token)
+        result = api_impl.list_notes(
+            subject, account_id, provider_id, filter, page_size, page_token)
         return common.build_result(
             http.HTTPStatus.OK,
             {
@@ -119,7 +127,8 @@ def list_notes(account_id, provider_id, filter=None, page_size=None, page_token=
         logger.exception("An error was encountered while listing notes")
         return e.to_error()
     except Exception as e:
-        logger.exception("An unexpected error was encountered while listing notes")
+        logger.exception(
+            "An unexpected error was encountered while listing notes")
         return exceptions.InternalServerError(str(e)).to_error()
 
 
@@ -136,19 +145,23 @@ def get_occurrence_note(account_id, provider_id, occurrence_id):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id)
-        occurrence_id = urllib.parse.quote(occurrence_id)
+        provider_id = urllib.parse.quote(provider_id, safe='')
+        occurrence_id = urllib.parse.quote(occurrence_id, safe='')
         auth_client = auth.get_auth_client()
-        subject = auth_client.assert_can_read_notes(connexion.request, account_id)
+        subject = auth_client.assert_can_read_notes(
+            connexion.request, account_id)
 
         api_impl = api.get_api_impl()
-        docs = api_impl.get_occurrence_note(subject, account_id, provider_id, occurrence_id)
+        docs = api_impl.get_occurrence_note(
+            subject, account_id, provider_id, occurrence_id)
         return common.build_result(http.HTTPStatus.OK, docs)
     except exceptions.JSONError as e:
-        logger.exception("An error was encountered while getting an occurrence's note")
+        logger.exception(
+            "An error was encountered while getting an occurrence's note")
         return e.to_error()
     except Exception as e:
-        logger.exception("An unexpected error was encountered while getting an occurrence's note")
+        logger.exception(
+            "An unexpected error was encountered while getting an occurrence's note")
         return exceptions.InternalServerError(str(e)).to_error()
 
 
@@ -165,10 +178,11 @@ def get_note(account_id, provider_id, note_id):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id)
-        note_id = urllib.parse.quote(note_id)
+        provider_id = urllib.parse.quote(provider_id, safe='')
+        note_id = urllib.parse.quote(note_id, safe='')
         auth_client = auth.get_auth_client()
-        subject = auth_client.assert_can_read_notes(connexion.request, account_id)
+        subject = auth_client.assert_can_read_notes(
+            connexion.request, account_id)
 
         api_impl = api.get_api_impl()
         doc = api_impl.get_note(subject, account_id, provider_id, note_id)
@@ -177,7 +191,8 @@ def get_note(account_id, provider_id, note_id):
         logger.exception("An error was encountered while getting a note")
         return e.to_error()
     except Exception as e:
-        logger.exception("An unexpected error was encountered while getting a note")
+        logger.exception(
+            "An unexpected error was encountered while getting a note")
         return exceptions.InternalServerError(str(e)).to_error()
 
 
@@ -194,10 +209,11 @@ def delete_note(account_id, provider_id, note_id):
     """
 
     try:
-        provider_id = urllib.parse.quote(provider_id)
-        note_id = urllib.parse.quote(note_id)
+        provider_id = urllib.parse.quote(provider_id, safe='')
+        note_id = urllib.parse.quote(note_id, safe='')
         auth_client = auth.get_auth_client()
-        subject = auth_client.assert_can_delete_notes(connexion.request, account_id)
+        subject = auth_client.assert_can_delete_notes(
+            connexion.request, account_id)
 
         api_impl = api.get_api_impl()
         api_impl.delete_note(subject, account_id, provider_id, note_id)
@@ -206,5 +222,6 @@ def delete_note(account_id, provider_id, note_id):
         logger.exception("An error was encountered while deleting a note")
         return e.to_error()
     except Exception as e:
-        logger.exception("An unexpected error was encountered while deleting a note")
+        logger.exception(
+            "An unexpected error was encountered while deleting a note")
         return exceptions.InternalServerError(str(e)).to_error()

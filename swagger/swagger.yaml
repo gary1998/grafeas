@@ -977,7 +977,6 @@ components:
         - id
         - note_name
         - kind
-        - context
 
     apiNoteKind:
       type: string

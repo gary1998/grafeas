@@ -46,6 +46,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             "finding": {
                 "severity": "HIGH"
             },
+            "shared": True,
             "reported_by": {
                 "id": "The reporter ID",
                 "title": "The reporter title",
@@ -71,6 +72,7 @@ class TestGrafeasOccurrencesController(BaseTestCase):
             "finding": {
                 "severity": "MEDIUM"
             },
+            "shared": True,
             "reported_by": {
                 "id": "The reporter ID",
                 "title": "The reporter title",

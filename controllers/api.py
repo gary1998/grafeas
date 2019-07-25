@@ -86,7 +86,7 @@ class API(object):
         body['update_week_date'] = API._week_date_iso_format(update_datetime.isocalendar())
 
         if 'shared' not in body:
-            body['shared'] = True
+            body['shared'] = False
 
         return self.store.write_note(author, account_id, provider_id, note_id, body, mode)
 

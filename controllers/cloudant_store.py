@@ -311,7 +311,7 @@ class CloudantStore(store.Store):
             'doc_count_by_provider',
             """
             function(doc) {{
-                if (doc.provider_id) {{
+                if (doc.provider_id && doc.doc_type === "Note" && doc.kind === "FINDING") {{
                     emit([doc.context.account_id, doc.provider_id], 1);
                 }}
             }}

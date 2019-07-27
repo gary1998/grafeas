@@ -19,7 +19,6 @@ RUN apk update \
 ARG PIP_INDEX_URL
 
 RUN pip3 install -U setuptools
-RUN python -m pip install --upgrade pip
 
 COPY requirements.txt /usr/src/app/
 

@@ -379,4 +379,15 @@ class CloudantStore(store.Store):
             """,
             '_count')
 
+        db.add_view(
+            'providers',
+            'available_providers',
+            """
+            function(doc) {{
+                if (doc.provider_id && doc.doc_type === "Note") {{
+                    emit([doc.provider_id,doc.id],1);
+                }}
+            }}
+            """)
+
         return db

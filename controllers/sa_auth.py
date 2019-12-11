@@ -42,7 +42,9 @@ class SecurityAdvisorAuthClient(AuthClient):
         pass
 
     def assert_can_read_providers(self, request, account_id):
-        pass
+        return self._validate_token_and_action(
+            request, "security-advisor.metadata.read", account_id, "read-metadata",
+            "Not allowed to read providers")
 
     def assert_can_write_notes(self, request, account_id):
         if request.method == 'POST':

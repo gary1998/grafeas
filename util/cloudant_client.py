@@ -130,7 +130,9 @@ class CloudantDatabase(object):
         ddoc = self.db.get_design_document("_design/" + ddoc_id)
         if not ddoc.exists() or view_name not in ddoc.views:
             ddoc.add_view(view_name, map_func, reduce_func, **kwargs)
-            ddoc.save()
+        else:
+            ddoc.update_view(view_name, map_func, reduce_func, **kwargs)
+        ddoc.save()
 
     def get_view(self, ddoc_id, view_name):
         ddoc = self.db.get_design_document("_design/" + ddoc_id)

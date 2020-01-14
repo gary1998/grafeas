@@ -19,6 +19,9 @@ from cloudant.document import Document
 from http import HTTPStatus
 import logging
 import requests
+import isodate
+import datetime
+import copy
 from util import exceptions
 
 
@@ -90,8 +93,18 @@ class CloudantDatabase(object):
 
     def create_doc(self, doc_id, body):
         try:
-            body['_id'] = doc_id
-            return self.db.create_document(body, throw_on_exists=True)
+            create_body = copy.copy(body)
+            if 'create_time' in create_body:
+                create_datetime = isodate.parse_datetime(create_body['create_time'])
+                create_timestamp = create_datetime.timestamp()
+            else:
+                create_datetime = datetime.datetime.utcnow()
+                create_timestamp = create_datetime.timestamp()
+                create_body['create_time'] = create_datetime.isoformat() + 'Z'
+            create_body['create_timestamp'] = int(round(create_timestamp * 1000))
+            create_body['insertion_timestamp'] = int(round(datetime.datetime.utcnow().timestamp() * 1000))
+            create_body['_id'] = doc_id
+            return self.db.create_document(create_body, throw_on_exists=True)
         except CloudantDatabaseException as e:
             if e.status_code == HTTPStatus.CONFLICT:
                 raise exceptions.AlreadyExistsError("Document already exists: {}".format(doc_id), doc_id)

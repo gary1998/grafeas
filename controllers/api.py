@@ -134,16 +134,6 @@ class API(object):
         body['provider_name'] = common.build_provider_name(account_id, provider_id)
         body['note_name'] = common.build_note_name(note_account_id, note_provider_id, note_id)
         common.set_context_account_id(body, account_id)
-        if mode == 'create':
-            if 'create_time' in body:
-                create_datetime = isodate.parse_datetime(body['create_time'])
-                create_timestamp = create_datetime.timestamp()
-            else:
-                create_datetime = datetime.datetime.utcnow()
-                create_timestamp = create_datetime.timestamp()
-                body['create_time'] = create_datetime.isoformat() + 'Z'
-            body['create_timestamp'] = int(round(create_timestamp * 1000))
-            body['insertion_timestamp'] = int(round(datetime.datetime.utcnow().timestamp() * 1000))
 
         if 'update_time' in body:
             update_datetime = isodate.parse_datetime(body['update_time'])

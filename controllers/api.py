@@ -241,6 +241,13 @@ class API(object):
         if field_name not in body:
             raise exceptions.BadRequestError("Missing field '{}' for kind '{}'".format(field_name, kind))
 
+        if kind == 'FINDING' and any(i in body for i in ['kpi', 'card', 'section']):
+            raise exceptions.BadRequestError("kpi, card or section field are not allowed for kind '{}'".format(kind))
+        elif kind == 'CARD' and any(i in body for i in ['kpi', 'finding', 'section']):
+            raise exceptions.BadRequestError("kpi, finding or section field are not allowed for kind '{}'".format(kind))
+        elif kind == 'KPI' and any(i in body for i in ['finding', 'card', 'section']):
+            raise exceptions.BadRequestError("finding, card or section field are not allowed for kind '{}'".format(kind))
+
     @staticmethod
     def _set_occurrence_defaults(body, note):
         if 'short_description' not in body:

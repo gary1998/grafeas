@@ -178,7 +178,10 @@ class CloudantDatabase(object):
 
         selector = CloudantDatabase._get_selector(key_values)
         result = self._get_query_result(selector, index, fields, **kwargs)
-        return QueryResult(result['docs'], 0, result.get('bookmark'))
+        bookmark = result.get('bookmark')
+        if len(result['docs']) == 0:
+            bookmark = ""
+        return QueryResult(result['docs'], 0, bookmark)
 
     def _get_query_result(self, selector: dict, index: str, fields=None, **kwargs):
             try:

@@ -23,3 +23,6 @@ spec:
     - podSelector:
        matchLabels:
          microservice: findingscleaner
+    - podSelector:
+       matchLabels:
+         microservice: notificationcacheupdaterapi

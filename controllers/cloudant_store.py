@@ -372,7 +372,7 @@ class CloudantStore(store.Store):
             'occurrence_count_by_insertion_utc',
             """
             function(doc) {{
-                if (doc.doc_type == "Occurrence" && doc.kind != "CARD_CONFIGURED") {{
+                if (doc.doc_type == "Occurrence" && doc.kind != "CARD_CONFIGURED" && doc.insertion_timestamp) {{
                     emit([doc.context.account_id, doc.insertion_timestamp],doc._rev);
                 }}
             }}

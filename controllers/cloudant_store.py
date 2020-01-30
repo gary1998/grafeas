@@ -175,7 +175,7 @@ class CloudantStore(store.Store):
             if count <= page_size:
                 page_size = count
         total_deleted_count = 0
-        view = self.db.get_view('doc_counts', "occurrence_count_by_utc")
+        view = self.db.get_view('doc_counts', "occurrence_count_by_insertion_utc")
         if start_time is None:
             start_time = -1
         if end_time is None:

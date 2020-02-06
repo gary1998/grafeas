@@ -1377,9 +1377,6 @@ components:
             type: string
             maxLength: 65
             description: The text of this card element
-          direction:
-            type: string
-            description: The direction of this breakdown card element
           value_types:
             type: array
             items:

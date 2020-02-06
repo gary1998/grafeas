@@ -53,6 +53,7 @@ class API(object):
             section = body['card']['section']
             order = body['card']['order'] if 'order' in body['card'] else None
             result = self.store.list_section_card(author, account_id, provider_id, section)
+            API._validate_card_for_duplicate_entries(body['card'], 'card', 'card')
             if account_id not in ["fa53b6717d5e9c9979101d8dac5fd4ad"]:
                 API._validate_card_order(result.docs, section, order)
                 API._validate_card_elements(body['card']['elements'])
@@ -204,13 +205,25 @@ class API(object):
                     count_section_cards + 1))
 
     @staticmethod
+    def _validate_card_for_duplicate_entries(element, kind, field):
+        if 'finding_note_names' in element:
+            if len(element['finding_note_names']) != len(set(element['finding_note_names'])):
+                raise exceptions.BadRequestError(
+                    "Duplicate entries not allowed in {} element {}/finding_note_names field".format(
+                        kind, field))
+
+
+    @staticmethod
     def _validate_card_elements(elements):
         kri_count = 0
         chart_count = 0
         for element in elements:
             if element['kind'] == 'NUMERIC':
+                API._validate_card_for_duplicate_entries(element.get('value_type'), element['kind'], 'value_type')
                 kri_count = kri_count + 1
             else:
+                for value_type in element.get('value_types'):
+                    API._validate_card_for_duplicate_entries(value_type, element['kind'], 'value_types')
                 chart_count = chart_count + 1
 
         if chart_count == 0 and kri_count > API.MAX_KRI_ELEMENTS:

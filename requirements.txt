@@ -12,4 +12,4 @@ newrelic==2.96.0.80
 pycrypto==2.6.1
 pyjwt==1.5.3
 inflection==0.3.1
-iam_python_manager==0.1.7
+iam_python_manager==0.1.8

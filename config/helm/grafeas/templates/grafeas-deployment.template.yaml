@@ -6,6 +6,9 @@ metadata:
  labels:
   microservice: {{ .Values.global.name }}
 spec:
+  selector:
+    matchLabels:
+      microservice: {{ .Values.global.name }}
   revisionHistoryLimit: 10
   replicas: 3
   strategy:

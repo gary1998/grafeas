@@ -82,7 +82,7 @@ class PEPClient(object):
         self.ma.collect('miss')
         self.logger.debug('cache miss, need query PDP for policy decision')
         r = self.request_func('POST', self.pdp_url + '/v1/authz', json=params,
-                              headers={'Authorization': access_token,
+                              headers={'X-Auth': access_token,
                                        'Transaction-ID': transaction_id,
                                        'X-Forwarded-By':
                                            service_name +
@@ -165,7 +165,7 @@ class PEPClient(object):
         r = self.request_func('POST',
                               self.xacml_url + '/v2/authz',
                               json=[params],
-                              headers={'Authorization': access_token,
+                              headers={'X-Auth': access_token,
                                        'Accept':
                                            'application/vnd.authz.v2+json',
                                        'Transaction-ID': transaction_id,

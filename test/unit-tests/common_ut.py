@@ -36,7 +36,7 @@ class BaseTestCase(TestCase):
 
     def rest(self, **kwargs):
         if os.environ.get('AUTH_CLIENT_CLASS_NAME') == 'controllers.sa_auth.SecurityAdvisorAuthClient':
-            kwargs["headers"]["Authorization"] = os.environ['INTERNAL_SVC_TOKEN']
+            kwargs["headers"]["X-Auth"] = os.environ['INTERNAL_SVC_TOKEN']
             kwargs["headers"]["X-UserToken"] = os.environ['X-UserToken']
         return self.client.open(**kwargs)
 
@@ -46,7 +46,7 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def post_note(self, account_id, provider_id, body):
@@ -58,7 +58,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_notes(self, account_id, provider_id):
@@ -68,7 +68,7 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_note(self, account_id, provider_id, note_id):
@@ -78,7 +78,7 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_occurrence_note(self, account_id, provider_id, occurrence_id):
@@ -88,7 +88,7 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def put_note(self, account_id, provider_id, note_id, body):
@@ -100,7 +100,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def delete_note(self, account_id, provider_id, note_id):
@@ -111,7 +111,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def post_occurrence(self, account_id, provider_id, body):
@@ -123,7 +123,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def post_or_put_occurrence(self, account_id, provider_id, body):
@@ -135,7 +135,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN'],
+                "X-Auth": os.environ['IAM_BEARER_TOKEN'],
                 "Replace-If-Exists": "true"
             })
 
@@ -146,7 +146,7 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_occurrence(self, account_id, provider_id, occurrence_id):
@@ -156,7 +156,7 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def get_note_occurrences(self, account_id, provider_id, note_id):
@@ -166,7 +166,7 @@ class BaseTestCase(TestCase):
             method='GET',
             headers={
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def put_occurrence(self, account_id, provider_id, occurrence_id, body):
@@ -178,7 +178,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def delete_occurrence(self, account_id, provider_id, occurrence_id):
@@ -189,7 +189,7 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
 
     def delete_account_data(self, account_id):
@@ -199,5 +199,5 @@ class BaseTestCase(TestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })

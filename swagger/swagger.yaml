@@ -52,7 +52,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiEmpty'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -104,7 +104,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListProvidersResponse'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -162,7 +162,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -201,7 +201,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListNotesResponse'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -260,7 +260,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -309,7 +309,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -353,7 +353,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiEmpty'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -399,7 +399,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -452,7 +452,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiOccurrence'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -495,7 +495,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListOccurrencesResponse'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -554,7 +554,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiOccurrence'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -603,7 +603,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiOccurrence'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -647,7 +647,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiEmpty'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -696,7 +696,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListNoteOccurrencesResponse'
       parameters:
-        - name: Authorization
+        - name: X-Auth
           description: The IAM token of user requesting the operation.
           in: header
           required: true

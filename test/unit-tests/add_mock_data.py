@@ -71,7 +71,7 @@ class TestMockData(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             })
         if response.status_code == HTTPStatus.CONFLICT:
             response = self.client.open(
@@ -81,7 +81,7 @@ class TestMockData(BaseTestCase):
                 headers={
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "Authorization": os.environ['IAM_BEARER_TOKEN']
+                    "X-Auth": os.environ['IAM_BEARER_TOKEN']
                 })
 
         return response

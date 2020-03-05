@@ -69,6 +69,6 @@ class RemoveMockData(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": os.environ['IAM_BEARER_TOKEN']
+                "X-Auth": os.environ['IAM_BEARER_TOKEN']
             }
         )

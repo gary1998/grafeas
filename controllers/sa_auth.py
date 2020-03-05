@@ -111,7 +111,7 @@ class SecurityAdvisorAuthClient(AuthClient):
     def _is_authorized(self, request, action, account_id, resource_attribute, resource):
         try:
             user_token = request.headers['X-UserToken']
-            internal_token = request.headers['Authorization']
+            internal_token = request.headers['X-Auth']
 
             res_service = self.cloud_iam.authorize_internal_service(internal_token)
             if res_service:

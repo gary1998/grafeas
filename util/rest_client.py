@@ -61,16 +61,16 @@ class RestClient(object):
         
         if creds is not None:
             base64_creds = base64.encodebytes(creds)[:-1] # trailing \n removed
-            self.add_header('Authorization', "Basic {}".format(base64_creds))        
+            self.add_header('X-Auth', "Basic {}".format(base64_creds))        
 
     def add_token_auth_header(self, token):
-        self.add_header('Authorization', "token {}".format(token))
+        self.add_header('X-Auth', "token {}".format(token))
 
     def add_bearer_auth_header(self, token):
-        self.add_header('Authorization', "bearer {}".format(token))
+        self.add_header('X-Auth', "bearer {}".format(token))
 
     def add_apikey_auth_header(self, token):
-        self.add_header('Authorization', "apikey {}".format(token))
+        self.add_header('X-Auth', "apikey {}".format(token))
 
     def add_header(self, key, value):
         self.session.headers[key] = value

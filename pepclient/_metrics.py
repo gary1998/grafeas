@@ -97,7 +97,7 @@ class MetricAggregator(Thread):
             self.logger.error('No access token defined')
         else:
             r = request('POST', self.pdpUrl + '/v1/pep_metrics', json=params,
-                        headers={'Authorization': self.token})
+                        headers={'X-Auth': self.token})
             if r.status_code != 201:
                 self.logger.error('PDP metrics to \"{}\" call failed, '
                                   'status_code {:d}'.format(self.pdpUrl,

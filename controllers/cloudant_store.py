@@ -21,6 +21,7 @@ from util import cloudant_client
 from util import exceptions
 import time
 import math
+import json
 
 logger = logging.getLogger("grafeas.cloundant_store")
 
@@ -101,8 +102,23 @@ class CloudantStore(store.Store):
         note_name = common.build_note_name(account_id, provider_id, note_id)
         self.db.delete_doc(note_name)
     
-    def delete_notes(self, author, account_id, provider_id, body):
-        print(body)
+    def delete_notes(self, author, account_id, provider_id, notesList):
+        bulkNotes = self.db.getDetailsById(account_id, provider_id, notesList)
+        foundNotes = [notes["id"] for notes in bulkNotes]
+        invalidNotes = list(set(notesList)-set(foundNotes))
+        bulkDeleteRequest = []
+        for note in bulkNotes:
+            bulkDeleteRequest.append(
+                {
+                    "_id": note["_id"],
+                    "_rev": note["_rev"],
+                    "_deleted": True
+                }
+            )
+        resp = self.db.bulk_delete(bulkDeleteRequest)
+        for noteId in invalidNotes:
+            resp.append({"id": noteId, "result": "not found"})
+        return resp
 
     #
     # Occurrences

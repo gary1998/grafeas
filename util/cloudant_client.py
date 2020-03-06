@@ -91,6 +91,26 @@ class CloudantDatabase(object):
         doc.fetch()
         return doc
 
+    def getDetailsById(self, account_id, provider_id, list):
+        query = {
+            "context.account_id": account_id,
+            "provider_id": provider_id,
+            "id": []
+        }
+        for note_id in list:
+            query["id"].append(note_id)
+        return self.find(key_values=query, fields=["_id", "_rev", "id"], index="ALL_FIELDS").docs
+    
+    def bulk_delete(self, request: list):
+        response = []
+        bulkResponse = self.db.bulk_docs(request)
+        for result in bulkResponse:
+            if "ok" in result:
+                response.append({"id": result['id'], "result": "deleted successfully"})
+            else:
+                response.append({"id": result['id'], "result": "error occurred while deleting"})
+        return response
+
     def create_doc(self, doc_id, body):
         try:
             create_body = copy.copy(body)

@@ -156,12 +156,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/apiDeleteNotes'
+                $ref: '#/components/schemas/apiDeleteNotesResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/apiDeleteNotes'
+              $ref: '#/components/schemas/apiDeleteNotesRequest'
       parameters:
           - name: X-Auth
             description: The IAM token of user requesting the operation.
@@ -1023,9 +1023,22 @@ components:
         - note_name
         - kind
 
-    apiDeleteNotes:
-      description: Response of each request
-      type: object
+    apiDeleteNotesRequest:
+      description: Array of Note IDs to be deleted
+      type: array
+      items:
+        type: string
+    
+    apiDeleteNotesResponse:
+      description: Response for bulk note delete request
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          result:
+            type: string
 
     apiNoteKind:
       type: string

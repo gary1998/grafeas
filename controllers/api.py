@@ -108,7 +108,7 @@ class API(object):
         self.store.delete_note(author, account_id, provider_id, note_id)
 
     def delete_notes(self, author, account_id, provider_id, body):
-        self.store.delete_notes(author, account_id, provider_id, body)
+        return self.store.delete_notes(author, account_id, provider_id, body)
 
     #
     #  Occurrences

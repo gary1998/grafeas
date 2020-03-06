@@ -146,6 +146,51 @@ paths:
       x-openapi-router-controller: "controllers.grafeas_providers_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/notes:
+
+    patch:
+      summary: Delete multiple `Note`.
+      operationId: delete_notes
+      responses:
+        '202':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiDeleteNotes'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apiDeleteNotes'
+      parameters:
+          - name: X-Auth
+            description: The IAM token of user requesting the operation.
+            in: header
+            required: true
+            schema:
+              type: string
+          - name: X-UserToken
+            description: The IAM token of the user on whose behalf the operation is executed.
+            in: header
+            required: false
+            schema:
+              type: string
+          - name: account_id
+            in: path
+            description: "Account ID of note's owner"
+            required: true
+            schema:
+              type: string
+          - name: provider_id
+            in: path
+            description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
+            required: true
+            schema:
+              type: string
+      tags:
+        - GrafeasNotes
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
+
     post:
       summary: Creates a new `Note`.
       operationId: create_note
@@ -977,6 +1022,10 @@ components:
         - id
         - note_name
         - kind
+
+    apiDeleteNotes:
+      description: Response of each request
+      type: object
 
     apiNoteKind:
       type: string

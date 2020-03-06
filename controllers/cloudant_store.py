@@ -100,6 +100,9 @@ class CloudantStore(store.Store):
     def delete_note(self, author, account_id, provider_id, note_id):
         note_name = common.build_note_name(account_id, provider_id, note_id)
         self.db.delete_doc(note_name)
+    
+    def delete_notes(self, author, account_id, provider_id, body):
+        print(body)
 
     #
     # Occurrences

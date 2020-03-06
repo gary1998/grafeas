@@ -24,6 +24,22 @@ from util import exceptions
 
 logger = logging.getLogger("grafeas.notes")
 
+def delete_notes(account_id, provider_id, body):
+    try:
+        auth_client = auth.get_auth_client()
+        subject = auth_client.assert_can_delete_notes(
+            connexion.request, account_id)
+
+        api_impl = api.get_api_impl()
+        api_impl.delete_notes(subject, account_id, provider_id, body)
+        return common.build_result(http.HTTPStatus.OK, {})
+    except exceptions.JSONError as e:
+        logger.exception("An error was encountered while deleting notes")
+        return e.to_error()
+    except Exception as e:
+        logger.exception(
+            "An unexpected error was encountered while deleting notes")
+        return exceptions.InternalServerError(str(e)).to_error()
 
 def create_note(account_id, provider_id, body):
     """

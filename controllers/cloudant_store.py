@@ -103,18 +103,15 @@ class CloudantStore(store.Store):
         self.db.delete_doc(note_name)
     
     def delete_notes(self, author, account_id, provider_id, notesList):
+        # n=10
+        # while(n!=0):
+        #     note_name = common.build_note_name(account_id, provider_id, time.time())
+        #     doc = self.db.create_doc(note_name, notesList)
+        #     n=n-1
         bulkNotes = self.db.getDetailsById(account_id, provider_id, notesList)
         foundNotes = [notes["id"] for notes in bulkNotes]
         invalidNotes = list(set(notesList)-set(foundNotes))
-        bulkDeleteRequest = []
-        for note in bulkNotes:
-            bulkDeleteRequest.append(
-                {
-                    "_id": note["_id"],
-                    "_rev": note["_rev"],
-                    "_deleted": True
-                }
-            )
+        bulkDeleteRequest = list(map(self.sweepAndMarkDeleted, bulkNotes))
         resp = self.db.bulk_delete(bulkDeleteRequest)
         for noteId in invalidNotes:
             resp.append({"id": noteId, "result": "not found"})
@@ -234,6 +231,14 @@ class CloudantStore(store.Store):
         logger.debug("%d occurrences deleted for account '%s': author account='%s'",
                      total_deleted_count, account_id, author.account_id)
         return total_deleted_count
+
+    @staticmethod
+    def sweepAndMarkDeleted(note):
+        return {
+            "_id": note["_id"],
+            "_rev": note["_rev"],
+            "_deleted": True
+        }
 
     @staticmethod
     def _clean_doc(doc):

@@ -163,6 +163,9 @@ class API(object):
 
     def delete_occurrence(self, author, account_id, provider_id, occurrence_id):
         self.store.delete_occurrence(author, account_id, provider_id, occurrence_id)
+    
+    def delete_occurrences(self, author, account_id, provider_id, body):
+        return self.store.delete_occurrences(author, account_id, provider_id, body)
 
     def delete_account_occurrences(self, author, account_id, start_time, end_time, count):
         return self.store.delete_account_occurrences(author, account_id, start_time, end_time, count)

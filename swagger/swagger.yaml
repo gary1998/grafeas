@@ -52,7 +52,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiEmpty'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -104,7 +104,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListProvidersResponse'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -146,51 +146,6 @@ paths:
       x-openapi-router-controller: "controllers.grafeas_providers_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/notes:
-
-    patch:
-      summary: Delete multiple `Note`.
-      operationId: delete_notes
-      responses:
-        '202':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/apiDeleteNotesResponse'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/apiDeleteNotesRequest'
-      parameters:
-          - name: X-Auth
-            description: The IAM token of user requesting the operation.
-            in: header
-            required: true
-            schema:
-              type: string
-          - name: X-UserToken
-            description: The IAM token of the user on whose behalf the operation is executed.
-            in: header
-            required: false
-            schema:
-              type: string
-          - name: account_id
-            in: path
-            description: "Account ID of note's owner"
-            required: true
-            schema:
-              type: string
-          - name: provider_id
-            in: path
-            description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
-            required: true
-            schema:
-              type: string
-      tags:
-        - GrafeasNotes
-      x-openapi-router-controller: "controllers.grafeas_notes_controller"
-
     post:
       summary: Creates a new `Note`.
       operationId: create_note
@@ -207,7 +162,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -231,7 +186,6 @@ paths:
           required: true
           schema:
             type: string
-
       tags:
         - GrafeasNotes
       x-openapi-router-controller: "controllers.grafeas_notes_controller"
@@ -246,7 +200,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListNotesResponse'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -292,7 +246,49 @@ paths:
       tags:
         - GrafeasNotes
       x-openapi-router-controller: "controllers.grafeas_notes_controller"
-
+    patch:
+      summary: Delete multiple `Note`.
+      operationId: delete_notes
+      responses:
+        '202':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiBulkDeleteResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apiBulkDeleteRequest'
+      parameters:
+          - name: Authorization
+            description: The IAM token of user requesting the operation.
+            in: header
+            required: true
+            schema:
+              type: string
+          - name: X-UserToken
+            description: The IAM token of the user on whose behalf the operation is executed.
+            in: header
+            required: false
+            schema:
+              type: string
+          - name: account_id
+            in: path
+            description: "Account ID of note's owner"
+            required: true
+            schema:
+              type: string
+          - name: provider_id
+            in: path
+            description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
+            required: true
+            schema:
+              type: string
+      tags:
+        - GrafeasNotes
+      x-openapi-router-controller: "controllers.grafeas_notes_controller"
   /v1alpha1/{account_id}/providers/{provider_id}/notes/{note_id}:
     get:
       summary: Returns the requested `Note`.
@@ -305,7 +301,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -354,7 +350,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -398,7 +394,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiEmpty'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -444,7 +440,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiNote'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -497,7 +493,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiOccurrence'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -540,7 +536,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListOccurrencesResponse'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -586,6 +582,49 @@ paths:
       tags:
         - GrafeasOccurrences
       x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
+    patch:
+      summary: Delete multiple `Occurrences`.
+      operationId: delete_occurrences
+      responses:
+        '202':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiBulkDeleteResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apiBulkDeleteRequest'
+      parameters:
+          - name: Authorization
+            description: The IAM token of user requesting the operation.
+            in: header
+            required: true
+            schema:
+              type: string
+          - name: X-UserToken
+            description: The IAM token of the user on whose behalf the operation is executed.
+            in: header
+            required: false
+            schema:
+              type: string
+          - name: account_id
+            in: path
+            description: "Account ID of occurrence's owner"
+            required: true
+            schema:
+              type: string
+          - name: provider_id
+            in: path
+            description: "Part of `parent`. This field contains the provider_id for example: providers/{provider_id}"
+            required: true
+            schema:
+              type: string
+      tags:
+        - GrafeasOccurrences
+      x-openapi-router-controller: "controllers.grafeas_occurrences_controller"
 
   /v1alpha1/{account_id}/providers/{provider_id}/occurrences/{occurrence_id}:
     get:
@@ -599,7 +638,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiOccurrence'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -648,7 +687,7 @@ paths:
             schema:
               $ref: '#/components/schemas/apiOccurrence'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -692,7 +731,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiEmpty'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -741,7 +780,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/apiListNoteOccurrencesResponse'
       parameters:
-        - name: X-Auth
+        - name: Authorization
           description: The IAM token of user requesting the operation.
           in: header
           required: true
@@ -1023,14 +1062,14 @@ components:
         - note_name
         - kind
 
-    apiDeleteNotesRequest:
-      description: Array of Note IDs to be deleted
+    apiBulkDeleteRequest:
+      description: Array of IDs to be deleted
       type: array
       items:
         type: string
     
-    apiDeleteNotesResponse:
-      description: Response for bulk note delete request
+    apiBulkDeleteResponse:
+      description: Response for bulk delete request
       type: array
       items:
         type: object

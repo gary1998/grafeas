@@ -212,3 +212,29 @@ def delete_occurrence(account_id, provider_id, occurrence_id):
     except Exception as e:
         logger.exception("An unexpected error was encountered while deleting an occurrence")
         return exceptions.InternalServerError(str(e)).to_error()
+
+def delete_occurrences(account_id, provider_id, body):
+    """
+    Deletes multiple &#x60;Note&#x60; from the system.
+
+    :param provider_id: First part of occurrence &#x60;name&#x60;: providers/{provider_id}/occurrences/{occurrence_id}
+    :type provider_id: str
+    :param body: Array of IDs to be deleted
+    :type body: array
+
+    :rtype: ApiBulkDeleteResponse
+    """
+
+    try:
+        auth_client = auth.get_auth_client()
+        subject = auth_client.assert_can_delete_occurrences(connexion.request, account_id)
+
+        api_impl = api.get_api_impl()
+        doc = api_impl.delete_occurrences(subject, account_id, provider_id, body)
+        return common.build_result(http.HTTPStatus.ACCEPTED, doc)
+    except exceptions.JSONError as e:
+        logger.exception("An error was encountered while deleting an occurrence")
+        return e.to_error()
+    except Exception as e:
+        logger.exception("An unexpected error was encountered while deleting an occurrence")
+        return exceptions.InternalServerError(str(e)).to_error()

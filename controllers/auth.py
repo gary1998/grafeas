@@ -213,7 +213,7 @@ class GrafeasAuthClient(AuthClient):
             raise exceptions.UnauthorizedError("Only HTTPS connections are allowed")
 
         try:
-            auth_header = request.headers['X-Auth']
+            auth_header = request.headers['Authorization']
             if re.match('bearer ', auth_header, re.I):
                 auth_token = auth_header[7:]
             else:

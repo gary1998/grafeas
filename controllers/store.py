@@ -42,6 +42,10 @@ class Store(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def delete_notes(self, author, account_id, provider_id, body):
+        pass
+
+    @abc.abstractmethod
     def write_occurrence(self, author, account_id, provider_id, occurrence_id, body, mode):
         pass
 
@@ -60,7 +64,11 @@ class Store(abc.ABC):
     @abc.abstractmethod
     def delete_occurrence(self, author, account_id, provider_id, occurrence_id):
         pass
+    
+    @abc.abstractmethod
+    def delete_occurrences(self, author, account_id, provider_id, body):
+        pass
 
     @abc.abstractmethod
-    def delete_account_occurrences(self, author, account_id):
+    def delete_account_occurrences(self, author, account_id,):
         pass

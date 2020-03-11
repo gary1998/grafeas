@@ -103,11 +103,6 @@ class CloudantStore(store.Store):
         self.db.delete_doc(note_name)
     
     def delete_notes(self, author, account_id, provider_id, notesList):
-        # n=10
-        # while(n!=0):
-        #     note_name = common.build_note_name(account_id, provider_id, time.time())
-        #     doc = self.db.create_doc(note_name, notesList)
-        #     n=n-1
         bulkNotes = self.db.getDetailsById(account_id, provider_id, notesList)
         foundNotes = [notes["id"] for notes in bulkNotes]
         invalidNotes = list(set(notesList)-set(foundNotes))
@@ -183,6 +178,16 @@ class CloudantStore(store.Store):
             account_id, provider_id, occurrence_id)
         return self.db.delete_doc(occurrence_name)
 
+    def delete_occurrences(self, author, account_id, provider_id, occList):
+        bulkOccurrences = self.db.getDetailsById(account_id, provider_id, occList)
+        foundOccurrences = [occurrences["id"] for occurrence in bulkOccurrences]
+        invalidOccurrences = list(set(occList)-set(foundOccurrences))
+        bulkDeleteRequest = list(map(self.sweepAndMarkDeleted, bulkOccurrences))
+        resp = self.db.bulk_delete(bulkDeleteRequest)
+        for occId in invalidOccurrences:
+            resp.append({"id": occId, "result": "not found"})
+        return resp
+
     def delete_account_occurrences(self, author, account_id, start_time, end_time, count):
         page_size = int(os.environ.get('DELETE_OCCURRENCES_PAGE_SIZE', '200'))
         if count is not None:
@@ -233,10 +238,10 @@ class CloudantStore(store.Store):
         return total_deleted_count
 
     @staticmethod
-    def sweepAndMarkDeleted(note):
+    def sweepAndMarkDeleted(obj):
         return {
-            "_id": note["_id"],
-            "_rev": note["_rev"],
+            "_id": obj["_id"],
+            "_rev": obj["_rev"],
             "_deleted": True
         }
 

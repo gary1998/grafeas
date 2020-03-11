@@ -57,7 +57,7 @@ class AddMetadaData(BaseTestCase):
             headers={
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "X-Auth": os.environ['IAM_BEARER_TOKEN']
+                "Authorization": os.environ['IAM_BEARER_TOKEN']
             })
         if response.status_code == HTTPStatus.CONFLICT:
             response = self.client.open(
@@ -67,7 +67,7 @@ class AddMetadaData(BaseTestCase):
                 headers={
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "X-Auth": os.environ['IAM_BEARER_TOKEN']
+                    "Authorization": os.environ['IAM_BEARER_TOKEN']
                 })
 
         return response
